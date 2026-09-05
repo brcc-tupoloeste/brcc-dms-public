@@ -2,19 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>BRCC-DMS | Public Services</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <title>BRCC-DMS Public Services</title>
 
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     html,
     body {
+      margin: 0;
+      padding: 0;
       width: 100%;
       min-height: 100%;
     }
@@ -22,13 +27,13 @@
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: #f4f6f8;
-      color: #34495e;
+      color: #334155;
     }
 
-    .page {
+    .page-wrapper {
       width: 100%;
       min-height: 100vh;
-      padding: 40px 20px;
+      padding: 35px 20px 40px;
     }
 
     .container {
@@ -37,9 +42,9 @@
       margin: 0 auto;
     }
 
-    /* ================================
+    /* =========================================
        HEADER
-    ================================= */
+    ========================================= */
 
     .header {
       text-align: center;
@@ -47,83 +52,86 @@
     }
 
     .barangay-logo {
-      width: 90px;
-      height: 90px;
+      width: 82px;
+      height: 82px;
       object-fit: contain;
       display: block;
-      margin: 0 auto 12px;
+      margin: 0 auto 10px;
     }
 
     .barangay-name {
-      font-size: 24px;
+      margin: 0;
+      font-size: 25px;
       font-weight: 800;
       letter-spacing: 1px;
-      color: #34495e;
-      margin-bottom: 6px;
+      color: #334155;
     }
 
-    .location {
+    .barangay-location {
+      margin-top: 5px;
       font-size: 15px;
-      color: #6c7a89;
-      margin-bottom: 20px;
+      color: #64748b;
     }
 
     .page-title {
+      margin: 22px 0 8px;
       font-size: 30px;
-      font-weight: 700;
-      color: #34495e;
-      margin-bottom: 10px;
+      font-weight: 800;
+      color: #334155;
     }
 
     .page-subtitle {
+      margin: 0;
       font-size: 16px;
-      color: #667788;
       line-height: 1.5;
+      color: #64748b;
     }
 
-    /* ================================
+    /* =========================================
        SERVICES
-    ================================= */
+    ========================================= */
 
     .services {
-      margin-top: 32px;
       display: flex;
       flex-direction: column;
       gap: 16px;
+      margin-top: 30px;
     }
 
     .service-card {
       display: flex;
       align-items: center;
       width: 100%;
-      min-height: 105px;
-      padding: 18px;
-      background: #ffffff;
-      border: 1px solid #dfe5eb;
-      border-radius: 18px;
+      padding: 20px;
       text-decoration: none;
       color: inherit;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      cursor: pointer;
+      background: #ffffff;
+      border: 1px solid #dbe2ea;
+      border-radius: 18px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     .service-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+    }
+
+    .service-card:active {
+      transform: scale(0.99);
     }
 
     .service-icon {
-      width: 64px;
-      height: 64px;
-      min-width: 64px;
+      width: 66px;
+      height: 66px;
+      min-width: 66px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #eef1f5;
-      border-radius: 16px;
-      font-size: 32px;
       margin-right: 18px;
+      border-radius: 16px;
+      background: #eef2f6;
+      font-size: 34px;
     }
 
     .service-content {
@@ -132,59 +140,60 @@
     }
 
     .service-title {
+      margin: 0 0 7px;
       font-size: 21px;
-      font-weight: 700;
-      color: #34495e;
-      margin-bottom: 8px;
+      font-weight: 800;
+      color: #334155;
     }
 
     .service-description {
+      margin: 0;
       font-size: 15px;
-      color: #667788;
-      line-height: 1.4;
+      line-height: 1.5;
+      color: #64748b;
     }
 
-    .arrow {
-      font-size: 30px;
-      color: #9aa6b2;
+    .service-arrow {
       margin-left: 15px;
+      font-size: 30px;
       font-weight: 300;
+      color: #94a3b8;
     }
 
-    /* ================================
+    /* =========================================
        FOOTER
-    ================================= */
+    ========================================= */
 
     .footer {
-      margin-top: 36px;
+      margin-top: 34px;
       padding-top: 20px;
-      border-top: 1px solid #dfe5eb;
+      border-top: 1px solid #dbe2ea;
       text-align: center;
       font-size: 13px;
-      color: #8a96a3;
+      line-height: 1.6;
+      color: #94a3b8;
     }
 
-    /* ================================
+    /* =========================================
        MOBILE
-    ================================= */
+    ========================================= */
 
     @media (max-width: 600px) {
 
-      .page {
-        padding: 28px 14px;
+      .page-wrapper {
+        padding: 25px 14px 30px;
       }
 
       .barangay-logo {
-        width: 78px;
-        height: 78px;
-        margin-bottom: 10px;
+        width: 76px;
+        height: 76px;
       }
 
       .barangay-name {
-        font-size: 20px;
+        font-size: 21px;
       }
 
-      .location {
+      .barangay-location {
         font-size: 14px;
       }
 
@@ -193,17 +202,11 @@
       }
 
       .page-subtitle {
-        font-size: 15px;
-      }
-
-      .services {
-        gap: 14px;
-        margin-top: 26px;
+        font-size: 14px;
       }
 
       .service-card {
-        min-height: 96px;
-        padding: 14px;
+        padding: 16px;
         border-radius: 16px;
       }
 
@@ -211,23 +214,21 @@
         width: 58px;
         height: 58px;
         min-width: 58px;
-        font-size: 28px;
         margin-right: 14px;
-        border-radius: 14px;
+        font-size: 29px;
       }
 
       .service-title {
         font-size: 18px;
-        margin-bottom: 5px;
       }
 
       .service-description {
         font-size: 13px;
       }
 
-      .arrow {
-        font-size: 26px;
+      .service-arrow {
         margin-left: 8px;
+        font-size: 25px;
       }
     }
 
@@ -236,59 +237,72 @@
 
 <body>
 
-  <div class="page">
+  <div class="page-wrapper">
 
     <div class="container">
 
-      <!-- HEADER -->
-      <div class="header">
+      <!-- =====================================
+           BARANGAY HEADER
+      ====================================== -->
+
+      <header class="header">
 
         <img
-          src="barangay-logo.png"
+          src="Barangay_Tupol_Oeste_Logo_Transparent%20(1).png"
           alt="Barangay Tupol Oeste Logo"
           class="barangay-logo"
         >
 
-        <div class="barangay-name">
+        <h1 class="barangay-name">
           BARANGAY TUPOL OESTE
-        </div>
+        </h1>
 
-        <div class="location">
+        <div class="barangay-location">
           Cabatuan, Iloilo
         </div>
 
-        <div class="page-title">
+        <h2 class="page-title">
           Public Services
-        </div>
+        </h2>
 
-        <div class="page-subtitle">
+        <p class="page-subtitle">
           Access the Barangay Rabies Control Committee online services.
-        </div>
+        </p>
 
-      </div>
+      </header>
 
 
-      <!-- SERVICES -->
-      <div class="services">
+      <!-- =====================================
+           PUBLIC SERVICES
+      ====================================== -->
+
+      <main class="services">
+
 
         <!-- DOG REGISTRATION -->
-        <a href="registration.html" class="service-card">
+
+        <a
+          href="registration.html"
+          class="service-card"
+        >
 
           <div class="service-icon">
             🐕
           </div>
 
           <div class="service-content">
-            <div class="service-title">
-              Dog Registration
-            </div>
 
-            <div class="service-description">
+            <h3 class="service-title">
+              Dog Registration
+            </h3>
+
+            <p class="service-description">
               Register your dog with the Barangay Dog Registry.
-            </div>
+            </p>
+
           </div>
 
-          <div class="arrow">
+          <div class="service-arrow">
             ›
           </div>
 
@@ -296,23 +310,29 @@
 
 
         <!-- REGISTRY UPDATE -->
-        <a href="registry-update.html" class="service-card">
+
+        <a
+          href="update.html"
+          class="service-card"
+        >
 
           <div class="service-icon">
             ✏️
           </div>
 
           <div class="service-content">
-            <div class="service-title">
-              Registry Update
-            </div>
 
-            <div class="service-description">
+            <h3 class="service-title">
+              Registry Update
+            </h3>
+
+            <p class="service-description">
               Request updates to an existing dog registry record.
-            </div>
+            </p>
+
           </div>
 
-          <div class="arrow">
+          <div class="service-arrow">
             ›
           </div>
 
@@ -320,35 +340,50 @@
 
 
         <!-- PUPPY REPORT -->
-        <a href="puppy-report.html" class="service-card">
+
+        <a
+          href="puppy-report.html"
+          class="service-card"
+        >
 
           <div class="service-icon">
             🐶
           </div>
 
           <div class="service-content">
-            <div class="service-title">
-              Puppy Report
-            </div>
 
-            <div class="service-description">
+            <h3 class="service-title">
+              Puppy Report
+            </h3>
+
+            <p class="service-description">
               Report newborn puppies from a registered dog.
-            </div>
+            </p>
+
           </div>
 
-          <div class="arrow">
+          <div class="service-arrow">
             ›
           </div>
 
         </a>
 
-      </div>
+
+      </main>
 
 
-      <!-- FOOTER -->
-      <div class="footer">
-        Barangay Tupol Oeste Rabies Control Services
-      </div>
+      <!-- =====================================
+           FOOTER
+      ====================================== -->
+
+      <footer class="footer">
+
+        Barangay Rabies Control Committee<br>
+
+        BRCC-DMS Public Services
+
+      </footer>
+
 
     </div>
 
