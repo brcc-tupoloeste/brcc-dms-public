@@ -335,6 +335,26 @@
       display: block;
     }
 
+        /* =========================================
+       CURRENT INFORMATION
+    ========================================= */
+
+    .current-information-box {
+      min-height: 50px;
+      padding: 13px;
+      border: 1px solid #cfd6df;
+      border-radius: 10px;
+      background: #f1f3f5;
+      color: #4b5563;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+
+    .current-information-box.empty {
+      color: #9ca3af;
+      font-style: italic;
+    }
 
     /* =========================================
        FILE
@@ -877,6 +897,26 @@
       </div>
 
 
+      <!-- CURRENT REGISTERED INFORMATION -->
+
+      <div class="form-group">
+
+        <label>
+          Current Registered Information
+        </label>
+
+        <div
+          id="currentInformation"
+          class="current-information-box empty"
+        >
+          Select information to update to view the current registered information.
+        </div>
+
+      </div>
+
+
+      <!-- NEW INFORMATION -->
+
       <div class="form-group">
 
         <label for="newInformation">
@@ -1003,9 +1043,16 @@
   const submitButton =
     document.getElementById('submitButton');
 
-  const supportingFileInput =
+   const supportingFileInput =
     document.getElementById('supportingFile');
 
+
+  const updateTypeInput =
+    document.getElementById('updateType');
+
+
+  const currentInformationBox =
+    document.getElementById('currentInformation');
 
   /* =========================================
      VERIFY BUTTON
@@ -1015,7 +1062,18 @@
     'click',
     verifyDogRecord
   );
+  /* =========================================
+     UPDATE TYPE CHANGE
+  ========================================= */
 
+  updateTypeInput.addEventListener(
+    'change',
+    function () {
+
+      displayCurrentInformation();
+
+    }
+  );
 
   /* =========================================
      VERIFY DOG RECORD
@@ -1173,6 +1231,24 @@
       verifiedRecord =
         response.record;
 
+            console.log(
+        'VERIFIED COMPLETE RECORD:',
+        verifiedRecord
+      );
+
+
+      /*
+       * Reset current information display
+       */
+
+      updateTypeInput.value = '';
+
+      currentInformationBox.textContent =
+        'Select information to update to view the current registered information.';
+
+      currentInformationBox.classList.add(
+        'empty'
+      );
 
       /*
        * DISPLAY VERIFIED RECORD
@@ -1292,7 +1368,163 @@
     }
 
   }
+  /* =========================================
+     DISPLAY CURRENT REGISTERED INFORMATION
+  ========================================= */
 
+  function displayCurrentInformation() {
+
+    const updateType =
+      updateTypeInput.value;
+
+
+    if (!updateType) {
+
+      currentInformationBox.textContent =
+        'Select information to update to view the current registered information.';
+
+      currentInformationBox.classList.add(
+        'empty'
+      );
+
+      return;
+
+    }
+
+
+    if (!verifiedRecord) {
+
+      currentInformationBox.textContent =
+        'Dog record has not been verified.';
+
+      currentInformationBox.classList.add(
+        'empty'
+      );
+
+      return;
+
+    }
+
+
+    /*
+     * FIELD MAPPING
+     *
+     * Supports multiple possible backend
+     * property names to avoid blank values.
+     */
+
+    const fieldMap = {
+
+      'Owner Name': [
+        'ownerName',
+        'Owner Name',
+        'owner'
+      ],
+
+      'Address': [
+        'address',
+        'Address',
+        'ownerAddress'
+      ],
+
+      'Sitio': [
+        'sitio',
+        'Sitio'
+      ],
+
+      'Contact Number': [
+        'contactNumber',
+        'Contact Number',
+        'contact',
+        'mobileNumber',
+        'phone'
+      ],
+
+      'Email Address': [
+        'emailAddress',
+        'Email Address',
+        'email'
+      ],
+
+      'Dog Name': [
+        'dogName',
+        'Dog Name'
+      ],
+
+      'Breed': [
+        'breed',
+        'Breed'
+      ],
+
+      'Color': [
+        'color',
+        'Color'
+      ],
+
+      'Sex': [
+        'sex',
+        'Sex',
+        'gender',
+        'Gender'
+      ],
+
+      'Birthdate': [
+        'birthdate',
+        'Birthdate',
+        'dateOfBirth',
+        'Date of Birth'
+      ]
+
+    };
+
+
+    const possibleKeys =
+      fieldMap[updateType] || [];
+
+
+    let currentValue = '';
+
+
+    possibleKeys.forEach(function (key) {
+
+      if (
+        !currentValue &&
+        verifiedRecord[key] !== undefined &&
+        verifiedRecord[key] !== null &&
+        String(verifiedRecord[key]).trim() !== ''
+      ) {
+
+        currentValue =
+          String(verifiedRecord[key]).trim();
+
+      }
+
+    });
+
+
+    if (!currentValue) {
+
+      currentInformationBox.textContent =
+        'No current information available in the registry for this field.';
+
+      currentInformationBox.classList.add(
+        'empty'
+      );
+
+      return;
+
+    }
+
+
+    currentInformationBox.textContent =
+      currentValue;
+
+
+    currentInformationBox.classList.remove(
+      'empty'
+    );
+
+  }
 
   /* =========================================
      FILE TO BASE64
