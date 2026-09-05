@@ -203,7 +203,9 @@
     select:focus,
     textarea:focus {
       border-color: #667085;
-      box-shadow: 0 0 0 3px rgba(102,112,133,.12);
+      box-shadow:
+        0 0 0 3px
+        rgba(102,112,133,.12);
     }
 
 
@@ -231,7 +233,9 @@
       font-size: 16px;
       font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 3px 8px rgba(0,0,0,.10);
+      box-shadow:
+        0 3px 8px
+        rgba(0,0,0,.10);
     }
 
 
@@ -268,7 +272,6 @@
 
 
     .message.error {
-      display: block;
       background: #fff5f5;
       border: 1px solid #feb2b2;
       color: #c53030;
@@ -276,7 +279,6 @@
 
 
     .message.success {
-      display: block;
       background: #edf7ef;
       border: 1px solid #b9dfc0;
       color: #276749;
@@ -387,7 +389,7 @@
 
 
     /* =========================================
-       FULLSCREEN LOADING OVERLAY
+       LOADING OVERLAY
     ========================================= */
 
     .loading-overlay {
@@ -414,7 +416,9 @@
       border-radius: 18px;
       background: #ffffff;
       text-align: center;
-      box-shadow: 0 12px 40px rgba(0,0,0,.16);
+      box-shadow:
+        0 12px 40px
+        rgba(0,0,0,.16);
     }
 
 
@@ -481,7 +485,9 @@
       background: #ffffff;
       border-radius: 20px;
       text-align: center;
-      box-shadow: 0 15px 50px rgba(0,0,0,.20);
+      box-shadow:
+        0 15px 50px
+        rgba(0,0,0,.20);
     }
 
 
@@ -512,6 +518,16 @@
       font-size: 14px;
       line-height: 1.6;
       color: #4b5563;
+    }
+
+
+    .request-number {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #f4f6f8;
+      font-weight: 700;
+      color: #303846;
     }
 
 
@@ -570,9 +586,7 @@
 <body>
 
 
-<!-- =========================================
-     LOADING OVERLAY
-========================================= -->
+<!-- LOADING OVERLAY -->
 
 <div
   id="loadingOverlay"
@@ -602,10 +616,7 @@
 </div>
 
 
-
-<!-- =========================================
-     SUCCESS MODAL
-========================================= -->
+<!-- SUCCESS MODAL -->
 
 <div
   id="successOverlay"
@@ -626,6 +637,12 @@
       Your Registry Update Request has been received and is pending review.
     </div>
 
+    <div
+      id="successRequestNumber"
+      class="request-number"
+      style="display:none;"
+    ></div>
+
     <button
       type="button"
       class="success-close"
@@ -639,10 +656,7 @@
 </div>
 
 
-
-<!-- =========================================
-     PAGE
-========================================= -->
+<!-- PAGE -->
 
 <div class="page">
 
@@ -684,7 +698,6 @@
   </div>
 
 
-
   <!-- MESSAGE -->
 
   <div
@@ -693,10 +706,7 @@
   ></div>
 
 
-
-  <!-- =========================================
-       STEP 1: VERIFY RECORD
-  ========================================= -->
+  <!-- STEP 1 -->
 
   <div class="card">
 
@@ -766,7 +776,6 @@
     </button>
 
 
-
     <!-- VERIFIED RESULT -->
 
     <div
@@ -808,10 +817,7 @@
   </div>
 
 
-
-  <!-- =========================================
-       STEP 2: UPDATE FORM
-  ========================================= -->
+  <!-- STEP 2 -->
 
   <form
     id="updateForm"
@@ -885,7 +891,6 @@
       </div>
 
 
-
       <!-- VACCINATION -->
 
       <div
@@ -922,7 +927,6 @@
         </div>
 
       </div>
-
 
 
       <!-- OWNER INFORMATION -->
@@ -963,7 +967,6 @@
       </div>
 
 
-
       <!-- TRANSFER -->
 
       <div
@@ -1000,7 +1003,6 @@
         </div>
 
       </div>
-
 
 
       <!-- DECEASED -->
@@ -1040,7 +1042,6 @@
       </div>
 
 
-
       <!-- LOST -->
 
       <div
@@ -1078,7 +1079,6 @@
       </div>
 
 
-
       <!-- GENERAL INFORMATION -->
 
       <div class="form-group">
@@ -1097,7 +1097,6 @@
         ></textarea>
 
       </div>
-
 
 
       <!-- SUPPORTING FILE -->
@@ -1122,7 +1121,6 @@
 
 
     </div>
-
 
 
     <!-- DECLARATION -->
@@ -1153,7 +1151,6 @@
     </div>
 
 
-
     <!-- SUBMIT -->
 
     <button
@@ -1171,13 +1168,9 @@
 </div>
 
 
-
-<!-- =========================================
-     API CONNECTOR
-========================================= -->
+<!-- API CONNECTOR -->
 
 <script src="api.js"></script>
-
 
 
 <script>
@@ -1187,7 +1180,6 @@
   let selectedFileData = '';
 
   let selectedFileName = '';
-
 
 
   /* =========================================
@@ -1200,17 +1192,20 @@
       'click',
       async function() {
 
+
         const registryNumber =
           document
             .getElementById('registryNumber')
             .value
             .trim();
 
+
         const ownerName =
           document
             .getElementById('ownerName')
             .value
             .trim();
+
 
         const dogName =
           document
@@ -1241,31 +1236,41 @@
           );
 
 
-        verifyButton.disabled = true;
-
-        verifyButton.textContent =
-          'Verifying...';
-
-
         hideMessage();
+
+
+        verifyButton.disabled = true;
 
 
         showLoading(
           'Verifying Dog Record...',
-          'Please wait. Checking the official Dog Registry.'
+          'Please wait while we check the official Dog Registry.'
         );
 
 
         try {
 
-         const result = await brccSubmit(
-  'verify_registry',
-  {
-    registryNumber: registryNumber,
-    ownerName: ownerName,
-    dogName: dogName
-  }
-);
+
+          const result =
+            await brccSubmit(
+              'verify_registry',
+              {
+                registryNumber:
+                  registryNumber,
+
+                ownerName:
+                  ownerName,
+
+                dogName:
+                  dogName
+              }
+            );
+
+
+          console.log(
+            'Verification Result:',
+            result
+          );
 
 
           const response =
@@ -1303,7 +1308,8 @@
               'verifiedRegistryNumber'
             )
             .textContent =
-            verifiedRecord.registryNumber;
+            verifiedRecord.registryNumber ||
+            registryNumber;
 
 
           document
@@ -1311,7 +1317,8 @@
               'verifiedOwnerName'
             )
             .textContent =
-            verifiedRecord.ownerName;
+            verifiedRecord.ownerName ||
+            ownerName;
 
 
           document
@@ -1319,7 +1326,8 @@
               'verifiedDogName'
             )
             .textContent =
-            verifiedRecord.dogName;
+            verifiedRecord.dogName ||
+            dogName;
 
 
           document
@@ -1391,6 +1399,7 @@
 
         } catch (error) {
 
+
           console.error(
             'Verification Error:',
             error
@@ -1429,19 +1438,16 @@
 
         } finally {
 
+
           hideLoading();
 
 
           verifyButton.disabled = false;
 
-          verifyButton.textContent =
-            'Verify Record';
-
         }
 
       }
     );
-
 
 
   /* =========================================
@@ -1454,6 +1460,7 @@
       'change',
       function() {
 
+
         document
           .querySelectorAll(
             '.dynamic-section'
@@ -1461,9 +1468,9 @@
           .forEach(
             function(section) {
 
-              section
-                .classList
-                .remove('show');
+              section.classList.remove(
+                'show'
+              );
 
             }
           );
@@ -1509,7 +1516,6 @@
     );
 
 
-
   /* =========================================
      FILE TO BASE64
   ========================================= */
@@ -1520,6 +1526,7 @@
       'change',
       function(event) {
 
+
         const file =
           event.target.files[0];
 
@@ -1527,7 +1534,6 @@
         if (!file) {
 
           selectedFileData = '';
-
           selectedFileName = '';
 
           return;
@@ -1549,7 +1555,6 @@
           event.target.value = '';
 
           selectedFileData = '';
-
           selectedFileName = '';
 
           return;
@@ -1574,11 +1579,24 @@
           };
 
 
+        reader.onerror =
+          function() {
+
+            selectedFileData = '';
+            selectedFileName = '';
+
+            showMessage(
+              'Unable to read the selected file.',
+              'error'
+            );
+
+          };
+
+
         reader.readAsDataURL(file);
 
       }
     );
-
 
 
   /* =========================================
@@ -1590,6 +1608,7 @@
     .addEventListener(
       'submit',
       async function(event) {
+
 
         event.preventDefault();
 
@@ -1627,6 +1646,7 @@
 
         const data = {
 
+
           /* VERIFIED IDENTITY */
 
           registryNumber:
@@ -1639,12 +1659,15 @@
             verifiedRecord.dogName,
 
 
-          /* UPDATE INFORMATION */
+          /* UPDATE TYPE */
 
           updateType:
             document
               .getElementById('updateType')
               .value,
+
+
+          /* GENERAL INFORMATION */
 
           newInformation:
             document
@@ -1675,7 +1698,7 @@
               .value
               .trim(),
 
-          newContact:
+          newContactNumber:
             document
               .getElementById('newContact')
               .value
@@ -1684,7 +1707,7 @@
 
           /* TRANSFER */
 
-          newOwner:
+          newOwnerName:
             document
               .getElementById('newOwner')
               .value
@@ -1724,7 +1747,7 @@
               .trim(),
 
 
-          /* FILE */
+          /* SUPPORTING FILE */
 
           supportingFileData:
             selectedFileData,
@@ -1740,37 +1763,58 @@
 
         submitButton.disabled = true;
 
-        submitButton.textContent =
-          'Submitting...';
-
-
-        /* UNIFORM SPINNER */
 
         showLoading(
           'Submitting Registry Update...',
-          'Please wait. Do not close this page.'
+          'Please wait. Do not close or refresh this page.'
         );
 
 
         try {
 
+
+          /* IMPORTANT:
+             Must match backend doPost()
+             case 'registry_update'
+          */
+
           const result =
             await brccSubmit(
-              'update',
+              'registry_update',
               data
             );
 
 
           console.log(
-            'Update Submission Result:',
+            'Registry Update Result:',
             result
           );
+
+
+          const response =
+            result &&
+            result.result
+              ?
+              result.result
+              :
+              result;
 
 
           hideLoading();
 
 
-          showSuccessModal();
+          const requestNumber =
+            response &&
+            response.requestNumber
+              ?
+              response.requestNumber
+              :
+              '';
+
+
+          showSuccessModal(
+            requestNumber
+          );
 
 
           resetUpdatePage();
@@ -1778,8 +1822,9 @@
 
         } catch (error) {
 
+
           console.error(
-            'Update Submission Error:',
+            'Registry Update Error:',
             error
           );
 
@@ -1794,21 +1839,13 @@
           );
 
 
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-
-
         } finally {
+
 
           hideLoading();
 
 
           submitButton.disabled = false;
-
-          submitButton.textContent =
-            'Submit Registry Update';
 
         }
 
@@ -1816,12 +1853,12 @@
     );
 
 
-
   /* =========================================
-     RESET UPDATE PAGE
+     RESET PAGE
   ========================================= */
 
   function resetUpdatePage() {
+
 
     document
       .getElementById(
@@ -1832,9 +1869,7 @@
 
     verifiedRecord = null;
 
-
     selectedFileData = '';
-
     selectedFileName = '';
 
 
@@ -1866,6 +1901,7 @@
     fields.forEach(
       function(id) {
 
+
         const field =
           document.getElementById(id);
 
@@ -1885,15 +1921,14 @@
       .forEach(
         function(section) {
 
-          section
-            .classList
-            .remove('show');
+          section.classList.remove(
+            'show'
+          );
 
         }
       );
 
   }
-
 
 
   /* =========================================
@@ -1904,6 +1939,7 @@
     title,
     text
   ) {
+
 
     document
       .getElementById(
@@ -1934,6 +1970,7 @@
 
   function hideLoading() {
 
+
     document
       .getElementById(
         'loadingOverlay'
@@ -1945,12 +1982,37 @@
   }
 
 
-
   /* =========================================
      SUCCESS MODAL
   ========================================= */
 
-  function showSuccessModal() {
+  function showSuccessModal(
+    requestNumber
+  ) {
+
+
+    const requestBox =
+      document.getElementById(
+        'successRequestNumber'
+      );
+
+
+    if (requestNumber) {
+
+      requestBox.textContent =
+        'Request No.: ' +
+        requestNumber;
+
+      requestBox.style.display =
+        'block';
+
+    } else {
+
+      requestBox.style.display =
+        'none';
+
+    }
+
 
     document
       .getElementById(
@@ -1965,6 +2027,7 @@
 
   function closeSuccessModal() {
 
+
     document
       .getElementById(
         'successOverlay'
@@ -1973,8 +2036,13 @@
         'show'
       );
 
-  }
 
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+  }
 
 
   /* =========================================
@@ -1985,6 +2053,7 @@
     message,
     type
   ) {
+
 
     const box =
       document.getElementById(
@@ -2014,6 +2083,7 @@
 
 
   function hideMessage() {
+
 
     const box =
       document.getElementById(
