@@ -41,9 +41,7 @@
 
 
     body {
-
       min-height: 100vh;
-
     }
 
 
@@ -103,9 +101,7 @@
 
 
     .back-button:active {
-
       transform: scale(.98);
-
     }
 
 
@@ -125,11 +121,18 @@
     }
 
 
-    .dog-icon {
+    .barangay-logo {
 
-      font-size: 52px;
+      width: 88px;
+      height: 88px;
 
-      margin-bottom: 10px;
+      object-fit: contain;
+
+      display: block;
+
+      margin:
+        0 auto
+        10px;
 
     }
 
@@ -263,9 +266,7 @@
 
 
     .required {
-
       color: #c53030;
-
     }
 
 
@@ -324,9 +325,7 @@
 
     input::placeholder,
     textarea::placeholder {
-
       color: #9aa2ad;
-
     }
 
 
@@ -411,15 +410,20 @@
 
 
     .submit-button:hover {
-
       background: #252c37;
-
     }
 
 
     .submit-button:active {
-
       transform: scale(.99);
+    }
+
+
+    .submit-button:disabled {
+
+      opacity: .65;
+
+      cursor: not-allowed;
 
     }
 
@@ -496,6 +500,14 @@
       }
 
 
+      .barangay-logo {
+
+        width: 76px;
+        height: 76px;
+
+      }
+
+
       .barangay {
 
         font-size: 18px;
@@ -528,9 +540,7 @@
     href="./"
     class="back-button"
   >
-
     ← Back to Services
-
   </a>
 
 
@@ -539,37 +549,31 @@
 
   <div class="header">
 
-    <div class="dog-icon">
-      🐕
-    </div>
+    <img
+      src="barangay-logo.png"
+      alt="Barangay Tupol Oeste Logo"
+      class="barangay-logo"
+    >
 
 
     <div class="barangay">
-
       BARANGAY TUPOL OESTE
-
     </div>
 
 
     <div class="location">
-
       Cabatuan, Iloilo
-
     </div>
 
 
     <h1>
-
       Dog Registration
-
     </h1>
 
 
     <p class="subtitle">
-
       Complete the form below to register your dog.
       Please provide accurate information.
-
     </p>
 
   </div>
@@ -587,42 +591,29 @@
 
   <!-- FORM -->
 
-  <form
-    id="registrationForm"
-  >
+  <form id="registrationForm">
 
 
-    <!-- =====================================
-         OWNER INFORMATION
-    ====================================== -->
+    <!-- OWNER INFORMATION -->
 
     <div class="card">
 
-
       <div class="section-title">
-
         Owner Information
-
       </div>
 
 
       <div class="section-description">
-
         Information about the dog owner.
-
       </div>
-
 
 
       <div class="form-group">
 
         <label for="ownerName">
-
           Full Name
           <span class="required">*</span>
-
         </label>
-
 
         <input
           type="text"
@@ -635,16 +626,12 @@
       </div>
 
 
-
       <div class="form-group">
 
         <label for="ownerAddress">
-
           Complete Address
           <span class="required">*</span>
-
         </label>
-
 
         <textarea
           id="ownerAddress"
@@ -656,16 +643,12 @@
       </div>
 
 
-
       <div class="form-group">
 
         <label for="sitio">
-
           Sitio
           <span class="required">*</span>
-
         </label>
-
 
         <select
           id="sitio"
@@ -673,53 +656,26 @@
           required
         >
 
-          <option value="">
-            Select Sitio
-          </option>
-
-          <option value="Bacolod">
-            Bacolod
-          </option>
-
-          <option value="Badiang">
-            Badiang
-          </option>
-
-          <option value="Bungalog">
-            Bungalog
-          </option>
-
-          <option value="Burac">
-            Burac
-          </option>
-
-          <option value="Linintian">
-            Linintian
-          </option>
-
-          <option value="Puro">
-            Puro
-          </option>
-
-          <option value="Sementeryo">
-            Sementeryo
-          </option>
+          <option value="">Select Sitio</option>
+          <option value="Bacolod">Bacolod</option>
+          <option value="Badiang">Badiang</option>
+          <option value="Bungalog">Bungalog</option>
+          <option value="Burac">Burac</option>
+          <option value="Linintian">Linintian</option>
+          <option value="Puro">Puro</option>
+          <option value="Sementeryo">Sementeryo</option>
 
         </select>
 
       </div>
 
 
-
       <div class="form-group">
 
         <label for="contactNumber">
-
           Contact Number
           <span class="required">*</span>
-
         </label>
-
 
         <input
           type="tel"
@@ -733,15 +689,11 @@
       </div>
 
 
-
       <div class="form-group">
 
         <label for="emailAddress">
-
           Email Address
-
         </label>
-
 
         <input
           type="email"
@@ -752,42 +704,30 @@
 
       </div>
 
-
     </div>
 
 
 
-    <!-- =====================================
-         DOG INFORMATION
-    ====================================== -->
+    <!-- DOG INFORMATION -->
 
     <div class="card">
 
-
       <div class="section-title">
-
         Dog Information
-
       </div>
 
 
       <div class="section-description">
-
         Information about the dog being registered.
-
       </div>
-
 
 
       <div class="form-group">
 
         <label for="dogName">
-
           Dog Name
           <span class="required">*</span>
-
         </label>
-
 
         <input
           type="text"
@@ -800,16 +740,12 @@
       </div>
 
 
-
       <div class="form-group">
 
         <label for="breed">
-
           Breed
           <span class="required">*</span>
-
         </label>
-
 
         <select
           id="breed"
@@ -817,73 +753,31 @@
           required
         >
 
-          <option value="">
-            Select Breed
-          </option>
-
-          <option value="Aspin">
-            Aspin
-          </option>
-
-          <option value="Shih Tzu">
-            Shih Tzu
-          </option>
-
-          <option value="Chihuahua">
-            Chihuahua
-          </option>
-
-          <option value="Labrador Retriever">
-            Labrador Retriever
-          </option>
-
-          <option value="Golden Retriever">
-            Golden Retriever
-          </option>
-
-          <option value="German Shepherd">
-            German Shepherd
-          </option>
-
-          <option value="Pomeranian">
-            Pomeranian
-          </option>
-
-          <option value="Poodle">
-            Poodle
-          </option>
-
-          <option value="Siberian Husky">
-            Siberian Husky
-          </option>
-
-          <option value="Rottweiler">
-            Rottweiler
-          </option>
-
-          <option value="Mixed Breed">
-            Mixed Breed
-          </option>
-
-          <option value="Others">
-            Others
-          </option>
+          <option value="">Select Breed</option>
+          <option value="Aspin">Aspin</option>
+          <option value="Shih Tzu">Shih Tzu</option>
+          <option value="Chihuahua">Chihuahua</option>
+          <option value="Labrador Retriever">Labrador Retriever</option>
+          <option value="Golden Retriever">Golden Retriever</option>
+          <option value="German Shepherd">German Shepherd</option>
+          <option value="Pomeranian">Pomeranian</option>
+          <option value="Poodle">Poodle</option>
+          <option value="Siberian Husky">Siberian Husky</option>
+          <option value="Rottweiler">Rottweiler</option>
+          <option value="Mixed Breed">Mixed Breed</option>
+          <option value="Others">Others</option>
 
         </select>
 
       </div>
 
 
-
       <div class="form-group">
 
         <label for="sex">
-
           Sex
           <span class="required">*</span>
-
         </label>
-
 
         <select
           id="sex"
@@ -891,33 +785,21 @@
           required
         >
 
-          <option value="">
-            Select Sex
-          </option>
-
-          <option value="Male">
-            Male
-          </option>
-
-          <option value="Female">
-            Female
-          </option>
+          <option value="">Select Sex</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
 
         </select>
 
       </div>
 
 
-
       <div class="form-group">
 
         <label for="color">
-
           Color
           <span class="required">*</span>
-
         </label>
-
 
         <input
           type="text"
@@ -930,15 +812,11 @@
       </div>
 
 
-
       <div class="form-group">
 
         <label for="birthdate">
-
           Birthdate
-
         </label>
-
 
         <input
           type="date"
@@ -949,16 +827,12 @@
       </div>
 
 
-
       <div class="form-group">
 
         <label for="dogPhoto">
-
           Dog Photo
           <span class="required">*</span>
-
         </label>
-
 
         <input
           type="file"
@@ -968,12 +842,9 @@
           required
         >
 
-
         <div class="photo-note">
-
           Upload a clear photo of the dog.
           JPG or PNG only. Maximum file size: 5MB.
-
         </div>
 
 
@@ -991,7 +862,6 @@
 
       </div>
 
-
     </div>
 
 
@@ -1003,9 +873,7 @@
       class="submit-button"
       id="submitButton"
     >
-
       Submit Dog Registration
-
     </button>
 
 
@@ -1015,11 +883,19 @@
 </div>
 
 
+<!-- SHARED API CONNECTOR -->
+<script src="api.js"></script>
+
 
 <script>
 
+  let selectedPhotoData = '';
+
+  let selectedPhotoName = '';
+
+
   /* =========================================
-     PHOTO PREVIEW
+     PHOTO PREVIEW + BASE64
   ========================================= */
 
   document
@@ -1033,7 +909,17 @@
 
 
         if (!file) {
+
+          selectedPhotoData = '';
+          selectedPhotoName = '';
+
+          document
+            .getElementById('photoPreview')
+            .style.display =
+            'none';
+
           return;
+
         }
 
 
@@ -1049,6 +935,9 @@
 
           event.target.value = '';
 
+          selectedPhotoData = '';
+          selectedPhotoName = '';
+
           return;
 
         }
@@ -1061,10 +950,18 @@
         reader.onload =
           function(e) {
 
+            selectedPhotoData =
+              e.target.result;
+
+
+            selectedPhotoName =
+              file.name;
+
+
             document
               .getElementById('previewImage')
               .src =
-              e.target.result;
+              selectedPhotoData;
 
 
             document
@@ -1083,23 +980,212 @@
 
 
   /* =========================================
-     FORM SUBMIT
-     TEMPORARY TEST
+     FORM SUBMISSION
   ========================================= */
 
   document
     .getElementById('registrationForm')
     .addEventListener(
       'submit',
-      function(event) {
+      async function(event) {
 
         event.preventDefault();
 
 
-        showMessage(
-          'Form successfully validated. Backend connection will be added next.',
-          'success'
-        );
+        const form =
+          event.target;
+
+
+        const submitButton =
+          document.getElementById(
+            'submitButton'
+          );
+
+
+        const box =
+          document.getElementById(
+            'messageBox'
+          );
+
+
+        if (!form.checkValidity()) {
+
+          form.reportValidity();
+
+          return;
+
+        }
+
+
+        if (!selectedPhotoData) {
+
+          showMessage(
+            'Please upload a dog photo.',
+            'error'
+          );
+
+          return;
+
+        }
+
+
+        const data = {
+
+          ownerName:
+            document
+              .getElementById('ownerName')
+              .value
+              .trim(),
+
+          address:
+            document
+              .getElementById('ownerAddress')
+              .value
+              .trim(),
+
+          sitio:
+            document
+              .getElementById('sitio')
+              .value,
+
+          contactNumber:
+            document
+              .getElementById('contactNumber')
+              .value
+              .trim(),
+
+          email:
+            document
+              .getElementById('emailAddress')
+              .value
+              .trim(),
+
+          dogName:
+            document
+              .getElementById('dogName')
+              .value
+              .trim(),
+
+          breed:
+            document
+              .getElementById('breed')
+              .value,
+
+          sex:
+            document
+              .getElementById('sex')
+              .value,
+
+          color:
+            document
+              .getElementById('color')
+              .value
+              .trim(),
+
+          birthdate:
+            document
+              .getElementById('birthdate')
+              .value,
+
+          dogPhotoData:
+            selectedPhotoData,
+
+          dogPhotoName:
+            selectedPhotoName
+
+        };
+
+
+        hideMessage();
+
+
+        submitButton.disabled = true;
+
+        submitButton.textContent =
+          'Submitting...';
+
+
+        try {
+
+          const result =
+            await brccSubmit(
+              'registration',
+              data
+            );
+
+
+          const requestNumber =
+            result &&
+            result.result &&
+            result.result.requestNumber
+              ?
+              result.result.requestNumber
+              :
+              '';
+
+
+          showMessage(
+            'Registration submitted successfully.' +
+            (
+              requestNumber
+                ?
+                ' Request No.: ' +
+                  requestNumber
+                :
+                ''
+            ) +
+            ' Your submission is pending review.',
+            'success'
+          );
+
+
+          form.reset();
+
+
+          selectedPhotoData = '';
+          selectedPhotoName = '';
+
+
+          document
+            .getElementById('photoPreview')
+            .style.display =
+            'none';
+
+
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+
+
+        } catch (error) {
+
+          console.error(
+            'Registration submission error:',
+            error
+          );
+
+
+          showMessage(
+            error.message ||
+            'Unable to submit registration. Please try again.',
+            'error'
+          );
+
+
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+
+        } finally {
+
+          submitButton.disabled = false;
+
+          submitButton.textContent =
+            'Submit Dog Registration';
+
+        }
 
       }
     );
@@ -1129,14 +1215,27 @@
       'message ' +
       type;
 
+  }
 
-    window.scrollTo({
 
-      top: 0,
+  function hideMessage() {
 
-      behavior: 'smooth'
+    const box =
+      document.getElementById(
+        'messageBox'
+      );
 
-    });
+
+    box.style.display =
+      'none';
+
+
+    box.textContent =
+      '';
+
+
+    box.className =
+      'message';
 
   }
 
