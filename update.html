@@ -1037,14 +1037,18 @@
       );
 
 
-      const result = await brccSubmit(
-        'verify_registry',
-        {
-          registryNumber: registryNumber,
-          ownerName: ownerName,
-          dogName: dogName
-        }
-      );
+  const result = await brccSubmit(
+  'verify_registry',
+  {
+    registryNumber: registryNumber,
+    ownerName: ownerName,
+    dogName: dogName
+  }
+);
+
+console.log('========== RAW API RESULT ==========');
+console.log(JSON.stringify(result, null, 2));
+console.log('====================================');
 
 
       console.log(
