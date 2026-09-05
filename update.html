@@ -19,6 +19,7 @@
       box-sizing: border-box;
     }
 
+
     html,
     body {
       margin: 0;
@@ -29,12 +30,15 @@
       color: #303846;
     }
 
+
     body {
       min-height: 100vh;
     }
 
 
-    /* PAGE */
+    /* =========================================
+       PAGE
+    ========================================= */
 
     .page {
       width: 100%;
@@ -44,12 +48,13 @@
     }
 
 
-    /* BACK BUTTON */
+    /* =========================================
+       BACK BUTTON
+    ========================================= */
 
     .back-button {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
       margin-bottom: 20px;
       padding: 10px 14px;
       border: 1px solid #d7dde5;
@@ -61,17 +66,21 @@
       font-weight: 600;
     }
 
+
     .back-button:active {
       transform: scale(.98);
     }
 
 
-    /* HEADER */
+    /* =========================================
+       HEADER
+    ========================================= */
 
     .header {
       text-align: center;
       padding: 8px 8px 28px;
     }
+
 
     .barangay-logo {
       width: 88px;
@@ -81,11 +90,14 @@
       margin: 0 auto 10px;
     }
 
+
     .barangay {
       font-size: 20px;
       font-weight: 800;
       letter-spacing: .5px;
+      color: #303846;
     }
+
 
     .location {
       margin-top: 5px;
@@ -93,10 +105,13 @@
       color: #6b7280;
     }
 
+
     h1 {
       margin: 20px 0 8px;
       font-size: 28px;
+      color: #303846;
     }
+
 
     .subtitle {
       margin: 0;
@@ -106,7 +121,9 @@
     }
 
 
-    /* CARD */
+    /* =========================================
+       CARD
+    ========================================= */
 
     .card {
       width: 100%;
@@ -118,26 +135,31 @@
       box-shadow: 0 2px 10px rgba(0,0,0,.05);
     }
 
+
     .section-title {
       font-size: 19px;
       font-weight: 800;
       margin-bottom: 5px;
     }
 
+
     .section-description {
       margin-bottom: 20px;
       font-size: 13px;
       color: #6b7280;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
 
-    /* FORM */
+    /* =========================================
+       FORM
+    ========================================= */
 
     .form-group {
       width: 100%;
       margin-bottom: 17px;
     }
+
 
     label {
       display: block;
@@ -147,9 +169,11 @@
       color: #4b5563;
     }
 
+
     .required {
       color: #c53030;
     }
+
 
     input,
     select,
@@ -167,11 +191,13 @@
       outline: none;
     }
 
+
     textarea {
-      min-height: 110px;
+      min-height: 105px;
       resize: vertical;
       line-height: 1.5;
     }
+
 
     input:focus,
     select:focus,
@@ -180,77 +206,19 @@
       box-shadow: 0 0 0 3px rgba(102,112,133,.12);
     }
 
-    input::placeholder,
-    textarea::placeholder {
-      color: #9aa2ad;
-    }
 
-
-    /* INFO BOX */
-
-    .info-box {
-      margin-bottom: 18px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #f4f6f8;
-      border: 1px solid #dce1e7;
-      font-size: 13px;
-      line-height: 1.55;
-      color: #5b6472;
-    }
-
-
-    /* DYNAMIC SECTION */
-
-    .dynamic-section {
-      display: none;
-    }
-
-    .dynamic-section.show {
-      display: block;
-    }
-
-
-    /* FILE NOTE */
-
-    .file-note {
-      margin-top: 8px;
-      font-size: 12px;
+    input:disabled {
+      background: #f1f3f5;
       color: #6b7280;
-      line-height: 1.45;
+      cursor: not-allowed;
     }
 
 
-    /* DECLARATION */
+    /* =========================================
+       BUTTONS
+    ========================================= */
 
-    .declaration-box {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 14px;
-      border: 1px solid #dce1e7;
-      border-radius: 10px;
-      background: #fafbfc;
-    }
-
-    .declaration-box input {
-      width: 20px;
-      min-width: 20px;
-      height: 20px;
-      min-height: 20px;
-      margin-top: 2px;
-    }
-
-    .declaration-box label {
-      margin: 0;
-      font-size: 13px;
-      font-weight: 500;
-      line-height: 1.5;
-    }
-
-
-    /* SUBMIT */
-
+    .verify-button,
     .submit-button {
       width: 100%;
       min-height: 55px;
@@ -264,54 +232,40 @@
       font-weight: 800;
       cursor: pointer;
       box-shadow: 0 3px 8px rgba(0,0,0,.10);
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
     }
 
+
+    .verify-button:hover,
     .submit-button:hover {
       background: #252c37;
     }
 
-    .submit-button:disabled {
-      opacity: .75;
+
+    .verify-button:active,
+    .submit-button:active {
+      transform: scale(.99);
+    }
+
+
+    button:disabled {
+      opacity: .65;
       cursor: not-allowed;
     }
 
-    .button-spinner {
-      width: 18px;
-      height: 18px;
-      border: 3px solid rgba(255,255,255,.35);
-      border-top-color: #ffffff;
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-      display: none;
-    }
 
-    .submit-button.loading .button-spinner {
-      display: inline-block;
-    }
-
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-
-    /* MESSAGE */
+    /* =========================================
+       MESSAGE
+    ========================================= */
 
     .message {
       display: none;
       margin-bottom: 16px;
-      padding: 16px;
-      border-radius: 12px;
+      padding: 14px;
+      border-radius: 10px;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.5;
     }
+
 
     .message.error {
       display: block;
@@ -321,36 +275,152 @@
     }
 
 
-    /* LOADING */
+    .message.success {
+      display: block;
+      background: #edf7ef;
+      border: 1px solid #b9dfc0;
+      color: #276749;
+    }
+
+
+    /* =========================================
+       VERIFIED RECORD
+    ========================================= */
+
+    .verified-box {
+      display: none;
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 12px;
+      background: #edf7ef;
+      border: 1px solid #9fd3aa;
+    }
+
+
+    .verified-box.show {
+      display: block;
+    }
+
+
+    .verified-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #276749;
+      margin-bottom: 12px;
+    }
+
+
+    .verified-row {
+      padding: 8px 0;
+      border-bottom: 1px solid #d4ead8;
+      font-size: 14px;
+    }
+
+
+    .verified-row:last-child {
+      border-bottom: none;
+    }
+
+
+    /* =========================================
+       UPDATE SECTION
+    ========================================= */
+
+    .update-section {
+      display: none;
+    }
+
+
+    .update-section.show {
+      display: block;
+    }
+
+
+    .dynamic-section {
+      display: none;
+    }
+
+
+    .dynamic-section.show {
+      display: block;
+    }
+
+
+    .file-note {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+
+    /* =========================================
+       DECLARATION
+    ========================================= */
+
+    .declaration-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid #dce1e7;
+      border-radius: 10px;
+      background: #fafbfc;
+    }
+
+
+    .declaration-box input {
+      width: 20px;
+      min-width: 20px;
+      height: 20px;
+      min-height: 20px;
+      margin-top: 2px;
+    }
+
+
+    .declaration-box label {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+
+    /* =========================================
+       FULLSCREEN LOADING OVERLAY
+    ========================================= */
 
     .loading-overlay {
       display: none;
       position: fixed;
       inset: 0;
       z-index: 9998;
-      background: rgba(255,255,255,.80);
-      backdrop-filter: blur(2px);
+      background: rgba(255,255,255,.88);
       align-items: center;
       justify-content: center;
       padding: 20px;
     }
 
+
     .loading-overlay.show {
       display: flex;
     }
 
+
     .loading-box {
-      min-width: 270px;
-      background: #ffffff;
+      width: 100%;
+      max-width: 320px;
+      padding: 30px 24px;
       border-radius: 18px;
-      padding: 30px;
+      background: #ffffff;
       text-align: center;
-      box-shadow: 0 10px 35px rgba(0,0,0,.15);
+      box-shadow: 0 12px 40px rgba(0,0,0,.16);
     }
 
-    .big-spinner {
-      width: 52px;
-      height: 52px;
+
+    .spinner {
+      width: 54px;
+      height: 54px;
       margin: 0 auto 18px;
       border: 5px solid #e2e8f0;
       border-top-color: #303846;
@@ -358,19 +428,34 @@
       animation: spin .8s linear infinite;
     }
 
-    .loading-title {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 6px;
+
+    @keyframes spin {
+
+      to {
+        transform: rotate(360deg);
+      }
+
     }
+
+
+    .loading-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #303846;
+    }
+
 
     .loading-text {
-      font-size: 14px;
+      margin-top: 8px;
+      font-size: 13px;
       color: #6b7280;
+      line-height: 1.5;
     }
 
 
-    /* SUCCESS MODAL */
+    /* =========================================
+       SUCCESS MODAL
+    ========================================= */
 
     .success-overlay {
       display: none;
@@ -378,77 +463,75 @@
       inset: 0;
       z-index: 9999;
       background: rgba(0,0,0,.45);
-      padding: 20px;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
+
 
     .success-overlay.show {
       display: flex;
     }
 
+
     .success-modal {
       width: 100%;
       max-width: 420px;
+      padding: 30px 22px;
       background: #ffffff;
       border-radius: 20px;
-      padding: 32px 24px 26px;
       text-align: center;
-      box-shadow: 0 15px 50px rgba(0,0,0,.25);
+      box-shadow: 0 15px 50px rgba(0,0,0,.20);
     }
 
+
     .success-icon {
-      width: 75px;
-      height: 75px;
-      margin: 0 auto 18px;
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 15px;
       border-radius: 50%;
       background: #e7f6eb;
-      color: #2f855a;
+      color: #276749;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 40px;
+      font-size: 38px;
       font-weight: bold;
     }
 
+
     .success-title {
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 800;
       color: #276749;
       margin-bottom: 10px;
     }
 
+
     .success-text {
       font-size: 14px;
       line-height: 1.6;
       color: #4b5563;
-      margin-bottom: 18px;
     }
 
-    .success-request {
-      display: none;
-      padding: 12px;
-      margin-bottom: 20px;
-      background: #f4f6f8;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
-    }
 
     .success-close {
       width: 100%;
+      margin-top: 20px;
       min-height: 50px;
       border: none;
       border-radius: 10px;
       background: #303846;
       color: #ffffff;
-      font-size: 15px;
       font-weight: 700;
+      font-size: 15px;
       cursor: pointer;
     }
 
 
-    /* MOBILE */
+    /* =========================================
+       MOBILE
+    ========================================= */
 
     @media (max-width: 480px) {
 
@@ -456,18 +539,22 @@
         padding: 12px 8px 35px;
       }
 
+
       .card {
         padding: 18px 13px;
       }
+
 
       .barangay-logo {
         width: 76px;
         height: 76px;
       }
 
+
       .barangay {
         font-size: 18px;
       }
+
 
       h1 {
         font-size: 25px;
@@ -483,7 +570,9 @@
 <body>
 
 
-<!-- LOADING -->
+<!-- =========================================
+     LOADING OVERLAY
+========================================= -->
 
 <div
   id="loadingOverlay"
@@ -492,14 +581,20 @@
 
   <div class="loading-box">
 
-    <div class="big-spinner"></div>
+    <div class="spinner"></div>
 
-    <div class="loading-title">
-      Submitting Update...
+    <div
+      id="loadingTitle"
+      class="loading-title"
+    >
+      Processing...
     </div>
 
-    <div class="loading-text">
-      Please wait while we process your request.
+    <div
+      id="loadingText"
+      class="loading-text"
+    >
+      Please wait. Do not close this page.
     </div>
 
   </div>
@@ -508,7 +603,9 @@
 
 
 
-<!-- SUCCESS -->
+<!-- =========================================
+     SUCCESS MODAL
+========================================= -->
 
 <div
   id="successOverlay"
@@ -522,17 +619,12 @@
     </div>
 
     <div class="success-title">
-      Update Submitted!
+      Update Submitted Successfully!
     </div>
 
     <div class="success-text">
-      Your registry update request has been successfully submitted and is pending review.
+      Your Registry Update Request has been received and is pending review.
     </div>
-
-    <div
-      id="successRequestNumber"
-      class="success-request"
-    ></div>
 
     <button
       type="button"
@@ -547,6 +639,10 @@
 </div>
 
 
+
+<!-- =========================================
+     PAGE
+========================================= -->
 
 <div class="page">
 
@@ -582,12 +678,14 @@
     </h1>
 
     <p class="subtitle">
-      Submit a request to update information in your dog's registry record.
+      Verify your dog record before submitting an update request.
     </p>
 
   </div>
 
 
+
+  <!-- MESSAGE -->
 
   <div
     id="messageBox"
@@ -596,94 +694,153 @@
 
 
 
-  <form id="updateForm">
+  <!-- =========================================
+       STEP 1: VERIFY RECORD
+  ========================================= -->
+
+  <div class="card">
+
+    <div class="section-title">
+      Verify Dog Record
+    </div>
+
+    <div class="section-description">
+      Enter the exact registered information. Your Registry Number, Owner Name, and Dog Name must match the official Dog Registry.
+    </div>
 
 
-    <!-- DOG IDENTIFICATION -->
+    <div class="form-group">
 
-    <div class="card">
+      <label for="registryNumber">
+        Registry Number
+        <span class="required">*</span>
+      </label>
 
-      <div class="section-title">
-        Dog Registry Information
+      <input
+        type="text"
+        id="registryNumber"
+        placeholder="Example: BTO-2026-00001"
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label for="ownerName">
+        Registered Owner Name
+        <span class="required">*</span>
+      </label>
+
+      <input
+        type="text"
+        id="ownerName"
+        placeholder="Enter registered owner name"
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label for="dogName">
+        Registered Dog Name
+        <span class="required">*</span>
+      </label>
+
+      <input
+        type="text"
+        id="dogName"
+        placeholder="Enter registered dog name"
+      >
+
+    </div>
+
+
+    <button
+      type="button"
+      id="verifyButton"
+      class="verify-button"
+    >
+      Verify Record
+    </button>
+
+
+
+    <!-- VERIFIED RESULT -->
+
+    <div
+      id="verifiedBox"
+      class="verified-box"
+    >
+
+      <div class="verified-title">
+        ✓ Dog Record Verified
       </div>
 
-      <div class="section-description">
-        Enter the details of the dog whose record needs to be updated.
-      </div>
 
+      <div class="verified-row">
 
-      <div class="form-group">
-
-        <label for="registryNumber">
-          Registry Number
-          <span class="required">*</span>
-        </label>
-
-        <input
-          type="text"
-          id="registryNumber"
-          placeholder="Example: BTO-2026-00001"
-          required
-        >
+        <strong>Registry Number:</strong>
+        <span id="verifiedRegistryNumber"></span>
 
       </div>
 
 
-      <div class="form-group">
+      <div class="verified-row">
 
-        <label for="ownerName">
-          Owner Name
-          <span class="required">*</span>
-        </label>
-
-        <input
-          type="text"
-          id="ownerName"
-          placeholder="Enter registered owner's name"
-          required
-        >
+        <strong>Owner:</strong>
+        <span id="verifiedOwnerName"></span>
 
       </div>
 
 
-      <div class="form-group">
+      <div class="verified-row">
 
-        <label for="dogName">
-          Dog Name
-          <span class="required">*</span>
-        </label>
-
-        <input
-          type="text"
-          id="dogName"
-          placeholder="Enter dog's name"
-          required
-        >
+        <strong>Dog Name:</strong>
+        <span id="verifiedDogName"></span>
 
       </div>
 
     </div>
 
 
+  </div>
 
-    <!-- UPDATE TYPE -->
+
+
+  <!-- =========================================
+       STEP 2: UPDATE FORM
+  ========================================= -->
+
+  <form
+    id="updateForm"
+    class="update-section"
+  >
+
 
     <div class="card">
+
 
       <div class="section-title">
         Update Request
       </div>
+
 
       <div class="section-description">
         Select the type of information you want to update.
       </div>
 
 
+      <!-- UPDATE TYPE -->
+
       <div class="form-group">
 
         <label for="updateType">
+
           Update Type
           <span class="required">*</span>
+
         </label>
 
         <select
@@ -728,6 +885,7 @@
       </div>
 
 
+
       <!-- VACCINATION -->
 
       <div
@@ -764,6 +922,7 @@
         </div>
 
       </div>
+
 
 
       <!-- OWNER INFORMATION -->
@@ -804,7 +963,8 @@
       </div>
 
 
-      <!-- TRANSFERRED -->
+
+      <!-- TRANSFER -->
 
       <div
         id="transferFields"
@@ -842,6 +1002,7 @@
       </div>
 
 
+
       <!-- DECEASED -->
 
       <div
@@ -871,12 +1032,13 @@
 
           <textarea
             id="causeOfDeath"
-            placeholder="Optional details"
+            placeholder="Enter cause of death"
           ></textarea>
 
         </div>
 
       </div>
+
 
 
       <!-- LOST -->
@@ -916,25 +1078,29 @@
       </div>
 
 
+
       <!-- GENERAL INFORMATION -->
 
       <div class="form-group">
 
         <label for="newInformation">
+
           New / Updated Information
           <span class="required">*</span>
+
         </label>
 
         <textarea
           id="newInformation"
-          placeholder="Describe the information to be updated"
+          placeholder="Describe the information you want to update"
           required
         ></textarea>
 
       </div>
 
 
-      <!-- SUPPORTING DOCUMENT -->
+
+      <!-- SUPPORTING FILE -->
 
       <div class="form-group">
 
@@ -949,10 +1115,11 @@
         >
 
         <div class="file-note">
-          Optional. JPG, PNG, or PDF. Maximum file size: 5MB.
+          Optional. JPG, PNG or PDF only. Maximum file size: 5MB.
         </div>
 
       </div>
+
 
     </div>
 
@@ -964,10 +1131,6 @@
 
       <div class="section-title">
         Declaration
-      </div>
-
-      <div class="section-description">
-        Please confirm before submitting your request.
       </div>
 
 
@@ -995,16 +1158,10 @@
 
     <button
       type="submit"
-      class="submit-button"
       id="submitButton"
+      class="submit-button"
     >
-
-      <span class="button-spinner"></span>
-
-      <span id="submitButtonText">
-        Submit Registry Update
-      </span>
-
+      Submit Registry Update
     </button>
 
 
@@ -1015,19 +1172,286 @@
 
 
 
-<!-- API -->
+<!-- =========================================
+     API CONNECTOR
+========================================= -->
 
 <script src="api.js"></script>
 
 
+
 <script>
 
+  let verifiedRecord = null;
+
   let selectedFileData = '';
+
   let selectedFileName = '';
 
 
+
   /* =========================================
-     UPDATE TYPE DYNAMIC FIELDS
+     VERIFY RECORD
+  ========================================= */
+
+  document
+    .getElementById('verifyButton')
+    .addEventListener(
+      'click',
+      async function() {
+
+        const registryNumber =
+          document
+            .getElementById('registryNumber')
+            .value
+            .trim();
+
+        const ownerName =
+          document
+            .getElementById('ownerName')
+            .value
+            .trim();
+
+        const dogName =
+          document
+            .getElementById('dogName')
+            .value
+            .trim();
+
+
+        if (
+          !registryNumber ||
+          !ownerName ||
+          !dogName
+        ) {
+
+          showMessage(
+            'Please enter Registry Number, Owner Name, and Dog Name.',
+            'error'
+          );
+
+          return;
+
+        }
+
+
+        const verifyButton =
+          document.getElementById(
+            'verifyButton'
+          );
+
+
+        verifyButton.disabled = true;
+
+        verifyButton.textContent =
+          'Verifying...';
+
+
+        hideMessage();
+
+
+        showLoading(
+          'Verifying Dog Record...',
+          'Please wait. Checking the official Dog Registry.'
+        );
+
+
+        try {
+
+          const result =
+            await brccSubmit(
+              'verifyDog',
+              {
+                registryNumber:
+                  registryNumber,
+
+                ownerName:
+                  ownerName,
+
+                dogName:
+                  dogName
+              }
+            );
+
+
+          const response =
+            result &&
+            result.result
+              ?
+              result.result
+              :
+              result;
+
+
+          if (
+            !response ||
+            !response.verified
+          ) {
+
+            throw new Error(
+              response &&
+              response.message
+                ?
+                response.message
+                :
+                'No matching dog record was found.'
+            );
+
+          }
+
+
+          verifiedRecord =
+            response.record;
+
+
+          document
+            .getElementById(
+              'verifiedRegistryNumber'
+            )
+            .textContent =
+            verifiedRecord.registryNumber;
+
+
+          document
+            .getElementById(
+              'verifiedOwnerName'
+            )
+            .textContent =
+            verifiedRecord.ownerName;
+
+
+          document
+            .getElementById(
+              'verifiedDogName'
+            )
+            .textContent =
+            verifiedRecord.dogName;
+
+
+          document
+            .getElementById(
+              'verifiedBox'
+            )
+            .classList.add(
+              'show'
+            );
+
+
+          document
+            .getElementById(
+              'updateForm'
+            )
+            .classList.add(
+              'show'
+            );
+
+
+          /* LOCK VERIFIED FIELDS */
+
+          document
+            .getElementById(
+              'registryNumber'
+            )
+            .disabled = true;
+
+
+          document
+            .getElementById(
+              'ownerName'
+            )
+            .disabled = true;
+
+
+          document
+            .getElementById(
+              'dogName'
+            )
+            .disabled = true;
+
+
+          hideLoading();
+
+
+          showMessage(
+            'Dog record successfully verified. You may now submit an update request.',
+            'success'
+          );
+
+
+          setTimeout(
+            function() {
+
+              document
+                .getElementById(
+                  'updateForm'
+                )
+                .scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start'
+                });
+
+            },
+            300
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            'Verification Error:',
+            error
+          );
+
+
+          verifiedRecord = null;
+
+
+          document
+            .getElementById(
+              'verifiedBox'
+            )
+            .classList.remove(
+              'show'
+            );
+
+
+          document
+            .getElementById(
+              'updateForm'
+            )
+            .classList.remove(
+              'show'
+            );
+
+
+          hideLoading();
+
+
+          showMessage(
+            error.message ||
+            'Verification failed. Please check the information entered.',
+            'error'
+          );
+
+        } finally {
+
+          hideLoading();
+
+
+          verifyButton.disabled = false;
+
+          verifyButton.textContent =
+            'Verify Record';
+
+        }
+
+      }
+    );
+
+
+
+  /* =========================================
+     UPDATE TYPE
   ========================================= */
 
   document
@@ -1043,9 +1467,9 @@
           .forEach(
             function(section) {
 
-              section.classList.remove(
-                'show'
-              );
+              section
+                .classList
+                .remove('show');
 
             }
           );
@@ -1055,67 +1479,35 @@
           this.value;
 
 
-        if (
-          type === 'Vaccination'
-        ) {
+        const sections = {
+
+          'Vaccination':
+            'vaccinationFields',
+
+          'Owner Information':
+            'ownerFields',
+
+          'Transferred':
+            'transferFields',
+
+          'Dog Deceased':
+            'deceasedFields',
+
+          'Lost Dog':
+            'lostFields'
+
+        };
+
+
+        if (sections[type]) {
 
           document
             .getElementById(
-              'vaccinationFields'
+              sections[type]
             )
-            .classList.add('show');
-
-        }
-
-
-        if (
-          type === 'Owner Information'
-        ) {
-
-          document
-            .getElementById(
-              'ownerFields'
-            )
-            .classList.add('show');
-
-        }
-
-
-        if (
-          type === 'Transferred'
-        ) {
-
-          document
-            .getElementById(
-              'transferFields'
-            )
-            .classList.add('show');
-
-        }
-
-
-        if (
-          type === 'Dog Deceased'
-        ) {
-
-          document
-            .getElementById(
-              'deceasedFields'
-            )
-            .classList.add('show');
-
-        }
-
-
-        if (
-          type === 'Lost Dog'
-        ) {
-
-          document
-            .getElementById(
-              'lostFields'
-            )
-            .classList.add('show');
+            .classList.add(
+              'show'
+            );
 
         }
 
@@ -1141,6 +1533,7 @@
         if (!file) {
 
           selectedFileData = '';
+
           selectedFileName = '';
 
           return;
@@ -1160,6 +1553,10 @@
 
 
           event.target.value = '';
+
+          selectedFileData = '';
+
+          selectedFileName = '';
 
           return;
 
@@ -1191,7 +1588,7 @@
 
 
   /* =========================================
-     FORM SUBMISSION
+     SUBMIT UPDATE
   ========================================= */
 
   document
@@ -1201,6 +1598,18 @@
       async function(event) {
 
         event.preventDefault();
+
+
+        if (!verifiedRecord) {
+
+          showMessage(
+            'Please verify the dog record first.',
+            'error'
+          );
+
+          return;
+
+        }
 
 
         const form =
@@ -1222,128 +1631,106 @@
           );
 
 
-        const submitButtonText =
-          document.getElementById(
-            'submitButtonText'
-          );
-
-
         const data = {
 
+          /* VERIFIED IDENTITY */
+
           registryNumber:
-            document
-              .getElementById(
-                'registryNumber'
-              )
-              .value
-              .trim(),
+            verifiedRecord.registryNumber,
 
           ownerName:
-            document
-              .getElementById(
-                'ownerName'
-              )
-              .value
-              .trim(),
+            verifiedRecord.ownerName,
 
           dogName:
-            document
-              .getElementById(
-                'dogName'
-              )
-              .value
-              .trim(),
+            verifiedRecord.dogName,
+
+
+          /* UPDATE INFORMATION */
 
           updateType:
             document
-              .getElementById(
-                'updateType'
-              )
+              .getElementById('updateType')
               .value,
 
           newInformation:
             document
-              .getElementById(
-                'newInformation'
-              )
+              .getElementById('newInformation')
               .value
               .trim(),
 
+
+          /* VACCINATION */
+
           vaccinationDate:
             document
-              .getElementById(
-                'vaccinationDate'
-              )
+              .getElementById('vaccinationDate')
               .value,
 
           vaccinatedBy:
             document
-              .getElementById(
-                'vaccinatedBy'
-              )
+              .getElementById('vaccinatedBy')
               .value
               .trim(),
 
+
+          /* OWNER INFO */
+
           newAddress:
             document
-              .getElementById(
-                'newAddress'
-              )
+              .getElementById('newAddress')
               .value
               .trim(),
 
           newContact:
             document
-              .getElementById(
-                'newContact'
-              )
+              .getElementById('newContact')
               .value
               .trim(),
 
+
+          /* TRANSFER */
+
           newOwner:
             document
-              .getElementById(
-                'newOwner'
-              )
+              .getElementById('newOwner')
               .value
               .trim(),
 
           transferDate:
             document
-              .getElementById(
-                'transferDate'
-              )
+              .getElementById('transferDate')
               .value,
+
+
+          /* DECEASED */
 
           dateDeceased:
             document
-              .getElementById(
-                'dateDeceased'
-              )
+              .getElementById('dateDeceased')
               .value,
 
           causeOfDeath:
             document
-              .getElementById(
-                'causeOfDeath'
-              )
+              .getElementById('causeOfDeath')
               .value
               .trim(),
 
+
+          /* LOST */
+
           dateLost:
             document
-              .getElementById(
-                'dateLost'
-              )
+              .getElementById('dateLost')
               .value,
 
           lastSeen:
             document
-              .getElementById(
-                'lastSeen'
-              )
+              .getElementById('lastSeen')
               .value
               .trim(),
+
+
+          /* FILE */
 
           supportingFileData:
             selectedFileData,
@@ -1359,15 +1746,16 @@
 
         submitButton.disabled = true;
 
-        submitButton.classList.add(
-          'loading'
+        submitButton.textContent =
+          'Submitting...';
+
+
+        /* UNIFORM SPINNER */
+
+        showLoading(
+          'Submitting Registry Update...',
+          'Please wait. Do not close this page.'
         );
-
-        submitButtonText.textContent =
-          'Submitting Update...';
-
-
-        showLoading();
 
 
         try {
@@ -1380,60 +1768,24 @@
 
 
           console.log(
-            'Registry Update Result:',
+            'Update Submission Result:',
             result
           );
-
-
-          let requestNumber = '';
-
-
-          if (
-            result &&
-            result.result &&
-            result.result.requestNumber
-          ) {
-
-            requestNumber =
-              result.result.requestNumber;
-
-          }
 
 
           hideLoading();
 
 
-          form.reset();
+          showSuccessModal();
 
 
-          selectedFileData = '';
-          selectedFileName = '';
-
-
-          document
-            .querySelectorAll(
-              '.dynamic-section'
-            )
-            .forEach(
-              function(section) {
-
-                section.classList.remove(
-                  'show'
-                );
-
-              }
-            );
-
-
-          showSuccessModal(
-            requestNumber
-          );
+          resetUpdatePage();
 
 
         } catch (error) {
 
           console.error(
-            'Registry Update Error:',
+            'Update Submission Error:',
             error
           );
 
@@ -1453,15 +1805,15 @@
             behavior: 'smooth'
           });
 
+
         } finally {
+
+          hideLoading();
+
 
           submitButton.disabled = false;
 
-          submitButton.classList.remove(
-            'loading'
-          );
-
-          submitButtonText.textContent =
+          submitButton.textContent =
             'Submit Registry Update';
 
         }
@@ -1472,10 +1824,108 @@
 
 
   /* =========================================
-     LOADING
+     RESET UPDATE PAGE
   ========================================= */
 
-  function showLoading() {
+  function resetUpdatePage() {
+
+    document
+      .getElementById(
+        'updateForm'
+      )
+      .reset();
+
+
+    verifiedRecord = null;
+
+
+    selectedFileData = '';
+
+    selectedFileName = '';
+
+
+    document
+      .getElementById(
+        'updateForm'
+      )
+      .classList.remove(
+        'show'
+      );
+
+
+    document
+      .getElementById(
+        'verifiedBox'
+      )
+      .classList.remove(
+        'show'
+      );
+
+
+    const fields = [
+      'registryNumber',
+      'ownerName',
+      'dogName'
+    ];
+
+
+    fields.forEach(
+      function(id) {
+
+        const field =
+          document.getElementById(id);
+
+
+        field.disabled = false;
+
+        field.value = '';
+
+      }
+    );
+
+
+    document
+      .querySelectorAll(
+        '.dynamic-section'
+      )
+      .forEach(
+        function(section) {
+
+          section
+            .classList
+            .remove('show');
+
+        }
+      );
+
+  }
+
+
+
+  /* =========================================
+     LOADING FUNCTIONS
+  ========================================= */
+
+  function showLoading(
+    title,
+    text
+  ) {
+
+    document
+      .getElementById(
+        'loadingTitle'
+      )
+      .textContent =
+      title;
+
+
+    document
+      .getElementById(
+        'loadingText'
+      )
+      .textContent =
+      text;
+
 
     document
       .getElementById(
@@ -1506,37 +1956,7 @@
      SUCCESS MODAL
   ========================================= */
 
-  function showSuccessModal(
-    requestNumber
-  ) {
-
-    const requestBox =
-      document.getElementById(
-        'successRequestNumber'
-      );
-
-
-    if (requestNumber) {
-
-      requestBox.textContent =
-        'Request No.: ' +
-        requestNumber;
-
-
-      requestBox.style.display =
-        'block';
-
-    } else {
-
-      requestBox.textContent =
-        '';
-
-
-      requestBox.style.display =
-        'none';
-
-    }
-
+  function showSuccessModal() {
 
     document
       .getElementById(
@@ -1589,6 +2009,12 @@
 
     box.style.display =
       'block';
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
 
   }
 
