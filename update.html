@@ -1646,116 +1646,158 @@
 
         const data = {
 
+  /* =====================================
+     VERIFIED REGISTRY INFORMATION
+  ===================================== */
 
-          /* VERIFIED IDENTITY */
+  registryNumber:
+    verifiedRecord.registryNumber,
 
-          registryNumber:
-            verifiedRecord.registryNumber,
+  ownerName:
+    verifiedRecord.ownerName,
 
-          ownerName:
-            verifiedRecord.ownerName,
-
-          dogName:
-            verifiedRecord.dogName,
-
-
-          /* UPDATE TYPE */
-
-          updateType:
-            document
-              .getElementById('updateType')
-              .value,
+  dogName:
+    verifiedRecord.dogName,
 
 
-          /* GENERAL INFORMATION */
+  /* =====================================
+     CONTACT INFORMATION
+  ===================================== */
 
-          newInformation:
-            document
-              .getElementById('newInformation')
-              .value
-              .trim(),
+  contactNumber:
+    document
+      .getElementById('newContact')
+      .value
+      .trim(),
 
-
-          /* VACCINATION */
-
-          vaccinationDate:
-            document
-              .getElementById('vaccinationDate')
-              .value,
-
-          vaccinatedBy:
-            document
-              .getElementById('vaccinatedBy')
-              .value
-              .trim(),
+  email: '',
 
 
-          /* OWNER INFO */
+  /* =====================================
+     UPDATE TYPE
+  ===================================== */
 
-          newAddress:
-            document
-              .getElementById('newAddress')
-              .value
-              .trim(),
-
-          newContactNumber:
-            document
-              .getElementById('newContact')
-              .value
-              .trim(),
+  updateType:
+    document
+      .getElementById('updateType')
+      .value,
 
 
-          /* TRANSFER */
+  /* =====================================
+     OWNER INFORMATION
+  ===================================== */
 
-          newOwnerName:
-            document
-              .getElementById('newOwner')
-              .value
-              .trim(),
+  newOwnerName:
+    document
+      .getElementById('newOwner')
+      .value
+      .trim(),
 
-          transferDate:
-            document
-              .getElementById('transferDate')
-              .value,
+  newAddress:
+    document
+      .getElementById('newAddress')
+      .value
+      .trim(),
 
+  newSitio: '',
 
-          /* DECEASED */
+  newContactNumber:
+    document
+      .getElementById('newContact')
+      .value
+      .trim(),
 
-          dateDeceased:
-            document
-              .getElementById('dateDeceased')
-              .value,
-
-          causeOfDeath:
-            document
-              .getElementById('causeOfDeath')
-              .value
-              .trim(),
-
-
-          /* LOST */
-
-          dateLost:
-            document
-              .getElementById('dateLost')
-              .value,
-
-          lastSeen:
-            document
-              .getElementById('lastSeen')
-              .value
-              .trim(),
+  newEmail: '',
 
 
-          /* SUPPORTING FILE */
+  /* =====================================
+     DOG INFORMATION
+  ===================================== */
 
-          supportingFileData:
-            selectedFileData,
+  newDogName: '',
 
-          supportingFileName:
-            selectedFileName
+  newBreed: '',
 
-        };
+  newSex: '',
+
+  newColor: '',
+
+  newBirthdate: '',
+
+  newDogPhotoUrl: '',
+
+  newDogPhotoFileId: '',
+
+
+  /* =====================================
+     UPDATE DETAILS
+
+     All specific update information is
+     consolidated here for the existing
+     Registry Update Requests structure.
+  ===================================== */
+
+  reason:
+    document
+      .getElementById('newInformation')
+      .value
+      .trim(),
+
+
+  /* =====================================
+     ADDITIONAL UPDATE DETAILS
+  ===================================== */
+
+  vaccinationDate:
+    document
+      .getElementById('vaccinationDate')
+      .value,
+
+  vaccinatedBy:
+    document
+      .getElementById('vaccinatedBy')
+      .value
+      .trim(),
+
+  transferDate:
+    document
+      .getElementById('transferDate')
+      .value,
+
+  dateDeceased:
+    document
+      .getElementById('dateDeceased')
+      .value,
+
+  causeOfDeath:
+    document
+      .getElementById('causeOfDeath')
+      .value
+      .trim(),
+
+  dateLost:
+    document
+      .getElementById('dateLost')
+      .value,
+
+  lastSeen:
+    document
+      .getElementById('lastSeen')
+      .value
+      .trim(),
+
+
+  /* =====================================
+     SUPPORTING FILE
+  ===================================== */
+
+  supportingFileData:
+    selectedFileData,
+
+  supportingFileName:
+    selectedFileName
+
+};
 
 
         hideMessage();
