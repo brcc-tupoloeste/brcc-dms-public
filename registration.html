@@ -594,14 +594,15 @@
   <form id="registrationForm">
 
 
-    <!-- OWNER INFORMATION -->
+    <!-- =====================================
+         OWNER INFORMATION
+    ====================================== -->
 
     <div class="card">
 
       <div class="section-title">
         Owner Information
       </div>
-
 
       <div class="section-description">
         Information about the dog owner.
@@ -611,14 +612,12 @@
       <div class="form-group">
 
         <label for="ownerName">
-          Full Name
-          <span class="required">*</span>
+          Full Name <span class="required">*</span>
         </label>
 
         <input
           type="text"
           id="ownerName"
-          name="ownerName"
           placeholder="Enter full name"
           required
         >
@@ -629,13 +628,11 @@
       <div class="form-group">
 
         <label for="ownerAddress">
-          Complete Address
-          <span class="required">*</span>
+          Complete Address <span class="required">*</span>
         </label>
 
         <textarea
           id="ownerAddress"
-          name="ownerAddress"
           placeholder="House No., Street, Barangay"
           required
         ></textarea>
@@ -646,15 +643,10 @@
       <div class="form-group">
 
         <label for="sitio">
-          Sitio
-          <span class="required">*</span>
+          Sitio <span class="required">*</span>
         </label>
 
-        <select
-          id="sitio"
-          name="sitio"
-          required
-        >
+        <select id="sitio" required>
 
           <option value="">Select Sitio</option>
           <option value="Bacolod">Bacolod</option>
@@ -673,16 +665,13 @@
       <div class="form-group">
 
         <label for="contactNumber">
-          Contact Number
-          <span class="required">*</span>
+          Contact Number <span class="required">*</span>
         </label>
 
         <input
           type="tel"
           id="contactNumber"
-          name="contactNumber"
           placeholder="09XXXXXXXXX"
-          inputmode="numeric"
           required
         >
 
@@ -698,7 +687,6 @@
         <input
           type="email"
           id="emailAddress"
-          name="emailAddress"
           placeholder="example@email.com"
         >
 
@@ -708,14 +696,15 @@
 
 
 
-    <!-- DOG INFORMATION -->
+    <!-- =====================================
+         DOG INFORMATION
+    ====================================== -->
 
     <div class="card">
 
       <div class="section-title">
         Dog Information
       </div>
-
 
       <div class="section-description">
         Information about the dog being registered.
@@ -725,14 +714,12 @@
       <div class="form-group">
 
         <label for="dogName">
-          Dog Name
-          <span class="required">*</span>
+          Dog Name <span class="required">*</span>
         </label>
 
         <input
           type="text"
           id="dogName"
-          name="dogName"
           placeholder="Enter dog name"
           required
         >
@@ -743,15 +730,10 @@
       <div class="form-group">
 
         <label for="breed">
-          Breed
-          <span class="required">*</span>
+          Breed <span class="required">*</span>
         </label>
 
-        <select
-          id="breed"
-          name="breed"
-          required
-        >
+        <select id="breed" required>
 
           <option value="">Select Breed</option>
           <option value="Aspin">Aspin</option>
@@ -775,15 +757,10 @@
       <div class="form-group">
 
         <label for="sex">
-          Sex
-          <span class="required">*</span>
+          Sex <span class="required">*</span>
         </label>
 
-        <select
-          id="sex"
-          name="sex"
-          required
-        >
+        <select id="sex" required>
 
           <option value="">Select Sex</option>
           <option value="Male">Male</option>
@@ -797,14 +774,12 @@
       <div class="form-group">
 
         <label for="color">
-          Color
-          <span class="required">*</span>
+          Color <span class="required">*</span>
         </label>
 
         <input
           type="text"
           id="color"
-          name="color"
           placeholder="Example: Brown"
           required
         >
@@ -821,7 +796,6 @@
         <input
           type="date"
           id="birthdate"
-          name="birthdate"
         >
 
       </div>
@@ -830,21 +804,19 @@
       <div class="form-group">
 
         <label for="dogPhoto">
-          Dog Photo
-          <span class="required">*</span>
+          Dog Photo <span class="required">*</span>
         </label>
 
         <input
           type="file"
           id="dogPhoto"
-          name="dogPhoto"
           accept="image/jpeg,image/png,image/jpg"
           required
         >
 
         <div class="photo-note">
-          Upload a clear photo of the dog.
-          JPG or PNG only. Maximum file size: 5MB.
+          Upload a clear photo of the dog. JPG or PNG only.
+          Maximum file size: 5MB.
         </div>
 
 
@@ -883,14 +855,17 @@
 </div>
 
 
-<!-- SHARED API CONNECTOR -->
+
+<!-- =========================================
+     SHARED API CONNECTOR
+========================================= -->
+
 <script src="api.js"></script>
 
 
 <script>
 
   let selectedPhotoData = '';
-
   let selectedPhotoName = '';
 
 
@@ -932,6 +907,7 @@
             'Photo size must not exceed 5MB.',
             'error'
           );
+
 
           event.target.value = '';
 
@@ -999,12 +975,6 @@
         const submitButton =
           document.getElementById(
             'submitButton'
-          );
-
-
-        const box =
-          document.getElementById(
-            'messageBox'
           );
 
 
@@ -1107,6 +1077,18 @@
 
         try {
 
+          if (
+            typeof brccSubmit !==
+            'function'
+          ) {
+
+            throw new Error(
+              'API connector not loaded. Please check api.js.'
+            );
+
+          }
+
+
           const result =
             await brccSubmit(
               'registration',
@@ -1124,17 +1106,25 @@
               '';
 
 
+          let successMessage =
+            'Registration submitted successfully.';
+
+
+          if (requestNumber) {
+
+            successMessage +=
+              ' Request No.: ' +
+              requestNumber + '.';
+
+          }
+
+
+          successMessage +=
+            ' Your submission is pending review.';
+
+
           showMessage(
-            'Registration submitted successfully.' +
-            (
-              requestNumber
-                ?
-                ' Request No.: ' +
-                  requestNumber
-                :
-                ''
-            ) +
-            ' Your submission is pending review.',
+            successMessage,
             'success'
           );
 
@@ -1152,12 +1142,6 @@
             'none';
 
 
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-
-
         } catch (error) {
 
           console.error(
@@ -1171,12 +1155,6 @@
             'Unable to submit registration. Please try again.',
             'error'
           );
-
-
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
 
         } finally {
 
@@ -1193,7 +1171,7 @@
 
 
   /* =========================================
-     MESSAGE
+     SHOW MESSAGE
   ========================================= */
 
   function showMessage(
@@ -1215,8 +1193,25 @@
       'message ' +
       type;
 
+
+    /* IMPORTANT:
+       Remove inline display:none */
+    box.style.display =
+      'block';
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
   }
 
+
+
+  /* =========================================
+     HIDE MESSAGE
+  ========================================= */
 
   function hideMessage() {
 
