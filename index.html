@@ -5,12 +5,13 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    content="width=device-width, initial-scale=1.0"
   >
 
-  <title>BRCC-DMS Public Services</title>
+  <title>BRCC-DMS | Public Services</title>
 
   <style>
+
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
@@ -52,11 +53,11 @@
     }
 
     .barangay-logo {
-      width: 82px;
-      height: 82px;
+      width: 100px;
+      height: 100px;
       object-fit: contain;
       display: block;
-      margin: 0 auto 10px;
+      margin: 0 auto 12px;
     }
 
     .barangay-name {
@@ -87,6 +88,7 @@
       color: #64748b;
     }
 
+
     /* =========================================
        SERVICES
     ========================================= */
@@ -110,6 +112,7 @@
       border-radius: 18px;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
+      cursor: pointer;
     }
 
     .service-card:hover {
@@ -125,12 +128,17 @@
       width: 66px;
       height: 66px;
       min-width: 66px;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       margin-right: 18px;
+
       border-radius: 16px;
+
       background: #eef2f6;
+
       font-size: 34px;
     }
 
@@ -160,6 +168,7 @@
       color: #94a3b8;
     }
 
+
     /* =========================================
        FOOTER
     ========================================= */
@@ -174,6 +183,7 @@
       color: #94a3b8;
     }
 
+
     /* =========================================
        MOBILE
     ========================================= */
@@ -184,9 +194,13 @@
         padding: 25px 14px 30px;
       }
 
+      .container {
+        max-width: 100%;
+      }
+
       .barangay-logo {
-        width: 76px;
-        height: 76px;
+        width: 85px;
+        height: 85px;
       }
 
       .barangay-name {
@@ -203,6 +217,11 @@
 
       .page-subtitle {
         font-size: 14px;
+      }
+
+      .services {
+        gap: 14px;
+        margin-top: 25px;
       }
 
       .service-card {
@@ -230,10 +249,13 @@
         margin-left: 8px;
         font-size: 25px;
       }
+
     }
 
   </style>
+
 </head>
+
 
 <body>
 
@@ -241,35 +263,43 @@
 
     <div class="container">
 
+
       <!-- =====================================
-           BARANGAY HEADER
+           HEADER
       ====================================== -->
 
       <header class="header">
 
+        <!-- BARANGAY LOGO -->
+
         <img
-          src="Barangay_Tupol_Oeste_Logo_Transparent%20(1).png"
+          src="barangay-logo.png"
           alt="Barangay Tupol Oeste Logo"
           class="barangay-logo"
         >
+
 
         <h1 class="barangay-name">
           BARANGAY TUPOL OESTE
         </h1>
 
+
         <div class="barangay-location">
           Cabatuan, Iloilo
         </div>
 
+
         <h2 class="page-title">
           Public Services
         </h2>
+
 
         <p class="page-subtitle">
           Access the Barangay Rabies Control Committee online services.
         </p>
 
       </header>
+
 
 
       <!-- =====================================
@@ -290,6 +320,7 @@
             🐕
           </div>
 
+
           <div class="service-content">
 
             <h3 class="service-title">
@@ -302,11 +333,13 @@
 
           </div>
 
+
           <div class="service-arrow">
             ›
           </div>
 
         </a>
+
 
 
         <!-- REGISTRY UPDATE -->
@@ -320,6 +353,7 @@
             ✏️
           </div>
 
+
           <div class="service-content">
 
             <h3 class="service-title">
@@ -332,11 +366,13 @@
 
           </div>
 
+
           <div class="service-arrow">
             ›
           </div>
 
         </a>
+
 
 
         <!-- PUPPY REPORT -->
@@ -350,6 +386,7 @@
             🐶
           </div>
 
+
           <div class="service-content">
 
             <h3 class="service-title">
@@ -362,6 +399,7 @@
 
           </div>
 
+
           <div class="service-arrow">
             ›
           </div>
@@ -372,14 +410,15 @@
       </main>
 
 
+
       <!-- =====================================
            FOOTER
       ====================================== -->
 
       <footer class="footer">
 
-        Barangay Rabies Control Committee<br>
-
+        Barangay Rabies Control Committee
+        <br>
         BRCC-DMS Public Services
 
       </footer>
