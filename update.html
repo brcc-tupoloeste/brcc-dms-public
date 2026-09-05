@@ -1258,20 +1258,14 @@
 
         try {
 
-          const result =
-            await brccSubmit(
-              'verifyDog',
-              {
-                registryNumber:
-                  registryNumber,
-
-                ownerName:
-                  ownerName,
-
-                dogName:
-                  dogName
-              }
-            );
+         const result = await brccSubmit(
+  'verify_registry',
+  {
+    registryNumber: registryNumber,
+    ownerName: ownerName,
+    dogName: dogName
+  }
+);
 
 
           const response =
