@@ -193,7 +193,7 @@
 
 
     textarea {
-      min-height: 105px;
+      min-height: 115px;
       resize: vertical;
       line-height: 1.5;
     }
@@ -203,9 +203,7 @@
     select:focus,
     textarea:focus {
       border-color: #667085;
-      box-shadow:
-        0 0 0 3px
-        rgba(102,112,133,.12);
+      box-shadow: 0 0 0 3px rgba(102,112,133,.12);
     }
 
 
@@ -233,9 +231,7 @@
       font-size: 16px;
       font-weight: 800;
       cursor: pointer;
-      box-shadow:
-        0 3px 8px
-        rgba(0,0,0,.10);
+      box-shadow: 0 3px 8px rgba(0,0,0,.10);
     }
 
 
@@ -272,6 +268,7 @@
 
 
     .message.error {
+      display: block;
       background: #fff5f5;
       border: 1px solid #feb2b2;
       color: #c53030;
@@ -279,6 +276,7 @@
 
 
     .message.success {
+      display: block;
       background: #edf7ef;
       border: 1px solid #b9dfc0;
       color: #276749;
@@ -338,15 +336,9 @@
     }
 
 
-    .dynamic-section {
-      display: none;
-    }
-
-
-    .dynamic-section.show {
-      display: block;
-    }
-
+    /* =========================================
+       FILE
+    ========================================= */
 
     .file-note {
       margin-top: 8px;
@@ -416,9 +408,7 @@
       border-radius: 18px;
       background: #ffffff;
       text-align: center;
-      box-shadow:
-        0 12px 40px
-        rgba(0,0,0,.16);
+      box-shadow: 0 12px 40px rgba(0,0,0,.16);
     }
 
 
@@ -485,9 +475,7 @@
       background: #ffffff;
       border-radius: 20px;
       text-align: center;
-      box-shadow:
-        0 15px 50px
-        rgba(0,0,0,.20);
+      box-shadow: 0 15px 50px rgba(0,0,0,.20);
     }
 
 
@@ -518,16 +506,6 @@
       font-size: 14px;
       line-height: 1.6;
       color: #4b5563;
-    }
-
-
-    .request-number {
-      margin-top: 14px;
-      padding: 12px;
-      border-radius: 10px;
-      background: #f4f6f8;
-      font-weight: 700;
-      color: #303846;
     }
 
 
@@ -586,7 +564,9 @@
 <body>
 
 
-<!-- LOADING OVERLAY -->
+<!-- =========================================
+     LOADING OVERLAY
+========================================= -->
 
 <div
   id="loadingOverlay"
@@ -616,7 +596,9 @@
 </div>
 
 
-<!-- SUCCESS MODAL -->
+<!-- =========================================
+     SUCCESS MODAL
+========================================= -->
 
 <div
   id="successOverlay"
@@ -637,12 +619,6 @@
       Your Registry Update Request has been received and is pending review.
     </div>
 
-    <div
-      id="successRequestNumber"
-      class="request-number"
-      style="display:none;"
-    ></div>
-
     <button
       type="button"
       class="success-close"
@@ -656,7 +632,9 @@
 </div>
 
 
-<!-- PAGE -->
+<!-- =========================================
+     PAGE
+========================================= -->
 
 <div class="page">
 
@@ -706,7 +684,9 @@
   ></div>
 
 
-  <!-- STEP 1 -->
+  <!-- =========================================
+       STEP 1: VERIFY RECORD
+  ========================================= -->
 
   <div class="card">
 
@@ -776,7 +756,7 @@
     </button>
 
 
-    <!-- VERIFIED RESULT -->
+    <!-- VERIFIED RECORD -->
 
     <div
       id="verifiedBox"
@@ -813,11 +793,12 @@
 
     </div>
 
-
   </div>
 
 
-  <!-- STEP 2 -->
+  <!-- =========================================
+       STEP 2: UPDATE FORM
+  ========================================= -->
 
   <form
     id="updateForm"
@@ -834,17 +815,17 @@
 
 
       <div class="section-description">
-        Select the type of information you want to update.
+        Select the information you want to update. Your request will be reviewed before changes are applied.
       </div>
 
 
-      <!-- UPDATE TYPE -->
+      <!-- INFORMATION TO UPDATE -->
 
       <div class="form-group">
 
         <label for="updateType">
 
-          Update Type
+          Information to Update
           <span class="required">*</span>
 
         </label>
@@ -855,35 +836,47 @@
         >
 
           <option value="">
-            Select Update Type
+            Select information to update
           </option>
 
-          <option value="Vaccination">
-            Vaccination
+          <option value="Owner Name">
+            Owner Name
           </option>
 
-          <option value="Owner Information">
-            Owner Information
+          <option value="Address">
+            Address
           </option>
 
-          <option value="Newborn Puppies">
-            Newborn Puppies
+          <option value="Sitio">
+            Sitio
           </option>
 
-          <option value="Transferred">
-            Transferred to New Owner
+          <option value="Contact Number">
+            Contact Number
           </option>
 
-          <option value="Dog Deceased">
-            Dog Deceased
+          <option value="Email Address">
+            Email Address
           </option>
 
-          <option value="Lost Dog">
-            Lost Dog
+          <option value="Dog Name">
+            Dog Name
           </option>
 
-          <option value="Others">
-            Others
+          <option value="Breed">
+            Breed
+          </option>
+
+          <option value="Color">
+            Color
+          </option>
+
+          <option value="Sex">
+            Sex
+          </option>
+
+          <option value="Birthdate">
+            Birthdate
           </option>
 
         </select>
@@ -891,195 +884,7 @@
       </div>
 
 
-      <!-- VACCINATION -->
-
-      <div
-        id="vaccinationFields"
-        class="dynamic-section"
-      >
-
-        <div class="form-group">
-
-          <label for="vaccinationDate">
-            Vaccination Date
-          </label>
-
-          <input
-            type="date"
-            id="vaccinationDate"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="vaccinatedBy">
-            Vaccinated By
-          </label>
-
-          <input
-            type="text"
-            id="vaccinatedBy"
-            placeholder="Veterinarian / Vaccinator"
-          >
-
-        </div>
-
-      </div>
-
-
-      <!-- OWNER INFORMATION -->
-
-      <div
-        id="ownerFields"
-        class="dynamic-section"
-      >
-
-        <div class="form-group">
-
-          <label for="newAddress">
-            New Address
-          </label>
-
-          <textarea
-            id="newAddress"
-            placeholder="Enter new complete address"
-          ></textarea>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="newContact">
-            New Contact Number
-          </label>
-
-          <input
-            type="tel"
-            id="newContact"
-            placeholder="09XXXXXXXXX"
-          >
-
-        </div>
-
-      </div>
-
-
-      <!-- TRANSFER -->
-
-      <div
-        id="transferFields"
-        class="dynamic-section"
-      >
-
-        <div class="form-group">
-
-          <label for="newOwner">
-            New Owner's Name
-          </label>
-
-          <input
-            type="text"
-            id="newOwner"
-            placeholder="Enter new owner's full name"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="transferDate">
-            Date Transferred
-          </label>
-
-          <input
-            type="date"
-            id="transferDate"
-          >
-
-        </div>
-
-      </div>
-
-
-      <!-- DECEASED -->
-
-      <div
-        id="deceasedFields"
-        class="dynamic-section"
-      >
-
-        <div class="form-group">
-
-          <label for="dateDeceased">
-            Date of Death
-          </label>
-
-          <input
-            type="date"
-            id="dateDeceased"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="causeOfDeath">
-            Cause of Death
-          </label>
-
-          <textarea
-            id="causeOfDeath"
-            placeholder="Enter cause of death"
-          ></textarea>
-
-        </div>
-
-      </div>
-
-
-      <!-- LOST -->
-
-      <div
-        id="lostFields"
-        class="dynamic-section"
-      >
-
-        <div class="form-group">
-
-          <label for="dateLost">
-            Date Lost
-          </label>
-
-          <input
-            type="date"
-            id="dateLost"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="lastSeen">
-            Last Seen Location
-          </label>
-
-          <textarea
-            id="lastSeen"
-            placeholder="Where was the dog last seen?"
-          ></textarea>
-
-        </div>
-
-      </div>
-
-
-      <!-- GENERAL INFORMATION -->
+      <!-- NEW INFORMATION -->
 
       <div class="form-group">
 
@@ -1092,29 +897,29 @@
 
         <textarea
           id="newInformation"
-          placeholder="Describe the information you want to update"
+          placeholder="Enter the new or corrected information"
           required
         ></textarea>
 
       </div>
 
 
-      <!-- SUPPORTING FILE -->
+      <!-- SUPPORTING PHOTO -->
 
       <div class="form-group">
 
         <label for="supportingFile">
-          Supporting Document / Photo
+          Upload Supporting Photo
         </label>
 
         <input
           type="file"
           id="supportingFile"
-          accept="image/jpeg,image/png,image/jpg,application/pdf"
+          accept="image/jpeg,image/png,image/jpg"
         >
 
         <div class="file-note">
-          Optional. JPG, PNG or PDF only. Maximum file size: 5MB.
+          Optional. JPG or PNG only. Maximum file size: 5MB.
         </div>
 
       </div>
@@ -1168,12 +973,15 @@
 </div>
 
 
-<!-- API CONNECTOR -->
+<!-- =========================================
+     API CONNECTOR
+========================================= -->
 
 <script src="api.js"></script>
 
 
 <script>
+
 
   let verifiedRecord = null;
 
@@ -1236,15 +1044,18 @@
           );
 
 
-        hideMessage();
-
-
         verifyButton.disabled = true;
+
+        verifyButton.textContent =
+          'Verifying...';
+
+
+        hideMessage();
 
 
         showLoading(
           'Verifying Dog Record...',
-          'Please wait while we check the official Dog Registry.'
+          'Please wait. Checking the official Dog Registry.'
         );
 
 
@@ -1265,12 +1076,6 @@
                   dogName
               }
             );
-
-
-          console.log(
-            'Verification Result:',
-            result
-          );
 
 
           const response =
@@ -1308,8 +1113,7 @@
               'verifiedRegistryNumber'
             )
             .textContent =
-            verifiedRecord.registryNumber ||
-            registryNumber;
+            verifiedRecord.registryNumber;
 
 
           document
@@ -1317,8 +1121,7 @@
               'verifiedOwnerName'
             )
             .textContent =
-            verifiedRecord.ownerName ||
-            ownerName;
+            verifiedRecord.ownerName;
 
 
           document
@@ -1326,8 +1129,7 @@
               'verifiedDogName'
             )
             .textContent =
-            verifiedRecord.dogName ||
-            dogName;
+            verifiedRecord.dogName;
 
 
           document
@@ -1369,9 +1171,6 @@
               'dogName'
             )
             .disabled = true;
-
-
-          hideLoading();
 
 
           showMessage(
@@ -1427,14 +1226,12 @@
             );
 
 
-          hideLoading();
-
-
           showMessage(
             error.message ||
             'Verification failed. Please check the information entered.',
             'error'
           );
+
 
         } finally {
 
@@ -1444,71 +1241,8 @@
 
           verifyButton.disabled = false;
 
-        }
-
-      }
-    );
-
-
-  /* =========================================
-     UPDATE TYPE
-  ========================================= */
-
-  document
-    .getElementById('updateType')
-    .addEventListener(
-      'change',
-      function() {
-
-
-        document
-          .querySelectorAll(
-            '.dynamic-section'
-          )
-          .forEach(
-            function(section) {
-
-              section.classList.remove(
-                'show'
-              );
-
-            }
-          );
-
-
-        const type =
-          this.value;
-
-
-        const sections = {
-
-          'Vaccination':
-            'vaccinationFields',
-
-          'Owner Information':
-            'ownerFields',
-
-          'Transferred':
-            'transferFields',
-
-          'Dog Deceased':
-            'deceasedFields',
-
-          'Lost Dog':
-            'lostFields'
-
-        };
-
-
-        if (sections[type]) {
-
-          document
-            .getElementById(
-              sections[type]
-            )
-            .classList.add(
-              'show'
-            );
+          verifyButton.textContent =
+            'Verify Record';
 
         }
 
@@ -1534,6 +1268,7 @@
         if (!file) {
 
           selectedFileData = '';
+
           selectedFileName = '';
 
           return;
@@ -1547,7 +1282,7 @@
         ) {
 
           showMessage(
-            'File size must not exceed 5MB.',
+            'Photo size must not exceed 5MB.',
             'error'
           );
 
@@ -1555,6 +1290,37 @@
           event.target.value = '';
 
           selectedFileData = '';
+
+          selectedFileName = '';
+
+          return;
+
+        }
+
+
+        const allowedTypes = [
+          'image/jpeg',
+          'image/jpg',
+          'image/png'
+        ];
+
+
+        if (
+          allowedTypes.indexOf(
+            file.type
+          ) === -1
+        ) {
+
+          showMessage(
+            'Only JPG and PNG photos are allowed.',
+            'error'
+          );
+
+
+          event.target.value = '';
+
+          selectedFileData = '';
+
           selectedFileName = '';
 
           return;
@@ -1575,20 +1341,6 @@
 
             selectedFileName =
               file.name;
-
-          };
-
-
-        reader.onerror =
-          function() {
-
-            selectedFileData = '';
-            selectedFileName = '';
-
-            showMessage(
-              'Unable to read the selected file.',
-              'error'
-            );
 
           };
 
@@ -1644,180 +1396,71 @@
           );
 
 
+        const updateType =
+          document
+            .getElementById('updateType')
+            .value;
+
+
+        const newInformation =
+          document
+            .getElementById('newInformation')
+            .value
+            .trim();
+
+
         const data = {
 
-  /* =====================================
-     VERIFIED REGISTRY INFORMATION
-  ===================================== */
 
-  registryNumber:
-    verifiedRecord.registryNumber,
+          /* VERIFIED RECORD */
 
-  ownerName:
-    verifiedRecord.ownerName,
+          registryNumber:
+            verifiedRecord.registryNumber,
 
-  dogName:
-    verifiedRecord.dogName,
+          ownerName:
+            verifiedRecord.ownerName,
 
-
-  /* =====================================
-     CONTACT INFORMATION
-  ===================================== */
-
-  contactNumber:
-    document
-      .getElementById('newContact')
-      .value
-      .trim(),
-
-  email: '',
+          dogName:
+            verifiedRecord.dogName,
 
 
-  /* =====================================
-     UPDATE TYPE
-  ===================================== */
+          /* UPDATE */
 
-  updateType:
-    document
-      .getElementById('updateType')
-      .value,
+          updateType:
+            updateType,
 
-
-  /* =====================================
-     OWNER INFORMATION
-  ===================================== */
-
-  newOwnerName:
-    document
-      .getElementById('newOwner')
-      .value
-      .trim(),
-
-  newAddress:
-    document
-      .getElementById('newAddress')
-      .value
-      .trim(),
-
-  newSitio: '',
-
-  newContactNumber:
-    document
-      .getElementById('newContact')
-      .value
-      .trim(),
-
-  newEmail: '',
+          newInformation:
+            newInformation,
 
 
-  /* =====================================
-     DOG INFORMATION
-  ===================================== */
+          /* SUPPORTING PHOTO */
 
-  newDogName: '',
+          supportingFileData:
+            selectedFileData,
 
-  newBreed: '',
+          supportingFileName:
+            selectedFileName
 
-  newSex: '',
+        };
 
-  newColor: '',
-
-  newBirthdate: '',
-
-  newDogPhotoUrl: '',
-
-  newDogPhotoFileId: '',
-
-
-  /* =====================================
-     UPDATE DETAILS
-
-     All specific update information is
-     consolidated here for the existing
-     Registry Update Requests structure.
-  ===================================== */
-
-  reason:
-    document
-      .getElementById('newInformation')
-      .value
-      .trim(),
-
-
-  /* =====================================
-     ADDITIONAL UPDATE DETAILS
-  ===================================== */
-
-  vaccinationDate:
-    document
-      .getElementById('vaccinationDate')
-      .value,
-
-  vaccinatedBy:
-    document
-      .getElementById('vaccinatedBy')
-      .value
-      .trim(),
-
-  transferDate:
-    document
-      .getElementById('transferDate')
-      .value,
-
-  dateDeceased:
-    document
-      .getElementById('dateDeceased')
-      .value,
-
-  causeOfDeath:
-    document
-      .getElementById('causeOfDeath')
-      .value
-      .trim(),
-
-  dateLost:
-    document
-      .getElementById('dateLost')
-      .value,
-
-  lastSeen:
-    document
-      .getElementById('lastSeen')
-      .value
-      .trim(),
-
-
-  /* =====================================
-     SUPPORTING FILE
-  ===================================== */
-
-  supportingFileData:
-    selectedFileData,
-
-  supportingFileName:
-    selectedFileName
-
-};
 
         hideMessage();
 
 
         submitButton.disabled = true;
 
+        submitButton.textContent =
+          'Submitting...';
+
 
         showLoading(
           'Submitting Registry Update...',
-          'Please wait. Do not close or refresh this page.'
+          'Please wait. Do not close this page.'
         );
 
 
         try {
 
-
-          /* IMPORTANT:
-             Must match backend doPost()
-             case 'registry_update'
-          */
 
           const result =
             await brccSubmit(
@@ -1841,21 +1484,23 @@
               result;
 
 
+          if (
+            result &&
+            result.success === false
+          ) {
+
+            throw new Error(
+              result.message ||
+              'Unable to submit Registry Update.'
+            );
+
+          }
+
+
           hideLoading();
 
 
-          const requestNumber =
-            response &&
-            response.requestNumber
-              ?
-              response.requestNumber
-              :
-              '';
-
-
-          showSuccessModal(
-            requestNumber
-          );
+          showSuccessModal();
 
 
           resetUpdatePage();
@@ -1880,6 +1525,12 @@
           );
 
 
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          );
+
+
         } finally {
 
 
@@ -1887,6 +1538,9 @@
 
 
           submitButton.disabled = false;
+
+          submitButton.textContent =
+            'Submit Registry Update';
 
         }
 
@@ -1911,6 +1565,7 @@
     verifiedRecord = null;
 
     selectedFileData = '';
+
     selectedFileName = '';
 
 
@@ -1954,26 +1609,11 @@
       }
     );
 
-
-    document
-      .querySelectorAll(
-        '.dynamic-section'
-      )
-      .forEach(
-        function(section) {
-
-          section.classList.remove(
-            'show'
-          );
-
-        }
-      );
-
   }
 
 
   /* =========================================
-     LOADING FUNCTIONS
+     LOADING
   ========================================= */
 
   function showLoading(
@@ -2027,32 +1667,7 @@
      SUCCESS MODAL
   ========================================= */
 
-  function showSuccessModal(
-    requestNumber
-  ) {
-
-
-    const requestBox =
-      document.getElementById(
-        'successRequestNumber'
-      );
-
-
-    if (requestNumber) {
-
-      requestBox.textContent =
-        'Request No.: ' +
-        requestNumber;
-
-      requestBox.style.display =
-        'block';
-
-    } else {
-
-      requestBox.style.display =
-        'none';
-
-    }
+  function showSuccessModal() {
 
 
     document
@@ -2076,12 +1691,6 @@
       .classList.remove(
         'show'
       );
-
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
 
   }
 
@@ -2144,6 +1753,7 @@
       'message';
 
   }
+
 
 </script>
 
