@@ -2,389 +2,357 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>BRCC-DMS Public Services</title>
+  <title>BRCC-DMS | Public Services</title>
 
   <style>
-
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     html,
     body {
-      margin: 0;
-      padding: 0;
+      width: 100%;
       min-height: 100%;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-      color: #303846;
     }
 
     body {
-      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      color: #34495e;
     }
 
     .page {
       width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 20px 14px 40px;
+      min-height: 100vh;
+      padding: 40px 20px;
     }
 
-    /* HEADER */
+    .container {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    /* ================================
+       HEADER
+    ================================= */
 
     .header {
       text-align: center;
-      padding: 25px 10px 30px;
+      margin-bottom: 30px;
     }
 
-    .logo {
-      font-size: 52px;
-      margin-bottom: 12px;
+    .barangay-logo {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 12px;
     }
 
-    .barangay {
-      font-size: 20px;
+    .barangay-name {
+      font-size: 24px;
       font-weight: 800;
-      letter-spacing: .5px;
+      letter-spacing: 1px;
+      color: #34495e;
+      margin-bottom: 6px;
     }
 
     .location {
-      margin-top: 5px;
-      font-size: 14px;
-      color: #6b7280;
-    }
-
-    h1 {
-      margin: 20px 0 8px;
-      font-size: 28px;
-      color: #303846;
-    }
-
-    .subtitle {
-      margin: 0 auto;
-      max-width: 550px;
-      color: #6b7280;
       font-size: 15px;
+      color: #6c7a89;
+      margin-bottom: 20px;
+    }
+
+    .page-title {
+      font-size: 30px;
+      font-weight: 700;
+      color: #34495e;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      font-size: 16px;
+      color: #667788;
       line-height: 1.5;
     }
 
-    /* SERVICES */
+    /* ================================
+       SERVICES
+    ================================= */
 
     .services {
+      margin-top: 32px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
     }
 
     .service-card {
       display: flex;
       align-items: center;
       width: 100%;
-      padding: 20px;
+      min-height: 105px;
+      padding: 18px;
       background: #ffffff;
-      border: 1px solid #dce1e7;
-      border-radius: 14px;
+      border: 1px solid #dfe5eb;
+      border-radius: 18px;
       text-decoration: none;
       color: inherit;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,.05);
-      transition: transform .15s ease, box-shadow .15s ease;
     }
 
     .service-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,.08);
-    }
-
-    .service-card:active {
-      transform: scale(.99);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.10);
     }
 
     .service-icon {
       width: 64px;
-      min-width: 64px;
       height: 64px;
+      min-width: 64px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 34px;
-      background: #f1f3f5;
-      border-radius: 14px;
+      background: #eef1f5;
+      border-radius: 16px;
+      font-size: 32px;
       margin-right: 18px;
     }
 
     .service-content {
       flex: 1;
+      min-width: 0;
     }
 
     .service-title {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 6px;
-      color: #303846;
+      font-size: 21px;
+      font-weight: 700;
+      color: #34495e;
+      margin-bottom: 8px;
     }
 
     .service-description {
-      font-size: 14px;
-      color: #6b7280;
-      line-height: 1.45;
+      font-size: 15px;
+      color: #667788;
+      line-height: 1.4;
     }
 
     .arrow {
-      font-size: 25px;
-      color: #9aa2ad;
-      margin-left: 12px;
+      font-size: 30px;
+      color: #9aa6b2;
+      margin-left: 15px;
+      font-weight: 300;
     }
 
-    /* FOOTER */
+    /* ================================
+       FOOTER
+    ================================= */
 
     .footer {
-      text-align: center;
-      margin-top: 35px;
+      margin-top: 36px;
       padding-top: 20px;
-      border-top: 1px solid #dce1e7;
-      font-size: 12px;
-      color: #8a929e;
+      border-top: 1px solid #dfe5eb;
+      text-align: center;
+      font-size: 13px;
+      color: #8a96a3;
     }
 
-    @media (max-width: 480px) {
+    /* ================================
+       MOBILE
+    ================================= */
+
+    @media (max-width: 600px) {
 
       .page {
-        padding: 12px 10px 30px;
+        padding: 28px 14px;
       }
 
-      .header {
-        padding: 20px 5px 25px;
+      .barangay-logo {
+        width: 78px;
+        height: 78px;
+        margin-bottom: 10px;
       }
 
-      h1 {
-        font-size: 25px;
+      .barangay-name {
+        font-size: 20px;
+      }
+
+      .location {
+        font-size: 14px;
+      }
+
+      .page-title {
+        font-size: 27px;
+      }
+
+      .page-subtitle {
+        font-size: 15px;
+      }
+
+      .services {
+        gap: 14px;
+        margin-top: 26px;
       }
 
       .service-card {
-        padding: 16px;
+        min-height: 96px;
+        padding: 14px;
+        border-radius: 16px;
       }
 
       .service-icon {
-        width: 55px;
-        min-width: 55px;
-        height: 55px;
-        font-size: 29px;
+        width: 58px;
+        height: 58px;
+        min-width: 58px;
+        font-size: 28px;
         margin-right: 14px;
+        border-radius: 14px;
       }
 
       .service-title {
-        font-size: 16px;
+        font-size: 18px;
+        margin-bottom: 5px;
       }
 
       .service-description {
         font-size: 13px;
       }
 
+      .arrow {
+        font-size: 26px;
+        margin-left: 8px;
+      }
     }
 
   </style>
-
 </head>
 
 <body>
 
   <div class="page">
 
-    <!-- HEADER -->
+    <div class="container">
 
-    <div class="header">
+      <!-- HEADER -->
+      <div class="header">
 
-      <div class="logo">
-        🐕
+        <img
+          src="barangay-logo.png"
+          alt="Barangay Tupol Oeste Logo"
+          class="barangay-logo"
+        >
+
+        <div class="barangay-name">
+          BARANGAY TUPOL OESTE
+        </div>
+
+        <div class="location">
+          Cabatuan, Iloilo
+        </div>
+
+        <div class="page-title">
+          Public Services
+        </div>
+
+        <div class="page-subtitle">
+          Access the Barangay Rabies Control Committee online services.
+        </div>
+
       </div>
 
-      <div class="barangay">
-        BARANGAY TUPOL OESTE
+
+      <!-- SERVICES -->
+      <div class="services">
+
+        <!-- DOG REGISTRATION -->
+        <a href="registration.html" class="service-card">
+
+          <div class="service-icon">
+            🐕
+          </div>
+
+          <div class="service-content">
+            <div class="service-title">
+              Dog Registration
+            </div>
+
+            <div class="service-description">
+              Register your dog with the Barangay Dog Registry.
+            </div>
+          </div>
+
+          <div class="arrow">
+            ›
+          </div>
+
+        </a>
+
+
+        <!-- REGISTRY UPDATE -->
+        <a href="registry-update.html" class="service-card">
+
+          <div class="service-icon">
+            ✏️
+          </div>
+
+          <div class="service-content">
+            <div class="service-title">
+              Registry Update
+            </div>
+
+            <div class="service-description">
+              Request updates to an existing dog registry record.
+            </div>
+          </div>
+
+          <div class="arrow">
+            ›
+          </div>
+
+        </a>
+
+
+        <!-- PUPPY REPORT -->
+        <a href="puppy-report.html" class="service-card">
+
+          <div class="service-icon">
+            🐶
+          </div>
+
+          <div class="service-content">
+            <div class="service-title">
+              Puppy Report
+            </div>
+
+            <div class="service-description">
+              Report newborn puppies from a registered dog.
+            </div>
+          </div>
+
+          <div class="arrow">
+            ›
+          </div>
+
+        </a>
+
       </div>
 
-      <div class="location">
-        Cabatuan, Iloilo
+
+      <!-- FOOTER -->
+      <div class="footer">
+        Barangay Tupol Oeste Rabies Control Services
       </div>
-
-      <h1>
-        Public Services
-      </h1>
-
-      <p class="subtitle">
-        Access the Barangay Rabies Control Committee
-        online services.
-      </p>
-
-    </div>
-
-
-    <!-- SERVICES -->
-
-    <div class="services">
-
-
-      <!-- DOG REGISTRATION -->
-
-      <a
-        href="#"
-        class="service-card"
-        id="registrationButton"
-      >
-
-        <div class="service-icon">
-          🐕
-        </div>
-
-        <div class="service-content">
-
-          <div class="service-title">
-            Dog Registration
-          </div>
-
-          <div class="service-description">
-            Register your dog with the Barangay Dog Registry.
-          </div>
-
-        </div>
-
-        <div class="arrow">
-          ›
-        </div>
-
-      </a>
-
-
-      <!-- REGISTRY UPDATE -->
-
-      <a
-        href="#"
-        class="service-card"
-        id="updateButton"
-      >
-
-        <div class="service-icon">
-          ✏️
-        </div>
-
-        <div class="service-content">
-
-          <div class="service-title">
-            Registry Update
-          </div>
-
-          <div class="service-description">
-            Request updates to an existing dog registry record.
-          </div>
-
-        </div>
-
-        <div class="arrow">
-          ›
-        </div>
-
-      </a>
-
-
-      <!-- PUPPY REPORT -->
-
-      <a
-        href="#"
-        class="service-card"
-        id="puppyButton"
-      >
-
-        <div class="service-icon">
-          🐶
-        </div>
-
-        <div class="service-content">
-
-          <div class="service-title">
-            Puppy Report
-          </div>
-
-          <div class="service-description">
-            Report newborn puppies from a registered dog.
-          </div>
-
-        </div>
-
-        <div class="arrow">
-          ›
-        </div>
-
-      </a>
-
-
-    </div>
-
-
-    <!-- FOOTER -->
-
-    <div class="footer">
-
-      Barangay Rabies Control Committee<br>
-      Barangay Tupol Oeste, Cabatuan, Iloilo
 
     </div>
 
   </div>
-
-
-  <script>
-
-    /*
-      Temporary buttons.
-      Forms will be connected in the next phase.
-    */
-
-    document
-      .getElementById('registrationButton')
-      .addEventListener('click', function(event) {
-
-        event.preventDefault();
-
-        alert(
-          'Dog Registration form will be available next.'
-        );
-
-      });
-
-
-    document
-      .getElementById('updateButton')
-      .addEventListener('click', function(event) {
-
-        event.preventDefault();
-
-        alert(
-          'Registry Update form will be available next.'
-        );
-
-      });
-
-
-    document
-      .getElementById('puppyButton')
-      .addEventListener('click', function(event) {
-
-        event.preventDefault();
-
-        alert(
-          'Puppy Report form will be available next.'
-        );
-
-      });
-
-  </script>
 
 </body>
 </html>
