@@ -1327,211 +1327,193 @@ console.log('====================================');
       }
     );
 
+/* =========================================
+   SUBMIT REGISTRY UPDATE
+========================================= */
 
-  /* =========================================
-     SUBMIT REGISTRY UPDATE
-  ========================================= */
+document
+  .getElementById('updateForm')
+  .addEventListener(
+    'submit',
+    async function(event) {
 
-  document
-    .getElementById('updateForm')
-    .addEventListener(
-      'submit',
-      async function(event) {
-
-
-        event.preventDefault();
+      event.preventDefault();
 
 
-        if (!verifiedRecord) {
+      if (!verifiedRecord) {
 
-          showMessage(
-            'Please verify the dog record first.',
-            'error'
-          );
+        showMessage(
+          'Please verify the dog record first.',
+          'error'
+        );
 
-          return;
+        return;
 
-        }
-
-
-        const form = event.target;
+      }
 
 
-        if (!form.checkValidity()) {
-
-          form.reportValidity();
-
-          return;
-
-        }
+      const form = event.target;
 
 
-        const submitButton =
-          document.getElementById(
-            'submitButton'
-          );
+      if (!form.checkValidity()) {
+
+        form.reportValidity();
+
+        return;
+
+      }
 
 
-        const updateType =
-          document
-            .getElementById(
-              'updateType'
-            )
-            .value;
-
-
-        const newInformation =
-          document
-            .getElementById(
-              'newInformation'
-            )
-            .value
-            .trim();
-
-
-        const data = {
-
-
-          /* VERIFIED RECORD */
-
-          registryNumber:
-            verifiedRecord.registryNumber,
-
-          ownerName:
-            verifiedRecord.ownerName,
-
-          dogName:
-            verifiedRecord.dogName,
-
-
-          /* UPDATE */
-
-          updateType:
-            updateType,
-
-          newInformation:
-            newInformation,
-
-
-          /* PHOTO */
-
-          supportingFileData:
-            selectedFileData,
-
-          supportingFileName:
-            selectedFileName
-
-        };
-
-
-        hideMessage();
-
-
-        submitButton.disabled = true;
-
-        submitButton.textContent =
-          'Submitting...';
-
-
-        showLoading(
-          'Submitting Registry Update...',
-          'Please wait. Do not close this page.'
+      const submitButton =
+        document.getElementById(
+          'submitButton'
         );
 
 
-        try {
+      const updateType =
+        document.getElementById(
+          'updateType'
+        ).value;
 
 
-          if (typeof brccSubmit !== 'function') {
-
-            throw new Error(
-              'API connection is not available. Please check api.js.'
-            );
-
-          }
+      const newInformation =
+        document.getElementById(
+          'newInformation'
+        ).value
+        .trim();
 
 
-          const result =
-            await brccSubmit(
-              'registry_update',
-              data
-            );
+      const data = {
+
+        registryNumber:
+          verifiedRecord.registryNumber,
+
+        ownerName:
+          verifiedRecord.ownerName,
+
+        dogName:
+          verifiedRecord.dogName,
+
+        updateType:
+          updateType,
+
+        newInformation:
+          newInformation,
+
+        supportingFileData:
+          selectedFileData,
+
+        supportingFileName:
+          selectedFileName
+
+      };
 
 
-          console.log(
-            'Registry Update Result:',
-            result
+      hideMessage();
+
+
+      submitButton.disabled = true;
+
+      submitButton.textContent =
+        'Submitting...';
+
+
+      showLoading(
+        'Submitting Registry Update...',
+        'Please wait. Do not close this page.'
+      );
+
+
+      try {
+
+        if (typeof brccSubmit !== 'function') {
+
+          throw new Error(
+            'API connection is not available. Please check api.js.'
           );
-
-
-          const response =
-            result && result.result
-              ? result.result
-              : result;
-
-
-          if (
-            response &&
-            response.success === false
-          ) {
-
-            throw new Error(
-              response.message ||
-              'Unable to submit Registry Update.'
-            );
-
-          }
-
-
-          hideLoading();
-
-
-          showSuccessModal();
-
-
-          resetUpdatePage();
-
-
-        } catch (error) {
-
-
-          console.error(
-            'Registry Update Error:',
-            error
-          );
-
-
-          hideLoading();
-
-
-          showMessage(
-            error.message ||
-            'Unable to submit update request. Please try again.',
-            'error'
-          );
-
-
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          );
-
-
-        } finally {
-
-
-          hideLoading();
-
-
-          submitButton.disabled = false;
-
-          submitButton.textContent =
-            'Submit Registry Update';
 
         }
 
+
+        console.log(
+          'Submitting Registry Update:',
+          data
+        );
+
+
+        const result =
+          await brccSubmit(
+            'registry_update',
+            data
+          );
+
+
+        console.log(
+          'Registry Update Result:',
+          result
+        );
+
+
+        if (
+          result &&
+          result.success === false
+        ) {
+
+          throw new Error(
+            result.message ||
+            'Unable to submit Registry Update.'
+          );
+
+        }
+
+
+        hideLoading();
+
+
+        showSuccessModal();
+
+
+        resetUpdatePage();
+
+
+      } catch (error) {
+
+        console.error(
+          'Registry Update Error:',
+          error
+        );
+
+
+        hideLoading();
+
+
+        showMessage(
+          error.message ||
+          'Unable to submit update request. Please try again.',
+          'error'
+        );
+
+
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+
+
+      } finally {
+
+        hideLoading();
+
+
+        submitButton.disabled = false;
+
+        submitButton.textContent =
+          'Submit Registry Update';
+
       }
-    );
+
+    }
+  );
 
 
   /* =========================================
