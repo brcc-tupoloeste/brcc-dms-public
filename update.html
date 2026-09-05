@@ -19,6 +19,7 @@
       box-sizing: border-box;
     }
 
+
     html,
     body {
       margin: 0;
@@ -563,30 +564,19 @@
 <body>
 
 
-<!-- =========================================
-     LOADING OVERLAY
-========================================= -->
+<!-- LOADING OVERLAY -->
 
-<div
-  id="loadingOverlay"
-  class="loading-overlay"
->
+<div id="loadingOverlay" class="loading-overlay">
 
   <div class="loading-box">
 
     <div class="spinner"></div>
 
-    <div
-      id="loadingTitle"
-      class="loading-title"
-    >
+    <div id="loadingTitle" class="loading-title">
       Processing...
     </div>
 
-    <div
-      id="loadingText"
-      class="loading-text"
-    >
+    <div id="loadingText" class="loading-text">
       Please wait. Do not close this page.
     </div>
 
@@ -595,14 +585,9 @@
 </div>
 
 
-<!-- =========================================
-     SUCCESS MODAL
-========================================= -->
+<!-- SUCCESS MODAL -->
 
-<div
-  id="successOverlay"
-  class="success-overlay"
->
+<div id="successOverlay" class="success-overlay">
 
   <div class="success-modal">
 
@@ -631,17 +616,12 @@
 </div>
 
 
-<!-- =========================================
-     PAGE
-========================================= -->
+<!-- PAGE -->
 
 <div class="page">
 
 
-  <a
-    href="./"
-    class="back-button"
-  >
+  <a href="./" class="back-button">
     ← Back to Services
   </a>
 
@@ -683,9 +663,9 @@
   ></div>
 
 
-  <!-- =========================================
-       STEP 1: VERIFY RECORD
-  ========================================= -->
+  <!-- =====================================
+       STEP 1: VERIFY DOG RECORD
+  ====================================== -->
 
   <div class="card">
 
@@ -746,10 +726,13 @@
     </div>
 
 
+    <!-- DIRECT CLICK FUNCTION -->
+
     <button
       type="button"
       id="verifyButton"
       class="verify-button"
+      onclick="verifyDogRecord()"
     >
       Verify Record
     </button>
@@ -768,26 +751,20 @@
 
 
       <div class="verified-row">
-
         <strong>Registry Number:</strong>
         <span id="verifiedRegistryNumber"></span>
-
       </div>
 
 
       <div class="verified-row">
-
         <strong>Owner:</strong>
         <span id="verifiedOwnerName"></span>
-
       </div>
 
 
       <div class="verified-row">
-
         <strong>Dog Name:</strong>
         <span id="verifiedDogName"></span>
-
       </div>
 
     </div>
@@ -795,9 +772,9 @@
   </div>
 
 
-  <!-- =========================================
-       STEP 2: UPDATE FORM
-  ========================================= -->
+  <!-- =====================================
+       STEP 2: REGISTRY UPDATE
+  ====================================== -->
 
   <form
     id="updateForm"
@@ -823,11 +800,10 @@
       <div class="form-group">
 
         <label for="updateType">
-
           Information to Update
           <span class="required">*</span>
-
         </label>
+
 
         <select
           id="updateType"
@@ -888,10 +864,8 @@
       <div class="form-group">
 
         <label for="newInformation">
-
           New / Updated Information
           <span class="required">*</span>
-
         </label>
 
         <textarea
@@ -903,7 +877,7 @@
       </div>
 
 
-      <!-- SUPPORTING PHOTO -->
+      <!-- UPLOAD PHOTO -->
 
       <div class="form-group">
 
@@ -922,7 +896,6 @@
         </div>
 
       </div>
-
 
     </div>
 
@@ -945,17 +918,13 @@
         >
 
         <label for="declaration">
-
           I certify that the information provided in this update request is true and correct to the best of my knowledge.
-
         </label>
 
       </div>
 
     </div>
 
-
-    <!-- SUBMIT -->
 
     <button
       type="submit"
@@ -972,15 +941,12 @@
 </div>
 
 
-<!-- =========================================
-     API CONNECTOR
-========================================= -->
+<!-- API -->
 
 <script src="api.js"></script>
 
 
 <script>
-
 
   let verifiedRecord = null;
 
@@ -990,263 +956,272 @@
 
 
   /* =========================================
-     VERIFY RECORD
+     VERIFY DOG RECORD
   ========================================= */
 
-  document
-    .getElementById('verifyButton')
-    .addEventListener(
-      'click',
-      async function() {
+  async function verifyDogRecord() {
+
+    const registryNumber = document
+      .getElementById('registryNumber')
+      .value
+      .trim();
 
 
-        const registryNumber =
-          document
-            .getElementById('registryNumber')
-            .value
-            .trim();
+    const ownerName = document
+      .getElementById('ownerName')
+      .value
+      .trim();
 
 
-        const ownerName =
-          document
-            .getElementById('ownerName')
-            .value
-            .trim();
+    const dogName = document
+      .getElementById('dogName')
+      .value
+      .trim();
 
 
-        const dogName =
-          document
-            .getElementById('dogName')
-            .value
-            .trim();
+    if (
+      !registryNumber ||
+      !ownerName ||
+      !dogName
+    ) {
+
+      showMessage(
+        'Please enter Registry Number, Owner Name, and Dog Name.',
+        'error'
+      );
+
+      return;
+
+    }
 
 
-        if (
-          !registryNumber ||
-          !ownerName ||
-          !dogName
-        ) {
+    const verifyButton =
+      document.getElementById('verifyButton');
 
-          showMessage(
-            'Please enter Registry Number, Owner Name, and Dog Name.',
-            'error'
-          );
 
-          return;
+    verifyButton.disabled = true;
 
+    verifyButton.textContent = 'Verifying...';
+
+
+    hideMessage();
+
+
+    showLoading(
+      'Verifying Dog Record...',
+      'Please wait. Checking the official Dog Registry.'
+    );
+
+
+    try {
+
+
+      /* CHECK API */
+
+      if (typeof brccSubmit !== 'function') {
+
+        throw new Error(
+          'API connection is not available. Please check api.js.'
+        );
+
+      }
+
+
+      console.log(
+        'Verifying Record:',
+        {
+          registryNumber: registryNumber,
+          ownerName: ownerName,
+          dogName: dogName
         }
+      );
 
 
-        const verifyButton =
-          document.getElementById(
-            'verifyButton'
-          );
+      const result = await brccSubmit(
+        'verify_registry',
+        {
+          registryNumber: registryNumber,
+          ownerName: ownerName,
+          dogName: dogName
+        }
+      );
 
 
-        verifyButton.disabled = true;
-
-        verifyButton.textContent =
-          'Verifying...';
-
-
-        hideMessage();
+      console.log(
+        'Verify Result:',
+        result
+      );
 
 
-        showLoading(
-          'Verifying Dog Record...',
-          'Please wait. Checking the official Dog Registry.'
+      const response =
+        result && result.result
+          ? result.result
+          : result;
+
+
+      if (
+        !response ||
+        !response.verified
+      ) {
+
+        throw new Error(
+          response &&
+          response.message
+            ? response.message
+            : 'No matching dog record was found.'
+        );
+
+      }
+
+
+      verifiedRecord =
+        response.record;
+
+
+      /* DISPLAY VERIFIED RECORD */
+
+      document
+        .getElementById(
+          'verifiedRegistryNumber'
+        )
+        .textContent =
+        verifiedRecord.registryNumber ||
+        registryNumber;
+
+
+      document
+        .getElementById(
+          'verifiedOwnerName'
+        )
+        .textContent =
+        verifiedRecord.ownerName ||
+        ownerName;
+
+
+      document
+        .getElementById(
+          'verifiedDogName'
+        )
+        .textContent =
+        verifiedRecord.dogName ||
+        dogName;
+
+
+      document
+        .getElementById(
+          'verifiedBox'
+        )
+        .classList.add(
+          'show'
         );
 
 
-        try {
+      document
+        .getElementById(
+          'updateForm'
+        )
+        .classList.add(
+          'show'
+        );
 
 
-          const result =
-            await brccSubmit(
-              'verify_registry',
-              {
-                registryNumber:
-                  registryNumber,
+      /* LOCK VERIFIED FIELDS */
 
-                ownerName:
-                  ownerName,
-
-                dogName:
-                  dogName
-              }
-            );
+      document
+        .getElementById(
+          'registryNumber'
+        )
+        .disabled = true;
 
 
-          const response =
-            result &&
-            result.result
-              ?
-              result.result
-              :
-              result;
+      document
+        .getElementById(
+          'ownerName'
+        )
+        .disabled = true;
 
 
-          if (
-            !response ||
-            !response.verified
-          ) {
-
-            throw new Error(
-              response &&
-              response.message
-                ?
-                response.message
-                :
-                'No matching dog record was found.'
-            );
-
-          }
+      document
+        .getElementById(
+          'dogName'
+        )
+        .disabled = true;
 
 
-          verifiedRecord =
-            response.record;
+      showMessage(
+        'Dog record successfully verified. You may now submit an update request.',
+        'success'
+      );
 
 
-          document
-            .getElementById(
-              'verifiedRegistryNumber'
-            )
-            .textContent =
-            verifiedRecord.registryNumber;
-
-
-          document
-            .getElementById(
-              'verifiedOwnerName'
-            )
-            .textContent =
-            verifiedRecord.ownerName;
-
-
-          document
-            .getElementById(
-              'verifiedDogName'
-            )
-            .textContent =
-            verifiedRecord.dogName;
-
-
-          document
-            .getElementById(
-              'verifiedBox'
-            )
-            .classList.add(
-              'show'
-            );
-
+      setTimeout(
+        function() {
 
           document
             .getElementById(
               'updateForm'
             )
-            .classList.add(
-              'show'
-            );
+            .scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+
+        },
+        300
+      );
 
 
-          /* LOCK VERIFIED FIELDS */
-
-          document
-            .getElementById(
-              'registryNumber'
-            )
-            .disabled = true;
+    } catch (error) {
 
 
-          document
-            .getElementById(
-              'ownerName'
-            )
-            .disabled = true;
+      console.error(
+        'Verification Error:',
+        error
+      );
 
 
-          document
-            .getElementById(
-              'dogName'
-            )
-            .disabled = true;
+      verifiedRecord = null;
 
 
-          showMessage(
-            'Dog record successfully verified. You may now submit an update request.',
-            'success'
-          );
+      document
+        .getElementById(
+          'verifiedBox'
+        )
+        .classList.remove(
+          'show'
+        );
 
 
-          setTimeout(
-            function() {
-
-              document
-                .getElementById(
-                  'updateForm'
-                )
-                .scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'start'
-                });
-
-            },
-            300
-          );
+      document
+        .getElementById(
+          'updateForm'
+        )
+        .classList.remove(
+          'show'
+        );
 
 
-        } catch (error) {
+      showMessage(
+        error.message ||
+        'Verification failed. Please check the information entered.',
+        'error'
+      );
 
 
-          console.error(
-            'Verification Error:',
-            error
-          );
+    } finally {
 
 
-          verifiedRecord = null;
+      hideLoading();
 
 
-          document
-            .getElementById(
-              'verifiedBox'
-            )
-            .classList.remove(
-              'show'
-            );
+      verifyButton.disabled = false;
 
+      verifyButton.textContent =
+        'Verify Record';
 
-          document
-            .getElementById(
-              'updateForm'
-            )
-            .classList.remove(
-              'show'
-            );
+    }
 
-
-          showMessage(
-            error.message ||
-            'Verification failed. Please check the information entered.',
-            'error'
-          );
-
-
-        } finally {
-
-
-          hideLoading();
-
-
-          verifyButton.disabled = false;
-
-          verifyButton.textContent =
-            'Verify Record';
-
-        }
-
-      }
-    );
+  }
 
 
   /* =========================================
@@ -1337,7 +1312,6 @@
             selectedFileData =
               e.target.result;
 
-
             selectedFileName =
               file.name;
 
@@ -1351,7 +1325,7 @@
 
 
   /* =========================================
-     SUBMIT UPDATE
+     SUBMIT REGISTRY UPDATE
   ========================================= */
 
   document
@@ -1376,8 +1350,7 @@
         }
 
 
-        const form =
-          event.target;
+        const form = event.target;
 
 
         if (!form.checkValidity()) {
@@ -1397,13 +1370,17 @@
 
         const updateType =
           document
-            .getElementById('updateType')
+            .getElementById(
+              'updateType'
+            )
             .value;
 
 
         const newInformation =
           document
-            .getElementById('newInformation')
+            .getElementById(
+              'newInformation'
+            )
             .value
             .trim();
 
@@ -1432,7 +1409,7 @@
             newInformation,
 
 
-          /* SUPPORTING PHOTO */
+          /* PHOTO */
 
           supportingFileData:
             selectedFileData,
@@ -1461,6 +1438,15 @@
         try {
 
 
+          if (typeof brccSubmit !== 'function') {
+
+            throw new Error(
+              'API connection is not available. Please check api.js.'
+            );
+
+          }
+
+
           const result =
             await brccSubmit(
               'registry_update',
@@ -1475,21 +1461,18 @@
 
 
           const response =
-            result &&
-            result.result
-              ?
-              result.result
-              :
-              result;
+            result && result.result
+              ? result.result
+              : result;
 
 
           if (
-            result &&
-            result.success === false
+            response &&
+            response.success === false
           ) {
 
             throw new Error(
-              result.message ||
+              response.message ||
               'Unable to submit Registry Update.'
             );
 
@@ -1596,7 +1579,6 @@
     fields.forEach(
       function(id) {
 
-
         const field =
           document.getElementById(id);
 
@@ -1615,10 +1597,7 @@
      LOADING
   ========================================= */
 
-  function showLoading(
-    title,
-    text
-  ) {
+  function showLoading(title, text) {
 
 
     document
@@ -1650,7 +1629,6 @@
 
   function hideLoading() {
 
-
     document
       .getElementById(
         'loadingOverlay'
@@ -1668,7 +1646,6 @@
 
   function showSuccessModal() {
 
-
     document
       .getElementById(
         'successOverlay'
@@ -1682,7 +1659,6 @@
 
   function closeSuccessModal() {
 
-
     document
       .getElementById(
         'successOverlay'
@@ -1691,6 +1667,9 @@
         'show'
       );
 
+
+    window.location.reload();
+
   }
 
 
@@ -1698,10 +1677,7 @@
      MESSAGE
   ========================================= */
 
-  function showMessage(
-    message,
-    type
-  ) {
+  function showMessage(message, type) {
 
 
     const box =
@@ -1715,8 +1691,7 @@
 
 
     box.className =
-      'message ' +
-      type;
+      'message ' + type;
 
 
     box.style.display =
