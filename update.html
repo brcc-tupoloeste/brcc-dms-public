@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Registry Update | Barangay Tupol Oeste</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      color: #303846;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+
+    /* PAGE */
+
+    .page {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 14px 10px 45px;
+    }
+
+
+    /* BACK BUTTON */
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 20px;
+      padding: 10px 14px;
+      border: 1px solid #d7dde5;
+      border-radius: 9px;
+      background: #ffffff;
+      color: #4b5563;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .back-button:active {
+      transform: scale(.98);
+    }
+
+
+    /* HEADER */
+
+    .header {
+      text-align: center;
+      padding: 8px 8px 28px;
+    }
+
+    .barangay-logo {
+      width: 88px;
+      height: 88px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    .barangay {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+
+    .location {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    h1 {
+      margin: 20px 0 8px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: #6b7280;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+
+    /* CARD */
+
+    .card {
+      width: 100%;
+      margin-bottom: 16px;
+      padding: 20px 16px;
+      background: #ffffff;
+      border: 1px solid #dce1e7;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    }
+
+    .section-title {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+
+    .section-description {
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.45;
+    }
+
+
+    /* FORM */
+
+    .form-group {
+      width: 100%;
+      margin-bottom: 17px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #4b5563;
+    }
+
+    .required {
+      color: #c53030;
+    }
+
+    input,
+    select,
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 50px;
+      padding: 12px 13px;
+      font-family: inherit;
+      font-size: 16px;
+      color: #303846;
+      background: #ffffff;
+      border: 1px solid #cfd6df;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #667085;
+      box-shadow: 0 0 0 3px rgba(102,112,133,.12);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #9aa2ad;
+    }
+
+
+    /* INFO BOX */
+
+    .info-box {
+      margin-bottom: 18px;
+      padding: 14px;
+      border-radius: 10px;
+      background: #f4f6f8;
+      border: 1px solid #dce1e7;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #5b6472;
+    }
+
+
+    /* DYNAMIC SECTION */
+
+    .dynamic-section {
+      display: none;
+    }
+
+    .dynamic-section.show {
+      display: block;
+    }
+
+
+    /* FILE NOTE */
+
+    .file-note {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.45;
+    }
+
+
+    /* DECLARATION */
+
+    .declaration-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid #dce1e7;
+      border-radius: 10px;
+      background: #fafbfc;
+    }
+
+    .declaration-box input {
+      width: 20px;
+      min-width: 20px;
+      height: 20px;
+      min-height: 20px;
+      margin-top: 2px;
+    }
+
+    .declaration-box label {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+
+    /* SUBMIT */
+
+    .submit-button {
+      width: 100%;
+      min-height: 55px;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      background: #303846;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(0,0,0,.10);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .submit-button:hover {
+      background: #252c37;
+    }
+
+    .submit-button:disabled {
+      opacity: .75;
+      cursor: not-allowed;
+    }
+
+    .button-spinner {
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,.35);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      display: none;
+    }
+
+    .submit-button.loading .button-spinner {
+      display: inline-block;
+    }
+
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+
+    /* MESSAGE */
+
+    .message {
+      display: none;
+      margin-bottom: 16px;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff5f5;
+      border: 1px solid #feb2b2;
+      color: #c53030;
+    }
+
+
+    /* LOADING */
+
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      background: rgba(255,255,255,.80);
+      backdrop-filter: blur(2px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .loading-overlay.show {
+      display: flex;
+    }
+
+    .loading-box {
+      min-width: 270px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 10px 35px rgba(0,0,0,.15);
+    }
+
+    .big-spinner {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 18px;
+      border: 5px solid #e2e8f0;
+      border-top-color: #303846;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    .loading-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .loading-text {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+
+    /* SUCCESS MODAL */
+
+    .success-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,.45);
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-overlay.show {
+      display: flex;
+    }
+
+    .success-modal {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 32px 24px 26px;
+      text-align: center;
+      box-shadow: 0 15px 50px rgba(0,0,0,.25);
+    }
+
+    .success-icon {
+      width: 75px;
+      height: 75px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: #e7f6eb;
+      color: #2f855a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      font-weight: bold;
+    }
+
+    .success-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #276749;
+      margin-bottom: 10px;
+    }
+
+    .success-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #4b5563;
+      margin-bottom: 18px;
+    }
+
+    .success-request {
+      display: none;
+      padding: 12px;
+      margin-bottom: 20px;
+      background: #f4f6f8;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .success-close {
+      width: 100%;
+      min-height: 50px;
+      border: none;
+      border-radius: 10px;
+      background: #303846;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 480px) {
+
+      .page {
+        padding: 12px 8px 35px;
+      }
+
+      .card {
+        padding: 18px 13px;
+      }
+
+      .barangay-logo {
+        width: 76px;
+        height: 76px;
+      }
+
+      .barangay {
+        font-size: 18px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- LOADING -->
+
+<div
+  id="loadingOverlay"
+  class="loading-overlay"
+>
+
+  <div class="loading-box">
+
+    <div class="big-spinner"></div>
+
+    <div class="loading-title">
+      Submitting Update...
+    </div>
+
+    <div class="loading-text">
+      Please wait while we process your request.
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- SUCCESS -->
+
+<div
+  id="successOverlay"
+  class="success-overlay"
+>
+
+  <div class="success-modal">
+
+    <div class="success-icon">
+      ✓
+    </div>
+
+    <div class="success-title">
+      Update Submitted!
+    </div>
+
+    <div class="success-text">
+      Your registry update request has been successfully submitted and is pending review.
+    </div>
+
+    <div
+      id="successRequestNumber"
+      class="success-request"
+    ></div>
+
+    <button
+      type="button"
+      class="success-close"
+      onclick="closeSuccessModal()"
+    >
+      Done
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<div class="page">
+
+
+  <a
+    href="./"
+    class="back-button"
+  >
+    ← Back to Services
+  </a>
+
+
+  <!-- HEADER -->
+
+  <div class="header">
+
+    <img
+      src="barangay-logo.png"
+      alt="Barangay Tupol Oeste Logo"
+      class="barangay-logo"
+    >
+
+    <div class="barangay">
+      BARANGAY TUPOL OESTE
+    </div>
+
+    <div class="location">
+      Cabatuan, Iloilo
+    </div>
+
+    <h1>
+      Registry Update
+    </h1>
+
+    <p class="subtitle">
+      Submit a request to update information in your dog's registry record.
+    </p>
+
+  </div>
+
+
+
+  <div
+    id="messageBox"
+    class="message"
+  ></div>
+
+
+
+  <form id="updateForm">
+
+
+    <!-- DOG IDENTIFICATION -->
+
+    <div class="card">
+
+      <div class="section-title">
+        Dog Registry Information
+      </div>
+
+      <div class="section-description">
+        Enter the details of the dog whose record needs to be updated.
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="registryNumber">
+          Registry Number
+          <span class="required">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="registryNumber"
+          placeholder="Example: BTO-2026-00001"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="ownerName">
+          Owner Name
+          <span class="required">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="ownerName"
+          placeholder="Enter registered owner's name"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="dogName">
+          Dog Name
+          <span class="required">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="dogName"
+          placeholder="Enter dog's name"
+          required
+        >
+
+      </div>
+
+    </div>
+
+
+
+    <!-- UPDATE TYPE -->
+
+    <div class="card">
+
+      <div class="section-title">
+        Update Request
+      </div>
+
+      <div class="section-description">
+        Select the type of information you want to update.
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="updateType">
+          Update Type
+          <span class="required">*</span>
+        </label>
+
+        <select
+          id="updateType"
+          required
+        >
+
+          <option value="">
+            Select Update Type
+          </option>
+
+          <option value="Vaccination">
+            Vaccination
+          </option>
+
+          <option value="Owner Information">
+            Owner Information
+          </option>
+
+          <option value="Newborn Puppies">
+            Newborn Puppies
+          </option>
+
+          <option value="Transferred">
+            Transferred to New Owner
+          </option>
+
+          <option value="Dog Deceased">
+            Dog Deceased
+          </option>
+
+          <option value="Lost Dog">
+            Lost Dog
+          </option>
+
+          <option value="Others">
+            Others
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- VACCINATION -->
+
+      <div
+        id="vaccinationFields"
+        class="dynamic-section"
+      >
+
+        <div class="form-group">
+
+          <label for="vaccinationDate">
+            Vaccination Date
+          </label>
+
+          <input
+            type="date"
+            id="vaccinationDate"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="vaccinatedBy">
+            Vaccinated By
+          </label>
+
+          <input
+            type="text"
+            id="vaccinatedBy"
+            placeholder="Veterinarian / Vaccinator"
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- OWNER INFORMATION -->
+
+      <div
+        id="ownerFields"
+        class="dynamic-section"
+      >
+
+        <div class="form-group">
+
+          <label for="newAddress">
+            New Address
+          </label>
+
+          <textarea
+            id="newAddress"
+            placeholder="Enter new complete address"
+          ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="newContact">
+            New Contact Number
+          </label>
+
+          <input
+            type="tel"
+            id="newContact"
+            placeholder="09XXXXXXXXX"
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- TRANSFERRED -->
+
+      <div
+        id="transferFields"
+        class="dynamic-section"
+      >
+
+        <div class="form-group">
+
+          <label for="newOwner">
+            New Owner's Name
+          </label>
+
+          <input
+            type="text"
+            id="newOwner"
+            placeholder="Enter new owner's full name"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="transferDate">
+            Date Transferred
+          </label>
+
+          <input
+            type="date"
+            id="transferDate"
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- DECEASED -->
+
+      <div
+        id="deceasedFields"
+        class="dynamic-section"
+      >
+
+        <div class="form-group">
+
+          <label for="dateDeceased">
+            Date of Death
+          </label>
+
+          <input
+            type="date"
+            id="dateDeceased"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="causeOfDeath">
+            Cause of Death
+          </label>
+
+          <textarea
+            id="causeOfDeath"
+            placeholder="Optional details"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <!-- LOST -->
+
+      <div
+        id="lostFields"
+        class="dynamic-section"
+      >
+
+        <div class="form-group">
+
+          <label for="dateLost">
+            Date Lost
+          </label>
+
+          <input
+            type="date"
+            id="dateLost"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="lastSeen">
+            Last Seen Location
+          </label>
+
+          <textarea
+            id="lastSeen"
+            placeholder="Where was the dog last seen?"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <!-- GENERAL INFORMATION -->
+
+      <div class="form-group">
+
+        <label for="newInformation">
+          New / Updated Information
+          <span class="required">*</span>
+        </label>
+
+        <textarea
+          id="newInformation"
+          placeholder="Describe the information to be updated"
+          required
+        ></textarea>
+
+      </div>
+
+
+      <!-- SUPPORTING DOCUMENT -->
+
+      <div class="form-group">
+
+        <label for="supportingFile">
+          Supporting Document / Photo
+        </label>
+
+        <input
+          type="file"
+          id="supportingFile"
+          accept="image/jpeg,image/png,image/jpg,application/pdf"
+        >
+
+        <div class="file-note">
+          Optional. JPG, PNG, or PDF. Maximum file size: 5MB.
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- DECLARATION -->
+
+    <div class="card">
+
+      <div class="section-title">
+        Declaration
+      </div>
+
+      <div class="section-description">
+        Please confirm before submitting your request.
+      </div>
+
+
+      <div class="declaration-box">
+
+        <input
+          type="checkbox"
+          id="declaration"
+          required
+        >
+
+        <label for="declaration">
+
+          I certify that the information provided in this update request is true and correct to the best of my knowledge.
+
+        </label>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- SUBMIT -->
+
+    <button
+      type="submit"
+      class="submit-button"
+      id="submitButton"
+    >
+
+      <span class="button-spinner"></span>
+
+      <span id="submitButtonText">
+        Submit Registry Update
+      </span>
+
+    </button>
+
+
+  </form>
+
+
+</div>
+
+
+
+<!-- API -->
+
+<script src="api.js"></script>
+
+
+<script>
+
+  let selectedFileData = '';
+  let selectedFileName = '';
+
+
+  /* =========================================
+     UPDATE TYPE DYNAMIC FIELDS
+  ========================================= */
+
+  document
+    .getElementById('updateType')
+    .addEventListener(
+      'change',
+      function() {
+
+        document
+          .querySelectorAll(
+            '.dynamic-section'
+          )
+          .forEach(
+            function(section) {
+
+              section.classList.remove(
+                'show'
+              );
+
+            }
+          );
+
+
+        const type =
+          this.value;
+
+
+        if (
+          type === 'Vaccination'
+        ) {
+
+          document
+            .getElementById(
+              'vaccinationFields'
+            )
+            .classList.add('show');
+
+        }
+
+
+        if (
+          type === 'Owner Information'
+        ) {
+
+          document
+            .getElementById(
+              'ownerFields'
+            )
+            .classList.add('show');
+
+        }
+
+
+        if (
+          type === 'Transferred'
+        ) {
+
+          document
+            .getElementById(
+              'transferFields'
+            )
+            .classList.add('show');
+
+        }
+
+
+        if (
+          type === 'Dog Deceased'
+        ) {
+
+          document
+            .getElementById(
+              'deceasedFields'
+            )
+            .classList.add('show');
+
+        }
+
+
+        if (
+          type === 'Lost Dog'
+        ) {
+
+          document
+            .getElementById(
+              'lostFields'
+            )
+            .classList.add('show');
+
+        }
+
+      }
+    );
+
+
+
+  /* =========================================
+     FILE TO BASE64
+  ========================================= */
+
+  document
+    .getElementById('supportingFile')
+    .addEventListener(
+      'change',
+      function(event) {
+
+        const file =
+          event.target.files[0];
+
+
+        if (!file) {
+
+          selectedFileData = '';
+          selectedFileName = '';
+
+          return;
+
+        }
+
+
+        if (
+          file.size >
+          5 * 1024 * 1024
+        ) {
+
+          showMessage(
+            'File size must not exceed 5MB.',
+            'error'
+          );
+
+
+          event.target.value = '';
+
+          return;
+
+        }
+
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          function(e) {
+
+            selectedFileData =
+              e.target.result;
+
+
+            selectedFileName =
+              file.name;
+
+          };
+
+
+        reader.readAsDataURL(file);
+
+      }
+    );
+
+
+
+  /* =========================================
+     FORM SUBMISSION
+  ========================================= */
+
+  document
+    .getElementById('updateForm')
+    .addEventListener(
+      'submit',
+      async function(event) {
+
+        event.preventDefault();
+
+
+        const form =
+          event.target;
+
+
+        if (!form.checkValidity()) {
+
+          form.reportValidity();
+
+          return;
+
+        }
+
+
+        const submitButton =
+          document.getElementById(
+            'submitButton'
+          );
+
+
+        const submitButtonText =
+          document.getElementById(
+            'submitButtonText'
+          );
+
+
+        const data = {
+
+          registryNumber:
+            document
+              .getElementById(
+                'registryNumber'
+              )
+              .value
+              .trim(),
+
+          ownerName:
+            document
+              .getElementById(
+                'ownerName'
+              )
+              .value
+              .trim(),
+
+          dogName:
+            document
+              .getElementById(
+                'dogName'
+              )
+              .value
+              .trim(),
+
+          updateType:
+            document
+              .getElementById(
+                'updateType'
+              )
+              .value,
+
+          newInformation:
+            document
+              .getElementById(
+                'newInformation'
+              )
+              .value
+              .trim(),
+
+          vaccinationDate:
+            document
+              .getElementById(
+                'vaccinationDate'
+              )
+              .value,
+
+          vaccinatedBy:
+            document
+              .getElementById(
+                'vaccinatedBy'
+              )
+              .value
+              .trim(),
+
+          newAddress:
+            document
+              .getElementById(
+                'newAddress'
+              )
+              .value
+              .trim(),
+
+          newContact:
+            document
+              .getElementById(
+                'newContact'
+              )
+              .value
+              .trim(),
+
+          newOwner:
+            document
+              .getElementById(
+                'newOwner'
+              )
+              .value
+              .trim(),
+
+          transferDate:
+            document
+              .getElementById(
+                'transferDate'
+              )
+              .value,
+
+          dateDeceased:
+            document
+              .getElementById(
+                'dateDeceased'
+              )
+              .value,
+
+          causeOfDeath:
+            document
+              .getElementById(
+                'causeOfDeath'
+              )
+              .value
+              .trim(),
+
+          dateLost:
+            document
+              .getElementById(
+                'dateLost'
+              )
+              .value,
+
+          lastSeen:
+            document
+              .getElementById(
+                'lastSeen'
+              )
+              .value
+              .trim(),
+
+          supportingFileData:
+            selectedFileData,
+
+          supportingFileName:
+            selectedFileName
+
+        };
+
+
+        hideMessage();
+
+
+        submitButton.disabled = true;
+
+        submitButton.classList.add(
+          'loading'
+        );
+
+        submitButtonText.textContent =
+          'Submitting Update...';
+
+
+        showLoading();
+
+
+        try {
+
+          const result =
+            await brccSubmit(
+              'update',
+              data
+            );
+
+
+          console.log(
+            'Registry Update Result:',
+            result
+          );
+
+
+          let requestNumber = '';
+
+
+          if (
+            result &&
+            result.result &&
+            result.result.requestNumber
+          ) {
+
+            requestNumber =
+              result.result.requestNumber;
+
+          }
+
+
+          hideLoading();
+
+
+          form.reset();
+
+
+          selectedFileData = '';
+          selectedFileName = '';
+
+
+          document
+            .querySelectorAll(
+              '.dynamic-section'
+            )
+            .forEach(
+              function(section) {
+
+                section.classList.remove(
+                  'show'
+                );
+
+              }
+            );
+
+
+          showSuccessModal(
+            requestNumber
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            'Registry Update Error:',
+            error
+          );
+
+
+          hideLoading();
+
+
+          showMessage(
+            error.message ||
+            'Unable to submit update request. Please try again.',
+            'error'
+          );
+
+
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+
+        } finally {
+
+          submitButton.disabled = false;
+
+          submitButton.classList.remove(
+            'loading'
+          );
+
+          submitButtonText.textContent =
+            'Submit Registry Update';
+
+        }
+
+      }
+    );
+
+
+
+  /* =========================================
+     LOADING
+  ========================================= */
+
+  function showLoading() {
+
+    document
+      .getElementById(
+        'loadingOverlay'
+      )
+      .classList.add(
+        'show'
+      );
+
+  }
+
+
+  function hideLoading() {
+
+    document
+      .getElementById(
+        'loadingOverlay'
+      )
+      .classList.remove(
+        'show'
+      );
+
+  }
+
+
+
+  /* =========================================
+     SUCCESS MODAL
+  ========================================= */
+
+  function showSuccessModal(
+    requestNumber
+  ) {
+
+    const requestBox =
+      document.getElementById(
+        'successRequestNumber'
+      );
+
+
+    if (requestNumber) {
+
+      requestBox.textContent =
+        'Request No.: ' +
+        requestNumber;
+
+
+      requestBox.style.display =
+        'block';
+
+    } else {
+
+      requestBox.textContent =
+        '';
+
+
+      requestBox.style.display =
+        'none';
+
+    }
+
+
+    document
+      .getElementById(
+        'successOverlay'
+      )
+      .classList.add(
+        'show'
+      );
+
+  }
+
+
+  function closeSuccessModal() {
+
+    document
+      .getElementById(
+        'successOverlay'
+      )
+      .classList.remove(
+        'show'
+      );
+
+  }
+
+
+
+  /* =========================================
+     MESSAGE
+  ========================================= */
+
+  function showMessage(
+    message,
+    type
+  ) {
+
+    const box =
+      document.getElementById(
+        'messageBox'
+      );
+
+
+    box.textContent =
+      message;
+
+
+    box.className =
+      'message ' +
+      type;
+
+
+    box.style.display =
+      'block';
+
+  }
+
+
+  function hideMessage() {
+
+    const box =
+      document.getElementById(
+        'messageBox'
+      );
+
+
+    box.style.display =
+      'none';
+
+
+    box.textContent =
+      '';
+
+
+    box.className =
+      'message';
+
+  }
+
+</script>
+
+
+</body>
+</html>
