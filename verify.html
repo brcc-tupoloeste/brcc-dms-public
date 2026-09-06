@@ -1,193 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<title>
-Dog Registration Verification
-</title>
+  <title>
+    Dog Registration Verification | Barangay Tupol Oeste
+  </title>
 
-<style>
+  <style>
 
-* {
-  box-sizing: border-box;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  color: #222;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #222;
+    }
 
-.page {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 30px 20px;
-}
+    .page {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
 
-.header {
-  text-align: center;
-  margin-bottom: 25px;
-}
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
 
-.logo {
-  width: 85px;
-  height: 85px;
-  object-fit: contain;
-  margin-bottom: 10px;
-}
+    .logo {
+      width: 75px;
+      height: 75px;
+      object-fit: contain;
+      margin-bottom: 8px;
+    }
 
-.barangay-name {
-  font-size: 20px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
+    .barangay-name {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
 
-.location {
-  font-size: 12px;
-  color: #777;
-  margin: 5px 0 18px;
-}
+    .location {
+      font-size: 12px;
+      color: #777;
+      margin: 5px 0 18px;
+    }
 
-.header h1 {
-  margin: 0;
-  font-size: 24px;
-}
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
 
-.header p {
-  margin: 8px 0 0;
-  color: #666;
-  font-size: 14px;
-}
+    .header p {
+      margin: 8px 0 0;
+      color: #666;
+      font-size: 14px;
+    }
 
-.card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 25px;
-  box-shadow: 0 5px 20px rgba(0,0,0,.08);
-}
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    }
 
-.loading {
-  text-align: center;
-  padding: 35px 10px;
-  color: #666;
-}
+    .loading {
+      text-align: center;
+      padding: 35px 10px;
+      color: #666;
+    }
 
-.spinner {
-  width: 42px;
-  height: 42px;
-  border: 4px solid #ddd;
-  border-top-color: #444;
-  border-radius: 50%;
-  margin: 0 auto 18px;
-  animation: spin .8s linear infinite;
-}
+    .spinner {
+      width: 42px;
+      height: 42px;
+      border: 4px solid #ddd;
+      border-top-color: #444;
+      border-radius: 50%;
+      margin: 0 auto 18px;
+      animation: spin .8s linear infinite;
+    }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
-.status {
-  text-align: center;
-  padding: 10px 0 20px;
-}
+    .status {
+      text-align: center;
+      padding: 10px 0 20px;
+    }
 
-.status-icon {
-  font-size: 60px;
-  margin-bottom: 8px;
-}
+    .status-icon {
+      font-size: 60px;
+      margin-bottom: 8px;
+    }
 
-.verified {
-  color: #16803c;
-}
+    .verified {
+      color: #16803c;
+    }
 
-.invalid {
-  color: #c62828;
-}
+    .invalid {
+      color: #c62828;
+    }
 
-.valid-badge {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: #e7f6ec;
-  color: #16803c;
-  font-weight: bold;
-  font-size: 12px;
-}
+    .valid-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #e7f6ec;
+      color: #16803c;
+      font-weight: bold;
+      font-size: 12px;
+    }
 
-.dog-photo {
-  display: block;
-  width: 130px;
-  height: 130px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin: 10px auto 25px;
-  border: 4px solid #eee;
-}
+    .dog-photo {
+      display: block;
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 10px auto 25px;
+      border: 4px solid #eee;
+    }
 
-.registry-number {
-  text-align: center;
-  font-weight: bold;
-  font-size: 18px;
-  margin-bottom: 20px;
-}
+    .registry-number {
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
 
-.details {
-  border-top: 1px solid #eee;
-}
+    .details {
+      border-top: 1px solid #eee;
+    }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 13px 0;
-  border-bottom: 1px solid #eee;
-}
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 13px 0;
+      border-bottom: 1px solid #eee;
+    }
 
-.label {
-  color: #777;
-  font-size: 13px;
-}
+    .label {
+      color: #777;
+      font-size: 13px;
+    }
 
-.value {
-  text-align: right;
-  font-weight: 600;
-  font-size: 14px;
-}
+    .value {
+      text-align: right;
+      font-weight: 600;
+      font-size: 14px;
+    }
 
-.invalid-box {
-  text-align: center;
-  padding: 30px 15px;
-}
+    .invalid-box {
+      text-align: center;
+      padding: 30px 15px;
+    }
 
-.invalid-box p {
-  color: #666;
-  line-height: 1.6;
-}
+    .invalid-box p {
+      color: #666;
+      line-height: 1.6;
+    }
 
-.footer {
-  text-align: center;
-  color: #888;
-  font-size: 12px;
-  margin-top: 25px;
-  line-height: 1.6;
-}
+    .footer {
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+      margin-top: 25px;
+      line-height: 1.6;
+    }
 
-#content {
-  display: none;
-}
+    #content {
+      display: none;
+    }
 
-</style>
+  </style>
 
 </head>
 
@@ -200,7 +201,8 @@ body {
     <img
       src="barangay-logo.png"
       class="logo"
-      alt="Barangay Logo">
+      alt="Barangay Tupol Oeste Logo"
+    >
 
     <div class="barangay-name">
       Barangay Tupol Oeste
@@ -225,7 +227,8 @@ body {
 
     <div
       id="loading"
-      class="loading">
+      class="loading"
+    >
 
       <div class="spinner"></div>
 
@@ -236,9 +239,7 @@ body {
     </div>
 
 
-    <div
-      id="content">
-    </div>
+    <div id="content"></div>
 
   </div>
 
@@ -246,9 +247,7 @@ body {
   <div class="footer">
 
     Barangay Tupol Oeste<br>
-
     Cabatuan, Iloilo<br>
-
     BRCC-DMS V3
 
   </div>
@@ -260,353 +259,339 @@ body {
 
 <script>
 
-/* ============================================================
-   GET QR TOKEN
-============================================================ */
+  /* ==========================================================
+     GET QR TOKEN
+  ========================================================== */
 
-function getVerificationToken() {
+  function getVerificationToken() {
 
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
 
-  return String(
-    params.get('token') || ''
-  ).trim();
-
-}
-
-
-/* ============================================================
-   LOAD VERIFICATION
-============================================================ */
-
-async function loadVerification() {
-
-  const token =
-    getVerificationToken();
-
-
-  if (!token) {
-
-    showInvalid(
-      'No verification token was provided.'
-    );
-
-    return;
+    return String(
+      params.get('token') || ''
+    ).trim();
 
   }
 
 
-  try {
+  /* ==========================================================
+     LOAD VERIFICATION
+  ========================================================== */
 
-    const response =
-      await brccRequest(
-        'verify_dog_qr',
-        {
-          token: token
-        }
+  async function loadVerification() {
+
+    const token =
+      getVerificationToken();
+
+
+    if (!token) {
+
+      showInvalid(
+        'No verification token was provided.'
+      );
+
+      return;
+
+    }
+
+
+    try {
+
+      const response =
+        await brccRequest(
+          'verify_dog_qr',
+          {
+            token: token
+          }
+        );
+
+
+      /*
+       * API wrapper structure:
+       *
+       * {
+       *   success: true,
+       *   service: "...",
+       *   result: {...}
+       * }
+       */
+
+      const result =
+        response.result ||
+        response;
+
+
+      showVerification(
+        result
       );
 
 
-    /*
-     * API Router wraps result inside:
-     *
-     * {
-     *   success: true,
-     *   service: "...",
-     *   result: {...}
-     * }
-     */
+    } catch (error) {
 
-    showVerification(
-      response.result
-    );
+      console.error(
+        'QR Verification Error:',
+        error
+      );
 
 
-  }
-  catch (error) {
+      showInvalid(
+        error.message ||
+        'Unable to verify this dog record.'
+      );
 
-    console.error(
-      'Verification error:',
-      error
-    );
-
-
-    showInvalid(
-      error.message ||
-      'Unable to verify this dog record.'
-    );
+    }
 
   }
 
-}
+
+  /* ==========================================================
+     DISPLAY VERIFIED DOG
+  ========================================================== */
+
+  function showVerification(result) {
+
+    document
+      .getElementById('loading')
+      .style.display =
+        'none';
 
 
-/* ============================================================
-   SHOW VERIFICATION
-============================================================ */
-
-function showVerification(result) {
-
-  document
-    .getElementById('loading')
-    .style.display =
-      'none';
+    const content =
+      document.getElementById(
+        'content'
+      );
 
 
-  const content =
-    document.getElementById(
-      'content'
-    );
+    content.style.display =
+      'block';
 
 
-  content.style.display =
-    'block';
+    if (
+      !result ||
+      !result.verified
+    ) {
 
-
-  if (
-    !result ||
-    !result.verified
-  ) {
-
-    showInvalid(
-      result &&
-      result.message
-        ?
+      showInvalid(
+        result &&
         result.message
-        :
-        'Dog record not found.'
+          ?
+          result.message
+          :
+          'Dog record not found.'
+      );
+
+      return;
+
+    }
+
+
+    const dog =
+      result.dog || {};
+
+
+    let photoHtml = '';
+
+
+    if (dog.photoUrl) {
+
+      photoHtml =
+
+        '<img ' +
+          'class="dog-photo" ' +
+          'src="' +
+          escapeHtml(
+            dog.photoUrl
+          ) +
+          '" ' +
+          'alt="Dog Photo"' +
+        '>';
+
+    }
+
+
+    content.innerHTML =
+
+      '<div class="status verified">' +
+
+        '<div class="status-icon">✓</div>' +
+
+        '<h2>VERIFIED</h2>' +
+
+        '<div class="valid-badge">' +
+          'VALID DOG REGISTRATION' +
+        '</div>' +
+
+      '</div>' +
+
+      photoHtml +
+
+      '<div class="registry-number">' +
+        escapeHtml(
+          dog.registryNumber || ''
+        ) +
+      '</div>' +
+
+      '<div class="details">' +
+
+        detailRow(
+          'Dog Name',
+          dog.dogName
+        ) +
+
+        detailRow(
+          'Breed',
+          dog.breed
+        ) +
+
+        detailRow(
+          'Color',
+          dog.color
+        ) +
+
+        detailRow(
+          'Registration Status',
+          dog.registrationStatus
+        ) +
+
+        detailRow(
+          'Vaccination Status',
+          dog.vaccinationStatus
+        ) +
+
+        detailRow(
+          'Last Vaccination',
+          dog.lastVaccinationDate
+        ) +
+
+        detailRow(
+          'Next Vaccination',
+          dog.nextVaccinationDate
+        ) +
+
+      '</div>';
+
+  }
+
+
+  /* ==========================================================
+     DETAIL ROW
+  ========================================================== */
+
+  function detailRow(
+    label,
+    value
+  ) {
+
+    if (
+      value === null ||
+      value === undefined ||
+      value === ''
+    ) {
+
+      value = '—';
+
+    }
+
+
+    return (
+
+      '<div class="row">' +
+
+        '<div class="label">' +
+          escapeHtml(label) +
+        '</div>' +
+
+        '<div class="value">' +
+          escapeHtml(
+            String(value)
+          ) +
+        '</div>' +
+
+      '</div>'
+
     );
 
-    return;
+  }
+
+
+  /* ==========================================================
+     DISPLAY INVALID
+  ========================================================== */
+
+  function showInvalid(message) {
+
+    document
+      .getElementById('loading')
+      .style.display =
+        'none';
+
+
+    const content =
+      document.getElementById(
+        'content'
+      );
+
+
+    content.style.display =
+      'block';
+
+
+    content.innerHTML =
+
+      '<div class="invalid-box">' +
+
+        '<div class="status-icon invalid">' +
+          '✕' +
+        '</div>' +
+
+        '<h2 class="invalid">' +
+          'UNVERIFIED' +
+        '</h2>' +
+
+        '<p>' +
+          escapeHtml(message) +
+        '</p>' +
+
+        '<p style="font-size:13px;">' +
+          'Please contact the Barangay Rabies Control Committee ' +
+          'for verification assistance.' +
+        '</p>' +
+
+      '</div>';
 
   }
 
 
-  const dog =
-    result.dog || {};
+  /* ==========================================================
+     ESCAPE HTML
+  ========================================================== */
+
+  function escapeHtml(value) {
+
+    const div =
+      document.createElement('div');
 
 
-  let photoHtml =
-    '';
+    div.textContent =
+      value || '';
 
 
-  if (
-    dog.photoUrl
-  ) {
-
-    photoHtml =
-      '<img class="dog-photo" src="' +
-      escapeHtml(
-        dog.photoUrl
-      ) +
-      '" alt="Dog Photo">';
+    return div.innerHTML;
 
   }
 
 
-  content.innerHTML =
+  /* ==========================================================
+     START
+  ========================================================== */
 
-    '<div class="status verified">' +
-
-      '<div class="status-icon">✓</div>' +
-
-      '<h2>VERIFIED</h2>' +
-
-      '<div class="valid-badge">' +
-        'VALID DOG REGISTRATION' +
-      '</div>' +
-
-    '</div>' +
-
-
-    photoHtml +
-
-
-    '<div class="registry-number">' +
-
-      escapeHtml(
-        dog.registryNumber || ''
-      ) +
-
-    '</div>' +
-
-
-    '<div class="details">' +
-
-      detailRow(
-        'Dog Name',
-        dog.dogName
-      ) +
-
-      detailRow(
-        'Breed',
-        dog.breed
-      ) +
-
-      detailRow(
-        'Color',
-        dog.color
-      ) +
-
-      detailRow(
-        'Registration Status',
-        dog.registrationStatus
-      ) +
-
-      detailRow(
-        'Vaccination Status',
-        dog.vaccinationStatus
-      ) +
-
-      detailRow(
-        'Last Vaccination',
-        dog.lastVaccinationDate
-      ) +
-
-      detailRow(
-        'Next Vaccination',
-        dog.nextVaccinationDate
-      ) +
-
-    '</div>';
-
-}
-
-
-/* ============================================================
-   DETAIL ROW
-============================================================ */
-
-function detailRow(
-  label,
-  value
-) {
-
-  if (
-    value === null ||
-    value === undefined ||
-    value === ''
-  ) {
-
-    value = '—';
-
-  }
-
-
-  return (
-
-    '<div class="row">' +
-
-      '<div class="label">' +
-
-        escapeHtml(
-          label
-        ) +
-
-      '</div>' +
-
-
-      '<div class="value">' +
-
-        escapeHtml(
-          String(value)
-        ) +
-
-      '</div>' +
-
-    '</div>'
-
+  window.addEventListener(
+    'load',
+    loadVerification
   );
-
-}
-
-
-/* ============================================================
-   SHOW INVALID
-============================================================ */
-
-function showInvalid(message) {
-
-  document
-    .getElementById('loading')
-    .style.display =
-      'none';
-
-
-  const content =
-    document.getElementById(
-      'content'
-    );
-
-
-  content.style.display =
-    'block';
-
-
-  content.innerHTML =
-
-    '<div class="invalid-box">' +
-
-      '<div class="status-icon invalid">' +
-        '✕' +
-      '</div>' +
-
-      '<h2 class="invalid">' +
-        'UNVERIFIED' +
-      '</h2>' +
-
-      '<p>' +
-
-        escapeHtml(
-          message
-        ) +
-
-      '</p>' +
-
-      '<p style="font-size:13px;">' +
-
-        'Please contact the Barangay Rabies Control Committee ' +
-        'for verification assistance.' +
-
-      '</p>' +
-
-    '</div>';
-
-}
-
-
-/* ============================================================
-   ESCAPE HTML
-============================================================ */
-
-function escapeHtml(value) {
-
-  const div =
-    document.createElement(
-      'div'
-    );
-
-
-  div.textContent =
-    value || '';
-
-
-  return div.innerHTML;
-
-}
-
-
-/* ============================================================
-   START
-============================================================ */
-
-window.addEventListener(
-  'load',
-  loadVerification
-);
 
 </script>
 
