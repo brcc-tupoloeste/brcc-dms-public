@@ -216,3 +216,47 @@ async function brccVerifyMotherDog(
   );
 
 }
+
+/* ============================================================
+   VERIFY DOG QR CODE
+
+   Used by:
+   - verify.html
+   - Public QR Verification
+
+   Example:
+
+   const result =
+     await brccVerifyDogQR(
+       'verification-token'
+     );
+============================================================ */
+
+async function brccVerifyDogQR(
+  token
+) {
+
+  if (
+    !token ||
+    !String(token).trim()
+  ) {
+
+    throw new Error(
+      'Verification token is required.'
+    );
+
+  }
+
+
+  return await brccRequest(
+    'verify_dog_qr',
+    {
+
+      token:
+        String(token)
+          .trim()
+
+    }
+  );
+
+}
