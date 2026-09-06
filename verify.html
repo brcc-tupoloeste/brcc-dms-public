@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0">
+
+<title>
+Dog Registration Verification | Barangay Tupol Oeste
+</title>
+
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #222;
+}
+
+
+.page {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px 18px;
+}
+
+
+.header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+
+.logo {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+
+.barangay-name {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+
+.location {
+  font-size: 12px;
+  color: #777;
+  margin: 5px 0 18px;
+}
+
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+
+.header p {
+  margin: 8px 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow:
+    0 5px 20px
+    rgba(0,0,0,.08);
+}
+
+
+.loading {
+  text-align: center;
+  padding: 35px 10px;
+  color: #666;
+}
+
+
+.spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #ddd;
+  border-top-color: #444;
+  border-radius: 50%;
+  margin: 0 auto 18px;
+  animation: spin .8s linear infinite;
+}
+
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+.status {
+  text-align: center;
+  padding: 10px 0 20px;
+}
+
+
+.status-icon {
+  font-size: 60px;
+  margin-bottom: 8px;
+}
+
+
+.verified {
+  color: #16803c;
+}
+
+
+.invalid {
+  color: #c62828;
+}
+
+
+.valid-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #e7f6ec;
+  color: #16803c;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+
+.dog-photo {
+  display: block;
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 10px auto 25px;
+  border: 4px solid #eee;
+}
+
+
+.registry-number {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+
+.details {
+  border-top: 1px solid #eee;
+}
+
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 13px 0;
+  border-bottom: 1px solid #eee;
+}
+
+
+.label {
+  color: #777;
+  font-size: 13px;
+}
+
+
+.value {
+  text-align: right;
+  font-weight: 600;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+
+.invalid-box {
+  text-align: center;
+  padding: 30px 15px;
+}
+
+
+.invalid-box p {
+  color: #666;
+  line-height: 1.6;
+}
+
+
+.footer {
+  text-align: center;
+  color: #888;
+  font-size: 12px;
+  margin-top: 25px;
+  line-height: 1.6;
+}
+
+
+#content {
+  display: none;
+}
+
+
+@media (max-width: 480px) {
+
+  .page {
+    padding: 20px 12px;
+  }
+
+  .card {
+    padding: 20px 16px;
+  }
+
+  .barangay-name {
+    font-size: 18px;
+  }
+
+  .header h1 {
+    font-size: 21px;
+  }
+
+  .row {
+    gap: 12px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+  <!-- HEADER -->
+
+  <div class="header">
+
+    <img
+      src="barangay-logo.png"
+      class="logo"
+      alt="Barangay Tupol Oeste Logo">
+
+
+    <div class="barangay-name">
+
+      Barangay Tupol Oeste
+
+    </div>
+
+
+    <div class="location">
+
+      Municipality of Cabatuan,
+      Province of Iloilo
+
+    </div>
+
+
+    <h1>
+
+      Dog Registration Verification
+
+    </h1>
+
+
+    <p>
+
+      Barangay Rabies Control Committee
+
+    </p>
+
+  </div>
+
+
+
+  <!-- VERIFICATION CARD -->
+
+  <div class="card">
+
+
+    <!-- LOADING -->
+
+    <div
+      id="loading"
+      class="loading">
+
+      <div class="spinner"></div>
+
+      <div>
+
+        Verifying dog registration...
+
+      </div>
+
+    </div>
+
+
+
+    <!-- RESULT -->
+
+    <div
+      id="content">
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- FOOTER -->
+
+  <div class="footer">
+
+    Barangay Tupol Oeste
+    <br>
+
+    Cabatuan, Iloilo
+    <br>
+
+    BRCC-DMS V3
+
+  </div>
+
+
+</div>
+
+
+
+<!-- API CONNECTOR -->
+
+<script src="api.js"></script>
+
+
+<script>
+
+
+/* ============================================================
+   GET QR TOKEN
+============================================================ */
+
+function getVerificationToken() {
+
+  var params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  return String(
+    params.get('token') || ''
+  )
+    .trim();
+
+}
+
+
+/* ============================================================
+   LOAD VERIFICATION
+============================================================ */
+
+async function loadVerification() {
+
+  var token =
+    getVerificationToken();
+
+
+  if (!token) {
+
+    showInvalid(
+      'No verification token was provided.'
+    );
+
+    return;
+
+  }
+
+
+  try {
+
+    var result =
+      await brccVerifyDogQR(
+        token
+      );
+
+
+    showVerification(
+      result
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      'Verification error:',
+      error
+    );
+
+
+    showInvalid(
+      error.message ||
+      'Unable to verify this dog record.'
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   SHOW VERIFICATION
+============================================================ */
+
+function showVerification(
+  result
+) {
+
+  hideLoading();
+
+
+  var content =
+    document.getElementById(
+      'content'
+    );
+
+
+  content.style.display =
+    'block';
+
+
+  if (
+    !result ||
+    !result.verified
+  ) {
+
+    showInvalid(
+      result &&
+      result.message
+        ? result.message
+        : 'Dog record not found.'
+    );
+
+    return;
+
+  }
+
+
+  var dog =
+    result.dog || {};
+
+
+  var photoHtml =
+    '';
+
+
+  if (
+    dog.photoUrl
+  ) {
+
+    photoHtml =
+
+      '<img ' +
+
+      'class="dog-photo" ' +
+
+      'src="' +
+
+      escapeHtml(
+        dog.photoUrl
+      ) +
+
+      '" ' +
+
+      'alt="Dog Photo">';
+
+  }
+
+
+  content.innerHTML =
+
+    '<div class="status verified">' +
+
+      '<div class="status-icon">✓</div>' +
+
+      '<h2>VERIFIED</h2>' +
+
+      '<div class="valid-badge">' +
+        'VALID DOG REGISTRATION' +
+      '</div>' +
+
+    '</div>' +
+
+
+    photoHtml +
+
+
+    '<div class="registry-number">' +
+
+      escapeHtml(
+        dog.registryNumber || ''
+      ) +
+
+    '</div>' +
+
+
+    '<div class="details">' +
+
+      detailRow(
+        'Dog Name',
+        dog.dogName
+      ) +
+
+      detailRow(
+        'Breed',
+        dog.breed
+      ) +
+
+      detailRow(
+        'Color',
+        dog.color
+      ) +
+
+      detailRow(
+        'Registration Status',
+        dog.registrationStatus
+      ) +
+
+      detailRow(
+        'Vaccination Status',
+        dog.vaccinationStatus
+      ) +
+
+      detailRow(
+        'Last Vaccination',
+        dog.lastVaccinationDate
+      ) +
+
+      detailRow(
+        'Next Vaccination',
+        dog.nextVaccinationDate
+      ) +
+
+    '</div>';
+
+}
+
+
+/* ============================================================
+   DETAIL ROW
+============================================================ */
+
+function detailRow(
+  label,
+  value
+) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ''
+  ) {
+
+    value = '—';
+
+  }
+
+
+  return (
+
+    '<div class="row">' +
+
+      '<div class="label">' +
+
+        escapeHtml(
+          label
+        ) +
+
+      '</div>' +
+
+
+      '<div class="value">' +
+
+        escapeHtml(
+          String(value)
+        ) +
+
+      '</div>' +
+
+    '</div>'
+
+  );
+
+}
+
+
+/* ============================================================
+   SHOW INVALID
+============================================================ */
+
+function showInvalid(
+  message
+) {
+
+  hideLoading();
+
+
+  var content =
+    document.getElementById(
+      'content'
+    );
+
+
+  content.style.display =
+    'block';
+
+
+  content.innerHTML =
+
+    '<div class="invalid-box">' +
+
+
+      '<div class="status-icon invalid">' +
+
+        '✕' +
+
+      '</div>' +
+
+
+      '<h2 class="invalid">' +
+
+        'UNVERIFIED' +
+
+      '</h2>' +
+
+
+      '<p>' +
+
+        escapeHtml(
+          message
+        ) +
+
+      '</p>' +
+
+
+      '<p style="font-size:13px;">' +
+
+        'Please contact the Barangay Rabies Control Committee ' +
+        'for verification assistance.' +
+
+      '</p>' +
+
+
+    '</div>';
+
+}
+
+
+/* ============================================================
+   HIDE LOADING
+============================================================ */
+
+function hideLoading() {
+
+  var loading =
+    document.getElementById(
+      'loading'
+    );
+
+
+  if (
+    loading
+  ) {
+
+    loading.style.display =
+      'none';
+
+  }
+
+}
+
+
+/* ============================================================
+   ESCAPE HTML
+============================================================ */
+
+function escapeHtml(
+  value
+) {
+
+  var div =
+    document.createElement(
+      'div'
+    );
+
+
+  div.textContent =
+    value || '';
+
+
+  return div.innerHTML;
+
+}
+
+
+/* ============================================================
+   START
+============================================================ */
+
+window.addEventListener(
+  'load',
+  loadVerification
+);
+
+
+</script>
+
+
+</body>
+
+</html>
