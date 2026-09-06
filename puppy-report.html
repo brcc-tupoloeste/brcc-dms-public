@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Puppy Report | Barangay Tupol Oeste
+  </title>
+
+
+  <!-- API CONNECTOR -->
+  <script src="api.js"></script>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      color: #2d3748;
+    }
+
+
+    .page {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 18px 14px 45px;
+    }
+
+
+    /* BACK */
+
+    .back-wrap {
+      margin-bottom: 22px;
+    }
+
+
+    .back-btn {
+      border: 1px solid #d8dee6;
+      background: #ffffff;
+      color: #4a5568;
+      padding: 10px 15px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+
+    /* HEADER */
+
+    .header {
+      text-align: center;
+      margin-bottom: 26px;
+      padding: 0 8px;
+    }
+
+
+    .dog-icon {
+      font-size: 46px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+
+    .barangay {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      color: #303846;
+    }
+
+
+    .municipality {
+      margin-top: 5px;
+      font-size: 13px;
+      color: #737b87;
+    }
+
+
+    .header h1 {
+      margin: 16px 0 8px;
+      font-size: 28px;
+      line-height: 1.2;
+      font-weight: 800;
+      color: #303846;
+    }
+
+
+    .header p {
+      max-width: 500px;
+      margin: 0 auto;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #737b87;
+    }
+
+
+    /* MESSAGE */
+
+    .message {
+      display: none;
+      margin-bottom: 18px;
+      padding: 14px 15px;
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+
+    .message.error {
+      background: #fff5f5;
+      border: 1px solid #feb2b2;
+      color: #c53030;
+    }
+
+
+    .message.success {
+      background: #edf7ef;
+      border: 1px solid #b9dfc0;
+      color: #276749;
+    }
+
+
+    .message.info {
+      background: #eef4ff;
+      border: 1px solid #bfd2f2;
+      color: #315a8c;
+    }
+
+
+    /* CARD */
+
+    .card {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid #dce1e7;
+      border-radius: 15px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 14px rgba(0, 0, 0, .05);
+    }
+
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #303846;
+      margin-bottom: 6px;
+    }
+
+
+    .section-description {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #737b87;
+      margin-bottom: 20px;
+    }
+
+
+    /* FORM */
+
+    .form-group {
+      width: 100%;
+      margin-bottom: 18px;
+    }
+
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #4b5563;
+      margin-bottom: 7px;
+    }
+
+
+    .required {
+      color: #c53030;
+    }
+
+
+    input,
+    textarea {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      border: 1px solid #d6dce3;
+      border-radius: 10px;
+      padding: 13px 14px;
+      font-family: inherit;
+      font-size: 16px;
+      color: #2d3748;
+      background: #ffffff;
+    }
+
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #687180;
+      box-shadow: 0 0 0 3px rgba(104, 113, 128, .10);
+    }
+
+
+    textarea {
+      min-height: 105px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+
+    /* SEARCH */
+
+    .search-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+
+    .search-btn {
+      width: 100%;
+      min-height: 48px;
+      border: none;
+      background: #303846;
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+
+    .search-btn:disabled,
+    .submit-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+
+    /* VERIFIED DOG INFO */
+
+    .info-box {
+      display: none;
+      margin-top: 20px;
+      padding: 17px;
+      background: #f8fafc;
+      border: 1px solid #dce2e8;
+      border-radius: 12px;
+    }
+
+
+    .info-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #303846;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e2e6ea;
+    }
+
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+
+    .info-item label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #8a939f;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+
+
+    .info-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: #374151;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+
+    /* TOTAL */
+
+    .total-box {
+      width: 100%;
+      background: #f1f3f5;
+      border: 1px solid #e0e4e8;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: center;
+      margin: 2px 0 22px;
+    }
+
+
+    .total-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #777;
+      letter-spacing: .5px;
+    }
+
+
+    .total-value {
+      font-size: 36px;
+      line-height: 1;
+      font-weight: 800;
+      color: #303846;
+      margin-top: 7px;
+    }
+
+
+    /* SUBMIT */
+
+    .submit-btn {
+      width: 100%;
+      min-height: 52px;
+      border: none;
+      background: #303846;
+      color: #ffffff;
+      padding: 14px 18px;
+      border-radius: 11px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 15px;
+      color: #737b87;
+      font-size: 14px;
+    }
+
+
+    @media (max-width: 600px) {
+
+      .page {
+        max-width: 100%;
+        padding: 14px 10px 35px;
+      }
+
+
+      .back-btn {
+        width: 100%;
+        min-height: 46px;
+        font-size: 15px;
+      }
+
+
+      .card {
+        border-radius: 13px;
+        padding: 18px 16px;
+      }
+
+
+      .header h1 {
+        font-size: 25px;
+      }
+
+
+      .submit-btn {
+        min-height: 54px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+  <!-- BACK -->
+
+  <div class="back-wrap">
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="goBack()">
+
+      ← Back to Services
+
+    </button>
+
+  </div>
+
+
+  <!-- HEADER -->
+
+  <div class="header">
+
+    <div class="dog-icon">
+      🐶
+    </div>
+
+    <div class="barangay">
+      BARANGAY TUPOL OESTE
+    </div>
+
+    <div class="municipality">
+      Cabatuan, Iloilo
+    </div>
+
+    <h1>
+      Puppy Report
+    </h1>
+
+    <p>
+      Report a new litter born from a registered mother dog.
+    </p>
+
+  </div>
+
+
+  <!-- MESSAGE -->
+
+  <div
+    id="messageBox"
+    class="message">
+  </div>
+
+
+  <!-- MOTHER DOG -->
+
+  <div class="card">
+
+    <div class="section-title">
+      Mother Dog Verification
+    </div>
+
+    <div class="section-description">
+      Enter the Registry Number of the registered mother dog.
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Mother Dog Registry Number
+        <span class="required">*</span>
+      </label>
+
+      <div class="search-row">
+
+        <input
+          type="text"
+          id="registryNumber"
+          placeholder="Example: BTO-2026-00001"
+          autocomplete="off">
+
+        <button
+          type="button"
+          class="search-btn"
+          id="searchButton"
+          onclick="searchMotherDog()">
+
+          Search Record
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- VERIFIED INFORMATION -->
+
+    <div
+      id="dogInfoBox"
+      class="info-box">
+
+      <div class="info-title">
+        Registered Mother Dog
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <label>Dog Name</label>
+          <div id="dogName" class="info-value">-</div>
+        </div>
+
+        <div class="info-item">
+          <label>Registry Number</label>
+          <div id="displayRegistryNumber" class="info-value">-</div>
+        </div>
+
+        <div class="info-item">
+          <label>Owner Name</label>
+          <div id="ownerName" class="info-value">-</div>
+        </div>
+
+        <div class="info-item">
+          <label>Contact Number</label>
+          <div id="contactNumber" class="info-value">-</div>
+        </div>
+
+        <div class="info-item">
+          <label>Sitio</label>
+          <div id="sitio" class="info-value">-</div>
+        </div>
+
+        <div class="info-item">
+          <label>Address</label>
+          <div id="address" class="info-value">-</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- PUPPY INFORMATION -->
+
+  <div class="card">
+
+    <div class="section-title">
+      Puppy Information
+    </div>
+
+    <div class="section-description">
+      Provide the details of the new litter.
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Puppy Birthdate
+        <span class="required">*</span>
+      </label>
+
+      <input
+        type="date"
+        id="puppyBirthdate">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Number of Male Puppies
+        <span class="required">*</span>
+      </label>
+
+      <input
+        type="number"
+        id="maleCount"
+        min="0"
+        value="0"
+        inputmode="numeric"
+        oninput="calculateTotal()">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Number of Female Puppies
+        <span class="required">*</span>
+      </label>
+
+      <input
+        type="number"
+        id="femaleCount"
+        min="0"
+        value="0"
+        inputmode="numeric"
+        oninput="calculateTotal()">
+
+    </div>
+
+
+    <div class="total-box">
+
+      <div class="total-label">
+        TOTAL PUPPIES
+      </div>
+
+      <div
+        class="total-value"
+        id="totalPuppies">
+
+        0
+
+      </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Color / Description
+      </label>
+
+      <input
+        type="text"
+        id="color"
+        placeholder="Example: Brown, Black and White">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Remarks
+      </label>
+
+      <textarea
+        id="remarks"
+        placeholder="Optional additional information"></textarea>
+
+    </div>
+
+  </div>
+
+
+  <!-- SUBMIT -->
+
+  <button
+    type="button"
+    class="submit-btn"
+    id="submitButton"
+    onclick="submitReport()">
+
+    Submit Puppy Report
+
+  </button>
+
+
+  <div
+    id="loading"
+    class="loading">
+
+    Processing Puppy Report...
+
+  </div>
+
+
+</div>
+
+
+<script>
+
+
+/* ============================================================
+   GLOBAL STATE
+============================================================ */
+
+let motherDog = null;
+
+
+/* ============================================================
+   BACK
+============================================================ */
+
+function goBack() {
+
+  window.location.href =
+    'index.html';
+
+}
+
+
+/* ============================================================
+   SEARCH / VERIFY MOTHER DOG
+============================================================ */
+
+async function searchMotherDog() {
+
+  const registryNumber =
+    document
+      .getElementById('registryNumber')
+      .value
+      .trim();
+
+
+  if (!registryNumber) {
+
+    showMessage(
+      'Please enter the Mother Dog Registry Number.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  hideMessage();
+
+
+  const searchButton =
+    document.getElementById(
+      'searchButton'
+    );
+
+
+  searchButton.disabled = true;
+
+  searchButton.textContent =
+    'Searching...';
+
+
+  try {
+
+    const result =
+      await brccVerifyMotherDog(
+        registryNumber
+      );
+
+
+    if (
+      !result ||
+      !result.record
+    ) {
+
+      throw new Error(
+        'Dog record not found.'
+      );
+
+    }
+
+
+    motherDog =
+      result.record;
+
+
+    document
+      .getElementById('dogName')
+      .textContent =
+      motherDog.dogName || '-';
+
+
+    document
+      .getElementById('displayRegistryNumber')
+      .textContent =
+      motherDog.registryNumber || '-';
+
+
+    document
+      .getElementById('ownerName')
+      .textContent =
+      motherDog.ownerName || '-';
+
+
+    document
+      .getElementById('contactNumber')
+      .textContent =
+      motherDog.contactNumber || '-';
+
+
+    document
+      .getElementById('sitio')
+      .textContent =
+      motherDog.sitio || '-';
+
+
+    document
+      .getElementById('address')
+      .textContent =
+      motherDog.address || '-';
+
+
+    document
+      .getElementById('dogInfoBox')
+      .style.display =
+      'block';
+
+
+    showMessage(
+      'Mother dog verified successfully.',
+      'success'
+    );
+
+
+  } catch (error) {
+
+    motherDog = null;
+
+
+    document
+      .getElementById('dogInfoBox')
+      .style.display =
+      'none';
+
+
+    showMessage(
+      error.message ||
+      'Unable to verify mother dog.',
+      'error'
+    );
+
+  } finally {
+
+    searchButton.disabled = false;
+
+    searchButton.textContent =
+      'Search Record';
+
+  }
+
+}
+
+
+/* ============================================================
+   CALCULATE TOTAL
+============================================================ */
+
+function calculateTotal() {
+
+  const male =
+    Number(
+      document
+        .getElementById('maleCount')
+        .value
+    ) || 0;
+
+
+  const female =
+    Number(
+      document
+        .getElementById('femaleCount')
+        .value
+    ) || 0;
+
+
+  document
+    .getElementById('totalPuppies')
+    .textContent =
+    male + female;
+
+}
+
+
+/* ============================================================
+   SUBMIT PUPPY REPORT
+============================================================ */
+
+async function submitReport() {
+
+  hideMessage();
+
+
+  if (!motherDog) {
+
+    showMessage(
+      'Please verify the Mother Dog Registry Number first.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  const puppyBirthdate =
+    document
+      .getElementById('puppyBirthdate')
+      .value;
+
+
+  const maleCount =
+    Number(
+      document
+        .getElementById('maleCount')
+        .value
+    ) || 0;
+
+
+  const femaleCount =
+    Number(
+      document
+        .getElementById('femaleCount')
+        .value
+    ) || 0;
+
+
+  const color =
+    document
+      .getElementById('color')
+      .value
+      .trim();
+
+
+  const remarks =
+    document
+      .getElementById('remarks')
+      .value
+      .trim();
+
+
+  if (!puppyBirthdate) {
+
+    showMessage(
+      'Please enter the Puppy Birthdate.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    maleCount + femaleCount <= 0
+  ) {
+
+    showMessage(
+      'Please enter at least one puppy.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !confirm(
+      'Submit this Puppy Report for BRCC review?'
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  setLoading(true);
+
+
+  try {
+
+    const formData = {
+
+      /* VERIFIED MOTHER DOG */
+
+      motherRegistryNumber:
+        motherDog.registryNumber,
+
+
+      motherDogName:
+        motherDog.dogName,
+
+
+      ownerName:
+        motherDog.ownerName,
+
+
+      /* PUPPY INFORMATION */
+
+      puppyBirthdate:
+        puppyBirthdate,
+
+
+      maleCount:
+        maleCount,
+
+
+      femaleCount:
+        femaleCount,
+
+
+      color:
+        color,
+
+
+      remarks:
+        remarks
+
+    };
+
+
+    const result =
+      await brccSubmit(
+        'puppy_report',
+        formData
+      );
+
+
+    let message =
+      'Puppy Report submitted successfully.';
+
+
+    if (result.requestNumber) {
+
+      message +=
+        ' Request Number: ' +
+        result.requestNumber;
+
+    }
+
+
+    message +=
+      ' Please wait for BRCC review.';
+
+
+    showMessage(
+      message,
+      'success'
+    );
+
+
+    resetForm();
+
+
+  } catch (error) {
+
+    showMessage(
+      error.message ||
+      'Unable to submit Puppy Report.',
+      'error'
+    );
+
+  } finally {
+
+    setLoading(false);
+
+  }
+
+}
+
+
+/* ============================================================
+   RESET FORM
+============================================================ */
+
+function resetForm() {
+
+  motherDog = null;
+
+
+  document
+    .getElementById('registryNumber')
+    .value = '';
+
+
+  document
+    .getElementById('dogInfoBox')
+    .style.display = 'none';
+
+
+  document
+    .getElementById('puppyBirthdate')
+    .value = '';
+
+
+  document
+    .getElementById('maleCount')
+    .value = '0';
+
+
+  document
+    .getElementById('femaleCount')
+    .value = '0';
+
+
+  document
+    .getElementById('color')
+    .value = '';
+
+
+  document
+    .getElementById('remarks')
+    .value = '';
+
+
+  calculateTotal();
+
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+function setLoading(loading) {
+
+  const button =
+    document.getElementById(
+      'submitButton'
+    );
+
+
+  button.disabled = loading;
+
+
+  document
+    .getElementById('loading')
+    .style.display =
+    loading
+      ? 'block'
+      : 'none';
+
+
+  button.textContent =
+    loading
+      ? 'Submitting...'
+      : 'Submit Puppy Report';
+
+}
+
+
+/* ============================================================
+   MESSAGE
+============================================================ */
+
+function showMessage(
+  message,
+  type
+) {
+
+  const box =
+    document.getElementById(
+      'messageBox'
+    );
+
+
+  box.textContent =
+    message;
+
+
+  box.className =
+    'message ' + type;
+
+
+  box.style.display =
+    'block';
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
+}
+
+
+function hideMessage() {
+
+  document
+    .getElementById('messageBox')
+    .style.display =
+    'none';
+
+}
+
+
+</script>
+
+
+</body>
+</html>
