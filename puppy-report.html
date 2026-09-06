@@ -14,22 +14,18 @@
   </title>
 
 
-  <!-- API CONNECTOR -->
-  <script src="api.js"></script>
-
-
   <style>
 
     * {
       box-sizing: border-box;
     }
 
-
     html,
     body {
       margin: 0;
       padding: 0;
       width: 100%;
+      min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
       background: #f4f6f8;
       color: #2d3748;
@@ -50,16 +46,20 @@
       margin-bottom: 22px;
     }
 
-
     .back-btn {
+      width: 100%;
       border: 1px solid #d8dee6;
       background: #ffffff;
       color: #4a5568;
-      padding: 10px 15px;
+      padding: 12px 15px;
       border-radius: 9px;
       cursor: pointer;
       font-size: 14px;
       font-weight: 600;
+    }
+
+    .back-btn:hover {
+      background: #f7f7f7;
     }
 
 
@@ -71,13 +71,11 @@
       padding: 0 8px;
     }
 
-
     .dog-icon {
       font-size: 46px;
       line-height: 1;
       margin-bottom: 8px;
     }
-
 
     .barangay {
       font-size: 18px;
@@ -86,13 +84,11 @@
       color: #303846;
     }
 
-
     .municipality {
       margin-top: 5px;
       font-size: 13px;
       color: #737b87;
     }
-
 
     .header h1 {
       margin: 16px 0 8px;
@@ -101,7 +97,6 @@
       font-weight: 800;
       color: #303846;
     }
-
 
     .header p {
       max-width: 500px;
@@ -123,25 +118,16 @@
       line-height: 1.5;
     }
 
-
     .message.error {
       background: #fff5f5;
       border: 1px solid #feb2b2;
       color: #c53030;
     }
 
-
     .message.success {
       background: #edf7ef;
       border: 1px solid #b9dfc0;
       color: #276749;
-    }
-
-
-    .message.info {
-      background: #eef4ff;
-      border: 1px solid #bfd2f2;
-      color: #315a8c;
     }
 
 
@@ -154,9 +140,8 @@
       border-radius: 15px;
       padding: 22px;
       margin-bottom: 18px;
-      box-shadow: 0 3px 14px rgba(0, 0, 0, .05);
+      box-shadow: 0 3px 14px rgba(0,0,0,.05);
     }
-
 
     .section-title {
       font-size: 17px;
@@ -164,7 +149,6 @@
       color: #303846;
       margin-bottom: 6px;
     }
-
 
     .section-description {
       font-size: 13px;
@@ -181,7 +165,6 @@
       margin-bottom: 18px;
     }
 
-
     label {
       display: block;
       font-size: 13px;
@@ -190,11 +173,9 @@
       margin-bottom: 7px;
     }
 
-
     .required {
       color: #c53030;
     }
-
 
     input,
     textarea {
@@ -210,14 +191,12 @@
       background: #ffffff;
     }
 
-
     input:focus,
     textarea:focus {
       outline: none;
       border-color: #687180;
-      box-shadow: 0 0 0 3px rgba(104, 113, 128, .10);
+      box-shadow: 0 0 0 3px rgba(104,113,128,.10);
     }
-
 
     textarea {
       min-height: 105px;
@@ -235,7 +214,6 @@
       width: 100%;
     }
 
-
     .search-btn {
       width: 100%;
       min-height: 48px;
@@ -249,15 +227,17 @@
       font-weight: 800;
     }
 
+    .search-btn:hover {
+      background: #202733;
+    }
 
-    .search-btn:disabled,
-    .submit-btn:disabled {
+    .search-btn:disabled {
       opacity: .6;
       cursor: not-allowed;
     }
 
 
-    /* VERIFIED DOG INFO */
+    /* DOG INFO */
 
     .info-box {
       display: none;
@@ -268,7 +248,6 @@
       border-radius: 12px;
     }
 
-
     .info-title {
       font-size: 14px;
       font-weight: 800;
@@ -278,13 +257,11 @@
       border-bottom: 1px solid #e2e6ea;
     }
 
-
     .info-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 14px;
     }
-
 
     .info-item label {
       font-size: 11px;
@@ -295,8 +272,7 @@
       letter-spacing: .3px;
     }
 
-
-    .info-value {
+    .info-item div {
       font-size: 15px;
       font-weight: 600;
       color: #374151;
@@ -317,14 +293,12 @@
       margin: 2px 0 22px;
     }
 
-
     .total-label {
       font-size: 12px;
       font-weight: 700;
       color: #777;
       letter-spacing: .5px;
     }
-
 
     .total-value {
       font-size: 36px;
@@ -350,6 +324,17 @@
       cursor: pointer;
     }
 
+    .submit-btn:hover {
+      background: #202733;
+    }
+
+    .submit-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+
+    /* LOADING */
 
     .loading {
       display: none;
@@ -362,29 +347,30 @@
 
     @media (max-width: 600px) {
 
+      html,
+      body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+
       .page {
         max-width: 100%;
         padding: 14px 10px 35px;
       }
-
-
-      .back-btn {
-        width: 100%;
-        min-height: 46px;
-        font-size: 15px;
-      }
-
 
       .card {
         border-radius: 13px;
         padding: 18px 16px;
       }
 
+      .back-btn {
+        min-height: 46px;
+        font-size: 15px;
+      }
 
       .header h1 {
         font-size: 25px;
       }
-
 
       .submit-btn {
         min-height: 54px;
@@ -474,6 +460,7 @@
         <span class="required">*</span>
       </label>
 
+
       <div class="search-row">
 
         <input
@@ -497,7 +484,7 @@
     </div>
 
 
-    <!-- VERIFIED INFORMATION -->
+    <!-- VERIFIED DOG -->
 
     <div
       id="dogInfoBox"
@@ -507,36 +494,37 @@
         Registered Mother Dog
       </div>
 
+
       <div class="info-grid">
 
         <div class="info-item">
           <label>Dog Name</label>
-          <div id="dogName" class="info-value">-</div>
+          <div id="dogName">-</div>
         </div>
 
         <div class="info-item">
           <label>Registry Number</label>
-          <div id="displayRegistryNumber" class="info-value">-</div>
+          <div id="displayRegistryNumber">-</div>
         </div>
 
         <div class="info-item">
           <label>Owner Name</label>
-          <div id="ownerName" class="info-value">-</div>
+          <div id="ownerName">-</div>
         </div>
 
         <div class="info-item">
           <label>Contact Number</label>
-          <div id="contactNumber" class="info-value">-</div>
+          <div id="contactNumber">-</div>
         </div>
 
         <div class="info-item">
           <label>Sitio</label>
-          <div id="sitio" class="info-value">-</div>
+          <div id="sitio">-</div>
         </div>
 
         <div class="info-item">
           <label>Address</label>
-          <div id="address" class="info-value">-</div>
+          <div id="address">-</div>
         </div>
 
       </div>
@@ -546,7 +534,7 @@
   </div>
 
 
-  <!-- PUPPY INFORMATION -->
+  <!-- PUPPY INFO -->
 
   <div class="card">
 
@@ -680,19 +668,28 @@
 </div>
 
 
+<!-- ========================================================
+     API CONNECTOR
+
+     Adjust the path depending on your GitHub project structure.
+======================================================== -->
+
+<script src="js/api.js"></script>
+
+
 <script>
 
 
-/* ============================================================
+/* ==========================================================
    GLOBAL STATE
-============================================================ */
+========================================================== */
 
 let motherDog = null;
 
 
-/* ============================================================
+/* ==========================================================
    BACK
-============================================================ */
+========================================================== */
 
 function goBack() {
 
@@ -702,15 +699,17 @@ function goBack() {
 }
 
 
-/* ============================================================
-   SEARCH / VERIFY MOTHER DOG
-============================================================ */
+/* ==========================================================
+   SEARCH MOTHER DOG
+========================================================== */
 
 async function searchMotherDog() {
 
   const registryNumber =
     document
-      .getElementById('registryNumber')
+      .getElementById(
+        'registryNumber'
+      )
       .value
       .trim();
 
@@ -745,65 +744,128 @@ async function searchMotherDog() {
   try {
 
     const result =
-      await brccVerifyMotherDog(
-        registryNumber
+      await brccSubmit(
+        'verify_registry',
+        {
+          registryNumber:
+            registryNumber
+        }
       );
 
 
+    /*
+      Router response format:
+
+      {
+        success: true,
+        service: "...",
+        result: {...}
+      }
+    */
+
+    const verification =
+      result.result ||
+      result;
+
+
     if (
-      !result ||
-      !result.record
+      !verification ||
+      !verification.verified
     ) {
 
+      motherDog = null;
+
+
+      document
+        .getElementById(
+          'dogInfoBox'
+        )
+        .style.display =
+        'none';
+
+
       throw new Error(
-        'Dog record not found.'
+        verification &&
+        verification.message
+          ? verification.message
+          : 'Dog record not found.'
       );
 
     }
 
 
     motherDog =
-      result.record;
+      verification.record;
+
+
+    if (!motherDog) {
+
+      throw new Error(
+        'Verified dog record was not returned.'
+      );
+
+    }
 
 
     document
-      .getElementById('dogName')
+      .getElementById(
+        'dogName'
+      )
       .textContent =
-      motherDog.dogName || '-';
+      motherDog.dogName ||
+      '-';
 
 
     document
-      .getElementById('displayRegistryNumber')
+      .getElementById(
+        'displayRegistryNumber'
+      )
       .textContent =
-      motherDog.registryNumber || '-';
+      motherDog.registryNumber ||
+      registryNumber;
 
 
     document
-      .getElementById('ownerName')
+      .getElementById(
+        'ownerName'
+      )
       .textContent =
-      motherDog.ownerName || '-';
+      motherDog.ownerName ||
+      '-';
 
 
     document
-      .getElementById('contactNumber')
+      .getElementById(
+        'contactNumber'
+      )
       .textContent =
-      motherDog.contactNumber || '-';
+      motherDog.contactNumber ||
+      '-';
 
 
     document
-      .getElementById('sitio')
+      .getElementById(
+        'sitio'
+      )
       .textContent =
-      motherDog.sitio || '-';
+      motherDog.sitio ||
+      '-';
 
 
     document
-      .getElementById('address')
+      .getElementById(
+        'address'
+      )
       .textContent =
-      motherDog.address || '-';
+      motherDog.address ||
+      motherDog.ownerAddress ||
+      '-';
 
 
     document
-      .getElementById('dogInfoBox')
+      .getElementById(
+        'dogInfoBox'
+      )
       .style.display =
       'block';
 
@@ -820,20 +882,24 @@ async function searchMotherDog() {
 
 
     document
-      .getElementById('dogInfoBox')
+      .getElementById(
+        'dogInfoBox'
+      )
       .style.display =
       'none';
 
 
     showMessage(
       error.message ||
-      'Unable to verify mother dog.',
+      'Unable to verify dog registry.',
       'error'
     );
 
   } finally {
 
-    searchButton.disabled = false;
+    searchButton.disabled =
+      false;
+
 
     searchButton.textContent =
       'Search Record';
@@ -843,16 +909,18 @@ async function searchMotherDog() {
 }
 
 
-/* ============================================================
+/* ==========================================================
    CALCULATE TOTAL
-============================================================ */
+========================================================== */
 
 function calculateTotal() {
 
   const male =
     Number(
       document
-        .getElementById('maleCount')
+        .getElementById(
+          'maleCount'
+        )
         .value
     ) || 0;
 
@@ -860,22 +928,31 @@ function calculateTotal() {
   const female =
     Number(
       document
-        .getElementById('femaleCount')
+        .getElementById(
+          'femaleCount'
+        )
         .value
     ) || 0;
 
 
+  const total =
+    male +
+    female;
+
+
   document
-    .getElementById('totalPuppies')
+    .getElementById(
+      'totalPuppies'
+    )
     .textContent =
-    male + female;
+    total;
 
 }
 
 
-/* ============================================================
-   SUBMIT PUPPY REPORT
-============================================================ */
+/* ==========================================================
+   SUBMIT REPORT
+========================================================== */
 
 async function submitReport() {
 
@@ -896,14 +973,18 @@ async function submitReport() {
 
   const puppyBirthdate =
     document
-      .getElementById('puppyBirthdate')
+      .getElementById(
+        'puppyBirthdate'
+      )
       .value;
 
 
   const maleCount =
     Number(
       document
-        .getElementById('maleCount')
+        .getElementById(
+          'maleCount'
+        )
         .value
     ) || 0;
 
@@ -911,21 +992,27 @@ async function submitReport() {
   const femaleCount =
     Number(
       document
-        .getElementById('femaleCount')
+        .getElementById(
+          'femaleCount'
+        )
         .value
     ) || 0;
 
 
   const color =
     document
-      .getElementById('color')
+      .getElementById(
+        'color'
+      )
       .value
       .trim();
 
 
   const remarks =
     document
-      .getElementById('remarks')
+      .getElementById(
+        'remarks'
+      )
       .value
       .trim();
 
@@ -942,9 +1029,12 @@ async function submitReport() {
   }
 
 
-  if (
-    maleCount + femaleCount <= 0
-  ) {
+  const total =
+    maleCount +
+    femaleCount;
+
+
+  if (total <= 0) {
 
     showMessage(
       'Please enter at least one puppy.',
@@ -956,11 +1046,13 @@ async function submitReport() {
   }
 
 
-  if (
-    !confirm(
+  const confirmed =
+    confirm(
       'Submit this Puppy Report for BRCC review?'
-    )
-  ) {
+    );
+
+
+  if (!confirmed) {
 
     return;
 
@@ -972,39 +1064,35 @@ async function submitReport() {
 
   try {
 
-    const formData = {
 
-      /* VERIFIED MOTHER DOG */
+    /* ======================================================
+       SUBMISSION DATA
+
+       Include all verification fields required by backend.
+    ====================================================== */
+
+    const formData = {
 
       motherRegistryNumber:
         motherDog.registryNumber,
 
-
       motherDogName:
         motherDog.dogName,
-
 
       ownerName:
         motherDog.ownerName,
 
-
-      /* PUPPY INFORMATION */
-
       puppyBirthdate:
         puppyBirthdate,
-
 
       maleCount:
         maleCount,
 
-
       femaleCount:
         femaleCount,
 
-
       color:
         color,
-
 
       remarks:
         remarks
@@ -1012,32 +1100,44 @@ async function submitReport() {
     };
 
 
-    const result =
+    const response =
       await brccSubmit(
         'puppy_report',
         formData
       );
 
 
-    let message =
+    const result =
+      response.result ||
+      response;
+
+
+    let successText =
       'Puppy Report submitted successfully.';
 
 
-    if (result.requestNumber) {
+    if (
+      result.requestNumber ||
+      result.reportNumber
+    ) {
 
-      message +=
+      successText +=
         ' Request Number: ' +
-        result.requestNumber;
+        (
+          result.requestNumber ||
+          result.reportNumber
+        ) +
+        '.';
 
     }
 
 
-    message +=
+    successText +=
       ' Please wait for BRCC review.';
 
 
     showMessage(
-      message,
+      successText,
       'success'
     );
 
@@ -1062,9 +1162,9 @@ async function submitReport() {
 }
 
 
-/* ============================================================
+/* ==========================================================
    RESET FORM
-============================================================ */
+========================================================== */
 
 function resetForm() {
 
@@ -1072,37 +1172,52 @@ function resetForm() {
 
 
   document
-    .getElementById('registryNumber')
+    .getElementById(
+      'registryNumber'
+    )
     .value = '';
 
 
   document
-    .getElementById('dogInfoBox')
-    .style.display = 'none';
+    .getElementById(
+      'dogInfoBox'
+    )
+    .style.display =
+    'none';
 
 
   document
-    .getElementById('puppyBirthdate')
+    .getElementById(
+      'puppyBirthdate'
+    )
     .value = '';
 
 
   document
-    .getElementById('maleCount')
+    .getElementById(
+      'maleCount'
+    )
     .value = '0';
 
 
   document
-    .getElementById('femaleCount')
+    .getElementById(
+      'femaleCount'
+    )
     .value = '0';
 
 
   document
-    .getElementById('color')
+    .getElementById(
+      'color'
+    )
     .value = '';
 
 
   document
-    .getElementById('remarks')
+    .getElementById(
+      'remarks'
+    )
     .value = '';
 
 
@@ -1111,9 +1226,9 @@ function resetForm() {
 }
 
 
-/* ============================================================
+/* ==========================================================
    LOADING
-============================================================ */
+========================================================== */
 
 function setLoading(loading) {
 
@@ -1123,11 +1238,14 @@ function setLoading(loading) {
     );
 
 
-  button.disabled = loading;
+  button.disabled =
+    loading;
 
 
   document
-    .getElementById('loading')
+    .getElementById(
+      'loading'
+    )
     .style.display =
     loading
       ? 'block'
@@ -1142,9 +1260,9 @@ function setLoading(loading) {
 }
 
 
-/* ============================================================
+/* ==========================================================
    MESSAGE
-============================================================ */
+========================================================== */
 
 function showMessage(
   message,
@@ -1162,7 +1280,8 @@ function showMessage(
 
 
   box.className =
-    'message ' + type;
+    'message ' +
+    type;
 
 
   box.style.display =
@@ -1179,9 +1298,13 @@ function showMessage(
 
 function hideMessage() {
 
-  document
-    .getElementById('messageBox')
-    .style.display =
+  const box =
+    document.getElementById(
+      'messageBox'
+    );
+
+
+  box.style.display =
     'none';
 
 }
