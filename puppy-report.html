@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <meta charset="UTF-8">
@@ -469,25 +470,8 @@
 
 
     /* =========================================================
-       SEARCH
+       BUTTONS
     ========================================================= */
-
-    .search-row {
-
-      display:
-        flex;
-
-      flex-direction:
-        column;
-
-      gap:
-        10px;
-
-      width:
-        100%;
-
-    }
-
 
     .search-btn {
 
@@ -545,7 +529,7 @@
 
 
     /* =========================================================
-       DOG INFORMATION
+       VERIFIED DOG INFORMATION
     ========================================================= */
 
     .info-box {
@@ -662,6 +646,58 @@
 
 
     /* =========================================================
+       LOCKED PUPPY FORM
+    ========================================================= */
+
+    .locked-card {
+
+      opacity:
+        .55;
+
+      pointer-events:
+        none;
+
+      user-select:
+        none;
+
+    }
+
+
+    .unlock-note {
+
+      display:
+        block;
+
+      margin-top:
+        8px;
+
+      padding:
+        11px
+        13px;
+
+      border-radius:
+        9px;
+
+      background:
+        #fffaf0;
+
+      border:
+        1px solid
+        #f6d89a;
+
+      color:
+        #975a16;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.5;
+
+    }
+
+
+    /* =========================================================
        TOTAL BOX
     ========================================================= */
 
@@ -736,6 +772,9 @@
     ========================================================= */
 
     .submit-btn {
+
+      display:
+        none;
 
       width:
         100%;
@@ -818,7 +857,9 @@
        MOBILE
     ========================================================= */
 
-    @media (max-width: 600px) {
+    @media (
+      max-width: 600px
+    ) {
 
       html,
       body {
@@ -845,53 +886,14 @@
       }
 
 
-      .back-wrap {
+      .card {
 
-        margin-bottom:
-          20px;
-
-      }
-
-
-      .back-btn {
-
-        min-height:
-          46px;
-
-        font-size:
-          15px;
-
-      }
-
-
-      .header {
-
-        margin-bottom:
-          22px;
-
-      }
-
-
-      .dog-icon {
-
-        font-size:
-          44px;
-
-      }
-
-
-      .barangay {
-
-        font-size:
-          18px;
-
-      }
-
-
-      .municipality {
-
-        font-size:
+        border-radius:
           13px;
+
+        padding:
+          18px
+          16px;
 
       }
 
@@ -904,107 +906,10 @@
       }
 
 
-      .header p {
-
-        font-size:
-          14px;
-
-      }
-
-
-      .card {
-
-        border-radius:
-          13px;
-
-        padding:
-          18px
-          16px;
-
-        margin-bottom:
-          15px;
-
-      }
-
-
-      .section-title {
-
-        font-size:
-          17px;
-
-      }
-
-
-      .section-description {
-
-        font-size:
-          13px;
-
-      }
-
-
-      label {
-
-        font-size:
-          13px;
-
-      }
-
-
-      input,
-      textarea {
-
-        font-size:
-          16px;
-
-        padding:
-          13px;
-
-      }
-
-
-      .search-btn {
-
-        min-height:
-          50px;
-
-        font-size:
-          16px;
-
-      }
-
-
-      .info-box {
-
-        padding:
-          15px;
-
-      }
-
-
-      .info-item div {
-
-        font-size:
-          15px;
-
-      }
-
-
       .total-value {
 
         font-size:
           38px;
-
-      }
-
-
-      .submit-btn {
-
-        min-height:
-          54px;
-
-        font-size:
-          16px;
 
       }
 
@@ -1030,7 +935,7 @@
     <button
       type="button"
       class="back-btn"
-      onclick="goToPublicPortal()">
+      onclick="goBack()">
 
       ← Back to Services
 
@@ -1049,21 +954,17 @@
       🐶
     </div>
 
-
     <div class="barangay">
       BARANGAY TUPOL OESTE
     </div>
-
 
     <div class="municipality">
       Cabatuan, Iloilo
     </div>
 
-
     <h1>
       Puppy Report
     </h1>
-
 
     <p>
       Report a new litter born from a registered mother dog.
@@ -1083,6 +984,7 @@
 
 
   <!-- =======================================================
+       STEP 1
        MOTHER DOG VERIFICATION
   ======================================================== -->
 
@@ -1090,49 +992,78 @@
 
 
     <div class="section-title">
-      Mother Dog Verification
+      Step 1: Verify Mother Dog
     </div>
 
 
     <div class="section-description">
-      Enter the Registry Number of the registered mother dog.
+      Enter the Mother Dog Registry Number and the registered owner's name.
+      Both information must match the Dog Registry.
     </div>
 
+
+    <!-- REGISTRY NUMBER -->
 
     <div class="form-group">
 
       <label>
+
         Mother Dog Registry Number
-        <span class="required">*</span>
+
+        <span class="required">
+          *
+        </span>
+
       </label>
 
 
-      <div class="search-row">
-
-        <input
-          type="text"
-          id="registryNumber"
-          placeholder="Example: BTO-2026-00001"
-          autocomplete="off"
-          oninput="clearMotherDogVerification()">
-
-
-        <button
-          type="button"
-          class="search-btn"
-          id="searchButton"
-          onclick="searchMotherDog()">
-
-          Search Record
-
-        </button>
-
-      </div>
+      <input
+        type="text"
+        id="registryNumber"
+        placeholder="Example: BTO-2026-00001"
+        autocomplete="off">
 
     </div>
 
 
-    <!-- REGISTERED DOG INFORMATION -->
+    <!-- OWNER NAME -->
+
+    <div class="form-group">
+
+      <label>
+
+        Registered Owner Name
+
+        <span class="required">
+          *
+        </span>
+
+      </label>
+
+
+      <input
+        type="text"
+        id="verificationOwnerName"
+        placeholder="Enter registered owner's full name"
+        autocomplete="name">
+
+    </div>
+
+
+    <!-- VERIFY BUTTON -->
+
+    <button
+      type="button"
+      class="search-btn"
+      id="searchButton"
+      onclick="searchMotherDog()">
+
+      Verify Mother Dog
+
+    </button>
+
+
+    <!-- VERIFIED DOG INFORMATION -->
 
     <div
       id="dogInfoBox"
@@ -1140,7 +1071,7 @@
 
 
       <div class="info-title">
-        Registered Mother Dog
+        ✓ Verified Mother Dog Record
       </div>
 
 
@@ -1149,7 +1080,9 @@
 
         <div class="info-item">
 
-          <label>Dog Name</label>
+          <label>
+            Dog Name
+          </label>
 
           <div id="dogName">
             -
@@ -1160,7 +1093,9 @@
 
         <div class="info-item">
 
-          <label>Registry Number</label>
+          <label>
+            Registry Number
+          </label>
 
           <div id="displayRegistryNumber">
             -
@@ -1171,7 +1106,9 @@
 
         <div class="info-item">
 
-          <label>Owner Name</label>
+          <label>
+            Owner Name
+          </label>
 
           <div id="ownerName">
             -
@@ -1182,7 +1119,9 @@
 
         <div class="info-item">
 
-          <label>Contact Number</label>
+          <label>
+            Contact Number
+          </label>
 
           <div id="contactNumber">
             -
@@ -1193,7 +1132,9 @@
 
         <div class="info-item">
 
-          <label>Sitio</label>
+          <label>
+            Sitio
+          </label>
 
           <div id="sitio">
             -
@@ -1204,7 +1145,9 @@
 
         <div class="info-item">
 
-          <label>Address</label>
+          <label>
+            Address
+          </label>
 
           <div id="address">
             -
@@ -1217,18 +1160,22 @@
 
     </div>
 
+
   </div>
 
 
   <!-- =======================================================
+       STEP 2
        PUPPY INFORMATION
   ======================================================== -->
 
-  <div class="card">
+  <div
+    class="card locked-card"
+    id="puppyInformationCard">
 
 
     <div class="section-title">
-      Puppy Information
+      Step 2: Puppy Information
     </div>
 
 
@@ -1237,13 +1184,27 @@
     </div>
 
 
+    <div
+      class="unlock-note"
+      id="unlockNote">
+
+      Please verify the Mother Dog first to unlock this form.
+
+    </div>
+
+
     <!-- BIRTHDATE -->
 
     <div class="form-group">
 
       <label>
+
         Puppy Birthdate
-        <span class="required">*</span>
+
+        <span class="required">
+          *
+        </span>
+
       </label>
 
 
@@ -1254,13 +1215,18 @@
     </div>
 
 
-    <!-- MALE -->
+    <!-- MALE COUNT -->
 
     <div class="form-group">
 
       <label>
+
         Number of Male Puppies
-        <span class="required">*</span>
+
+        <span class="required">
+          *
+        </span>
+
       </label>
 
 
@@ -1275,13 +1241,18 @@
     </div>
 
 
-    <!-- FEMALE -->
+    <!-- FEMALE COUNT -->
 
     <div class="form-group">
 
       <label>
+
         Number of Female Puppies
-        <span class="required">*</span>
+
+        <span class="required">
+          *
+        </span>
+
       </label>
 
 
@@ -1303,7 +1274,6 @@
       <div class="total-label">
         TOTAL PUPPIES
       </div>
-
 
       <div
         class="total-value"
@@ -1348,11 +1318,12 @@
 
     </div>
 
+
   </div>
 
 
   <!-- =======================================================
-       SUBMIT
+       SUBMIT BUTTON
   ======================================================== -->
 
   <button
@@ -1378,13 +1349,6 @@
 </div>
 
 
-<!-- =========================================================
-     BRCC PUBLIC API CONNECTOR
-
-     IMPORTANT:
-     api.js must be in the same GitHub folder.
-========================================================= -->
-
 <script src="api.js"></script>
 
 
@@ -1392,35 +1356,18 @@
 
 
 /* ==========================================================
-   BRCC-DMS V3
-   PUPPY REPORT PUBLIC PORTAL
-
-   FRONTEND FLOW:
-
-   GitHub Pages
-        ↓
-   api.js
-        ↓
-   Apps Script Web App
-        ↓
-   PublicPortalRouter.gs
-        ↓
-   PublicPortalAPI.gs
-========================================================== */
-
-
-/* ==========================================================
    GLOBAL STATE
 ========================================================== */
 
-var motherDog = null;
+var motherDog =
+  null;
 
 
 /* ==========================================================
-   BACK TO PUBLIC PORTAL
+   BACK
 ========================================================== */
 
-function goToPublicPortal() {
+function goBack() {
 
   window.location.href =
     'index.html';
@@ -1429,67 +1376,7 @@ function goToPublicPortal() {
 
 
 /* ==========================================================
-   CLEAR MOTHER DOG VERIFICATION
-
-   If Registry Number is changed,
-   previous verification becomes invalid.
-========================================================== */
-
-function clearMotherDogVerification() {
-
-  if (!motherDog) {
-
-    return;
-
-  }
-
-
-  var currentRegistryNumber =
-    document
-      .getElementById(
-        'registryNumber'
-      )
-      .value
-      .trim()
-      .toUpperCase();
-
-
-  var verifiedRegistryNumber =
-    String(
-      motherDog.registryNumber || ''
-    )
-      .trim()
-      .toUpperCase();
-
-
-  if (
-    currentRegistryNumber !==
-    verifiedRegistryNumber
-  ) {
-
-    motherDog = null;
-
-
-    document
-      .getElementById(
-        'dogInfoBox'
-      )
-      .style.display =
-      'none';
-
-  }
-
-}
-
-
-/* ==========================================================
-   SEARCH MOTHER DOG
-
-   GitHub
-      ↓
-   brccSubmit()
-      ↓
-   verify_registry API
+   VERIFY MOTHER DOG
 ========================================================== */
 
 async function searchMotherDog() {
@@ -1498,6 +1385,15 @@ async function searchMotherDog() {
     document
       .getElementById(
         'registryNumber'
+      )
+      .value
+      .trim();
+
+
+  var ownerName =
+    document
+      .getElementById(
+        'verificationOwnerName'
       )
       .value
       .trim();
@@ -1515,7 +1411,22 @@ async function searchMotherDog() {
   }
 
 
+  if (!ownerName) {
+
+    showMessage(
+      'Please enter the Registered Owner Name.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
   hideMessage();
+
+
+  lockPuppyForm();
 
 
   var searchButton =
@@ -1529,39 +1440,11 @@ async function searchMotherDog() {
 
 
   searchButton.textContent =
-    'Searching...';
-
-
-  motherDog =
-    null;
-
-
-  document
-    .getElementById(
-      'dogInfoBox'
-    )
-    .style.display =
-    'none';
+    'Verifying...';
 
 
   try {
 
-
-    /* ======================================================
-       CALL PUBLIC API
-
-       IMPORTANT:
-       Response from PublicPortalRouter.gs:
-
-       {
-         success: true,
-         service: "verify_registry",
-         result: {
-           verified: true,
-           record: {...}
-         }
-       }
-    ====================================================== */
 
     var response =
       await brccSubmit(
@@ -1569,21 +1452,32 @@ async function searchMotherDog() {
         {
 
           registryNumber:
-            registryNumber
+            registryNumber,
+
+
+          ownerName:
+            ownerName
 
         }
       );
 
 
-    /* ======================================================
-       UNWRAP ROUTER RESPONSE
-    ====================================================== */
+    /*
+       Router response format:
+
+       {
+         success: true,
+         service: 'verify_registry',
+         result: {
+           verified: true,
+           record: {...}
+         }
+       }
+    */
 
     var result =
-      response &&
-      response.result
-        ? response.result
-        : response;
+      response.result ||
+      response;
 
 
     if (
@@ -1592,93 +1486,39 @@ async function searchMotherDog() {
       !result.record
     ) {
 
+      motherDog =
+        null;
+
+
+      hideDogInfo();
+
+
       throw new Error(
         result &&
         result.message
-          ? result.message
-          : 'Dog record not found.'
+          ?
+          result.message
+          :
+          'Mother dog verification failed.'
       );
 
     }
 
 
-    /* ======================================================
-       SAVE VERIFIED RECORD
-    ====================================================== */
-
     motherDog =
       result.record;
 
 
-    /* ======================================================
-       DISPLAY VERIFIED INFORMATION
-    ====================================================== */
-
-    document
-      .getElementById(
-        'dogName'
-      )
-      .textContent =
-      motherDog.dogName ||
-      '-';
+    displayMotherDog(
+      motherDog
+    );
 
 
-    document
-      .getElementById(
-        'displayRegistryNumber'
-      )
-      .textContent =
-      motherDog.registryNumber ||
-      registryNumber;
-
-
-    document
-      .getElementById(
-        'ownerName'
-      )
-      .textContent =
-      motherDog.ownerName ||
-      '-';
-
-
-    document
-      .getElementById(
-        'contactNumber'
-      )
-      .textContent =
-      motherDog.contactNumber ||
-      '-';
-
-
-    document
-      .getElementById(
-        'sitio'
-      )
-      .textContent =
-      motherDog.sitio ||
-      '-';
-
-
-    document
-      .getElementById(
-        'address'
-      )
-      .textContent =
-      motherDog.address ||
-      motherDog.ownerAddress ||
-      '-';
-
-
-    document
-      .getElementById(
-        'dogInfoBox'
-      )
-      .style.display =
-      'block';
+    unlockPuppyForm();
 
 
     showMessage(
-      'Mother dog verified successfully.',
+      'Mother dog verified successfully. You may now enter the puppy information.',
       'success'
     );
 
@@ -1690,19 +1530,19 @@ async function searchMotherDog() {
       null;
 
 
-    document
-      .getElementById(
-        'dogInfoBox'
-      )
-      .style.display =
-      'none';
+    hideDogInfo();
+
+
+    lockPuppyForm();
 
 
     showMessage(
       error &&
       error.message
-        ? error.message
-        : 'Unable to search dog registry.',
+        ?
+        error.message
+        :
+        'Unable to verify Mother Dog.',
       'error'
     );
 
@@ -1715,9 +1555,168 @@ async function searchMotherDog() {
 
 
     searchButton.textContent =
-      'Search Record';
+      'Verify Mother Dog';
 
   }
+
+}
+
+
+/* ==========================================================
+   DISPLAY VERIFIED MOTHER DOG
+========================================================== */
+
+function displayMotherDog(
+  dog
+) {
+
+  document
+    .getElementById(
+      'dogName'
+    )
+    .textContent =
+    dog.dogName ||
+    '-';
+
+
+  document
+    .getElementById(
+      'displayRegistryNumber'
+    )
+    .textContent =
+    dog.registryNumber ||
+    '-';
+
+
+  document
+    .getElementById(
+      'ownerName'
+    )
+    .textContent =
+    dog.ownerName ||
+    '-';
+
+
+  document
+    .getElementById(
+      'contactNumber'
+    )
+    .textContent =
+    dog.contactNumber ||
+    '-';
+
+
+  document
+    .getElementById(
+      'sitio'
+    )
+    .textContent =
+    dog.sitio ||
+    '-';
+
+
+  document
+    .getElementById(
+      'address'
+    )
+    .textContent =
+    dog.address ||
+    dog.ownerAddress ||
+    '-';
+
+
+  document
+    .getElementById(
+      'dogInfoBox'
+    )
+    .style.display =
+    'block';
+
+}
+
+
+/* ==========================================================
+   HIDE DOG INFORMATION
+========================================================== */
+
+function hideDogInfo() {
+
+  document
+    .getElementById(
+      'dogInfoBox'
+    )
+    .style.display =
+    'none';
+
+}
+
+
+/* ==========================================================
+   UNLOCK PUPPY FORM
+========================================================== */
+
+function unlockPuppyForm() {
+
+  var card =
+    document.getElementById(
+      'puppyInformationCard'
+    );
+
+
+  card.classList.remove(
+    'locked-card'
+  );
+
+
+  document
+    .getElementById(
+      'unlockNote'
+    )
+    .style.display =
+    'none';
+
+
+  document
+    .getElementById(
+      'submitButton'
+    )
+    .style.display =
+    'block';
+
+}
+
+
+/* ==========================================================
+   LOCK PUPPY FORM
+========================================================== */
+
+function lockPuppyForm() {
+
+  var card =
+    document.getElementById(
+      'puppyInformationCard'
+    );
+
+
+  card.classList.add(
+    'locked-card'
+  );
+
+
+  document
+    .getElementById(
+      'unlockNote'
+    )
+    .style.display =
+    'block';
+
+
+  document
+    .getElementById(
+      'submitButton'
+    )
+    .style.display =
+    'none';
 
 }
 
@@ -1748,20 +1747,6 @@ function calculateTotal() {
     ) || 0;
 
 
-  if (male < 0) {
-
-    male = 0;
-
-  }
-
-
-  if (female < 0) {
-
-    female = 0;
-
-  }
-
-
   var total =
     male +
     female;
@@ -1778,7 +1763,7 @@ function calculateTotal() {
 
 
 /* ==========================================================
-   SUBMIT REPORT
+   SUBMIT PUPPY REPORT
 ========================================================== */
 
 async function submitReport() {
@@ -1786,14 +1771,10 @@ async function submitReport() {
   hideMessage();
 
 
-  /* ========================================================
-     REQUIRE VERIFIED MOTHER DOG
-  ======================================================== */
-
   if (!motherDog) {
 
     showMessage(
-      'Please verify the Mother Dog Registry Number first.',
+      'Please verify the Mother Dog first.',
       'error'
     );
 
@@ -1801,77 +1782,6 @@ async function submitReport() {
 
   }
 
-
-  /* ========================================================
-     GET CURRENT REGISTRY NUMBER
-  ======================================================== */
-
-  var currentRegistryNumber =
-    document
-      .getElementById(
-        'registryNumber'
-      )
-      .value
-      .trim();
-
-
-  if (
-    !currentRegistryNumber
-  ) {
-
-    showMessage(
-      'Mother Dog Registry Number is required.',
-      'error'
-    );
-
-    return;
-
-  }
-
-
-  /* ========================================================
-     VERIFY THAT INPUT WAS NOT CHANGED
-  ======================================================== */
-
-  if (
-
-    String(
-      currentRegistryNumber
-    )
-      .toUpperCase() !==
-
-    String(
-      motherDog.registryNumber
-    )
-      .toUpperCase()
-
-  ) {
-
-    motherDog =
-      null;
-
-
-    document
-      .getElementById(
-        'dogInfoBox'
-      )
-      .style.display =
-      'none';
-
-
-    showMessage(
-      'Registry Number was changed. Please search and verify the Mother Dog again.',
-      'error'
-    );
-
-    return;
-
-  }
-
-
-  /* ========================================================
-     GET FORM VALUES
-  ======================================================== */
 
   var puppyBirthdate =
     document
@@ -1919,33 +1829,10 @@ async function submitReport() {
       .trim();
 
 
-  /* ========================================================
-     VALIDATE BIRTHDATE
-  ======================================================== */
-
   if (!puppyBirthdate) {
 
     showMessage(
       'Please enter the Puppy Birthdate.',
-      'error'
-    );
-
-    return;
-
-  }
-
-
-  /* ========================================================
-     VALIDATE COUNTS
-  ======================================================== */
-
-  if (
-    maleCount < 0 ||
-    femaleCount < 0
-  ) {
-
-    showMessage(
-      'Puppy count cannot be negative.',
       'error'
     );
 
@@ -1971,10 +1858,6 @@ async function submitReport() {
   }
 
 
-  /* ========================================================
-     CONFIRM SUBMISSION
-  ======================================================== */
-
   var confirmed =
     confirm(
       'Submit this Puppy Report for BRCC review?'
@@ -1988,10 +1871,6 @@ async function submitReport() {
   }
 
 
-  /* ========================================================
-     START LOADING
-  ======================================================== */
-
   setLoading(
     true
   );
@@ -2000,37 +1879,20 @@ async function submitReport() {
   try {
 
 
-    /* ======================================================
-       FORM DATA
-
-       IMPORTANT:
-       Includes Mother Dog Name and Owner Name
-       required by backend verification.
-    ====================================================== */
-
     var formData = {
 
 
-      /* MOTHER DOG */
-
       motherRegistryNumber:
-        motherDog.registryNumber ||
-        currentRegistryNumber,
+        motherDog.registryNumber,
 
 
       motherDogName:
-        motherDog.dogName ||
-        '',
+        motherDog.dogName,
 
-
-      /* OWNER */
 
       ownerName:
-        motherDog.ownerName ||
-        '',
+        motherDog.ownerName,
 
-
-      /* PUPPY INFORMATION */
 
       puppyBirthdate:
         puppyBirthdate,
@@ -2054,10 +1916,6 @@ async function submitReport() {
     };
 
 
-    /* ======================================================
-       SUBMIT TO BRCC-DMS API
-    ====================================================== */
-
     var response =
       await brccSubmit(
         'puppy_report',
@@ -2065,37 +1923,13 @@ async function submitReport() {
       );
 
 
-    /* ======================================================
-       UNWRAP ROUTER RESPONSE
-    ====================================================== */
-
     var result =
-      response &&
-      response.result
-        ? response.result
-        : response;
+      response.result ||
+      response;
 
-
-    if (
-      !result ||
-      !result.success
-    ) {
-
-      throw new Error(
-        result &&
-        result.message
-          ? result.message
-          : 'Unable to submit Puppy Report.'
-      );
-
-    }
-
-
-    /* ======================================================
-       SUCCESS MESSAGE
-    ====================================================== */
 
     var successText =
+      result.message ||
       'Puppy Report submitted successfully.';
 
 
@@ -2121,10 +1955,6 @@ async function submitReport() {
     );
 
 
-    /* ======================================================
-       RESET FORM
-    ====================================================== */
-
     resetForm();
 
 
@@ -2134,8 +1964,10 @@ async function submitReport() {
     showMessage(
       error &&
       error.message
-        ? error.message
-        : 'Unable to submit Puppy Report.',
+        ?
+        error.message
+        :
+        'Unable to submit Puppy Report.',
       'error'
     );
 
@@ -2172,58 +2004,13 @@ function resetForm() {
 
   document
     .getElementById(
-      'dogInfoBox'
+      'verificationOwnerName'
     )
-    .style.display =
-    'none';
+    .value =
+    '';
 
 
-  document
-    .getElementById(
-      'dogName'
-    )
-    .textContent =
-    '-';
-
-
-  document
-    .getElementById(
-      'displayRegistryNumber'
-    )
-    .textContent =
-    '-';
-
-
-  document
-    .getElementById(
-      'ownerName'
-    )
-    .textContent =
-    '-';
-
-
-  document
-    .getElementById(
-      'contactNumber'
-    )
-    .textContent =
-    '-';
-
-
-  document
-    .getElementById(
-      'sitio'
-    )
-    .textContent =
-    '-';
-
-
-  document
-    .getElementById(
-      'address'
-    )
-    .textContent =
-    '-';
+  hideDogInfo();
 
 
   document
@@ -2268,6 +2055,9 @@ function resetForm() {
 
   calculateTotal();
 
+
+  lockPuppyForm();
+
 }
 
 
@@ -2295,14 +2085,18 @@ function setLoading(
     )
     .style.display =
     loading
-      ? 'block'
-      : 'none';
+      ?
+      'block'
+      :
+      'none';
 
 
   button.textContent =
     loading
-      ? 'Submitting...'
-      : 'Submit Puppy Report';
+      ?
+      'Submitting...'
+      :
+      'Submit Puppy Report';
 
 }
 
@@ -2359,10 +2153,6 @@ function hideMessage() {
   box.style.display =
     'none';
 
-
-  box.textContent =
-    '';
-
 }
 
 
@@ -2370,4 +2160,5 @@ function hideMessage() {
 
 
 </body>
+
 </html>
