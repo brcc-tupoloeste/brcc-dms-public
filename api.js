@@ -1,14 +1,17 @@
 /* ============================================================
    BRCC-DMS V3
    PUBLIC PORTAL API CONNECTOR
+
+   USED BY:
+   - GitHub Public Portal
+   - Registry Update
+   - Puppy Report
+   - Other Public Services
 ============================================================ */
 
 
 /* ============================================================
    GOOGLE APPS SCRIPT WEB APP URL
-
-   IMPORTANT:
-   Use the /exec deployment URL.
 ============================================================ */
 
 const BRCC_API_URL =
@@ -16,19 +19,24 @@ const BRCC_API_URL =
 
 
 /* ============================================================
-   SUBMIT TO BRCC-DMS
+   GENERIC BRCC API REQUEST
+
+   Payload format:
+
+   {
+     service: "service_name",
+     data: {...}
+   }
 ============================================================ */
 
-async function brccSubmit(
+async function brccRequest(
   service,
-  data
+  data = {}
 ) {
 
   if (
     !BRCC_API_URL ||
-    BRCC_API_URL.includes(
-      'ILAGAY_DITO'
-    )
+    BRCC_API_URL.includes('ILAGAY_DITO')
   ) {
 
     throw new Error(
@@ -63,8 +71,10 @@ async function brccSubmit(
             'POST',
 
           headers: {
+
             'Content-Type':
               'text/plain;charset=utf-8'
+
           },
 
           body:
@@ -81,7 +91,7 @@ async function brccSubmit(
   } catch (networkError) {
 
     console.error(
-      'API network error:',
+      'BRCC API network error:',
       networkError
     );
 
@@ -116,16 +126,93 @@ async function brccSubmit(
   }
 
 
+  if (!result) {
+
+    throw new Error(
+      'Empty response from server.'
+    );
+
+  }
+
+
   if (!result.success) {
 
     throw new Error(
       result.message ||
-      'Submission failed.'
+      'Request failed.'
     );
 
   }
 
 
   return result;
+
+}
+
+
+/* ============================================================
+   SUBMIT TO BRCC-DMS
+
+   Example:
+
+   brccSubmit(
+     'puppy_report',
+     formData
+   );
+============================================================ */
+
+async function brccSubmit(
+  service,
+  data
+) {
+
+  return await brccRequest(
+    service,
+    data
+  );
+
+}
+
+
+/* ============================================================
+   VERIFY MOTHER DOG
+
+   Used by:
+   Puppy Report
+
+   Example:
+
+   const result =
+     await brccVerifyMotherDog(
+       'BTO-2026-00001'
+     );
+============================================================ */
+
+async function brccVerifyMotherDog(
+  registryNumber
+) {
+
+  if (
+    !registryNumber ||
+    !String(registryNumber).trim()
+  ) {
+
+    throw new Error(
+      'Mother Dog Registry Number is required.'
+    );
+
+  }
+
+
+  return await brccRequest(
+    'verify_mother_dog',
+    {
+
+      registryNumber:
+        String(registryNumber)
+          .trim()
+
+    }
+  );
 
 }
