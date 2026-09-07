@@ -1698,7 +1698,7 @@
       'Required. Upload a clear JPG or PNG photo of the registered dog. Maximum file size: 5MB.';
 
 
-    displayCurrentDogPhoto();
+    displayCurrentDogPhoto(record);
 
   }
 
@@ -1865,7 +1865,7 @@
      DISPLAY CURRENT DOG PHOTO
   ========================================= */
 
-  function displayCurrentDogPhoto() {
+  function displayCurrentDogPhoto(record) {
 
     currentPhotoBox.classList.add(
       'show'
