@@ -12,13 +12,11 @@
 
   <title>Registry Update | Barangay Tupol Oeste</title>
 
-
   <style>
 
     * {
       box-sizing: border-box;
     }
-
 
     html,
     body {
@@ -30,11 +28,9 @@
       color: #303846;
     }
 
-
     body {
       min-height: 100vh;
     }
-
 
     /* =========================================
        PAGE
@@ -46,7 +42,6 @@
       margin: 0 auto;
       padding: 14px 10px 45px;
     }
-
 
     /* =========================================
        BACK BUTTON
@@ -66,11 +61,9 @@
       font-weight: 600;
     }
 
-
     .back-button:active {
       transform: scale(.98);
     }
-
 
     /* =========================================
        HEADER
@@ -81,7 +74,6 @@
       padding: 8px 8px 28px;
     }
 
-
     .barangay-logo {
       width: 88px;
       height: 88px;
@@ -90,7 +82,6 @@
       margin: 0 auto 10px;
     }
 
-
     .barangay {
       font-size: 20px;
       font-weight: 800;
@@ -98,13 +89,11 @@
       color: #303846;
     }
 
-
     .location {
       margin-top: 5px;
       font-size: 14px;
       color: #6b7280;
     }
-
 
     h1 {
       margin: 20px 0 8px;
@@ -112,14 +101,12 @@
       color: #303846;
     }
 
-
     .subtitle {
       margin: 0;
       color: #6b7280;
       font-size: 15px;
       line-height: 1.5;
     }
-
 
     /* =========================================
        CARD
@@ -135,13 +122,11 @@
       box-shadow: 0 2px 10px rgba(0,0,0,.05);
     }
 
-
     .section-title {
       font-size: 19px;
       font-weight: 800;
       margin-bottom: 5px;
     }
-
 
     .section-description {
       margin-bottom: 20px;
@@ -149,7 +134,6 @@
       color: #6b7280;
       line-height: 1.5;
     }
-
 
     /* =========================================
        FORM
@@ -160,7 +144,6 @@
       margin-bottom: 17px;
     }
 
-
     label {
       display: block;
       margin-bottom: 7px;
@@ -169,11 +152,9 @@
       color: #4b5563;
     }
 
-
     .required {
       color: #c53030;
     }
-
 
     input,
     select,
@@ -191,13 +172,11 @@
       outline: none;
     }
 
-
     textarea {
       min-height: 115px;
       resize: vertical;
       line-height: 1.5;
     }
-
 
     input:focus,
     select:focus,
@@ -206,13 +185,11 @@
       box-shadow: 0 0 0 3px rgba(102,112,133,.12);
     }
 
-
     input:disabled {
       background: #f1f3f5;
       color: #6b7280;
       cursor: not-allowed;
     }
-
 
     /* =========================================
        BUTTONS
@@ -234,24 +211,20 @@
       box-shadow: 0 3px 8px rgba(0,0,0,.10);
     }
 
-
     .verify-button:hover,
     .submit-button:hover {
       background: #252c37;
     }
-
 
     .verify-button:active,
     .submit-button:active {
       transform: scale(.99);
     }
 
-
     button:disabled {
       opacity: .65;
       cursor: not-allowed;
     }
-
 
     /* =========================================
        MESSAGE
@@ -266,7 +239,6 @@
       line-height: 1.5;
     }
 
-
     .message.error {
       display: block;
       background: #fff5f5;
@@ -274,14 +246,12 @@
       color: #c53030;
     }
 
-
     .message.success {
       display: block;
       background: #edf7ef;
       border: 1px solid #b9dfc0;
       color: #276749;
     }
-
 
     /* =========================================
        VERIFIED RECORD
@@ -296,11 +266,9 @@
       border: 1px solid #9fd3aa;
     }
 
-
     .verified-box.show {
       display: block;
     }
-
 
     .verified-title {
       font-size: 17px;
@@ -309,18 +277,15 @@
       margin-bottom: 12px;
     }
 
-
     .verified-row {
       padding: 8px 0;
       border-bottom: 1px solid #d4ead8;
       font-size: 14px;
     }
 
-
     .verified-row:last-child {
       border-bottom: none;
     }
-
 
     /* =========================================
        UPDATE SECTION
@@ -330,11 +295,9 @@
       display: none;
     }
 
-
     .update-section.show {
       display: block;
     }
-
 
     /* =========================================
        CURRENT INFORMATION
@@ -351,12 +314,10 @@
       line-height: 1.5;
     }
 
-
     .current-information-box.empty {
       color: #9ca3af;
       font-style: italic;
     }
-
 
     /* =========================================
        PHOTO DISPLAY
@@ -372,11 +333,9 @@
       text-align: center;
     }
 
-
     .current-photo-box.show {
       display: block;
     }
-
 
     .current-photo-label {
       margin-bottom: 10px;
@@ -384,7 +343,6 @@
       font-weight: 700;
       color: #4b5563;
     }
-
 
     .current-dog-photo {
       display: block;
@@ -398,14 +356,12 @@
       background: #ffffff;
     }
 
-
     .photo-empty {
       padding: 20px;
       color: #9ca3af;
       font-size: 13px;
       font-style: italic;
     }
-
 
     /* =========================================
        FILE
@@ -418,7 +374,6 @@
       line-height: 1.5;
     }
 
-
     .photo-preview-box {
       display: none;
       margin-top: 14px;
@@ -429,11 +384,9 @@
       text-align: center;
     }
 
-
     .photo-preview-box.show {
       display: block;
     }
-
 
     .photo-preview-label {
       margin-bottom: 10px;
@@ -441,7 +394,6 @@
       font-weight: 700;
       color: #4b5563;
     }
-
 
     .photo-preview {
       display: block;
@@ -454,7 +406,6 @@
       border: 1px solid #dce1e7;
       background: #ffffff;
     }
-
 
     /* =========================================
        DECLARATION
@@ -470,7 +421,6 @@
       background: #fafbfc;
     }
 
-
     .declaration-box input {
       width: 20px;
       min-width: 20px;
@@ -479,14 +429,12 @@
       margin-top: 2px;
     }
 
-
     .declaration-box label {
       margin: 0;
       font-size: 13px;
       font-weight: 500;
       line-height: 1.5;
     }
-
 
     /* =========================================
        LOADING OVERLAY
@@ -503,11 +451,9 @@
       padding: 20px;
     }
 
-
     .loading-overlay.show {
       display: flex;
     }
-
 
     .loading-box {
       width: 100%;
@@ -519,7 +465,6 @@
       box-shadow: 0 12px 40px rgba(0,0,0,.16);
     }
 
-
     .spinner {
       width: 54px;
       height: 54px;
@@ -530,15 +475,11 @@
       animation: spin .8s linear infinite;
     }
 
-
     @keyframes spin {
-
       to {
         transform: rotate(360deg);
       }
-
     }
-
 
     .loading-title {
       font-size: 17px;
@@ -546,14 +487,12 @@
       color: #303846;
     }
 
-
     .loading-text {
       margin-top: 8px;
       font-size: 13px;
       color: #6b7280;
       line-height: 1.5;
     }
-
 
     /* =========================================
        SUCCESS MODAL
@@ -570,11 +509,9 @@
       padding: 20px;
     }
 
-
     .success-overlay.show {
       display: flex;
     }
-
 
     .success-modal {
       width: 100%;
@@ -585,7 +522,6 @@
       text-align: center;
       box-shadow: 0 15px 50px rgba(0,0,0,.20);
     }
-
 
     .success-icon {
       width: 70px;
@@ -601,7 +537,6 @@
       font-weight: bold;
     }
 
-
     .success-title {
       font-size: 21px;
       font-weight: 800;
@@ -609,13 +544,11 @@
       margin-bottom: 10px;
     }
 
-
     .success-text {
       font-size: 14px;
       line-height: 1.6;
       color: #4b5563;
     }
-
 
     .success-close {
       width: 100%;
@@ -630,7 +563,6 @@
       cursor: pointer;
     }
 
-
     /* =========================================
        HIDDEN
     ========================================= */
@@ -638,7 +570,6 @@
     .hidden {
       display: none !important;
     }
-
 
     /* =========================================
        MOBILE
@@ -650,22 +581,18 @@
         padding: 12px 8px 35px;
       }
 
-
       .card {
         padding: 18px 13px;
       }
-
 
       .barangay-logo {
         width: 76px;
         height: 76px;
       }
 
-
       .barangay {
         font-size: 18px;
       }
-
 
       h1 {
         font-size: 25px;
@@ -677,232 +604,32 @@
 
 </head>
 
-
 <body>
 
 
-<!-- =========================================
-     LOADING OVERLAY
-========================================= -->
-
-<div
-  id="loadingOverlay"
-  class="loading-overlay"
->
-
-  <div class="loading-box">
-
-    <div class="spinner"></div>
-
-    <div
-      id="loadingTitle"
-      class="loading-title"
-    >
-      Processing...
-    </div>
-
-    <div
-      id="loadingText"
-      class="loading-text"
-    >
-      Please wait. Do not close this page.
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================================
-     SUCCESS MODAL
-========================================= -->
-
-<div
-  id="successOverlay"
-  class="success-overlay"
->
-
-  <div class="success-modal">
-
-    <div class="success-icon">
-      ✓
-    </div>
-
-    <div class="success-title">
-      Update Submitted Successfully!
-    </div>
-
-    <div class="success-text">
-      Your Registry Update Request has been received and is pending review.
-    </div>
-
-    <button
-      type="button"
-      id="successCloseButton"
-      class="success-close"
-    >
-      Done
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =========================================
-     PAGE
-========================================= -->
-
-<div class="page">
-
-
-  <a
-    href="./"
-    class="back-button"
-  >
-    ← Back to Services
-  </a>
-
-
-  <!-- HEADER -->
-
-  <div class="header">
-
-    <img
-      src="barangay-logo.png"
-      alt="Barangay Tupol Oeste Logo"
-      class="barangay-logo"
-    >
-
-    <div class="barangay">
-      BARANGAY TUPOL OESTE
-    </div>
-
-    <div class="location">
-      Cabatuan, Iloilo
-    </div>
-
-    <h1>
-      Registry Update
-    </h1>
-
-    <p class="subtitle">
-      Verify your dog record before submitting an update request.
-    </p>
-
-  </div>
-
-
-  <!-- MESSAGE -->
+  <!-- LOADING OVERLAY -->
 
   <div
-    id="messageBox"
-    class="message"
-  ></div>
+    id="loadingOverlay"
+    class="loading-overlay"
+  >
 
+    <div class="loading-box">
 
-  <!-- =====================================
-       STEP 1: VERIFY DOG RECORD
-  ====================================== -->
+      <div class="spinner"></div>
 
-  <div class="card">
-
-    <div class="section-title">
-      Verify Dog Record
-    </div>
-
-    <div class="section-description">
-      Enter the exact registered information. Your Registry Number, Owner Name, and Dog Name must match the official Dog Registry.
-    </div>
-
-
-    <div class="form-group">
-
-      <label for="registryNumber">
-        Registry Number
-        <span class="required">*</span>
-      </label>
-
-      <input
-        type="text"
-        id="registryNumber"
-        placeholder="Example: BTO-2026-00001"
-        autocomplete="off"
+      <div
+        id="loadingTitle"
+        class="loading-title"
       >
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label for="ownerName">
-        Registered Owner Name
-        <span class="required">*</span>
-      </label>
-
-      <input
-        type="text"
-        id="ownerName"
-        placeholder="Enter registered owner name"
-        autocomplete="off"
-      >
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label for="dogName">
-        Registered Dog Name
-        <span class="required">*</span>
-      </label>
-
-      <input
-        type="text"
-        id="dogName"
-        placeholder="Enter registered dog name"
-        autocomplete="off"
-      >
-
-    </div>
-
-
-    <button
-      type="button"
-      id="verifyButton"
-      class="verify-button"
-    >
-      Verify Record
-    </button>
-
-
-    <!-- VERIFIED RECORD -->
-
-    <div
-      id="verifiedBox"
-      class="verified-box"
-    >
-
-      <div class="verified-title">
-        ✓ Dog Record Verified
+        Processing...
       </div>
 
-
-      <div class="verified-row">
-        <strong>Registry Number:</strong>
-        <span id="verifiedRegistryNumber"></span>
-      </div>
-
-
-      <div class="verified-row">
-        <strong>Owner:</strong>
-        <span id="verifiedOwnerName"></span>
-      </div>
-
-
-      <div class="verified-row">
-        <strong>Dog Name:</strong>
-        <span id="verifiedDogName"></span>
+      <div
+        id="loadingText"
+        class="loading-text"
+      >
+        Please wait. Do not close this page.
       </div>
 
     </div>
@@ -910,672 +637,1869 @@
   </div>
 
 
-  <!-- =====================================
-       STEP 2: REGISTRY UPDATE
-  ====================================== -->
+  <!-- SUCCESS MODAL -->
 
-  <form
-    id="updateForm"
-    class="update-section"
+  <div
+    id="successOverlay"
+    class="success-overlay"
   >
 
+    <div class="success-modal">
+
+      <div class="success-icon">
+        ✓
+      </div>
+
+      <div class="success-title">
+        Update Submitted Successfully!
+      </div>
+
+      <div class="success-text">
+        Your Registry Update Request has been received and is pending review.
+      </div>
+
+      <button
+        type="button"
+        id="successCloseButton"
+        class="success-close"
+      >
+        Done
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- PAGE -->
+
+  <div class="page">
+
+    <a
+      href="./"
+      class="back-button"
+    >
+      ← Back to Services
+    </a>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+      <img
+        src="barangay-logo.png"
+        alt="Barangay Tupol Oeste Logo"
+        class="barangay-logo"
+      >
+
+      <div class="barangay">
+        BARANGAY TUPOL OESTE
+      </div>
+
+      <div class="location">
+        Cabatuan, Iloilo
+      </div>
+
+      <h1>
+        Registry Update
+      </h1>
+
+      <p class="subtitle">
+        Verify your dog record before submitting an update request.
+      </p>
+
+    </div>
+
+
+    <!-- MESSAGE -->
+
+    <div
+      id="messageBox"
+      class="message"
+    ></div>
+
+
+    <!-- STEP 1: VERIFY DOG RECORD -->
 
     <div class="card">
 
       <div class="section-title">
-        Update Request
+        Verify Dog Record
       </div>
-
 
       <div class="section-description">
-        Select the information you want to update. Your request will be reviewed before changes are applied.
+        Enter the exact registered information. Your Registry Number, Owner Name, and Dog Name must match the official Dog Registry.
       </div>
 
-
-      <!-- UPDATE TYPE -->
 
       <div class="form-group">
 
-        <label for="updateType">
-          Information to Update
+        <label for="registryNumber">
+          Registry Number
           <span class="required">*</span>
-        </label>
-
-
-        <select
-          id="updateType"
-          required
-        >
-
-          <option value="">
-            Select information to update
-          </option>
-
-          <option value="Owner Name">
-            Owner Name
-          </option>
-
-          <option value="Address">
-            Address
-          </option>
-
-          <option value="Sitio">
-            Sitio
-          </option>
-
-          <option value="Contact Number">
-            Contact Number
-          </option>
-
-          <option value="Email Address">
-            Email Address
-          </option>
-
-          <option value="Dog Name">
-            Dog Name
-          </option>
-
-          <option value="Breed">
-            Breed
-          </option>
-
-          <option value="Color">
-            Color
-          </option>
-
-          <option value="Sex">
-            Sex
-          </option>
-
-          <option value="Birthdate">
-            Birthdate
-          </option>
-
-          <option value="Dog Photo">
-            Dog Photo
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <!-- =====================================
-           CURRENT REGISTERED INFORMATION
-      ====================================== -->
-
-      <div
-        id="currentInformationGroup"
-        class="form-group"
-      >
-
-        <label>
-          Current Registered Information
-        </label>
-
-        <div
-          id="currentInformation"
-          class="current-information-box empty"
-        >
-          Select information to update to view the current registered information.
-        </div>
-
-      </div>
-
-
-      <!-- =====================================
-           CURRENT DOG PHOTO
-      ====================================== -->
-
-      <div
-        id="currentPhotoBox"
-        class="current-photo-box"
-      >
-
-        <div class="current-photo-label">
-          Current Registered Dog Photo
-        </div>
-
-        <img
-          id="currentDogPhoto"
-          class="current-dog-photo hidden"
-          alt="Current Dog Photo"
-        >
-
-        <div
-          id="currentPhotoEmpty"
-          class="photo-empty"
-        >
-          No current dog photo is available in the registry.
-        </div>
-
-      </div>
-
-
-      <!-- =====================================
-           NEW INFORMATION
-      ====================================== -->
-
-      <div
-        id="newInformationGroup"
-        class="form-group"
-      >
-
-        <label for="newInformation">
-          New / Updated Information
-          <span class="required">*</span>
-        </label>
-
-        <textarea
-          id="newInformation"
-          placeholder="Enter the new or corrected information"
-          required
-        ></textarea>
-
-      </div>
-
-
-      <!-- =====================================
-           PHOTO UPLOAD
-      ====================================== -->
-
-      <div class="form-group">
-
-        <label
-          id="supportingFileLabel"
-          for="supportingFile"
-        >
-          Upload Supporting Photo
         </label>
 
         <input
-          type="file"
-          id="supportingFile"
-          accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+          type="text"
+          id="registryNumber"
+          placeholder="Example: BTO-2026-00001"
+          autocomplete="off"
         >
 
-        <div
-          id="fileNote"
-          class="file-note"
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="ownerName">
+          Registered Owner Name
+          <span class="required">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="ownerName"
+          placeholder="Enter registered owner name"
+          autocomplete="off"
         >
-          Optional. JPG or PNG only. Maximum file size: 5MB.
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="dogName">
+          Registered Dog Name
+          <span class="required">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="dogName"
+          placeholder="Enter registered dog name"
+          autocomplete="off"
+        >
+
+      </div>
+
+
+      <button
+        type="button"
+        id="verifyButton"
+        class="verify-button"
+      >
+        Verify Record
+      </button>
+
+
+      <!-- VERIFIED RECORD -->
+
+      <div
+        id="verifiedBox"
+        class="verified-box"
+      >
+
+        <div class="verified-title">
+          ✓ Dog Record Verified
+        </div>
+
+        <div class="verified-row">
+          <strong>Registry Number:</strong>
+          <span id="verifiedRegistryNumber"></span>
+        </div>
+
+        <div class="verified-row">
+          <strong>Owner:</strong>
+          <span id="verifiedOwnerName"></span>
+        </div>
+
+        <div class="verified-row">
+          <strong>Dog Name:</strong>
+          <span id="verifiedDogName"></span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- STEP 2: REGISTRY UPDATE -->
+
+    <form
+      id="updateForm"
+      class="update-section"
+    >
+
+
+      <div class="card">
+
+        <div class="section-title">
+          Update Request
+        </div>
+
+        <div class="section-description">
+          Select the information you want to update. Your request will be reviewed before changes are applied.
         </div>
 
 
-        <!-- NEW PHOTO PREVIEW -->
+        <!-- UPDATE TYPE -->
+
+        <div class="form-group">
+
+          <label for="updateType">
+            Information to Update
+            <span class="required">*</span>
+          </label>
+
+          <select
+            id="updateType"
+            required
+          >
+
+            <option value="">
+              Select information to update
+            </option>
+
+            <option value="Owner Name">Owner Name</option>
+            <option value="Address">Address</option>
+            <option value="Sitio">Sitio</option>
+            <option value="Contact Number">Contact Number</option>
+            <option value="Email Address">Email Address</option>
+            <option value="Dog Name">Dog Name</option>
+            <option value="Breed">Breed</option>
+            <option value="Color">Color</option>
+            <option value="Sex">Sex</option>
+            <option value="Birthdate">Birthdate</option>
+            <option value="Dog Photo">Dog Photo</option>
+
+          </select>
+
+        </div>
+
+
+        <!-- CURRENT REGISTERED INFORMATION -->
 
         <div
-          id="photoPreviewBox"
-          class="photo-preview-box"
+          id="currentInformationGroup"
+          class="form-group"
         >
 
-          <div class="photo-preview-label">
-            Selected New Photo
+          <label>
+            Current Registered Information
+          </label>
+
+          <div
+            id="currentInformation"
+            class="current-information-box empty"
+          >
+            Select information to update to view the current registered information.
+          </div>
+
+        </div>
+
+
+        <!-- CURRENT DOG PHOTO -->
+
+        <div
+          id="currentPhotoBox"
+          class="current-photo-box"
+        >
+
+          <div class="current-photo-label">
+            Current Registered Dog Photo
           </div>
 
           <img
-            id="photoPreview"
-            class="photo-preview"
-            alt="Selected Dog Photo"
+            id="currentDogPhoto"
+            class="current-dog-photo hidden"
+            alt="Current Dog Photo"
           >
+
+          <div
+            id="currentPhotoEmpty"
+            class="photo-empty"
+          >
+            No current dog photo is available in the registry.
+          </div>
+
+        </div>
+
+
+        <!-- NEW INFORMATION -->
+
+        <div
+          id="newInformationGroup"
+          class="form-group"
+        >
+
+          <label for="newInformation">
+            New / Updated Information
+            <span class="required">*</span>
+          </label>
+
+          <textarea
+            id="newInformation"
+            placeholder="Enter the new or corrected information"
+            required
+          ></textarea>
+
+        </div>
+
+
+        <!-- PHOTO UPLOAD -->
+
+        <div class="form-group">
+
+          <label
+            id="supportingFileLabel"
+            for="supportingFile"
+          >
+            Upload Supporting Photo
+          </label>
+
+          <input
+            type="file"
+            id="supportingFile"
+            accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+          >
+
+          <div
+            id="fileNote"
+            class="file-note"
+          >
+            Optional. JPG or PNG only. Maximum file size: 5MB.
+          </div>
+
+
+          <!-- NEW PHOTO PREVIEW -->
+
+          <div
+            id="photoPreviewBox"
+            class="photo-preview-box"
+          >
+
+            <div class="photo-preview-label">
+              Selected New Photo
+            </div>
+
+            <img
+              id="photoPreview"
+              class="photo-preview"
+              alt="Selected Dog Photo"
+            >
+
+          </div>
 
         </div>
 
       </div>
 
-    </div>
 
+      <!-- DECLARATION -->
 
-    <!-- =====================================
-         DECLARATION
-    ====================================== -->
+      <div class="card">
 
-    <div class="card">
+        <div class="section-title">
+          Declaration
+        </div>
 
-      <div class="section-title">
-        Declaration
-      </div>
+        <div class="declaration-box">
 
+          <input
+            type="checkbox"
+            id="declaration"
+            required
+          >
 
-      <div class="declaration-box">
+          <label for="declaration">
+            I certify that the information provided in this update request is true and correct to the best of my knowledge.
+          </label>
 
-        <input
-          type="checkbox"
-          id="declaration"
-          required
-        >
-
-        <label for="declaration">
-          I certify that the information provided in this update request is true and correct to the best of my knowledge.
-        </label>
+        </div>
 
       </div>
 
-    </div>
+
+      <button
+        type="submit"
+        id="submitButton"
+        class="submit-button"
+      >
+        Submit Registry Update
+      </button>
+
+    </form>
+
+  </div>
 
 
-    <button
-      type="submit"
-      id="submitButton"
-      class="submit-button"
-    >
-      Submit Registry Update
-    </button>
+  <!-- API -->
+
+  <script src="api.js"></script>
 
 
-  </form>
+  <!-- PAGE JAVASCRIPT -->
+
+  <script>
+
+    (function () {
+
+      'use strict';
 
 
-</div>
+      let verifiedRecord = null;
+      let selectedFileData = '';
+      let selectedFileName = '';
 
 
-<!-- =========================================
-     API
-========================================= -->
+      /* =========================================
+         DOM REFERENCES
+      ========================================= */
 
-<script src="api.js"></script>
+      const registryNumberInput =
+        document.getElementById('registryNumber');
 
+      const ownerNameInput =
+        document.getElementById('ownerName');
 
-<!-- =========================================
-     PAGE JAVASCRIPT
-========================================= -->
+      const dogNameInput =
+        document.getElementById('dogName');
 
-<script>
+      const verifyButton =
+        document.getElementById('verifyButton');
 
-(function () {
+      const verifiedBox =
+        document.getElementById('verifiedBox');
 
-  'use strict';
+      const updateForm =
+        document.getElementById('updateForm');
 
+      const submitButton =
+        document.getElementById('submitButton');
 
-  let verifiedRecord = null;
-  let selectedFileData = '';
-  let selectedFileName = '';
+      const supportingFileInput =
+        document.getElementById('supportingFile');
 
+      const updateTypeInput =
+        document.getElementById('updateType');
 
-  /* =========================================
-     DOM REFERENCES
-  ========================================= */
+      const currentInformationBox =
+        document.getElementById('currentInformation');
 
-  const registryNumberInput =
-    document.getElementById('registryNumber');
+      const currentInformationGroup =
+        document.getElementById('currentInformationGroup');
 
-  const ownerNameInput =
-    document.getElementById('ownerName');
+      const newInformationGroup =
+        document.getElementById('newInformationGroup');
 
-  const dogNameInput =
-    document.getElementById('dogName');
+      const newInformationInput =
+        document.getElementById('newInformation');
 
-  const verifyButton =
-    document.getElementById('verifyButton');
+      const supportingFileLabel =
+        document.getElementById('supportingFileLabel');
 
-  const verifiedBox =
-    document.getElementById('verifiedBox');
+      const fileNote =
+        document.getElementById('fileNote');
 
-  const updateForm =
-    document.getElementById('updateForm');
+      const currentPhotoBox =
+        document.getElementById('currentPhotoBox');
 
-  const submitButton =
-    document.getElementById('submitButton');
+      const currentDogPhoto =
+        document.getElementById('currentDogPhoto');
 
-  const supportingFileInput =
-    document.getElementById('supportingFile');
+      const currentPhotoEmpty =
+        document.getElementById('currentPhotoEmpty');
 
-  const updateTypeInput =
-    document.getElementById('updateType');
+      const photoPreviewBox =
+        document.getElementById('photoPreviewBox');
 
-  const currentInformationBox =
-    document.getElementById('currentInformation');
-
-  const currentInformationGroup =
-    document.getElementById('currentInformationGroup');
-
-  const newInformationGroup =
-    document.getElementById('newInformationGroup');
-
-  const newInformationInput =
-    document.getElementById('newInformation');
-
-  const supportingFileLabel =
-    document.getElementById('supportingFileLabel');
-
-  const fileNote =
-    document.getElementById('fileNote');
-
-  const currentPhotoBox =
-    document.getElementById('currentPhotoBox');
-
-  const currentDogPhoto =
-    document.getElementById('currentDogPhoto');
-
-  const currentPhotoEmpty =
-    document.getElementById('currentPhotoEmpty');
-
-  const photoPreviewBox =
-    document.getElementById('photoPreviewBox');
-
-  const photoPreview =
-    document.getElementById('photoPreview');
+      const photoPreview =
+        document.getElementById('photoPreview');
 
 
-  /* =========================================
-     VERIFY BUTTON
-  ========================================= */
+      /* =========================================
+         VERIFY BUTTON
+      ========================================= */
 
-  verifyButton.addEventListener(
-    'click',
-    verifyDogRecord
-  );
-
-
-  /* =========================================
-     UPDATE TYPE CHANGE
-  ========================================= */
-
-  updateTypeInput.addEventListener(
-    'change',
-    function () {
-
-      handleUpdateTypeChange();
-
-    }
-  );
-
-
-  /* =========================================
-     VERIFY DOG RECORD
-  ========================================= */
-
-  async function verifyDogRecord() {
-
-    const registryNumber =
-      registryNumberInput.value.trim();
-
-    const ownerName =
-      ownerNameInput.value.trim();
-
-    const dogName =
-      dogNameInput.value.trim();
-
-
-    if (
-      !registryNumber ||
-      !ownerName ||
-      !dogName
-    ) {
-
-      showMessage(
-        'Please enter Registry Number, Owner Name, and Dog Name.',
-        'error'
+      verifyButton.addEventListener(
+        'click',
+        verifyDogRecord
       );
 
-      return;
 
-    }
+      /* =========================================
+         UPDATE TYPE CHANGE
+      ========================================= */
 
-
-    verifiedRecord = null;
-
-
-    verifyButton.disabled = true;
-
-    verifyButton.textContent =
-      'Verifying...';
+      updateTypeInput.addEventListener(
+        'change',
+        handleUpdateTypeChange
+      );
 
 
-    hideMessage();
+      /* =========================================
+         VERIFY DOG RECORD
+      ========================================= */
+
+      async function verifyDogRecord() {
+
+        const registryNumber =
+          registryNumberInput.value.trim();
+
+        const ownerName =
+          ownerNameInput.value.trim();
+
+        const dogName =
+          dogNameInput.value.trim();
 
 
-    showLoading(
-      'Verifying Dog Record...',
-      'Please wait. Checking the official Dog Registry.'
-    );
+        if (
+          !registryNumber ||
+          !ownerName ||
+          !dogName
+        ) {
+
+          showMessage(
+            'Please enter Registry Number, Owner Name, and Dog Name.',
+            'error'
+          );
+
+          return;
+
+        }
 
 
-    try {
+        verifiedRecord = null;
 
-      if (
-        typeof window.brccSubmit !==
-        'function'
-      ) {
+        verifyButton.disabled = true;
 
-        throw new Error(
-          'API connection is not available. Please check api.js.'
+        verifyButton.textContent =
+          'Verifying...';
+
+        hideMessage();
+
+        showLoading(
+          'Verifying Dog Record...',
+          'Please wait. Checking the official Dog Registry.'
+        );
+
+
+        try {
+
+          if (
+            typeof window.brccSubmit !==
+            'function'
+          ) {
+
+            throw new Error(
+              'API connection is not available. Please check api.js.'
+            );
+
+          }
+
+
+          const result =
+            await window.brccSubmit(
+              'verify_registry',
+              {
+                registryNumber: registryNumber,
+                ownerName: ownerName,
+                dogName: dogName
+              }
+            );
+
+
+          if (
+            result &&
+            result.success === false
+          ) {
+
+            throw new Error(
+              result.message ||
+              'Unable to verify dog record.'
+            );
+
+          }
+
+
+          const response =
+            result && result.result
+              ? result.result
+              : result;
+
+
+          if (
+            !response ||
+            response.verified !== true
+          ) {
+
+            throw new Error(
+              response &&
+              response.message
+                ? response.message
+                : 'No matching dog record was found.'
+            );
+
+          }
+
+
+          if (!response.record) {
+
+            throw new Error(
+              'Verified record information was not returned.'
+            );
+
+          }
+
+
+          verifiedRecord =
+            response.record;
+
+
+          console.log(
+            'VERIFIED COMPLETE RECORD:',
+            verifiedRecord
+          );
+
+
+          /* RESET UPDATE FIELDS */
+
+          updateTypeInput.value = '';
+
+          newInformationInput.value = '';
+
+          supportingFileInput.value = '';
+
+          selectedFileData = '';
+
+          selectedFileName = '';
+
+          photoPreview.removeAttribute(
+            'src'
+          );
+
+          photoPreviewBox.classList.remove(
+            'show'
+          );
+
+
+          currentInformationBox.textContent =
+            'Select information to update to view the current registered information.';
+
+          currentInformationBox.classList.add(
+            'empty'
+          );
+
+
+          currentPhotoBox.classList.remove(
+            'show'
+          );
+
+          currentDogPhoto.removeAttribute(
+            'src'
+          );
+
+
+          /* DISPLAY VERIFIED RECORD */
+
+          document.getElementById(
+            'verifiedRegistryNumber'
+          ).textContent =
+            getRecordValue(
+              [
+                'registryNumber',
+                'Registry Number'
+              ],
+              registryNumber
+            );
+
+
+          document.getElementById(
+            'verifiedOwnerName'
+          ).textContent =
+            getRecordValue(
+              [
+                'ownerName',
+                'Owner Name'
+              ],
+              ownerName
+            );
+
+
+          document.getElementById(
+            'verifiedDogName'
+          ).textContent =
+            getRecordValue(
+              [
+                'dogName',
+                'Dog Name'
+              ],
+              dogName
+            );
+
+
+          verifiedBox.classList.add(
+            'show'
+          );
+
+          updateForm.classList.add(
+            'show'
+          );
+
+
+          /* LOCK VERIFIED FIELDS */
+
+          registryNumberInput.disabled =
+            true;
+
+          ownerNameInput.disabled =
+            true;
+
+          dogNameInput.disabled =
+            true;
+
+
+          verifyButton.textContent =
+            'Record Verified';
+
+          verifyButton.disabled =
+            true;
+
+
+          showMessage(
+            'Dog record successfully verified. You may now submit an update request.',
+            'success'
+          );
+
+
+          setTimeout(
+            function () {
+
+              updateForm.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+
+            },
+            300
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            'VERIFICATION ERROR:',
+            error
+          );
+
+
+          verifiedRecord = null;
+
+          verifiedBox.classList.remove(
+            'show'
+          );
+
+          updateForm.classList.remove(
+            'show'
+          );
+
+
+          showMessage(
+            error && error.message
+              ? error.message
+              : 'Verification failed. Please check the information entered.',
+            'error'
+          );
+
+
+          verifyButton.disabled =
+            false;
+
+          verifyButton.textContent =
+            'Verify Record';
+
+
+        } finally {
+
+          hideLoading();
+
+          if (!verifiedRecord) {
+
+            verifyButton.disabled =
+              false;
+
+            verifyButton.textContent =
+              'Verify Record';
+
+          }
+
+        }
+
+      }
+
+
+      /* =========================================
+         HANDLE UPDATE TYPE CHANGE
+      ========================================= */
+
+      function handleUpdateTypeChange() {
+
+        const updateType =
+          updateTypeInput.value;
+
+
+        /* RESET FILE */
+
+        supportingFileInput.value = '';
+
+        selectedFileData = '';
+
+        selectedFileName = '';
+
+        photoPreview.removeAttribute(
+          'src'
+        );
+
+        photoPreviewBox.classList.remove(
+          'show'
+        );
+
+
+        if (
+          updateType === 'Dog Photo'
+        ) {
+
+          handleDogPhotoUpdate();
+
+          return;
+
+        }
+
+
+        /* NORMAL INFORMATION UPDATE */
+
+        currentInformationGroup.classList.remove(
+          'hidden'
+        );
+
+        newInformationGroup.classList.remove(
+          'hidden'
+        );
+
+
+        newInformationInput.required =
+          true;
+
+        supportingFileInput.required =
+          false;
+
+
+        supportingFileLabel.innerHTML =
+          'Upload Supporting Photo';
+
+
+        fileNote.textContent =
+          'Optional. JPG or PNG only. Maximum file size: 5MB.';
+
+
+        currentPhotoBox.classList.remove(
+          'show'
+        );
+
+
+        displayCurrentInformation();
+
+      }
+
+
+      /* =========================================
+         DOG PHOTO UPDATE MODE
+      ========================================= */
+
+      function handleDogPhotoUpdate() {
+
+        if (!verifiedRecord) {
+
+          console.warn(
+            'No verified record available for dog photo display.'
+          );
+
+          return;
+
+        }
+
+
+        currentInformationGroup.classList.add(
+          'hidden'
+        );
+
+        newInformationGroup.classList.add(
+          'hidden'
+        );
+
+
+        newInformationInput.required =
+          false;
+
+        newInformationInput.value =
+          '';
+
+
+        supportingFileInput.required =
+          true;
+
+
+        supportingFileLabel.innerHTML =
+          'Upload New Dog Photo <span class="required">*</span>';
+
+
+        fileNote.textContent =
+          'Required. Upload a clear JPG or PNG photo of the registered dog. Maximum file size: 5MB.';
+
+
+        /* IMPORTANT FIX */
+
+        displayCurrentDogPhoto(
+          verifiedRecord
         );
 
       }
 
 
-      const result =
-        await window.brccSubmit(
-          'verify_registry',
-          {
-            registryNumber:
-              registryNumber,
+      /* =========================================
+         DISPLAY CURRENT INFORMATION
+      ========================================= */
 
-            ownerName:
-              ownerName,
+      function displayCurrentInformation() {
 
-            dogName:
-              dogName
+        const updateType =
+          updateTypeInput.value;
+
+
+        if (!updateType) {
+
+          currentInformationBox.textContent =
+            'Select information to update to view the current registered information.';
+
+          currentInformationBox.classList.add(
+            'empty'
+          );
+
+          return;
+
+        }
+
+
+        if (!verifiedRecord) {
+
+          currentInformationBox.textContent =
+            'Dog record has not been verified.';
+
+          currentInformationBox.classList.add(
+            'empty'
+          );
+
+          return;
+
+        }
+
+
+        const fieldMap = {
+
+          'Owner Name': [
+            'ownerName',
+            'Owner Name',
+            'owner'
+          ],
+
+          'Address': [
+            'address',
+            'Address',
+            'ownerAddress'
+          ],
+
+          'Sitio': [
+            'sitio',
+            'Sitio'
+          ],
+
+          'Contact Number': [
+            'contactNumber',
+            'Contact Number',
+            'contact',
+            'mobileNumber',
+            'phone'
+          ],
+
+          'Email Address': [
+            'emailAddress',
+            'Email Address',
+            'email'
+          ],
+
+          'Dog Name': [
+            'dogName',
+            'Dog Name'
+          ],
+
+          'Breed': [
+            'breed',
+            'Breed'
+          ],
+
+          'Color': [
+            'color',
+            'Color'
+          ],
+
+          'Sex': [
+            'sex',
+            'Sex',
+            'gender',
+            'Gender'
+          ],
+
+          'Birthdate': [
+            'birthdate',
+            'Birthdate',
+            'dateOfBirth',
+            'Date of Birth'
+          ]
+
+        };
+
+
+        const possibleKeys =
+          fieldMap[updateType] || [];
+
+
+        let currentValue = '';
+
+
+        possibleKeys.forEach(
+          function (key) {
+
+            if (
+              !currentValue &&
+              verifiedRecord[key] !== undefined &&
+              verifiedRecord[key] !== null &&
+              String(
+                verifiedRecord[key]
+              ).trim() !== ''
+            ) {
+
+              currentValue =
+                String(
+                  verifiedRecord[key]
+                ).trim();
+
+            }
+
           }
         );
 
 
-      if (
-        result &&
-        result.success === false
-      ) {
+        if (!currentValue) {
 
-        throw new Error(
-          result.message ||
-          'Unable to verify dog record.'
+          currentInformationBox.textContent =
+            'No current information available in the registry for this field.';
+
+          currentInformationBox.classList.add(
+            'empty'
+          );
+
+          return;
+
+        }
+
+
+        currentInformationBox.textContent =
+          currentValue;
+
+        currentInformationBox.classList.remove(
+          'empty'
         );
 
       }
 
 
-      const response =
-        result && result.result
-          ? result.result
-          : result;
+      /* =========================================
+         DISPLAY CURRENT DOG PHOTO
+      ========================================= */
+
+      function displayCurrentDogPhoto(record) {
+
+        if (
+          !currentDogPhoto ||
+          !currentPhotoEmpty ||
+          !currentPhotoBox
+        ) {
+
+          console.warn(
+            'Dog photo display elements not found.'
+          );
+
+          return;
+
+        }
 
 
-      if (
-        !response ||
-        response.verified !== true
-      ) {
+        if (!record) {
 
-        throw new Error(
-          response &&
-          response.message
-            ? response.message
-            : 'No matching dog record was found.'
+          console.warn(
+            'No record provided for dog photo display.'
+          );
+
+          currentDogPhoto.removeAttribute(
+            'src'
+          );
+
+          currentDogPhoto.classList.add(
+            'hidden'
+          );
+
+          currentPhotoEmpty.classList.remove(
+            'hidden'
+          );
+
+          currentPhotoBox.classList.add(
+            'show'
+          );
+
+          return;
+
+        }
+
+
+        const photoFileId =
+          String(
+            record.dogPhotoFileId ||
+            record.photoFileId ||
+            ''
+          ).trim();
+
+
+        const photoUrl =
+          String(
+            record.dogPhotoUrl ||
+            record.photoUrl ||
+            ''
+          ).trim();
+
+
+        console.log(
+          'DISPLAY DOG PHOTO RECORD:',
+          record
+        );
+
+        console.log(
+          'DISPLAY DOG PHOTO FILE ID:',
+          photoFileId
+        );
+
+        console.log(
+          'DISPLAY DOG PHOTO URL:',
+          photoUrl
+        );
+
+
+        currentPhotoBox.classList.add(
+          'show'
+        );
+
+
+        currentDogPhoto.onload =
+          function () {
+
+            console.log(
+              'DOG PHOTO LOADED SUCCESSFULLY'
+            );
+
+            currentDogPhoto.classList.remove(
+              'hidden'
+            );
+
+            currentPhotoEmpty.classList.add(
+              'hidden'
+            );
+
+          };
+
+
+        currentDogPhoto.onerror =
+          function () {
+
+            console.warn(
+              'DOG PHOTO FAILED TO LOAD:',
+              currentDogPhoto.src
+            );
+
+            currentDogPhoto.removeAttribute(
+              'src'
+            );
+
+            currentDogPhoto.classList.add(
+              'hidden'
+            );
+
+            currentPhotoEmpty.classList.remove(
+              'hidden'
+            );
+
+          };
+
+
+        /* PRIORITY 1: FILE ID */
+
+        if (photoFileId) {
+
+          const imageUrl =
+            'https://drive.google.com/thumbnail?id=' +
+            encodeURIComponent(photoFileId) +
+            '&sz=w1000';
+
+
+          console.log(
+            'LOADING DOG PHOTO FROM FILE ID:',
+            imageUrl
+          );
+
+
+          currentDogPhoto.src =
+            imageUrl;
+
+          return;
+
+        }
+
+
+        /* PRIORITY 2: PHOTO URL */
+
+        if (photoUrl) {
+
+          const normalizedUrl =
+            normalizeImageUrl(
+              photoUrl
+            );
+
+
+          console.log(
+            'LOADING DOG PHOTO FROM URL:',
+            normalizedUrl
+          );
+
+
+          currentDogPhoto.src =
+            normalizedUrl;
+
+          return;
+
+        }
+
+
+        /* NO PHOTO */
+
+        console.log(
+          'NO DOG PHOTO AVAILABLE'
+        );
+
+
+        currentDogPhoto.removeAttribute(
+          'src'
+        );
+
+
+        currentDogPhoto.classList.add(
+          'hidden'
+        );
+
+
+        currentPhotoEmpty.classList.remove(
+          'hidden'
         );
 
       }
 
 
-      if (
-        !response.record
+      /* =========================================
+         GET RECORD VALUE
+      ========================================= */
+
+      function getRecordValue(
+        keys,
+        fallback
       ) {
 
-        throw new Error(
-          'Verified record information was not returned.'
-        );
+        if (!verifiedRecord) {
+          return fallback || '';
+        }
+
+
+        for (
+          let i = 0;
+          i < keys.length;
+          i++
+        ) {
+
+          const key =
+            keys[i];
+
+
+          if (
+            verifiedRecord[key] !== undefined &&
+            verifiedRecord[key] !== null &&
+            String(
+              verifiedRecord[key]
+            ).trim() !== ''
+          ) {
+
+            return String(
+              verifiedRecord[key]
+            ).trim();
+
+          }
+
+        }
+
+
+        return fallback || '';
 
       }
 
 
-      verifiedRecord =
-        response.record;
+      /* =========================================
+         NORMALIZE GOOGLE DRIVE IMAGE URL
+      ========================================= */
+
+      function normalizeImageUrl(url) {
+
+        if (!url) {
+          return '';
+        }
 
 
-      console.log(
-        'VERIFIED COMPLETE RECORD:',
-        verifiedRecord
+        const cleanUrl =
+          String(url).trim();
+
+
+        const fileIdMatch =
+          cleanUrl.match(
+            /[-\w]{25,}/
+          );
+
+
+        if (
+          fileIdMatch &&
+          cleanUrl.indexOf(
+            'drive.google.com'
+          ) !== -1
+        ) {
+
+          return (
+            'https://drive.google.com/thumbnail?id=' +
+            encodeURIComponent(
+              fileIdMatch[0]
+            ) +
+            '&sz=w1000'
+          );
+
+        }
+
+
+        return cleanUrl;
+
+      }
+
+
+      /* =========================================
+         FILE TO BASE64
+      ========================================= */
+
+      supportingFileInput.addEventListener(
+        'change',
+        function (event) {
+
+          const file =
+            event.target.files[0];
+
+
+          selectedFileData = '';
+
+          selectedFileName = '';
+
+          photoPreview.removeAttribute(
+            'src'
+          );
+
+          photoPreviewBox.classList.remove(
+            'show'
+          );
+
+
+          if (!file) {
+            return;
+          }
+
+
+          if (
+            file.size >
+            5 * 1024 * 1024
+          ) {
+
+            showMessage(
+              'Photo size must not exceed 5MB.',
+              'error'
+            );
+
+            event.target.value = '';
+
+            return;
+
+          }
+
+
+          const allowedTypes = [
+            'image/jpeg',
+            'image/png'
+          ];
+
+
+          if (
+            allowedTypes.indexOf(
+              file.type
+            ) === -1
+          ) {
+
+            showMessage(
+              'Only JPG and PNG photos are allowed.',
+              'error'
+            );
+
+            event.target.value = '';
+
+            return;
+
+          }
+
+
+          const reader =
+            new FileReader();
+
+
+          reader.onload =
+            function (loadEvent) {
+
+              selectedFileData =
+                loadEvent.target.result;
+
+              selectedFileName =
+                file.name;
+
+
+              photoPreview.src =
+                selectedFileData;
+
+
+              photoPreviewBox.classList.add(
+                'show'
+              );
+
+            };
+
+
+          reader.onerror =
+            function () {
+
+              selectedFileData = '';
+
+              selectedFileName = '';
+
+              photoPreview.removeAttribute(
+                'src'
+              );
+
+              photoPreviewBox.classList.remove(
+                'show'
+              );
+
+
+              showMessage(
+                'Unable to read the selected photo.',
+                'error'
+              );
+
+            };
+
+
+          reader.readAsDataURL(
+            file
+          );
+
+        }
       );
 
 
-      /* RESET UPDATE FIELDS */
+      /* =========================================
+         SUBMIT REGISTRY UPDATE
+      ========================================= */
 
-      updateTypeInput.value = '';
+      updateForm.addEventListener(
+        'submit',
+        async function (event) {
 
-      newInformationInput.value = '';
+          event.preventDefault();
 
-      supportingFileInput.value = '';
 
-      selectedFileData = '';
+          if (!verifiedRecord) {
 
-      selectedFileName = '';
+            showMessage(
+              'Please verify the dog record first.',
+              'error'
+            );
 
-      photoPreviewBox.classList.remove(
-        'show'
+            return;
+
+          }
+
+
+          const updateType =
+            updateTypeInput.value;
+
+
+          if (!updateType) {
+
+            showMessage(
+              'Please select the information you want to update.',
+              'error'
+            );
+
+            return;
+
+          }
+
+
+          /* PHOTO UPDATE VALIDATION */
+
+          if (
+            updateType === 'Dog Photo' &&
+            !selectedFileData
+          ) {
+
+            showMessage(
+              'Please upload the new dog photo.',
+              'error'
+            );
+
+            return;
+
+          }
+
+
+          /* NORMAL FIELD VALIDATION */
+
+          if (
+            updateType !== 'Dog Photo' &&
+            !newInformationInput.value.trim()
+          ) {
+
+            showMessage(
+              'Please enter the new or updated information.',
+              'error'
+            );
+
+            return;
+
+          }
+
+
+          if (
+            !updateForm.checkValidity()
+          ) {
+
+            updateForm.reportValidity();
+
+            return;
+
+          }
+
+
+          let newInformation =
+            newInformationInput.value.trim();
+
+
+          if (
+            updateType === 'Dog Photo'
+          ) {
+
+            newInformation =
+              'Dog Photo Update';
+
+          }
+
+
+          const data = {
+
+            registryNumber:
+              getRecordValue(
+                [
+                  'registryNumber',
+                  'Registry Number'
+                ],
+                registryNumberInput.value.trim()
+              ),
+
+            ownerName:
+              getRecordValue(
+                [
+                  'ownerName',
+                  'Owner Name'
+                ],
+                ownerNameInput.value.trim()
+              ),
+
+            dogName:
+              getRecordValue(
+                [
+                  'dogName',
+                  'Dog Name'
+                ],
+                dogNameInput.value.trim()
+              ),
+
+            updateType:
+              updateType,
+
+            newInformation:
+              newInformation,
+
+            supportingFileData:
+              selectedFileData,
+
+            supportingFileName:
+              selectedFileName
+
+          };
+
+
+          hideMessage();
+
+
+          submitButton.disabled =
+            true;
+
+          submitButton.textContent =
+            'Submitting...';
+
+
+          showLoading(
+            'Submitting Registry Update...',
+            'Please wait. Do not close this page.'
+          );
+
+
+          try {
+
+            if (
+              typeof window.brccSubmit !==
+              'function'
+            ) {
+
+              throw new Error(
+                'API connection is not available. Please check api.js.'
+              );
+
+            }
+
+
+            console.log(
+              'REGISTRY UPDATE REQUEST:',
+              data
+            );
+
+
+            const result =
+              await window.brccSubmit(
+                'registry_update',
+                data
+              );
+
+
+            console.log(
+              'REGISTRY UPDATE RESULT:',
+              result
+            );
+
+
+            if (
+              result &&
+              result.success === false
+            ) {
+
+              throw new Error(
+                result.message ||
+                'Unable to submit Registry Update.'
+              );
+
+            }
+
+
+            hideLoading();
+
+            showSuccessModal();
+
+            resetUpdatePage();
+
+
+          } catch (error) {
+
+            console.error(
+              'REGISTRY UPDATE ERROR:',
+              error
+            );
+
+
+            hideLoading();
+
+
+            showMessage(
+              error && error.message
+                ? error.message
+                : 'Unable to submit update request. Please try again.',
+              'error'
+            );
+
+
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+
+
+          } finally {
+
+            hideLoading();
+
+
+            submitButton.disabled =
+              false;
+
+            submitButton.textContent =
+              'Submit Registry Update';
+
+          }
+
+        }
       );
 
 
-      currentInformationBox.textContent =
-        'Select information to update to view the current registered information.';
+      /* =========================================
+         RESET PAGE
+      ========================================= */
 
-      currentInformationBox.classList.add(
-        'empty'
-      );
+      function resetUpdatePage() {
+
+        updateForm.reset();
+
+        verifiedRecord = null;
+
+        selectedFileData = '';
+
+        selectedFileName = '';
 
 
-      currentPhotoBox.classList.remove(
-        'show'
-      );
-
-
-      /* DISPLAY VERIFIED RECORD */
-
-      document.getElementById(
-        'verifiedRegistryNumber'
-      ).textContent =
-        getRecordValue(
-          [
-            'registryNumber',
-            'Registry Number'
-          ],
-          registryNumber
+        updateForm.classList.remove(
+          'show'
         );
 
 
-      document.getElementById(
-        'verifiedOwnerName'
-      ).textContent =
-        getRecordValue(
-          [
-            'ownerName',
-            'Owner Name'
-          ],
-          ownerName
+        verifiedBox.classList.remove(
+          'show'
         );
 
 
-      document.getElementById(
-        'verifiedDogName'
-      ).textContent =
-        getRecordValue(
-          [
-            'dogName',
-            'Dog Name'
-          ],
-          dogName
+        currentPhotoBox.classList.remove(
+          'show'
         );
 
 
-      verifiedBox.classList.add(
-        'show'
-      );
+        photoPreviewBox.classList.remove(
+          'show'
+        );
 
 
-      updateForm.classList.add(
-        'show'
-      );
+        currentInformationGroup.classList.remove(
+          'hidden'
+        );
 
 
-      /* LOCK VERIFIED FIELDS */
-
-      registryNumberInput.disabled =
-        true;
-
-      ownerNameInput.disabled =
-        true;
-
-      dogNameInput.disabled =
-        true;
+        newInformationGroup.classList.remove(
+          'hidden'
+        );
 
 
-      verifyButton.textContent =
-        'Record Verified';
+        newInformationInput.required =
+          true;
 
 
-      verifyButton.disabled =
-        true;
+        supportingFileInput.required =
+          false;
 
 
-      showMessage(
-        'Dog record successfully verified. You may now submit an update request.',
-        'success'
-      );
+        supportingFileLabel.innerHTML =
+          'Upload Supporting Photo';
 
 
-      setTimeout(
-        function () {
-
-          updateForm.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-
-        },
-        300
-      );
+        fileNote.textContent =
+          'Optional. JPG or PNG only. Maximum file size: 5MB.';
 
 
-    } catch (error) {
-
-      console.error(
-        'VERIFICATION ERROR:',
-        error
-      );
+        currentInformationBox.textContent =
+          'Select information to update to view the current registered information.';
 
 
-      verifiedRecord = null;
+        currentInformationBox.classList.add(
+          'empty'
+        );
 
 
-      verifiedBox.classList.remove(
-        'show'
-      );
+        currentDogPhoto.removeAttribute(
+          'src'
+        );
+
+        currentDogPhoto.classList.add(
+          'hidden'
+        );
+
+        currentPhotoEmpty.classList.remove(
+          'hidden'
+        );
 
 
-      updateForm.classList.remove(
-        'show'
-      );
+        photoPreview.removeAttribute(
+          'src'
+        );
 
 
-      showMessage(
-        error && error.message
-          ? error.message
-          : 'Verification failed. Please check the information entered.',
-        'error'
-      );
+        registryNumberInput.disabled =
+          false;
+
+        ownerNameInput.disabled =
+          false;
+
+        dogNameInput.disabled =
+          false;
 
 
-      verifyButton.disabled =
-        false;
+        registryNumberInput.value =
+          '';
 
+        ownerNameInput.value =
+          '';
 
-      verifyButton.textContent =
-        'Verify Record';
+        dogNameInput.value =
+          '';
 
-
-    } finally {
-
-      hideLoading();
-
-
-      if (!verifiedRecord) {
 
         verifyButton.disabled =
           false;
@@ -1585,803 +2509,110 @@
 
       }
 
-    }
 
-  }
+      /* =========================================
+         LOADING
+      ========================================= */
 
-
-  /* =========================================
-     HANDLE UPDATE TYPE CHANGE
-  ========================================= */
-
-  function handleUpdateTypeChange() {
-
-    const updateType =
-      updateTypeInput.value;
-
-
-    /* RESET FILE */
-
-    supportingFileInput.value = '';
-
-    selectedFileData = '';
-
-    selectedFileName = '';
-
-    photoPreviewBox.classList.remove(
-      'show'
-    );
-
-
-    if (
-      updateType === 'Dog Photo'
-    ) {
-
-      handleDogPhotoUpdate();
-
-      return;
-
-    }
-
-
-    /* NORMAL INFORMATION UPDATE */
-
-    currentInformationGroup.classList.remove(
-      'hidden'
-    );
-
-
-    newInformationGroup.classList.remove(
-      'hidden'
-    );
-
-
-    newInformationInput.required =
-      true;
-
-
-    supportingFileInput.required =
-      false;
-
-
-    supportingFileLabel.innerHTML =
-      'Upload Supporting Photo';
-
-
-    fileNote.textContent =
-      'Optional. JPG or PNG only. Maximum file size: 5MB.';
-
-
-    currentPhotoBox.classList.remove(
-      'show'
-    );
-
-
-    displayCurrentInformation();
-
-  }
-
-
-  /* =========================================
-     DOG PHOTO UPDATE MODE
-  ========================================= */
-
-  function handleDogPhotoUpdate() {
-
-    currentInformationGroup.classList.add(
-      'hidden'
-    );
-
-
-    newInformationGroup.classList.add(
-      'hidden'
-    );
-
-
-    newInformationInput.required =
-      false;
-
-
-    newInformationInput.value =
-      '';
-
-
-    supportingFileInput.required =
-      true;
-
-
-    supportingFileLabel.innerHTML =
-      'Upload New Dog Photo <span class="required">*</span>';
-
-
-    fileNote.textContent =
-      'Required. Upload a clear JPG or PNG photo of the registered dog. Maximum file size: 5MB.';
-
-
-    displayCurrentDogPhoto(record);
-
-  }
-
-
-  /* =========================================
-     DISPLAY CURRENT INFORMATION
-  ========================================= */
-
-  function displayCurrentInformation() {
-
-    const updateType =
-      updateTypeInput.value;
-
-
-    if (!updateType) {
-
-      currentInformationBox.textContent =
-        'Select information to update to view the current registered information.';
-
-      currentInformationBox.classList.add(
-        'empty'
-      );
-
-      return;
-
-    }
-
-
-    if (!verifiedRecord) {
-
-      currentInformationBox.textContent =
-        'Dog record has not been verified.';
-
-      currentInformationBox.classList.add(
-        'empty'
-      );
-
-      return;
-
-    }
-
-
-    const fieldMap = {
-
-      'Owner Name': [
-        'ownerName',
-        'Owner Name',
-        'owner'
-      ],
-
-      'Address': [
-        'address',
-        'Address',
-        'ownerAddress'
-      ],
-
-      'Sitio': [
-        'sitio',
-        'Sitio'
-      ],
-
-      'Contact Number': [
-        'contactNumber',
-        'Contact Number',
-        'contact',
-        'mobileNumber',
-        'phone'
-      ],
-
-      'Email Address': [
-        'emailAddress',
-        'Email Address',
-        'email'
-      ],
-
-      'Dog Name': [
-        'dogName',
-        'Dog Name'
-      ],
-
-      'Breed': [
-        'breed',
-        'Breed'
-      ],
-
-      'Color': [
-        'color',
-        'Color'
-      ],
-
-      'Sex': [
-        'sex',
-        'Sex',
-        'gender',
-        'Gender'
-      ],
-
-      'Birthdate': [
-        'birthdate',
-        'Birthdate',
-        'dateOfBirth',
-        'Date of Birth'
-      ]
-
-    };
-
-
-    const possibleKeys =
-      fieldMap[updateType] || [];
-
-
-    let currentValue = '';
-
-
-    possibleKeys.forEach(
-      function (key) {
-
-        if (
-          !currentValue &&
-          verifiedRecord[key] !== undefined &&
-          verifiedRecord[key] !== null &&
-          String(
-            verifiedRecord[key]
-          ).trim() !== ''
-        ) {
-
-          currentValue =
-            String(
-              verifiedRecord[key]
-            ).trim();
-
-        }
-
-      }
-    );
-
-
-    if (!currentValue) {
-
-      currentInformationBox.textContent =
-        'No current information available in the registry for this field.';
-
-      currentInformationBox.classList.add(
-        'empty'
-      );
-
-      return;
-
-    }
-
-
-    currentInformationBox.textContent =
-      currentValue;
-
-
-    currentInformationBox.classList.remove(
-      'empty'
-    );
-
-  }
-
-
-  /* =========================================
-     DISPLAY CURRENT DOG PHOTO
-  ========================================= */
-
-  function displayCurrentDogPhoto(record) {
-
-    currentPhotoBox.classList.add(
-      'show'
-    );
-
-
-    const photoUrl =
-      getRecordValue(
-        [
-          'photoUrl',
-          'Photo URL',
-          'Dog Photo URL',
-          'Photo',
-          'photo',
-          'dogPhotoUrl',
-          'Image URL',
-          'imageUrl'
-        ],
-        ''
-      );
-
-
-    if (
-      photoUrl &&
-      String(photoUrl).trim()
-    ) {
-
-    var photoFileId =
-  String(
-    record.dogPhotoFileId || ''
-  ).trim();
-
-if (photoFileId) {
-
-  currentDogPhoto.src =
-    'https://drive.google.com/thumbnail?id=' +
-    encodeURIComponent(photoFileId) +
-    '&sz=w1000';
-
-} else {
-
-  currentDogPhoto.src =
-    normalizeImageUrl(
-      String(photoUrl).trim()
-    );
-
-}
-
-      currentDogPhoto.classList.remove(
-        'hidden'
-      );
-
-
-      currentPhotoEmpty.classList.add(
-        'hidden'
-      );
-
-
-    } else {
-
-      currentDogPhoto.removeAttribute(
-        'src'
-      );
-
-
-      currentDogPhoto.classList.add(
-        'hidden'
-      );
-
-
-      currentPhotoEmpty.classList.remove(
-        'hidden'
-      );
-
-    }
-
-  }
-
-
-  /* =========================================
-     GET RECORD VALUE
-  ========================================= */
-
-  function getRecordValue(
-    keys,
-    fallback
-  ) {
-
-    if (!verifiedRecord) {
-      return fallback || '';
-    }
-
-
-    for (
-      let i = 0;
-      i < keys.length;
-      i++
-    ) {
-
-      const key =
-        keys[i];
-
-
-      if (
-        verifiedRecord[key] !== undefined &&
-        verifiedRecord[key] !== null &&
-        String(
-          verifiedRecord[key]
-        ).trim() !== ''
+      function showLoading(
+        title,
+        text
       ) {
 
-        return String(
-          verifiedRecord[key]
-        ).trim();
-
-      }
-
-    }
+        document.getElementById(
+          'loadingTitle'
+        ).textContent =
+          title;
 
 
-    return fallback || '';
-
-  }
-
-
-  /* =========================================
-     NORMALIZE GOOGLE DRIVE IMAGE URL
-  ========================================= */
-
-  function normalizeImageUrl(
-    url
-  ) {
-
-    if (!url) {
-      return '';
-    }
+        document.getElementById(
+          'loadingText'
+        ).textContent =
+          text;
 
 
-    const fileIdMatch =
-      String(url).match(
-        /[-\w]{25,}/
-      );
-
-
-    if (
-      fileIdMatch &&
-      String(url).indexOf(
-        'drive.google.com'
-      ) !== -1
-    ) {
-
-      return (
-        'https://drive.google.com/uc?export=view&id=' +
-        fileIdMatch[0]
-      );
-
-    }
-
-
-    return url;
-
-  }
-
-
-  /* =========================================
-     FILE TO BASE64
-  ========================================= */
-
-  supportingFileInput.addEventListener(
-    'change',
-    function (event) {
-
-      const file =
-        event.target.files[0];
-
-
-      selectedFileData = '';
-
-      selectedFileName = '';
-
-      photoPreviewBox.classList.remove(
-        'show'
-      );
-
-
-      if (!file) {
-        return;
-      }
-
-
-      if (
-        file.size >
-        5 * 1024 * 1024
-      ) {
-
-        showMessage(
-          'Photo size must not exceed 5MB.',
-          'error'
+        document.getElementById(
+          'loadingOverlay'
+        ).classList.add(
+          'show'
         );
 
-        event.target.value = '';
-
-        return;
-
       }
 
 
-      const allowedTypes = [
-        'image/jpeg',
-        'image/png'
-      ];
+      function hideLoading() {
 
-
-      if (
-        allowedTypes.indexOf(
-          file.type
-        ) === -1
-      ) {
-
-        showMessage(
-          'Only JPG and PNG photos are allowed.',
-          'error'
+        document.getElementById(
+          'loadingOverlay'
+        ).classList.remove(
+          'show'
         );
 
-        event.target.value = '';
+      }
 
-        return;
+
+      /* =========================================
+         SUCCESS MODAL
+      ========================================= */
+
+      function showSuccessModal() {
+
+        document.getElementById(
+          'successOverlay'
+        ).classList.add(
+          'show'
+        );
 
       }
 
 
-      const reader =
-        new FileReader();
+      function closeSuccessModal() {
+
+        document.getElementById(
+          'successOverlay'
+        ).classList.remove(
+          'show'
+        );
 
 
-      reader.onload =
-        function (loadEvent) {
+        window.location.reload();
 
-          selectedFileData =
-            loadEvent.target.result;
+      }
 
 
-          selectedFileName =
-            file.name;
+      document.getElementById(
+        'successCloseButton'
+      ).addEventListener(
+        'click',
+        closeSuccessModal
+      );
 
 
-          photoPreview.src =
-            selectedFileData;
+      /* =========================================
+         MESSAGE
+      ========================================= */
 
+      function showMessage(
+        message,
+        type
+      ) {
 
-          photoPreviewBox.classList.add(
-            'show'
-          );
-
-        };
-
-
-      reader.onerror =
-        function () {
-
-          selectedFileData = '';
-
-          selectedFileName = '';
-
-          photoPreviewBox.classList.remove(
-            'show'
+        const box =
+          document.getElementById(
+            'messageBox'
           );
 
 
-          showMessage(
-            'Unable to read the selected photo.',
-            'error'
-          );
+        box.textContent =
+          message;
 
-        };
 
+        box.className =
+          'message ' + type;
 
-      reader.readAsDataURL(
-        file
-      );
 
-    }
-  );
-
-
-  /* =========================================
-     SUBMIT REGISTRY UPDATE
-  ========================================= */
-
-  updateForm.addEventListener(
-    'submit',
-    async function (event) {
-
-      event.preventDefault();
-
-
-      if (!verifiedRecord) {
-
-        showMessage(
-          'Please verify the dog record first.',
-          'error'
-        );
-
-        return;
-
-      }
-
-
-      const updateType =
-        updateTypeInput.value;
-
-
-      if (!updateType) {
-
-        showMessage(
-          'Please select the information you want to update.',
-          'error'
-        );
-
-        return;
-
-      }
-
-
-      /* PHOTO UPDATE VALIDATION */
-
-      if (
-        updateType === 'Dog Photo' &&
-        !selectedFileData
-      ) {
-
-        showMessage(
-          'Please upload the new dog photo.',
-          'error'
-        );
-
-        return;
-
-      }
-
-
-      /* NORMAL FIELD VALIDATION */
-
-      if (
-        updateType !== 'Dog Photo' &&
-        !newInformationInput.value.trim()
-      ) {
-
-        showMessage(
-          'Please enter the new or updated information.',
-          'error'
-        );
-
-        return;
-
-      }
-
-
-      if (
-        !updateForm.checkValidity()
-      ) {
-
-        updateForm.reportValidity();
-
-        return;
-
-      }
-
-
-      let newInformation =
-        newInformationInput.value.trim();
-
-
-      if (
-        updateType === 'Dog Photo'
-      ) {
-
-        newInformation =
-          'Dog Photo Update';
-
-      }
-
-
-      const data = {
-
-        registryNumber:
-          getRecordValue(
-            [
-              'registryNumber',
-              'Registry Number'
-            ],
-            registryNumberInput.value.trim()
-          ),
-
-        ownerName:
-          getRecordValue(
-            [
-              'ownerName',
-              'Owner Name'
-            ],
-            ownerNameInput.value.trim()
-          ),
-
-        dogName:
-          getRecordValue(
-            [
-              'dogName',
-              'Dog Name'
-            ],
-            dogNameInput.value.trim()
-          ),
-
-        updateType:
-          updateType,
-
-        newInformation:
-          newInformation,
-
-        supportingFileData:
-          selectedFileData,
-
-        supportingFileName:
-          selectedFileName
-
-      };
-
-
-      hideMessage();
-
-
-      submitButton.disabled =
-        true;
-
-
-      submitButton.textContent =
-        'Submitting...';
-
-
-      showLoading(
-        'Submitting Registry Update...',
-        'Please wait. Do not close this page.'
-      );
-
-
-      try {
-
-        if (
-          typeof window.brccSubmit !==
-          'function'
-        ) {
-
-          throw new Error(
-            'API connection is not available. Please check api.js.'
-          );
-
-        }
-
-
-        console.log(
-          'REGISTRY UPDATE REQUEST:',
-          data
-        );
-
-
-        const result =
-          await window.brccSubmit(
-            'registry_update',
-            data
-          );
-
-
-        console.log(
-          'REGISTRY UPDATE RESULT:',
-          result
-        );
-
-
-        if (
-          result &&
-          result.success === false
-        ) {
-
-          throw new Error(
-            result.message ||
-            'Unable to submit Registry Update.'
-          );
-
-        }
-
-
-        hideLoading();
-
-
-        showSuccessModal();
-
-
-        resetUpdatePage();
-
-
-      } catch (error) {
-
-        console.error(
-          'REGISTRY UPDATE ERROR:',
-          error
-        );
-
-
-        hideLoading();
-
-
-        showMessage(
-          error && error.message
-            ? error.message
-            : 'Unable to submit update request. Please try again.',
-          'error'
-        );
+        box.style.display =
+          'block';
 
 
         window.scrollTo({
@@ -2389,317 +2620,73 @@ if (photoFileId) {
           behavior: 'smooth'
         });
 
-
-      } finally {
-
-        hideLoading();
+      }
 
 
-        submitButton.disabled =
-          false;
+      function hideMessage() {
+
+        const box =
+          document.getElementById(
+            'messageBox'
+          );
 
 
-        submitButton.textContent =
-          'Submit Registry Update';
+        box.style.display =
+          'none';
+
+
+        box.textContent =
+          '';
+
+
+        box.className =
+          'message';
 
       }
 
-    }
-  );
 
+      /* =========================================
+         ENTER KEY SUPPORT
+      ========================================= */
 
-  /* =========================================
-     RESET PAGE
-  ========================================= */
+      [
+        registryNumberInput,
+        ownerNameInput,
+        dogNameInput
+      ].forEach(
+        function (input) {
 
-  function resetUpdatePage() {
+          input.addEventListener(
+            'keydown',
+            function (event) {
 
-    updateForm.reset();
+              if (
+                event.key === 'Enter'
+              ) {
 
+                event.preventDefault();
 
-    verifiedRecord = null;
 
-    selectedFileData = '';
+                if (
+                  !verifyButton.disabled
+                ) {
 
-    selectedFileName = '';
+                  verifyDogRecord();
 
+                }
 
-    updateForm.classList.remove(
-      'show'
-    );
-
-
-    verifiedBox.classList.remove(
-      'show'
-    );
-
-
-    currentPhotoBox.classList.remove(
-      'show'
-    );
-
-
-    photoPreviewBox.classList.remove(
-      'show'
-    );
-
-
-    currentInformationGroup.classList.remove(
-      'hidden'
-    );
-
-
-    newInformationGroup.classList.remove(
-      'hidden'
-    );
-
-
-    newInformationInput.required =
-      true;
-
-
-    supportingFileInput.required =
-      false;
-
-
-    supportingFileLabel.innerHTML =
-      'Upload Supporting Photo';
-
-
-    fileNote.textContent =
-      'Optional. JPG or PNG only. Maximum file size: 5MB.';
-
-
-    currentInformationBox.textContent =
-      'Select information to update to view the current registered information.';
-
-
-    currentInformationBox.classList.add(
-      'empty'
-    );
-
-
-    currentDogPhoto.removeAttribute(
-      'src'
-    );
-
-
-    photoPreview.removeAttribute(
-      'src'
-    );
-
-
-    registryNumberInput.disabled =
-      false;
-
-
-    ownerNameInput.disabled =
-      false;
-
-
-    dogNameInput.disabled =
-      false;
-
-
-    registryNumberInput.value =
-      '';
-
-
-    ownerNameInput.value =
-      '';
-
-
-    dogNameInput.value =
-      '';
-
-
-    verifyButton.disabled =
-      false;
-
-
-    verifyButton.textContent =
-      'Verify Record';
-
-  }
-
-
-  /* =========================================
-     LOADING
-  ========================================= */
-
-  function showLoading(
-    title,
-    text
-  ) {
-
-    document.getElementById(
-      'loadingTitle'
-    ).textContent =
-      title;
-
-
-    document.getElementById(
-      'loadingText'
-    ).textContent =
-      text;
-
-
-    document.getElementById(
-      'loadingOverlay'
-    ).classList.add(
-      'show'
-    );
-
-  }
-
-
-  function hideLoading() {
-
-    document.getElementById(
-      'loadingOverlay'
-    ).classList.remove(
-      'show'
-    );
-
-  }
-
-
-  /* =========================================
-     SUCCESS MODAL
-  ========================================= */
-
-  function showSuccessModal() {
-
-    document.getElementById(
-      'successOverlay'
-    ).classList.add(
-      'show'
-    );
-
-  }
-
-
-  function closeSuccessModal() {
-
-    document.getElementById(
-      'successOverlay'
-    ).classList.remove(
-      'show'
-    );
-
-
-    window.location.reload();
-
-  }
-
-
-  document.getElementById(
-    'successCloseButton'
-  ).addEventListener(
-    'click',
-    closeSuccessModal
-  );
-
-
-  /* =========================================
-     MESSAGE
-  ========================================= */
-
-  function showMessage(
-    message,
-    type
-  ) {
-
-    const box =
-      document.getElementById(
-        'messageBox'
-      );
-
-
-    box.textContent =
-      message;
-
-
-    box.className =
-      'message ' + type;
-
-
-    box.style.display =
-      'block';
-
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-
-  }
-
-
-  function hideMessage() {
-
-    const box =
-      document.getElementById(
-        'messageBox'
-      );
-
-
-    box.style.display =
-      'none';
-
-
-    box.textContent =
-      '';
-
-
-    box.className =
-      'message';
-
-  }
-
-
-  /* =========================================
-     ENTER KEY SUPPORT
-  ========================================= */
-
-  [
-    registryNumberInput,
-    ownerNameInput,
-    dogNameInput
-  ].forEach(
-    function (input) {
-
-      input.addEventListener(
-        'keydown',
-        function (event) {
-
-          if (
-            event.key === 'Enter'
-          ) {
-
-            event.preventDefault();
-
-
-            if (
-              !verifyButton.disabled
-            ) {
-
-              verifyDogRecord();
+              }
 
             }
-
-          }
+          );
 
         }
       );
 
-    }
-  );
 
+    })();
 
-})();
-</script>
-
+  </script>
 
 </body>
 </html>
