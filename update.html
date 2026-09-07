@@ -1,1799 +1,2245 @@
-<!DOCTYPE html>
-<html lang="en">
+/* ============================================================
+   BRCC-DMS V3
 
-<head>
+   FILE: RegistryUpdateManagementService.gs
 
-  <meta charset="UTF-8">
+   REGISTRY UPDATE MANAGEMENT SERVICE
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+   SERVICES:
+   - Get all Registry Update Requests
+   - Get pending requests
+   - Get request details
+   - Approve request
+   - Reject request
+   - Apply approved update to Dog Registry
+   - Upload supporting photo
+   - Save Registry Update History
 
-  <title>Registry Update | Barangay Tupol Oeste</title>
+   IMPORTANT:
+   This file DOES NOT contain doPost().
+============================================================ */
 
 
-  <style>
+/* ============================================================
+   GET ALL REGISTRY UPDATE REQUESTS
+============================================================ */
 
-    * {
-      box-sizing: border-box;
-    }
+function brccGetRegistryUpdateRequests() {
 
+  var sheet =
+    rumsGetRequestSheet_();
 
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100%;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-      color: #303846;
-    }
+  var lastRow =
+    sheet.getLastRow();
 
+  var lastColumn =
+    sheet.getLastColumn();
 
-    body {
-      min-height: 100vh;
-    }
 
+  if (lastRow < 2) {
+    return [];
+  }
 
-    /* =========================================
-       PAGE
-    ========================================= */
 
-    .page {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 14px 10px 45px;
-    }
+  var headers =
+    sheet
+      .getRange(
+        1,
+        1,
+        1,
+        lastColumn
+      )
+      .getDisplayValues()[0];
 
 
-    /* =========================================
-       BACK BUTTON
-    ========================================= */
+  var values =
+    sheet
+      .getRange(
+        2,
+        1,
+        lastRow - 1,
+        lastColumn
+      )
+      .getValues();
 
-    .back-button {
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 20px;
-      padding: 10px 14px;
-      border: 1px solid #d7dde5;
-      border-radius: 9px;
-      background: #ffffff;
-      color: #4b5563;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-    }
 
+  return values.map(
+    function(row, index) {
 
-    .back-button:active {
-      transform: scale(.98);
-    }
-
-
-    /* =========================================
-       HEADER
-    ========================================= */
-
-    .header {
-      text-align: center;
-      padding: 8px 8px 28px;
-    }
-
-
-    .barangay-logo {
-      width: 88px;
-      height: 88px;
-      object-fit: contain;
-      display: block;
-      margin: 0 auto 10px;
-    }
-
-
-    .barangay {
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: .5px;
-      color: #303846;
-    }
-
-
-    .location {
-      margin-top: 5px;
-      font-size: 14px;
-      color: #6b7280;
-    }
-
-
-    h1 {
-      margin: 20px 0 8px;
-      font-size: 28px;
-      color: #303846;
-    }
-
-
-    .subtitle {
-      margin: 0;
-      color: #6b7280;
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-
-    /* =========================================
-       CARD
-    ========================================= */
-
-    .card {
-      width: 100%;
-      margin-bottom: 16px;
-      padding: 20px 16px;
-      background: #ffffff;
-      border: 1px solid #dce1e7;
-      border-radius: 15px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.05);
-    }
-
-
-    .section-title {
-      font-size: 19px;
-      font-weight: 800;
-      margin-bottom: 5px;
-    }
-
-
-    .section-description {
-      margin-bottom: 20px;
-      font-size: 13px;
-      color: #6b7280;
-      line-height: 1.5;
-    }
-
-
-    /* =========================================
-       FORM
-    ========================================= */
-
-    .form-group {
-      width: 100%;
-      margin-bottom: 17px;
-    }
-
-
-    label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #4b5563;
-    }
-
-
-    .required {
-      color: #c53030;
-    }
-
-
-    input,
-    select,
-    textarea {
-      display: block;
-      width: 100%;
-      min-height: 50px;
-      padding: 12px 13px;
-      font-family: inherit;
-      font-size: 16px;
-      color: #303846;
-      background: #ffffff;
-      border: 1px solid #cfd6df;
-      border-radius: 10px;
-      outline: none;
-    }
-
-
-    textarea {
-      min-height: 115px;
-      resize: vertical;
-      line-height: 1.5;
-    }
-
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #667085;
-      box-shadow: 0 0 0 3px rgba(102,112,133,.12);
-    }
-
-
-    input:disabled {
-      background: #f1f3f5;
-      color: #6b7280;
-      cursor: not-allowed;
-    }
-
-
-    /* =========================================
-       BUTTONS
-    ========================================= */
-
-    .verify-button,
-    .submit-button {
-      width: 100%;
-      min-height: 55px;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      background: #303846;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 3px 8px rgba(0,0,0,.10);
-    }
-
-
-    .verify-button:hover,
-    .submit-button:hover {
-      background: #252c37;
-    }
-
-
-    .verify-button:active,
-    .submit-button:active {
-      transform: scale(.99);
-    }
-
-
-    button:disabled {
-      opacity: .65;
-      cursor: not-allowed;
-    }
-
-
-    /* =========================================
-       MESSAGE
-    ========================================= */
-
-    .message {
-      display: none;
-      margin-bottom: 16px;
-      padding: 14px;
-      border-radius: 10px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-
-    .message.error {
-      display: block;
-      background: #fff5f5;
-      border: 1px solid #feb2b2;
-      color: #c53030;
-    }
-
-
-    .message.success {
-      display: block;
-      background: #edf7ef;
-      border: 1px solid #b9dfc0;
-      color: #276749;
-    }
-
-
-    /* =========================================
-       VERIFIED RECORD
-    ========================================= */
-
-    .verified-box {
-      display: none;
-      margin-top: 18px;
-      padding: 18px;
-      border-radius: 12px;
-      background: #edf7ef;
-      border: 1px solid #9fd3aa;
-    }
-
-
-    .verified-box.show {
-      display: block;
-    }
-
-
-    .verified-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #276749;
-      margin-bottom: 12px;
-    }
-
-
-    .verified-row {
-      padding: 8px 0;
-      border-bottom: 1px solid #d4ead8;
-      font-size: 14px;
-    }
-
-
-    .verified-row:last-child {
-      border-bottom: none;
-    }
-
-
-    /* =========================================
-       UPDATE SECTION
-    ========================================= */
-
-    .update-section {
-      display: none;
-    }
-
-
-    .update-section.show {
-      display: block;
-    }
-
-        /* =========================================
-       CURRENT INFORMATION
-    ========================================= */
-
-    .current-information-box {
-      min-height: 50px;
-      padding: 13px;
-      border: 1px solid #cfd6df;
-      border-radius: 10px;
-      background: #f1f3f5;
-      color: #4b5563;
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-
-    .current-information-box.empty {
-      color: #9ca3af;
-      font-style: italic;
-    }
-
-    /* =========================================
-       FILE
-    ========================================= */
-
-    .file-note {
-      margin-top: 8px;
-      font-size: 12px;
-      color: #6b7280;
-      line-height: 1.5;
-    }
-
-
-    /* =========================================
-       DECLARATION
-    ========================================= */
-
-    .declaration-box {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 14px;
-      border: 1px solid #dce1e7;
-      border-radius: 10px;
-      background: #fafbfc;
-    }
-
-
-    .declaration-box input {
-      width: 20px;
-      min-width: 20px;
-      height: 20px;
-      min-height: 20px;
-      margin-top: 2px;
-    }
-
-
-    .declaration-box label {
-      margin: 0;
-      font-size: 13px;
-      font-weight: 500;
-      line-height: 1.5;
-    }
-
-
-    /* =========================================
-       LOADING OVERLAY
-    ========================================= */
-
-    .loading-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 9998;
-      background: rgba(255,255,255,.88);
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-
-    .loading-overlay.show {
-      display: flex;
-    }
-
-
-    .loading-box {
-      width: 100%;
-      max-width: 320px;
-      padding: 30px 24px;
-      border-radius: 18px;
-      background: #ffffff;
-      text-align: center;
-      box-shadow: 0 12px 40px rgba(0,0,0,.16);
-    }
-
-
-    .spinner {
-      width: 54px;
-      height: 54px;
-      margin: 0 auto 18px;
-      border: 5px solid #e2e8f0;
-      border-top-color: #303846;
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-    }
-
-
-    @keyframes spin {
-
-      to {
-        transform: rotate(360deg);
-      }
-
-    }
-
-
-    .loading-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #303846;
-    }
-
-
-    .loading-text {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #6b7280;
-      line-height: 1.5;
-    }
-
-
-    /* =========================================
-       SUCCESS MODAL
-    ========================================= */
-
-    .success-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(0,0,0,.45);
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-
-    .success-overlay.show {
-      display: flex;
-    }
-
-
-    .success-modal {
-      width: 100%;
-      max-width: 420px;
-      padding: 30px 22px;
-      background: #ffffff;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 15px 50px rgba(0,0,0,.20);
-    }
-
-
-    .success-icon {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 15px;
-      border-radius: 50%;
-      background: #e7f6eb;
-      color: #276749;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 38px;
-      font-weight: bold;
-    }
-
-
-    .success-title {
-      font-size: 21px;
-      font-weight: 800;
-      color: #276749;
-      margin-bottom: 10px;
-    }
-
-
-    .success-text {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #4b5563;
-    }
-
-
-    .success-close {
-      width: 100%;
-      margin-top: 20px;
-      min-height: 50px;
-      border: none;
-      border-radius: 10px;
-      background: #303846;
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-
-    /* =========================================
-       MOBILE
-    ========================================= */
-
-    @media (max-width: 480px) {
-
-      .page {
-        padding: 12px 8px 35px;
-      }
-
-
-      .card {
-        padding: 18px 13px;
-      }
-
-
-      .barangay-logo {
-        width: 76px;
-        height: 76px;
-      }
-
-
-      .barangay {
-        font-size: 18px;
-      }
-
-
-      h1 {
-        font-size: 25px;
-      }
-
-    }
-
-  </style>
-
-</head>
-
-
-<body>
-
-
-<!-- =========================================
-     LOADING OVERLAY
-========================================= -->
-
-<div
-  id="loadingOverlay"
-  class="loading-overlay"
->
-
-  <div class="loading-box">
-
-    <div class="spinner"></div>
-
-    <div
-      id="loadingTitle"
-      class="loading-title"
-    >
-      Processing...
-    </div>
-
-    <div
-      id="loadingText"
-      class="loading-text"
-    >
-      Please wait. Do not close this page.
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================================
-     SUCCESS MODAL
-========================================= -->
-
-<div
-  id="successOverlay"
-  class="success-overlay"
->
-
-  <div class="success-modal">
-
-    <div class="success-icon">
-      ✓
-    </div>
-
-    <div class="success-title">
-      Update Submitted Successfully!
-    </div>
-
-    <div class="success-text">
-      Your Registry Update Request has been received and is pending review.
-    </div>
-
-    <button
-      type="button"
-      id="successCloseButton"
-      class="success-close"
-    >
-      Done
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =========================================
-     PAGE
-========================================= -->
-
-<div class="page">
-
-
-  <a
-    href="./"
-    class="back-button"
-  >
-    ← Back to Services
-  </a>
-
-
-  <!-- HEADER -->
-
-  <div class="header">
-
-    <img
-      src="barangay-logo.png"
-      alt="Barangay Tupol Oeste Logo"
-      class="barangay-logo"
-    >
-
-    <div class="barangay">
-      BARANGAY TUPOL OESTE
-    </div>
-
-    <div class="location">
-      Cabatuan, Iloilo
-    </div>
-
-    <h1>
-      Registry Update
-    </h1>
-
-    <p class="subtitle">
-      Verify your dog record before submitting an update request.
-    </p>
-
-  </div>
-
-
-  <!-- MESSAGE -->
-
-  <div
-    id="messageBox"
-    class="message"
-  ></div>
-
-
-  <!-- =====================================
-       STEP 1: VERIFY DOG RECORD
-  ====================================== -->
-
-  <div class="card">
-
-    <div class="section-title">
-      Verify Dog Record
-    </div>
-
-    <div class="section-description">
-      Enter the exact registered information. Your Registry Number, Owner Name, and Dog Name must match the official Dog Registry.
-    </div>
-
-
-    <div class="form-group">
-
-      <label for="registryNumber">
-        Registry Number
-        <span class="required">*</span>
-      </label>
-
-      <input
-        type="text"
-        id="registryNumber"
-        placeholder="Example: BTO-2026-00001"
-        autocomplete="off"
-      >
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label for="ownerName">
-        Registered Owner Name
-        <span class="required">*</span>
-      </label>
-
-      <input
-        type="text"
-        id="ownerName"
-        placeholder="Enter registered owner name"
-        autocomplete="off"
-      >
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label for="dogName">
-        Registered Dog Name
-        <span class="required">*</span>
-      </label>
-
-      <input
-        type="text"
-        id="dogName"
-        placeholder="Enter registered dog name"
-        autocomplete="off"
-      >
-
-    </div>
-
-
-    <button
-      type="button"
-      id="verifyButton"
-      class="verify-button"
-    >
-      Verify Record
-    </button>
-
-
-    <!-- VERIFIED RECORD -->
-
-    <div
-      id="verifiedBox"
-      class="verified-box"
-    >
-
-      <div class="verified-title">
-        ✓ Dog Record Verified
-      </div>
-
-
-      <div class="verified-row">
-        <strong>Registry Number:</strong>
-        <span id="verifiedRegistryNumber"></span>
-      </div>
-
-
-      <div class="verified-row">
-        <strong>Owner:</strong>
-        <span id="verifiedOwnerName"></span>
-      </div>
-
-
-      <div class="verified-row">
-        <strong>Dog Name:</strong>
-        <span id="verifiedDogName"></span>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- =====================================
-       STEP 2: REGISTRY UPDATE
-  ====================================== -->
-
-  <form
-    id="updateForm"
-    class="update-section"
-  >
-
-
-    <div class="card">
-
-      <div class="section-title">
-        Update Request
-      </div>
-
-
-      <div class="section-description">
-        Select the information you want to update. Your request will be reviewed before changes are applied.
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="updateType">
-          Information to Update
-          <span class="required">*</span>
-        </label>
-
-
-        <select
-          id="updateType"
-          required
-        >
-
-          <option value="">
-            Select information to update
-          </option>
-
-          <option value="Owner Name">
-            Owner Name
-          </option>
-
-          <option value="Address">
-            Address
-          </option>
-
-          <option value="Sitio">
-            Sitio
-          </option>
-
-          <option value="Contact Number">
-            Contact Number
-          </option>
-
-          <option value="Email Address">
-            Email Address
-          </option>
-
-          <option value="Dog Name">
-            Dog Name
-          </option>
-
-          <option value="Breed">
-            Breed
-          </option>
-
-          <option value="Color">
-            Color
-          </option>
-
-          <option value="Sex">
-            Sex
-          </option>
-
-          <option value="Birthdate">
-            Birthdate
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <!-- CURRENT REGISTERED INFORMATION -->
-
-      <div class="form-group">
-
-        <label>
-          Current Registered Information
-        </label>
-
-        <div
-          id="currentInformation"
-          class="current-information-box empty"
-        >
-          Select information to update to view the current registered information.
-        </div>
-
-      </div>
-
-
-      <!-- NEW INFORMATION -->
-
-      <div class="form-group">
-
-        <label for="newInformation">
-          New / Updated Information
-          <span class="required">*</span>
-        </label>
-
-        <textarea
-          id="newInformation"
-          placeholder="Enter the new or corrected information"
-          required
-        ></textarea>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="supportingFile">
-          Upload Supporting Photo
-        </label>
-
-        <input
-          type="file"
-          id="supportingFile"
-          accept="image/jpeg,image/png,.jpg,.jpeg,.png"
-        >
-
-        <div class="file-note">
-          Optional. JPG or PNG only. Maximum file size: 5MB.
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- DECLARATION -->
-
-    <div class="card">
-
-      <div class="section-title">
-        Declaration
-      </div>
-
-
-      <div class="declaration-box">
-
-        <input
-          type="checkbox"
-          id="declaration"
-          required
-        >
-
-        <label for="declaration">
-          I certify that the information provided in this update request is true and correct to the best of my knowledge.
-        </label>
-
-      </div>
-
-    </div>
-
-
-    <button
-      type="submit"
-      id="submitButton"
-      class="submit-button"
-    >
-      Submit Registry Update
-    </button>
-
-
-  </form>
-
-
-</div>
-
-
-<!-- =========================================
-     API
-========================================= -->
-
-<script src="api.js"></script>
-
-
-<!-- =========================================
-     PAGE JAVASCRIPT
-========================================= -->
-
-<script>
-
-(function () {
-
-  'use strict';
-
-
-  let verifiedRecord = null;
-  let selectedFileData = '';
-  let selectedFileName = '';
-
-
-  /* =========================================
-     DOM REFERENCES
-  ========================================= */
-
-  const registryNumberInput =
-    document.getElementById('registryNumber');
-
-  const ownerNameInput =
-    document.getElementById('ownerName');
-
-  const dogNameInput =
-    document.getElementById('dogName');
-
-  const verifyButton =
-    document.getElementById('verifyButton');
-
-  const verifiedBox =
-    document.getElementById('verifiedBox');
-
-  const updateForm =
-    document.getElementById('updateForm');
-
-  const submitButton =
-    document.getElementById('submitButton');
-
-   const supportingFileInput =
-    document.getElementById('supportingFile');
-
-
-  const updateTypeInput =
-    document.getElementById('updateType');
-
-
-  const currentInformationBox =
-    document.getElementById('currentInformation');
-
-  /* =========================================
-     VERIFY BUTTON
-  ========================================= */
-
-  verifyButton.addEventListener(
-    'click',
-    verifyDogRecord
-  );
-  /* =========================================
-     UPDATE TYPE CHANGE
-  ========================================= */
-
-  updateTypeInput.addEventListener(
-    'change',
-    function () {
-
-      displayCurrentInformation();
-
-    }
-  );
-
-  /* =========================================
-     VERIFY DOG RECORD
-  ========================================= */
-
-  async function verifyDogRecord() {
-
-    const registryNumber =
-      registryNumberInput.value.trim();
-
-    const ownerName =
-      ownerNameInput.value.trim();
-
-    const dogName =
-      dogNameInput.value.trim();
-
-
-    if (
-      !registryNumber ||
-      !ownerName ||
-      !dogName
-    ) {
-
-      showMessage(
-        'Please enter Registry Number, Owner Name, and Dog Name.',
-        'error'
+      return rumsRowToObject_(
+        headers,
+        row,
+        index + 2
       );
 
-      return;
+    }
+  );
+
+}
+
+
+/* ============================================================
+   GET PENDING REGISTRY UPDATE REQUESTS
+============================================================ */
+
+function brccGetPendingRegistryUpdates() {
+
+  var requests =
+    brccGetRegistryUpdateRequests();
+
+
+  return requests.filter(
+    function(request) {
+
+      var status =
+        rumsGetRequestStatus_(
+          request
+        );
+
+
+      return (
+        status === '' ||
+        status === 'PENDING'
+      );
 
     }
+  );
+
+}
 
 
-    verifiedRecord = null;
+/* ============================================================
+   GET SINGLE REQUEST
+============================================================ */
+
+function brccGetRegistryUpdateRequest(
+  requestNumber
+) {
+
+  if (
+    !String(requestNumber || '').trim()
+  ) {
+
+    throw new Error(
+      'Request Number is required.'
+    );
+
+  }
 
 
-    verifyButton.disabled = true;
-    verifyButton.textContent = 'Verifying...';
+  var sheet =
+    rumsGetRequestSheet_();
+
+  var lastRow =
+    sheet.getLastRow();
+
+  var lastColumn =
+    sheet.getLastColumn();
 
 
-    hideMessage();
+  if (lastRow < 2) {
+
+    throw new Error(
+      'No Registry Update Requests found.'
+    );
+
+  }
 
 
-    showLoading(
-      'Verifying Dog Record...',
-      'Please wait. Checking the official Dog Registry.'
+  var headers =
+    sheet
+      .getRange(
+        1,
+        1,
+        1,
+        lastColumn
+      )
+      .getDisplayValues()[0];
+
+
+  var requestColumn =
+    rumsFindHeaderIndex_(
+      headers,
+      [
+        'Request Number',
+        'Request ID'
+      ]
     );
 
 
-    try {
+  if (requestColumn === -1) {
 
-      if (typeof window.brccSubmit !== 'function') {
+    throw new Error(
+      'Request Number column was not found.'
+    );
 
-        throw new Error(
-          'API connection is not available. Please check api.js.'
-        );
-
-      }
+  }
 
 
-      console.log(
-        'VERIFY REQUEST',
-        {
-          registryNumber: registryNumber,
-          ownerName: ownerName,
-          dogName: dogName
-        }
+  var values =
+    sheet
+      .getRange(
+        2,
+        1,
+        lastRow - 1,
+        lastColumn
+      )
+      .getValues();
+
+
+  var target =
+    rumsNormalize_(
+      requestNumber
+    );
+
+
+  for (
+    var i = 0;
+    i < values.length;
+    i++
+  ) {
+
+    var sheetRequestNumber =
+      rumsNormalize_(
+        values[i][requestColumn]
       );
 
 
-      const result = await window.brccSubmit(
-        'verify_registry',
-        {
-          registryNumber: registryNumber,
-          ownerName: ownerName,
-          dogName: dogName
-        }
+    if (
+      sheetRequestNumber === target
+    ) {
+
+      return rumsRowToObject_(
+        headers,
+        values[i],
+        i + 2
       );
-
-
-      console.log(
-        'VERIFY RAW RESULT:',
-        result
-      );
-
-
-      /*
-       * API RESPONSE CAN BE:
-       *
-       * {
-       *   success: true,
-       *   result: {
-       *     verified: true,
-       *     record: {}
-       *   }
-       * }
-       *
-       * OR DIRECT:
-       *
-       * {
-       *   verified: true,
-       *   record: {}
-       * }
-       */
-
-      if (
-        result &&
-        result.success === false
-      ) {
-
-        throw new Error(
-          result.message ||
-          'Unable to verify dog record.'
-        );
-
-      }
-
-
-      const response =
-        result && result.result
-          ? result.result
-          : result;
-
-
-      console.log(
-        'VERIFY PROCESSED RESPONSE:',
-        response
-      );
-
-
-      if (
-        !response ||
-        response.verified !== true
-      ) {
-
-        throw new Error(
-          response &&
-          response.message
-            ? response.message
-            : 'No matching dog record was found.'
-        );
-
-      }
-
-
-      if (!response.record) {
-
-        throw new Error(
-          'Verified record information was not returned.'
-        );
-
-      }
-
-
-      verifiedRecord =
-        response.record;
-
-            console.log(
-        'VERIFIED COMPLETE RECORD:',
-        verifiedRecord
-      );
-
-
-      /*
-       * Reset current information display
-       */
-
-      updateTypeInput.value = '';
-
-      currentInformationBox.textContent =
-        'Select information to update to view the current registered information.';
-
-      currentInformationBox.classList.add(
-        'empty'
-      );
-
-      /*
-       * DISPLAY VERIFIED RECORD
-       */
-
-      document.getElementById(
-        'verifiedRegistryNumber'
-      ).textContent =
-        verifiedRecord.registryNumber ||
-        registryNumber;
-
-
-      document.getElementById(
-        'verifiedOwnerName'
-      ).textContent =
-        verifiedRecord.ownerName ||
-        ownerName;
-
-
-      document.getElementById(
-        'verifiedDogName'
-      ).textContent =
-        verifiedRecord.dogName ||
-        dogName;
-
-
-      verifiedBox.classList.add('show');
-
-      updateForm.classList.add('show');
-
-
-      /*
-       * LOCK VERIFIED FIELDS
-       */
-
-      registryNumberInput.disabled = true;
-      ownerNameInput.disabled = true;
-      dogNameInput.disabled = true;
-
-
-      verifyButton.textContent =
-        'Record Verified';
-
-
-      verifyButton.disabled = true;
-
-
-      showMessage(
-        'Dog record successfully verified. You may now submit an update request.',
-        'success'
-      );
-
-
-      setTimeout(function () {
-
-        updateForm.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-
-      }, 300);
-
-
-    } catch (error) {
-
-      console.error(
-        'VERIFICATION ERROR:',
-        error
-      );
-
-
-      verifiedRecord = null;
-
-
-      verifiedBox.classList.remove(
-        'show'
-      );
-
-
-      updateForm.classList.remove(
-        'show'
-      );
-
-
-      showMessage(
-        error && error.message
-          ? error.message
-          : 'Verification failed. Please check the information entered.',
-        'error'
-      );
-
-
-      verifyButton.disabled = false;
-
-      verifyButton.textContent =
-        'Verify Record';
-
-
-    } finally {
-
-      hideLoading();
-
-      /*
-       * Keep button disabled only
-       * when verification succeeded.
-       */
-
-      if (!verifiedRecord) {
-
-        verifyButton.disabled = false;
-
-        verifyButton.textContent =
-          'Verify Record';
-
-      }
 
     }
 
   }
-  /* =========================================
-     DISPLAY CURRENT REGISTERED INFORMATION
-  ========================================= */
-
-  function displayCurrentInformation() {
-
-    const updateType =
-      updateTypeInput.value;
 
 
-    if (!updateType) {
+  throw new Error(
+    'Registry Update Request not found: ' +
+    requestNumber
+  );
 
-      currentInformationBox.textContent =
-        'Select information to update to view the current registered information.';
+}
 
-      currentInformationBox.classList.add(
-        'empty'
+
+/* ============================================================
+   APPROVE REGISTRY UPDATE
+============================================================ */
+
+function brccApproveRegistryUpdate(
+  requestNumber,
+  reviewedBy,
+  reviewNotes
+) {
+
+  var lock =
+    LockService.getScriptLock();
+
+
+  lock.waitLock(
+    30000
+  );
+
+
+  try {
+
+    var request =
+      brccGetRegistryUpdateRequest(
+        requestNumber
       );
 
-      return;
+
+    var currentStatus =
+      rumsGetRequestStatus_(
+        request
+      );
+
+
+    if (
+      currentStatus === 'APPROVED'
+    ) {
+
+      throw new Error(
+        'This Registry Update Request has already been approved.'
+      );
 
     }
 
 
-    if (!verifiedRecord) {
+    if (
+      currentStatus === 'REJECTED'
+    ) {
 
-      currentInformationBox.textContent =
-        'Dog record has not been verified.';
-
-      currentInformationBox.classList.add(
-        'empty'
+      throw new Error(
+        'Rejected requests cannot be approved.'
       );
-
-      return;
 
     }
 
 
-    /*
-     * FIELD MAPPING
-     *
-     * Supports multiple possible backend
-     * property names to avoid blank values.
-     */
+    /* =====================================
+       SAVE SUPPORTING FILE FIRST
+    ===================================== */
 
-    const fieldMap = {
+    var supportingFile =
+      rumsProcessSupportingFile_(
+        request
+      );
 
-      'Owner Name': [
-        'ownerName',
-        'Owner Name',
-        'owner'
-      ],
 
-      'Address': [
-        'address',
-        'Address',
-        'ownerAddress'
-      ],
+    /* =====================================
+       APPLY UPDATE TO DOG REGISTRY
+    ===================================== */
 
-      'Sitio': [
-        'sitio',
-        'Sitio'
-      ],
+    var updateResult =
+      rumsApplyApprovedUpdate_(
+        request
+      );
 
-      'Contact Number': [
-        'contactNumber',
-        'Contact Number',
-        'contact',
-        'mobileNumber',
-        'phone'
-      ],
 
-      'Email Address': [
-        'emailAddress',
-        'Email Address',
-        'email'
-      ],
+    var now =
+      new Date();
 
-      'Dog Name': [
-        'dogName',
-        'Dog Name'
-      ],
 
-      'Breed': [
-        'breed',
-        'Breed'
-      ],
+    /* =====================================
+       UPDATE REQUEST STATUS
+    ===================================== */
 
-      'Color': [
-        'color',
-        'Color'
-      ],
+    rumsUpdateRequestDecision_(
+      requestNumber,
+      {
 
-      'Sex': [
-        'sex',
-        'Sex',
-        'gender',
-        'Gender'
-      ],
+        status:
+          'APPROVED',
 
-      'Birthdate': [
-        'birthdate',
-        'Birthdate',
-        'dateOfBirth',
-        'Date of Birth'
-      ]
+        reviewedBy:
+          reviewedBy || '',
+
+        reviewNotes:
+          reviewNotes || '',
+
+        rejectionReason:
+          '',
+
+        reviewDate:
+          now,
+
+        supportingFileUrl:
+          supportingFile.url || '',
+
+        supportingFileId:
+          supportingFile.id || ''
+
+      }
+    );
+
+
+    /* =====================================
+       SAVE UPDATE HISTORY
+    ===================================== */
+
+    rumsSaveUpdateHistory_(
+      request,
+      {
+
+        decision:
+          'APPROVED',
+
+        reviewedBy:
+          reviewedBy || '',
+
+        reviewNotes:
+          reviewNotes || '',
+
+        appliedField:
+          updateResult.field,
+
+        oldValue:
+          updateResult.oldValue,
+
+        newValue:
+          updateResult.newValue,
+
+        supportingFileUrl:
+          supportingFile.url || '',
+
+        processedAt:
+          now
+
+      }
+    );
+
+
+    return {
+
+      success: true,
+
+      message:
+        'Registry Update Request approved successfully.',
+
+      requestNumber:
+        requestNumber,
+
+      status:
+        'APPROVED',
+
+      updateResult:
+        updateResult,
+
+      supportingFile:
+        supportingFile
 
     };
 
 
-    const possibleKeys =
-      fieldMap[updateType] || [];
+  } finally {
+
+    lock.releaseLock();
+
+  }
+
+}
 
 
-    let currentValue = '';
+/* ============================================================
+   REJECT REGISTRY UPDATE
+============================================================ */
+
+function brccRejectRegistryUpdate(
+  requestNumber,
+  reviewedBy,
+  rejectionReason
+) {
+
+  var lock =
+    LockService.getScriptLock();
 
 
-    possibleKeys.forEach(function (key) {
-
-      if (
-        !currentValue &&
-        verifiedRecord[key] !== undefined &&
-        verifiedRecord[key] !== null &&
-        String(verifiedRecord[key]).trim() !== ''
-      ) {
-
-        currentValue =
-          String(verifiedRecord[key]).trim();
-
-      }
-
-    });
+  lock.waitLock(
+    30000
+  );
 
 
-    if (!currentValue) {
+  try {
 
-      currentInformationBox.textContent =
-        'No current information available in the registry for this field.';
-
-      currentInformationBox.classList.add(
-        'empty'
+    var request =
+      brccGetRegistryUpdateRequest(
+        requestNumber
       );
 
-      return;
+
+    var currentStatus =
+      rumsGetRequestStatus_(
+        request
+      );
+
+
+    if (
+      currentStatus === 'APPROVED'
+    ) {
+
+      throw new Error(
+        'Approved requests cannot be rejected.'
+      );
 
     }
 
 
-    currentInformationBox.textContent =
-      currentValue;
+    if (
+      currentStatus === 'REJECTED'
+    ) {
+
+      throw new Error(
+        'This request has already been rejected.'
+      );
+
+    }
 
 
-    currentInformationBox.classList.remove(
-      'empty'
+    if (
+      !String(
+        rejectionReason || ''
+      ).trim()
+    ) {
+
+      throw new Error(
+        'Rejection Reason is required.'
+      );
+
+    }
+
+
+    var now =
+      new Date();
+
+
+    /* UPDATE REQUEST STATUS */
+
+    rumsUpdateRequestDecision_(
+      requestNumber,
+      {
+
+        status:
+          'REJECTED',
+
+        reviewedBy:
+          reviewedBy || '',
+
+        reviewNotes:
+          '',
+
+        rejectionReason:
+          rejectionReason,
+
+        reviewDate:
+          now,
+
+        supportingFileUrl:
+          '',
+
+        supportingFileId:
+          ''
+
+      }
+    );
+
+
+    /* SAVE HISTORY */
+
+    rumsSaveUpdateHistory_(
+      request,
+      {
+
+        decision:
+          'REJECTED',
+
+        reviewedBy:
+          reviewedBy || '',
+
+        reviewNotes:
+          rejectionReason,
+
+        appliedField:
+          '',
+
+        oldValue:
+          '',
+
+        newValue:
+          '',
+
+        supportingFileUrl:
+          '',
+
+        processedAt:
+          now
+
+      }
+    );
+
+
+    return {
+
+      success: true,
+
+      message:
+        'Registry Update Request rejected.',
+
+      requestNumber:
+        requestNumber,
+
+      status:
+        'REJECTED'
+
+    };
+
+
+  } finally {
+
+    lock.releaseLock();
+
+  }
+
+}
+
+
+/* ============================================================
+   APPLY APPROVED UPDATE TO DOG REGISTRY
+============================================================ */
+
+function rumsApplyApprovedUpdate_(
+  request
+) {
+
+  var registryNumber =
+    rumsGetValue_(
+      request,
+      [
+        'Registry Number',
+        'Registry No.',
+        'Registry No',
+        'Registry ID',
+        'Dog Registry Number'
+      ]
+    );
+
+
+  if (
+    !String(registryNumber || '').trim()
+  ) {
+
+    throw new Error(
+      'Registry Number is missing from the update request.'
     );
 
   }
 
-  /* =========================================
-     FILE TO BASE64
-  ========================================= */
 
-  supportingFileInput.addEventListener(
-    'change',
-    function (event) {
-
-      const file =
-        event.target.files[0];
-
-
-      selectedFileData = '';
-      selectedFileName = '';
+  var updateType =
+    rumsGetValue_(
+      request,
+      [
+        'Update Type',
+        'Information to Update'
+      ]
+    );
 
 
-      if (!file) {
-        return;
-      }
+  if (
+    !String(updateType || '').trim()
+  ) {
+
+    throw new Error(
+      'Update Type is missing.'
+    );
+
+  }
 
 
-      if (
-        file.size >
-        5 * 1024 * 1024
-      ) {
-
-        showMessage(
-          'Photo size must not exceed 5MB.',
-          'error'
-        );
-
-        event.target.value = '';
-
-        return;
-
-      }
+  var newValue =
+    rumsGetRequestedNewValue_(
+      request,
+      updateType
+    );
 
 
-      const allowedTypes = [
-        'image/jpeg',
-        'image/png'
-      ];
+  if (
+    newValue === ''
+  ) {
+
+    throw new Error(
+      'New information is missing from the request.'
+    );
+
+  }
 
 
-      if (
-        allowedTypes.indexOf(file.type) === -1
-      ) {
-
-        showMessage(
-          'Only JPG and PNG photos are allowed.',
-          'error'
-        );
-
-        event.target.value = '';
-
-        return;
-
-      }
+  var dogSheet =
+    rumsGetDogRegistrySheet_();
 
 
-      const reader =
-        new FileReader();
+  var lastRow =
+    dogSheet.getLastRow();
+
+  var lastColumn =
+    dogSheet.getLastColumn();
 
 
-      reader.onload =
-        function (loadEvent) {
+  if (lastRow < 2) {
 
-          selectedFileData =
-            loadEvent.target.result;
+    throw new Error(
+      'Dog Registry has no records.'
+    );
 
-          selectedFileName =
-            file.name;
-
-        };
+  }
 
 
-      reader.onerror =
-        function () {
-
-          selectedFileData = '';
-          selectedFileName = '';
-
-          showMessage(
-            'Unable to read the selected photo.',
-            'error'
-          );
-
-        };
+  var headers =
+    dogSheet
+      .getRange(
+        1,
+        1,
+        1,
+        lastColumn
+      )
+      .getDisplayValues()[0];
 
 
-      reader.readAsDataURL(file);
+  var registryColumn =
+    rumsFindHeaderIndex_(
+      headers,
+      [
+        'Registry Number',
+        'Registry No.',
+        'Registry No',
+        'Registry #',
+        'Registry ID',
+        'Dog Registry Number'
+      ]
+    );
+
+
+  if (
+    registryColumn === -1
+  ) {
+
+    throw new Error(
+      'Registry Number column was not found in Dog Registry.'
+    );
+
+  }
+
+
+  var values =
+    dogSheet
+      .getRange(
+        2,
+        1,
+        lastRow - 1,
+        lastColumn
+      )
+      .getValues();
+
+
+  var targetRegistry =
+    rumsNormalize_(
+      registryNumber
+    );
+
+
+  var dogRowNumber =
+    -1;
+
+  var dogRow =
+    null;
+
+
+  for (
+    var i = 0;
+    i < values.length;
+    i++
+  ) {
+
+    if (
+      rumsNormalize_(
+        values[i][registryColumn]
+      ) === targetRegistry
+    ) {
+
+      dogRowNumber =
+        i + 2;
+
+      dogRow =
+        values[i];
+
+      break;
 
     }
+
+  }
+
+
+  if (
+    dogRowNumber === -1
+  ) {
+
+    throw new Error(
+      'Dog Registry record not found: ' +
+      registryNumber
+    );
+
+  }
+
+
+  /* DETERMINE TARGET FIELD */
+
+  var targetField =
+    rumsGetDogRegistryTargetField_(
+      updateType
+    );
+
+
+  var targetColumn =
+    rumsFindHeaderIndex_(
+      headers,
+      targetField.aliases
+    );
+
+
+  if (
+    targetColumn === -1
+  ) {
+
+    throw new Error(
+      'Target column not found in Dog Registry for update type: ' +
+      updateType
+    );
+
+  }
+
+
+  var oldValue =
+    dogRow[targetColumn];
+
+
+  /* APPLY UPDATE */
+
+  dogSheet
+    .getRange(
+      dogRowNumber,
+      targetColumn + 1
+    )
+    .setValue(
+      newValue
+    );
+
+
+  /* UPDATE LAST MODIFIED COLUMN IF EXISTS */
+
+  rumsSetValueByHeader_(
+    dogSheet,
+    headers,
+    dogRowNumber,
+    [
+      'Updated At',
+      'Last Updated',
+      'Date Updated'
+    ],
+    new Date()
   );
 
 
-  /* =========================================
-     SUBMIT REGISTRY UPDATE
-  ========================================= */
+  return {
 
-  updateForm.addEventListener(
-    'submit',
-    async function (event) {
+    registryNumber:
+      registryNumber,
 
-      event.preventDefault();
+    rowNumber:
+      dogRowNumber,
 
+    field:
+      targetField.name,
 
-      if (!verifiedRecord) {
+    oldValue:
+      oldValue,
 
-        showMessage(
-          'Please verify the dog record first.',
-          'error'
-        );
+    newValue:
+      newValue
 
-        return;
+  };
 
-      }
-
-
-      if (!updateForm.checkValidity()) {
-
-        updateForm.reportValidity();
-
-        return;
-
-      }
+}
 
 
-      const updateType =
-        document.getElementById(
-          'updateType'
-        ).value;
+/* ============================================================
+   GET TARGET DOG REGISTRY FIELD
+============================================================ */
+
+function rumsGetDogRegistryTargetField_(
+  updateType
+) {
+
+  var type =
+    rumsNormalize_(
+      updateType
+    );
 
 
-      const newInformation =
-        document.getElementById(
-          'newInformation'
-        ).value
-        .trim();
+  var map = {
 
 
-      const data = {
+    'OWNER NAME': {
 
-        registryNumber:
-          verifiedRecord.registryNumber,
+      name:
+        'Owner Name',
 
-        ownerName:
-          verifiedRecord.ownerName,
+      aliases:
+        [
+          'Owner Name',
+          'Registered Owner',
+          'Registered Owner Name',
+          'Dog Owner',
+          'Owner'
+        ]
 
-        dogName:
-          verifiedRecord.dogName,
-
-        updateType:
-          updateType,
-
-        newInformation:
-          newInformation,
-
-        supportingFileData:
-          selectedFileData,
-
-        supportingFileName:
-          selectedFileName
-
-      };
+    },
 
 
-      hideMessage();
+    'ADDRESS': {
+
+      name:
+        'Address',
+
+      aliases:
+        [
+          'Address',
+          'Owner Address',
+          'Registered Address'
+        ]
+
+    },
 
 
-      submitButton.disabled = true;
+    'SITIO': {
 
-      submitButton.textContent =
-        'Submitting...';
+      name:
+        'Sitio',
+
+      aliases:
+        [
+          'Sitio',
+          'Purok',
+          'Barangay Sitio'
+        ]
+
+    },
 
 
-      showLoading(
-        'Submitting Registry Update...',
-        'Please wait. Do not close this page.'
+    'CONTACT NUMBER': {
+
+      name:
+        'Contact Number',
+
+      aliases:
+        [
+          'Contact Number',
+          'Contact No.',
+          'Contact No',
+          'Mobile Number',
+          'Phone Number'
+        ]
+
+    },
+
+
+    'EMAIL ADDRESS': {
+
+      name:
+        'Email Address',
+
+      aliases:
+        [
+          'Email Address',
+          'Email',
+          'Owner Email'
+        ]
+
+    },
+
+
+    'DOG NAME': {
+
+      name:
+        'Dog Name',
+
+      aliases:
+        [
+          'Dog Name',
+          'Name of Dog',
+          'Registered Dog Name',
+          'Pet Name'
+        ]
+
+    },
+
+
+    'BREED': {
+
+      name:
+        'Breed',
+
+      aliases:
+        [
+          'Breed',
+          'Dog Breed'
+        ]
+
+    },
+
+
+    'COLOR': {
+
+      name:
+        'Color',
+
+      aliases:
+        [
+          'Color',
+          'Dog Color'
+        ]
+
+    },
+
+
+    'SEX': {
+
+      name:
+        'Sex',
+
+      aliases:
+        [
+          'Sex',
+          'Gender'
+        ]
+
+    },
+
+
+    'BIRTHDATE': {
+
+      name:
+        'Birthdate',
+
+      aliases:
+        [
+          'Birthdate',
+          'Birth Date',
+          'Date of Birth',
+          'Dog Birthdate'
+        ]
+
+    }
+
+  };
+
+
+  if (
+    !map[type]
+  ) {
+
+    throw new Error(
+      'Unsupported Registry Update Type: ' +
+      updateType
+    );
+
+  }
+
+
+  return map[type];
+
+}
+
+
+/* ============================================================
+   GET REQUESTED NEW VALUE
+============================================================ */
+
+function rumsGetRequestedNewValue_(
+  request,
+  updateType
+) {
+
+  var type =
+    rumsNormalize_(
+      updateType
+    );
+
+
+  var specificColumns = {
+
+
+    'OWNER NAME':
+      [
+        'New Owner Name'
+      ],
+
+
+    'ADDRESS':
+      [
+        'New Address'
+      ],
+
+
+    'SITIO':
+      [
+        'New Sitio'
+      ],
+
+
+    'CONTACT NUMBER':
+      [
+        'New Contact Number'
+      ],
+
+
+    'EMAIL ADDRESS':
+      [
+        'New Email Address',
+        'New Email'
+      ],
+
+
+    'DOG NAME':
+      [
+        'New Dog Name'
+      ],
+
+
+    'BREED':
+      [
+        'New Breed'
+      ],
+
+
+    'COLOR':
+      [
+        'New Color'
+      ],
+
+
+    'SEX':
+      [
+        'New Sex'
+      ],
+
+
+    'BIRTHDATE':
+      [
+        'New Birthdate',
+        'New Birth Date'
+      ]
+
+  };
+
+
+  var candidates =
+    specificColumns[type] || [];
+
+
+  /* CHECK SPECIFIC COLUMNS FIRST */
+
+  for (
+    var i = 0;
+    i < candidates.length;
+    i++
+  ) {
+
+    var specificValue =
+      rumsGetValue_(
+        request,
+        [
+          candidates[i]
+        ]
       );
 
 
-      try {
+    if (
+      specificValue !== ''
+    ) {
 
-        if (typeof window.brccSubmit !== 'function') {
+      return specificValue;
 
-          throw new Error(
-            'API connection is not available. Please check api.js.'
-          );
+    }
 
-        }
-
-
-        console.log(
-          'REGISTRY UPDATE REQUEST:',
-          data
-        );
+  }
 
 
-        const result =
-          await window.brccSubmit(
-            'registry_update',
-            data
-          );
+  /* FALLBACK TO PUBLIC PORTAL GENERIC FIELD */
+
+  return rumsGetValue_(
+    request,
+    [
+      'New Information',
+      'New / Updated Information',
+      'Requested Information'
+    ]
+  );
+
+}
 
 
-        console.log(
-          'REGISTRY UPDATE RESULT:',
-          result
-        );
+/* ============================================================
+   PROCESS SUPPORTING FILE
+============================================================ */
+
+function rumsProcessSupportingFile_(
+  request
+) {
+
+  var existingUrl =
+    rumsGetValue_(
+      request,
+      [
+        'Supporting File URL',
+        'Supporting Photo URL',
+        'Attachment URL'
+      ]
+    );
+
+
+  if (
+    String(existingUrl || '').trim()
+  ) {
+
+    return {
+
+      success: true,
+
+      uploaded: false,
+
+      url:
+        String(existingUrl).trim(),
+
+      id: ''
+
+    };
+
+  }
+
+
+  var fileData =
+    rumsGetValue_(
+      request,
+      [
+        'Supporting File Data',
+        'Supporting Photo Data',
+        'File Data'
+      ]
+    );
+
+
+  var fileName =
+    rumsGetValue_(
+      request,
+      [
+        'Supporting File Name',
+        'Supporting Photo Name',
+        'File Name'
+      ]
+    );
+
+
+  if (
+    !String(fileData || '').trim()
+  ) {
+
+    return {
+
+      success: true,
+
+      uploaded: false,
+
+      url: '',
+
+      id: ''
+
+    };
+
+  }
+
+
+  return rumsUploadBase64SupportingFile_(
+    fileData,
+    fileName,
+    rumsGetValue_(
+      request,
+      [
+        'Request Number',
+        'Request ID'
+      ]
+    )
+  );
+
+}
+
+
+/* ============================================================
+   UPLOAD BASE64 SUPPORTING FILE
+============================================================ */
+
+function rumsUploadBase64SupportingFile_(
+  dataUrl,
+  originalFileName,
+  requestNumber
+) {
+
+  var raw =
+    String(dataUrl || '').trim();
+
+
+  if (!raw) {
+
+    return {
+
+      success: false,
+
+      uploaded: false,
+
+      url: '',
+
+      id: ''
+
+    };
+
+  }
+
+
+  var mimeType =
+    'image/jpeg';
+
+  var base64Data =
+    raw;
+
+
+  /* HANDLE DATA URL */
+
+  var match =
+    raw.match(
+      /^data:([^;]+);base64,(.+)$/i
+    );
+
+
+  if (match) {
+
+    mimeType =
+      match[1];
+
+    base64Data =
+      match[2];
+
+  }
+
+
+  var bytes =
+    Utilities.base64Decode(
+      base64Data
+    );
+
+
+  var extension =
+    rumsGetExtensionFromMimeType_(
+      mimeType
+    );
+
+
+  var safeRequestNumber =
+    String(
+      requestNumber || 'REQUEST'
+    )
+      .replace(
+        /[^a-zA-Z0-9_-]/g,
+        '_'
+      );
+
+
+  var fileName =
+    String(
+      originalFileName || ''
+    ).trim();
+
+
+  if (!fileName) {
+
+    fileName =
+      safeRequestNumber +
+      '-supporting-file.' +
+      extension;
+
+  }
+
+
+  var blob =
+    Utilities
+      .newBlob(
+        bytes,
+        mimeType,
+        fileName
+      );
+
+
+  var folder =
+    rumsGetSupportingFilesFolder_();
+
+
+  var file =
+    folder.createFile(
+      blob
+    );
+
+
+  var fileId =
+    file.getId();
+
+
+  var fileUrl =
+    file.getUrl();
+
+
+  return {
+
+    success: true,
+
+    uploaded: true,
+
+    id:
+      fileId,
+
+    url:
+      fileUrl,
+
+    name:
+      file.getName()
+
+  };
+
+}
+
+
+/* ============================================================
+   GET SUPPORTING FILES FOLDER
+============================================================ */
+
+function rumsGetSupportingFilesFolder_() {
+
+  var folderId =
+    '';
+
+
+  try {
+
+    if (
+      typeof CONFIG !== 'undefined' &&
+      CONFIG
+    ) {
+
+      folderId =
+        CONFIG.REGISTRY_UPDATE_FILES_FOLDER_ID ||
+        CONFIG.SUPPORTING_FILES_FOLDER_ID ||
+        '';
+
+    }
+
+  } catch (error) {}
+
+
+  if (folderId) {
+
+    try {
+
+      return DriveApp.getFolderById(
+        folderId
+      );
+
+    } catch (error) {
+
+      console.log(
+        'Configured supporting files folder could not be opened.'
+      );
+
+    }
+
+  }
+
+
+  /* CREATE DEFAULT FOLDER */
+
+  var folderName =
+    'BRCC-DMS Registry Update Supporting Files';
+
+
+  var folders =
+    DriveApp.getFoldersByName(
+      folderName
+    );
+
+
+  if (
+    folders.hasNext()
+  ) {
+
+    return folders.next();
+
+  }
+
+
+  return DriveApp.createFolder(
+    folderName
+  );
+
+}
+
+
+/* ============================================================
+   GET FILE EXTENSION
+============================================================ */
+
+function rumsGetExtensionFromMimeType_(
+  mimeType
+) {
+
+  var map = {
+
+    'image/jpeg':
+      'jpg',
+
+    'image/jpg':
+      'jpg',
+
+    'image/png':
+      'png',
+
+    'image/webp':
+      'webp'
+
+  };
+
+
+  return (
+    map[
+      String(mimeType || '').toLowerCase()
+    ] || 'jpg'
+  );
+
+}
+
+
+/* ============================================================
+   UPDATE REQUEST DECISION
+============================================================ */
+
+function rumsUpdateRequestDecision_(
+  requestNumber,
+  decision
+) {
+
+  var sheet =
+    rumsGetRequestSheet_();
+
+
+  var lastColumn =
+    sheet.getLastColumn();
+
+
+  var headers =
+    sheet
+      .getRange(
+        1,
+        1,
+        1,
+        lastColumn
+      )
+      .getDisplayValues()[0];
+
+
+  var requestColumn =
+    rumsFindHeaderIndex_(
+      headers,
+      [
+        'Request Number',
+        'Request ID'
+      ]
+    );
+
+
+  if (
+    requestColumn === -1
+  ) {
+
+    throw new Error(
+      'Request Number column not found.'
+    );
+
+  }
+
+
+  var lastRow =
+    sheet.getLastRow();
+
+
+  if (lastRow < 2) {
+
+    throw new Error(
+      'No request records found.'
+    );
+
+  }
+
+
+  var values =
+    sheet
+      .getRange(
+        2,
+        requestColumn + 1,
+        lastRow - 1,
+        1
+      )
+      .getDisplayValues();
+
+
+  var targetRow =
+    -1;
+
+
+  for (
+    var i = 0;
+    i < values.length;
+    i++
+  ) {
+
+    if (
+      rumsNormalize_(
+        values[i][0]
+      ) ===
+      rumsNormalize_(
+        requestNumber
+      )
+    ) {
+
+      targetRow =
+        i + 2;
+
+      break;
+
+    }
+
+  }
+
+
+  if (
+    targetRow === -1
+  ) {
+
+    throw new Error(
+      'Request not found.'
+    );
+
+  }
+
+
+  /* STATUS */
+
+  rumsSetValueByHeader_(
+    sheet,
+    headers,
+    targetRow,
+    [
+      'Submission Status',
+      'Status'
+    ],
+    decision.status
+  );
+
+
+  rumsSetValueByHeader_(
+    sheet,
+    headers,
+    targetRow,
+    [
+      'Decision Status'
+    ],
+    decision.status
+  );
+
+
+  /* REVIEWED BY */
+
+  rumsSetValueByHeader_(
+    sheet,
+    headers,
+    targetRow,
+    [
+      'Reviewed By',
+      'Reviewed by'
+    ],
+    decision.reviewedBy || ''
+  );
+
+
+  /* REVIEW DATE */
+
+  rumsSetValueByHeader_(
+    sheet,
+    headers,
+    targetRow,
+    [
+      'Review Date',
+      'Decision Date'
+    ],
+    decision.reviewDate || new Date()
+  );
+
+
+  /* REVIEW NOTES */
+
+  rumsSetValueByHeader_(
+    sheet,
+    headers,
+    targetRow,
+    [
+      'Review Notes',
+      'Admin Notes'
+    ],
+    decision.reviewNotes || ''
+  );
+
+
+  /* REJECTION REASON */
+
+  rumsSetValueByHeader_(
+    sheet,
+    headers,
+    targetRow,
+    [
+      'Rejection Reason',
+      'Reason for Rejection'
+    ],
+    decision.rejectionReason || ''
+  );
+
+
+  /* SUPPORTING FILE URL */
+
+  if (
+    decision.supportingFileUrl
+  ) {
+
+    rumsSetValueByHeader_(
+      sheet,
+      headers,
+      targetRow,
+      [
+        'Supporting File URL',
+        'Supporting Photo URL',
+        'Attachment URL'
+      ],
+      decision.supportingFileUrl
+    );
+
+  }
+
+
+  /* SUPPORTING FILE ID */
+
+  if (
+    decision.supportingFileId
+  ) {
+
+    rumsSetValueByHeader_(
+      sheet,
+      headers,
+      targetRow,
+      [
+        'Supporting File ID',
+        'Attachment ID'
+      ],
+      decision.supportingFileId
+    );
+
+  }
+
+
+  /* UPDATED AT */
+
+  rumsSetValueByHeader_(
+    sheet,
+    headers,
+    targetRow,
+    [
+      'Updated At',
+      'Last Updated'
+    ],
+    new Date()
+  );
+
+}
+
+
+/* ============================================================
+   SAVE REGISTRY UPDATE HISTORY
+============================================================ */
+
+function rumsSaveUpdateHistory_(
+  request,
+  history
+) {
+
+  var sheet;
+
+
+  try {
+
+    sheet =
+      rumsGetHistorySheet_();
+
+  } catch (error) {
+
+    console.log(
+      'Registry Update History sheet unavailable. Skipping history save.'
+    );
+
+    return;
+
+  }
+
+
+  var now =
+    history.processedAt ||
+    new Date();
+
+
+  var record = {
+
+    'Request Number':
+      rumsGetValue_(
+        request,
+        [
+          'Request Number',
+          'Request ID'
+        ]
+      ),
+
+    'Registry Number':
+      rumsGetValue_(
+        request,
+        [
+          'Registry Number',
+          'Registry No.',
+          'Registry No'
+        ]
+      ),
+
+    'Owner Name':
+      rumsGetValue_(
+        request,
+        [
+          'Owner Name'
+        ]
+      ),
+
+    'Dog Name':
+      rumsGetValue_(
+        request,
+        [
+          'Dog Name'
+        ]
+      ),
+
+    'Update Type':
+      rumsGetValue_(
+        request,
+        [
+          'Update Type',
+          'Information to Update'
+        ]
+      ),
+
+    'Field Updated':
+      history.appliedField || '',
+
+    'Old Value':
+      history.oldValue || '',
+
+    'New Value':
+      history.newValue || '',
+
+    'Decision':
+      history.decision || '',
+
+    'Status':
+      history.decision || '',
+
+    'Reviewed By':
+      history.reviewedBy || '',
+
+    'Review Notes':
+      history.reviewNotes || '',
+
+    'Supporting File URL':
+      history.supportingFileUrl || '',
+
+    'Processed At':
+      now,
+
+    'Created At':
+      now
+
+  };
+
+
+  rumsAppendRecord_(
+    sheet,
+    record
+  );
+
+}
+
+
+/* ============================================================
+   GET REQUEST SHEET
+============================================================ */
+
+function rumsGetRequestSheet_() {
+
+  return rumsGetSheet_(
+    'REGISTRY_UPDATE_REQUESTS',
+    'Registry Update Requests'
+  );
+
+}
+
+
+/* ============================================================
+   GET HISTORY SHEET
+============================================================ */
+
+function rumsGetHistorySheet_() {
+
+  return rumsGetSheet_(
+    'REGISTRY_UPDATE_HISTORY',
+    'Registry Update History'
+  );
+
+}
+
+
+/* ============================================================
+   GET DOG REGISTRY SHEET
+============================================================ */
+
+function rumsGetDogRegistrySheet_() {
+
+  return rumsGetSheet_(
+    'DOG_REGISTRY',
+    'Dog Registry'
+  );
+
+}
+
+
+/* ============================================================
+   GENERIC GET SHEET
+============================================================ */
+
+function rumsGetSheet_(
+  configKey,
+  fallbackName
+) {
+
+  var sheetName =
+    fallbackName;
+
+
+  try {
+
+    if (
+      typeof CONFIG !== 'undefined' &&
+      CONFIG.SHEETS &&
+      CONFIG.SHEETS[configKey]
+    ) {
+
+      sheetName =
+        CONFIG.SHEETS[configKey];
+
+    }
+
+  } catch (error) {}
+
+
+  var ss =
+    rumsGetSpreadsheet_();
+
+
+  var sheet =
+    ss.getSheetByName(
+      sheetName
+    );
+
+
+  if (!sheet) {
+
+    throw new Error(
+      'Sheet not found: ' +
+      sheetName
+    );
+
+  }
+
+
+  return sheet;
+
+}
+
+
+/* ============================================================
+   GET SPREADSHEET
+============================================================ */
+
+function rumsGetSpreadsheet_() {
+
+  var spreadsheetId =
+    '';
+
+
+  try {
+
+    if (
+      typeof CONFIG !== 'undefined' &&
+      CONFIG
+    ) {
+
+      spreadsheetId =
+        CONFIG.DOG_REGISTRY_SPREADSHEET_ID ||
+        CONFIG.SPREADSHEET_ID ||
+        '';
+
+    }
+
+  } catch (error) {}
+
+
+  if (spreadsheetId) {
+
+    return SpreadsheetApp.openById(
+      spreadsheetId
+    );
+
+  }
+
+
+  var ss =
+    SpreadsheetApp.getActiveSpreadsheet();
+
+
+  if (!ss) {
+
+    throw new Error(
+      'Unable to access BRCC-DMS spreadsheet.'
+    );
+
+  }
+
+
+  return ss;
+
+}
+
+
+/* ============================================================
+   GET REQUEST STATUS
+============================================================ */
+
+function rumsGetRequestStatus_(
+  request
+) {
+
+  return rumsNormalize_(
+    rumsGetValue_(
+      request,
+      [
+        'Submission Status',
+        'Decision Status',
+        'Status'
+      ]
+    )
+  );
+
+}
+
+
+/* ============================================================
+   GET VALUE BY POSSIBLE KEYS
+============================================================ */
+
+function rumsGetValue_(
+  object,
+  possibleKeys
+) {
+
+  if (!object) {
+    return '';
+  }
+
+
+  var objectKeys =
+    Object.keys(object);
+
+
+  for (
+    var i = 0;
+    i < possibleKeys.length;
+    i++
+  ) {
+
+    var target =
+      rumsNormalize_(
+        possibleKeys[i]
+      );
+
+
+    for (
+      var j = 0;
+      j < objectKeys.length;
+      j++
+    ) {
+
+      if (
+        rumsNormalize_(
+          objectKeys[j]
+        ) === target
+      ) {
+
+        var value =
+          object[
+            objectKeys[j]
+          ];
 
 
         if (
-          result &&
-          result.success === false
+          value !== undefined &&
+          value !== null
         ) {
 
-          throw new Error(
-            result.message ||
-            'Unable to submit Registry Update.'
-          );
+          return value;
 
         }
 
+      }
 
-        hideLoading();
+    }
 
-
-        showSuccessModal();
-
-
-        resetUpdatePage();
+  }
 
 
-      } catch (error) {
+  return '';
 
-        console.error(
-          'REGISTRY UPDATE ERROR:',
-          error
+}
+
+
+/* ============================================================
+   SET VALUE BY HEADER
+============================================================ */
+
+function rumsSetValueByHeader_(
+  sheet,
+  headers,
+  rowNumber,
+  possibleHeaders,
+  value
+) {
+
+  var columnIndex =
+    rumsFindHeaderIndex_(
+      headers,
+      possibleHeaders
+    );
+
+
+  if (
+    columnIndex === -1
+  ) {
+
+    return false;
+
+  }
+
+
+  sheet
+    .getRange(
+      rowNumber,
+      columnIndex + 1
+    )
+    .setValue(
+      value
+    );
+
+
+  return true;
+
+}
+
+
+/* ============================================================
+   FIND HEADER INDEX
+============================================================ */
+
+function rumsFindHeaderIndex_(
+  headers,
+  possibleNames
+) {
+
+  var normalizedHeaders =
+    headers.map(
+      function(header) {
+
+        return rumsNormalize_(
+          header
         );
 
-
-        hideLoading();
-
-
-        showMessage(
-          error && error.message
-            ? error.message
-            : 'Unable to submit update request. Please try again.',
-          'error'
-        );
+      }
+    );
 
 
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+  for (
+    var i = 0;
+    i < possibleNames.length;
+    i++
+  ) {
+
+    var target =
+      rumsNormalize_(
+        possibleNames[i]
+      );
 
 
-      } finally {
+    var index =
+      normalizedHeaders.indexOf(
+        target
+      );
 
-        hideLoading();
+
+    if (
+      index !== -1
+    ) {
+
+      return index;
+
+    }
+
+  }
 
 
-        submitButton.disabled = false;
+  return -1;
 
-        submitButton.textContent =
-          'Submit Registry Update';
+}
+
+
+/* ============================================================
+   ROW TO OBJECT
+============================================================ */
+
+function rumsRowToObject_(
+  headers,
+  row,
+  rowNumber
+) {
+
+  var object = {
+
+    rowNumber:
+      rowNumber
+
+  };
+
+
+  headers.forEach(
+    function(header, index) {
+
+      var key =
+        String(
+          header || ''
+        ).trim();
+
+
+      if (key) {
+
+        object[key] =
+          row[index];
 
       }
 
@@ -1801,220 +2247,97 @@
   );
 
 
-  /* =========================================
-     RESET PAGE
-  ========================================= */
+  return object;
 
-  function resetUpdatePage() {
-
-    updateForm.reset();
+}
 
 
-    verifiedRecord = null;
+/* ============================================================
+   APPEND RECORD
+============================================================ */
 
-    selectedFileData = '';
+function rumsAppendRecord_(
+  sheet,
+  record
+) {
 
-    selectedFileName = '';
-
-
-    updateForm.classList.remove(
-      'show'
-    );
-
-
-    verifiedBox.classList.remove(
-      'show'
-    );
+  var lastColumn =
+    sheet.getLastColumn();
 
 
-    registryNumberInput.disabled = false;
-    ownerNameInput.disabled = false;
-    dogNameInput.disabled = false;
-
-
-    registryNumberInput.value = '';
-    ownerNameInput.value = '';
-    dogNameInput.value = '';
-
-
-    verifyButton.disabled = false;
-
-    verifyButton.textContent =
-      'Verify Record';
-
-  }
-
-
-  /* =========================================
-     LOADING
-  ========================================= */
-
-  function showLoading(
-    title,
-    text
+  if (
+    lastColumn < 1
   ) {
 
-    document.getElementById(
-      'loadingTitle'
-    ).textContent =
-      title;
-
-
-    document.getElementById(
-      'loadingText'
-    ).textContent =
-      text;
-
-
-    document.getElementById(
-      'loadingOverlay'
-    ).classList.add(
-      'show'
+    throw new Error(
+      'Sheet has no headers.'
     );
 
   }
 
 
-  function hideLoading() {
-
-    document.getElementById(
-      'loadingOverlay'
-    ).classList.remove(
-      'show'
-    );
-
-  }
-
-
-  /* =========================================
-     SUCCESS MODAL
-  ========================================= */
-
-  function showSuccessModal() {
-
-    document.getElementById(
-      'successOverlay'
-    ).classList.add(
-      'show'
-    );
-
-  }
+  var headers =
+    sheet
+      .getRange(
+        1,
+        1,
+        1,
+        lastColumn
+      )
+      .getValues()[0];
 
 
-  function closeSuccessModal() {
+  var row =
+    headers.map(
+      function(header) {
 
-    document.getElementById(
-      'successOverlay'
-    ).classList.remove(
-      'show'
-    );
-
-
-    window.location.reload();
-
-  }
+        var key =
+          String(
+            header || ''
+          ).trim();
 
 
-  document.getElementById(
-    'successCloseButton'
-  ).addEventListener(
-    'click',
-    closeSuccessModal
-  );
+        if (
+          Object.prototype.hasOwnProperty.call(
+            record,
+            key
+          )
+        ) {
 
-
-  /* =========================================
-     MESSAGE
-  ========================================= */
-
-  function showMessage(
-    message,
-    type
-  ) {
-
-    const box =
-      document.getElementById(
-        'messageBox'
-      );
-
-
-    box.textContent =
-      message;
-
-
-    box.className =
-      'message ' + type;
-
-
-    box.style.display =
-      'block';
-
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-
-  }
-
-
-  function hideMessage() {
-
-    const box =
-      document.getElementById(
-        'messageBox'
-      );
-
-
-    box.style.display =
-      'none';
-
-
-    box.textContent =
-      '';
-
-
-    box.className =
-      'message';
-
-  }
-
-
-  /* =========================================
-     ENTER KEY SUPPORT
-  ========================================= */
-
-  [
-    registryNumberInput,
-    ownerNameInput,
-    dogNameInput
-  ].forEach(function (input) {
-
-    input.addEventListener(
-      'keydown',
-      function (event) {
-
-        if (event.key === 'Enter') {
-
-          event.preventDefault();
-
-          if (!verifyButton.disabled) {
-
-            verifyDogRecord();
-
-          }
+          return record[key];
 
         }
+
+
+        return '';
 
       }
     );
 
-  });
+
+  sheet.appendRow(
+    row
+  );
+
+}
 
 
-})();
-</script>
+/* ============================================================
+   NORMALIZE
+============================================================ */
 
+function rumsNormalize_(
+  value
+) {
 
-</body>
-</html>
+  return String(
+    value || ''
+  )
+    .trim()
+    .replace(
+      /\s+/g,
+      ' '
+    )
+    .toUpperCase();
+
+}
