@@ -926,9 +926,7 @@
 <div class="page">
 
 
-  <!-- =======================================================
-       BACK BUTTON
-  ======================================================== -->
+  <!-- BACK BUTTON -->
 
   <div class="back-wrap">
 
@@ -944,9 +942,7 @@
   </div>
 
 
-  <!-- =======================================================
-       HEADER
-  ======================================================== -->
+  <!-- HEADER -->
 
   <div class="header">
 
@@ -973,9 +969,7 @@
   </div>
 
 
-  <!-- =======================================================
-       MESSAGE
-  ======================================================== -->
+  <!-- MESSAGE -->
 
   <div
     id="messageBox"
@@ -983,10 +977,7 @@
   </div>
 
 
-  <!-- =======================================================
-       STEP 1
-       MOTHER DOG VERIFICATION
-  ======================================================== -->
+  <!-- STEP 1 -->
 
   <div class="card">
 
@@ -998,7 +989,7 @@
 
     <div class="section-description">
       Enter the Mother Dog Registry Number and the registered owner's name.
-      Both information must match the Dog Registry.
+      Only registered female dogs are eligible for Puppy Reporting.
     </div>
 
 
@@ -1107,6 +1098,19 @@
         <div class="info-item">
 
           <label>
+            Sex
+          </label>
+
+          <div id="dogSex">
+            -
+          </div>
+
+        </div>
+
+
+        <div class="info-item">
+
+          <label>
             Owner Name
           </label>
 
@@ -1164,10 +1168,7 @@
   </div>
 
 
-  <!-- =======================================================
-       STEP 2
-       PUPPY INFORMATION
-  ======================================================== -->
+  <!-- STEP 2 -->
 
   <div
     class="card locked-card"
@@ -1188,7 +1189,7 @@
       class="unlock-note"
       id="unlockNote">
 
-      Please verify the Mother Dog first to unlock this form.
+      Please verify an eligible female Mother Dog first to unlock this form.
 
     </div>
 
@@ -1322,9 +1323,7 @@
   </div>
 
 
-  <!-- =======================================================
-       SUBMIT BUTTON
-  ======================================================== -->
+  <!-- SUBMIT -->
 
   <button
     type="button"
@@ -1371,6 +1370,58 @@ function goBack() {
 
   window.location.href =
     'index.html';
+
+}
+
+
+/* ==========================================================
+   GET DOG SEX
+   Supports different backend field names
+========================================================== */
+
+function getDogSex(
+  dog
+) {
+
+  if (!dog) {
+    return '';
+  }
+
+
+  var sex =
+    dog.sex ||
+    dog.dogSex ||
+    dog.gender ||
+    '';
+
+
+  return String(
+    sex
+  )
+  .trim()
+  .toUpperCase();
+
+}
+
+
+/* ==========================================================
+   CHECK FEMALE DOG
+========================================================== */
+
+function isFemaleDog(
+  dog
+) {
+
+  var sex =
+    getDogSex(
+      dog
+    );
+
+
+  return (
+    sex === 'FEMALE' ||
+    sex === 'F'
+  );
 
 }
 
@@ -1426,6 +1477,13 @@ async function searchMotherDog() {
   hideMessage();
 
 
+  motherDog =
+    null;
+
+
+  hideDogInfo();
+
+
   lockPuppyForm();
 
 
@@ -1454,26 +1512,12 @@ async function searchMotherDog() {
           registryNumber:
             registryNumber,
 
-
           ownerName:
             ownerName
 
         }
       );
 
-
-    /*
-       Router response format:
-
-       {
-         success: true,
-         service: 'verify_registry',
-         result: {
-           verified: true,
-           record: {...}
-         }
-       }
-    */
 
     var result =
       response.result ||
@@ -1485,13 +1529,6 @@ async function searchMotherDog() {
       !result.verified ||
       !result.record
     ) {
-
-      motherDog =
-        null;
-
-
-      hideDogInfo();
-
 
       throw new Error(
         result &&
@@ -1505,8 +1542,64 @@ async function searchMotherDog() {
     }
 
 
-    motherDog =
+    var verifiedDog =
       result.record;
+
+
+    /*
+       IMPORTANT:
+       Only FEMALE dogs can become
+       a verified mother dog.
+    */
+
+    if (
+      !isFemaleDog(
+        verifiedDog
+      )
+    ) {
+
+      var sex =
+        getDogSex(
+          verifiedDog
+        );
+
+
+      motherDog =
+        null;
+
+
+      hideDogInfo();
+
+
+      lockPuppyForm();
+
+
+      if (
+        sex === 'MALE' ||
+        sex === 'M'
+      ) {
+
+        throw new Error(
+          'Puppy Report cannot be submitted for this dog because the registered dog is MALE. Only registered FEMALE dogs are eligible to report puppies.'
+        );
+
+      }
+
+
+      throw new Error(
+        'Puppy Report cannot proceed because this dog is not registered as FEMALE. Please check the dog record.'
+      );
+
+    }
+
+
+    /*
+       Save only after confirming
+       the dog is FEMALE
+    */
+
+    motherDog =
+      verifiedDog;
 
 
     displayMotherDog(
@@ -1585,6 +1678,17 @@ function displayMotherDog(
     )
     .textContent =
     dog.registryNumber ||
+    '-';
+
+
+  document
+    .getElementById(
+      'dogSex'
+    )
+    .textContent =
+    getDogSex(
+      dog
+    ) ||
     '-';
 
 
@@ -1775,6 +1879,36 @@ async function submitReport() {
 
     showMessage(
       'Please verify the Mother Dog first.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  /*
+     SECONDARY SECURITY CHECK
+
+     Even if someone bypasses the UI,
+     MALE dogs cannot submit.
+  */
+
+  if (
+    !isFemaleDog(
+      motherDog
+    )
+  ) {
+
+    motherDog =
+      null;
+
+
+    lockPuppyForm();
+
+
+    showMessage(
+      'Puppy Report cannot be submitted because only registered FEMALE dogs are eligible.',
       'error'
     );
 
