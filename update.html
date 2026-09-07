@@ -1893,11 +1893,26 @@
       String(photoUrl).trim()
     ) {
 
-      currentDogPhoto.src =
-        normalizeImageUrl(
-          String(photoUrl).trim()
-        );
+    var photoFileId =
+  String(
+    record.dogPhotoFileId || ''
+  ).trim();
 
+if (photoFileId) {
+
+  currentDogPhoto.src =
+    'https://drive.google.com/thumbnail?id=' +
+    encodeURIComponent(photoFileId) +
+    '&sz=w1000';
+
+} else {
+
+  currentDogPhoto.src =
+    normalizeImageUrl(
+      String(photoUrl).trim()
+    );
+
+}
 
       currentDogPhoto.classList.remove(
         'hidden'
