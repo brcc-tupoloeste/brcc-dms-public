@@ -466,13 +466,89 @@
      CONFIG
   ========================================== */
 
-const APP = {
+async function login() {
 
-  sessionToken: '',
+  const pin =
+    document.getElementById(
+      'pinInput'
+    ).value.trim();
 
-  requests: []
 
-};
+  if (!pin) {
+
+    showToast(
+      'Please enter your Admin PIN.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  showLoading(
+    'Verifying Admin PIN...'
+  );
+
+
+  try {
+
+    const response =
+      await apiCall(
+        'login',
+        {
+          pin: pin
+        }
+      );
+
+
+    if (
+      !response.success ||
+      !response.result ||
+      !response.result.sessionToken
+    ) {
+
+      throw new Error(
+        response.message ||
+        'Authentication failed.'
+      );
+
+    }
+
+
+    APP.sessionToken =
+      response.result.sessionToken;
+
+
+    showToast(
+      'Login successful.',
+      'success'
+    );
+
+
+    loadPendingRequests();
+
+
+  }
+  catch (error) {
+
+    showToast(
+      error.message ||
+      'Unable to login.',
+      'error'
+    );
+
+
+    setTimeout(
+      function() {
+        showLogin();
+      },
+      500
+    );
+
+  }
+
+}
 
 
   /* ==========================================
@@ -668,58 +744,64 @@ const response =
 
   async function loadPendingRequests() {
 
-    showLoading(
-      'Loading pending requests...'
-    );
+  showLoading(
+    'Loading pending requests...'
+  );
 
 
-    try {
+  try {
 
-      const response =
-        await apiCall(
-          'get_pending_updates',
-          {
-            pin:
-              APP.pin
-          }
-        );
-
-
-      if (
-        !response.success
-      ) {
-
-        throw new Error(
-          response.message ||
-          'Unable to load requests.'
-        );
-
-      }
-
-
-      APP.requests =
-        response.result.requests || [];
-
-
-      showDashboard();
-
-
-    }
-    catch (error) {
-
-      showToast(
-        error.message ||
-        'Unable to load pending requests.',
-        'error'
+    const response =
+      await apiCall(
+        'get_pending_requests',
+        {
+          sessionToken:
+            APP.sessionToken
+        }
       );
 
 
-      showLogin();
+    if (
+      !response.success
+    ) {
+
+      throw new Error(
+        response.message ||
+        'Unable to load requests.'
+      );
 
     }
 
+
+    APP.requests =
+      response.result.requests || [];
+
+
+    showDashboard();
+
+
+  }
+  catch (error) {
+
+    showToast(
+      error.message ||
+      'Unable to load pending requests.',
+      'error'
+    );
+
+
+    APP.sessionToken = '';
+
+    setTimeout(
+      function() {
+        showLogin();
+      },
+      500
+    );
+
   }
 
+}
 
   /* ==========================================
      DASHBOARD
@@ -1041,95 +1123,100 @@ const response =
      REVIEW REQUEST
   ========================================== */
 
-  async function reviewRequest(
-    requestId,
-    decision,
-    rejectionReason
-  ) {
+ async function reviewRequest(
+  requestId,
+  decision,
+  rejectionReason
+) {
 
-    closeModal();
-
-
-    showLoading(
-      decision === 'APPROVE'
-        ? 'Approving update and regenerating documents...'
-        : 'Rejecting request...'
-    );
+  closeModal();
 
 
-    try {
-
-      const response =
-        await apiCall(
- const action =
-  decision === 'APPROVE'
-    ? 'approve_request'
-    : 'reject_request';
-
-
-const response =
-  await apiCall(
-    action,
-    {
-
-      sessionToken:
-        APP.sessionToken,
-
-      requestId:
-        requestId,
-
-      rejectionReason:
-        rejectionReason
-
-    }
+  showLoading(
+    decision === 'APPROVE'
+      ? 'Approving update and regenerating documents...'
+      : 'Rejecting request...'
   );
 
 
-      if (
-        !response.success
-      ) {
+  try {
 
-        throw new Error(
-          response.message ||
-          'Unable to process request.'
-        );
-
-      }
+    const action =
+      decision === 'APPROVE'
+        ? 'approve_request'
+        : 'reject_request';
 
 
-      showToast(
-        decision === 'APPROVE'
-          ? 'Request approved successfully.'
-          : 'Request rejected successfully.',
-        'success'
+    const response =
+      await apiCall(
+        action,
+        {
+
+          sessionToken:
+            APP.sessionToken,
+
+          requestId:
+            requestId,
+
+          rejectionReason:
+            rejectionReason || ''
+
+        }
       );
 
 
-      setTimeout(
-        function() {
+    if (
+      !response.success
+    ) {
 
-          loadPendingRequests();
-
-        },
-        1000
+      throw new Error(
+        response.message ||
+        'Unable to process request.'
       );
-
 
     }
-    catch (error) {
-
-      showToast(
-        error.message ||
-        'Unable to process request.',
-        'error'
-      );
 
 
-      loadPendingRequests();
+    showToast(
+      decision === 'APPROVE'
+        ? 'Request approved successfully.'
+        : 'Request rejected successfully.',
+      'success'
+    );
 
-    }
+
+    setTimeout(
+      function() {
+
+        loadPendingRequests();
+
+      },
+      1000
+    );
+
 
   }
+  catch (error) {
+
+    showToast(
+      error.message ||
+      'Unable to process request.',
+      'error'
+    );
+
+
+    setTimeout(
+      function() {
+
+        loadPendingRequests();
+
+      },
+      1500
+    );
+
+  }
+
+}
 
 
   /* ==========================================
@@ -1140,7 +1227,7 @@ const response =
      Google Apps Script Web App URL.
   ========================================== */
 
-  async function apiCall(
+ async function apiCall(
   action,
   data
 ) {
@@ -1170,14 +1257,14 @@ const response =
             service:
               'mobile_approval',
 
-            data:
-              Object.assign(
-                {
-                  action:
-                    action
-                },
-                data || {}
-              )
+            data: {
+
+              action:
+                action,
+
+              ...data
+
+            }
 
           })
 
@@ -1204,11 +1291,6 @@ const response =
   }
   catch (error) {
 
-    console.error(
-      'RAW SERVER RESPONSE:',
-      text
-    );
-
     throw new Error(
       'Invalid server response.'
     );
@@ -1231,7 +1313,6 @@ const response =
   return json;
 
 }
-
   /* ==========================================
      LOADING SCREEN
   ========================================== */
