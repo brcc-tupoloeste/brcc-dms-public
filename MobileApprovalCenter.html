@@ -1,323 +1,2787 @@
-/* ============================================================
-   BRCC-DMS V3
-   FILE: MobileApprovalService.gs
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 
-   MOBILE APPROVAL CENTER API SERVICE
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
 
-   PURPOSE:
-   - Admin PIN authentication
-   - Retrieve pending registry update requests
-   - Approve requests remotely
-   - Reject requests remotely
+<title>BRCC-DMS Approval Center</title>
 
-   IMPORTANT:
-   This service DOES NOT replace existing approval logic.
-
-   It calls the existing:
-   reviewRegistryUpdateRequest()
-
-   Therefore all existing working processes remain unchanged:
-   ✓ applyRegistryUpdate_()
-   ✓ regenerateDogDocumentsSafely()
-   ✓ Certificate generation
-   ✓ Vaccination Card generation
-   ✓ Email notifications
-   ✓ Registry Update History
-============================================================ */
-
+<style>
 
 /* ============================================================
-   MOBILE ADMIN CONFIGURATION
+   ROOT
 ============================================================ */
 
-var MOBILE_APPROVAL_CONFIG = {
+:root {
+  --primary: #155b35;
+  --primary-dark: #0e4728;
+  --primary-light: #eaf5ee;
 
-  ADMIN_PIN: '53842970',
+  --gold: #d89b18;
 
-  SESSION_DURATION_MINUTES: 480
+  --danger: #c62828;
+  --danger-light: #fff1f1;
 
-};
+  --success: #237a45;
+
+  --bg: #eef2f0;
+  --card: #ffffff;
+
+  --text: #253238;
+  --muted: #66757d;
+
+  --border: #d8e0dc;
+
+  --shadow:
+    0 12px 35px rgba(0,0,0,.10);
+}
 
 
 /* ============================================================
-   MOBILE APPROVAL API ROUTER
-
-   Called from PublicPortalRouter.gs
+   RESET
 ============================================================ */
 
-function mobileApprovalApiRouter_(action, data) {
+* {
+  box-sizing: border-box;
+}
 
-  action =
-    String(action || '')
-      .trim()
-      .toLowerCase();
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
-
-  data =
-    data || {};
-
-
-  Logger.log(
-    '========================================'
-  );
-
-  Logger.log(
-    'MOBILE APPROVAL API'
-  );
-
-  Logger.log(
-    'ACTION: ' + action
-  );
-
-  Logger.log(
-    '========================================'
-  );
+  color: var(--text);
+}
 
 
-  switch (action) {
+body {
+  background:
+    linear-gradient(
+      135deg,
+      #edf3ef,
+      #e5ece8
+    );
+}
 
 
-    /* ========================================================
-       ADMIN LOGIN
-    ======================================================== */
+/* ============================================================
+   APP CONTAINER
+============================================================ */
 
-    case 'login':
+.app {
+  width: 100%;
+  max-width: 720px;
+  min-height: 100vh;
 
-      return mobileApprovalLogin_(
-        data
-      );
+  margin: auto;
 
+  background:
+    linear-gradient(
+      180deg,
+      #f7faf8 0%,
+      #edf2ef 100%
+    );
 
-    /* ========================================================
-       GET PENDING REQUESTS
-    ======================================================== */
-
-    case 'get_pending_requests':
-
-      mobileApprovalValidateSession_(
-        data.sessionToken
-      );
-
-      return mobileApprovalGetPendingRequests_();
-
-
-    /* ========================================================
-       APPROVE REQUEST
-    ======================================================== */
-
-    case 'approve_request':
-
-      mobileApprovalValidateSession_(
-        data.sessionToken
-      );
-
-      return mobileApprovalApproveRequest_(
-        data
-      );
+  box-shadow:
+    0 0 35px rgba(0,0,0,.10);
+}
 
 
-    /* ========================================================
-       REJECT REQUEST
-    ======================================================== */
+/* ============================================================
+   HEADER
+============================================================ */
 
-    case 'reject_request':
+.header {
 
-      mobileApprovalValidateSession_(
-        data.sessionToken
-      );
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
 
-      return mobileApprovalRejectRequest_(
-        data
-      );
+  color: white;
 
-
-    /* ========================================================
-       LOGOUT
-    ======================================================== */
-
-    case 'logout':
-
-      return mobileApprovalLogout_(
-        data.sessionToken
-      );
+  box-shadow:
+    0 3px 10px rgba(0,0,0,.16);
+}
 
 
-    /* ========================================================
-       UNKNOWN ACTION
-    ======================================================== */
+/* ============================================================
+   BARANGAY BRAND
+============================================================ */
 
-    default:
+.brand {
 
-      throw new Error(
-        'Invalid Mobile Approval action: ' +
-        action
-      );
+  display: flex;
 
+  align-items: center;
+
+  gap: 14px;
+
+  padding:
+    16px
+    20px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.14);
+}
+
+
+.logo {
+
+  width: 52px;
+  height: 52px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  background: white;
+
+  border:
+    3px solid
+    rgba(255,255,255,.75);
+
+  box-shadow:
+    0 3px 8px
+    rgba(0,0,0,.20);
+}
+
+
+.brand-text {
+  min-width: 0;
+}
+
+
+.brand-title {
+
+  font-size: 21px;
+
+  font-weight: 700;
+
+  letter-spacing: .2px;
+
+  line-height: 1.2;
+}
+
+
+.brand-subtitle {
+
+  margin-top: 4px;
+
+  font-size: 11px;
+
+  opacity: .85;
+}
+
+
+/* ============================================================
+   SYSTEM BAR
+============================================================ */
+
+.system-bar {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  padding:
+    12px
+    20px;
+}
+
+
+.system-name {
+
+  font-size: 15px;
+
+  font-weight: 700;
+}
+
+
+.system-subtitle {
+
+  margin-top: 3px;
+
+  font-size: 10px;
+
+  opacity: .78;
+}
+
+
+.secure-badge {
+
+  white-space: nowrap;
+
+  padding:
+    6px
+    10px;
+
+  border-radius: 20px;
+
+  background:
+    rgba(255,255,255,.10);
+
+  border:
+    1px solid
+    rgba(255,255,255,.20);
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+
+/* ============================================================
+   MAIN
+============================================================ */
+
+.main {
+
+  padding:
+    44px
+    18px
+    70px;
+}
+
+
+/* ============================================================
+   CARD
+============================================================ */
+
+.card {
+
+  background:
+    rgba(255,255,255,.96);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 20px;
+
+  box-shadow:
+    var(--shadow);
+
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   LOGIN CARD
+============================================================ */
+
+.login-card {
+
+  padding:
+    0
+    0
+    24px;
+}
+
+
+.login-icon-wrap {
+
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: -32px;
+}
+
+
+.login-icon {
+
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #eff9f2,
+      #dceee2
+    );
+
+  border:
+    5px solid white;
+
+  box-shadow:
+    0 8px 20px
+    rgba(21,91,53,.18);
+
+  font-size: 31px;
+}
+
+
+/* ============================================================
+   LOGIN HEADER
+============================================================ */
+
+.login-header {
+
+  padding:
+    20px
+    20px
+    16px;
+
+  text-align: center;
+}
+
+
+.login-header h1 {
+
+  margin: 0;
+
+  font-size: 25px;
+
+  color:
+    #2d3d42;
+}
+
+
+.login-header p {
+
+  margin:
+    10px
+    0
+    0;
+
+  color:
+    var(--muted);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   NOTICE
+============================================================ */
+
+.notice {
+
+  margin:
+    0
+    20px
+    16px;
+
+  padding:
+    12px
+    14px;
+
+  border-radius: 12px;
+
+  background:
+    #fffaf0;
+
+  border:
+    1px solid
+    #efd28b;
+
+  color:
+    #765719;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   FORM
+============================================================ */
+
+.form {
+
+  padding:
+    0
+    20px;
+}
+
+
+.form-group {
+
+  margin-bottom: 14px;
+}
+
+
+label {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: .5px;
+
+  color:
+    #435158;
+}
+
+
+input {
+
+  width: 100%;
+
+  height: 48px;
+
+  padding:
+    0
+    14px;
+
+  border-radius: 12px;
+
+  border:
+    1px solid
+    #9ab9a7;
+
+  outline: none;
+
+  background:
+    #fbfcfb;
+
+  color:
+    var(--text);
+
+  font-size: 15px;
+
+  transition:
+    .2s;
+}
+
+
+input:focus {
+
+  border-color:
+    var(--primary);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(21,91,53,.10);
+}
+
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+
+.btn {
+
+  width: 100%;
+
+  border: none;
+
+  border-radius: 12px;
+
+  min-height: 48px;
+
+  padding:
+    12px
+    16px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  transition:
+    .2s;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+}
+
+
+.btn:active {
+
+  transform:
+    scale(.98);
+}
+
+
+.btn-primary {
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #267d47,
+      #145a33
+    );
+
+  box-shadow:
+    0 6px 15px
+    rgba(21,91,53,.18);
+}
+
+
+.btn-danger {
+
+  background:
+    var(--danger);
+
+  color: white;
+}
+
+
+.btn-outline {
+
+  background: white;
+
+  color:
+    var(--primary);
+
+  border:
+    1px solid
+    #a9c5b3;
+}
+
+
+.btn-small {
+
+  min-height: 38px;
+
+  padding:
+    8px
+    12px;
+
+  font-size: 12px;
+
+  width: auto;
+}
+
+
+/* ============================================================
+   STATUS MESSAGE
+============================================================ */
+
+.message {
+
+  display: none;
+
+  margin:
+    16px
+    20px
+    0;
+
+  padding:
+    13px
+    15px;
+
+  border-radius: 12px;
+
+  font-size: 12px;
+
+  line-height: 1.4;
+}
+
+
+.message.show {
+  display: block;
+}
+
+
+.message.error {
+
+  color: white;
+
+  background:
+    #d92525;
+}
+
+
+.message.success {
+
+  color:
+    #155b35;
+
+  background:
+    #e7f6ec;
+
+  border:
+    1px solid
+    #a9d7b7;
+}
+
+
+.message.info {
+
+  color:
+    #245c83;
+
+  background:
+    #eaf4fb;
+
+  border:
+    1px solid
+    #b8d8ec;
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+.loading {
+
+  display: none;
+
+  text-align: center;
+
+  padding:
+    25px;
+
+  color:
+    var(--muted);
+
+  font-size: 13px;
+}
+
+
+.spinner {
+
+  width: 30px;
+  height: 30px;
+
+  margin:
+    0
+    auto
+    12px;
+
+  border-radius: 50%;
+
+  border:
+    3px solid
+    #d9e6dd;
+
+  border-top-color:
+    var(--primary);
+
+  animation:
+    spin .8s linear infinite;
+}
+
+
+@keyframes spin {
+
+  to {
+    transform:
+      rotate(360deg);
   }
 
 }
 
 
 /* ============================================================
-   ADMIN LOGIN
+   DASHBOARD
 ============================================================ */
 
-function mobileApprovalLogin_(data) {
+.dashboard {
 
-  data =
-    data || {};
+  display: none;
+}
 
 
-  var pin =
+.dashboard.show {
+
+  display: block;
+}
+
+
+/* ============================================================
+   DASHBOARD HEADER
+============================================================ */
+
+.dashboard-head {
+
+  padding:
+    18px
+    20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+
+  color: white;
+}
+
+
+.dashboard-head-row {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+
+.dashboard-title {
+
+  font-size: 20px;
+
+  font-weight: 700;
+}
+
+
+.dashboard-subtitle {
+
+  margin-top: 5px;
+
+  font-size: 11px;
+
+  opacity: .80;
+}
+
+
+.pending-count {
+
+  min-width: 50px;
+
+  text-align: center;
+
+  padding:
+    8px
+    12px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(255,255,255,.14);
+
+  border:
+    1px solid
+    rgba(255,255,255,.20);
+}
+
+
+.pending-count strong {
+
+  display: block;
+
+  font-size: 20px;
+}
+
+
+.pending-count span {
+
+  font-size: 9px;
+
+  opacity: .85;
+}
+
+
+/* ============================================================
+   DASHBOARD CONTENT
+============================================================ */
+
+.dashboard-content {
+
+  padding:
+    16px;
+}
+
+
+/* ============================================================
+   TOOLBAR
+============================================================ */
+
+.toolbar {
+
+  display: flex;
+
+  gap: 10px;
+
+  margin-bottom: 16px;
+}
+
+
+/* ============================================================
+   REQUEST ITEM
+============================================================ */
+
+.request-card {
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 16px;
+
+  padding:
+    16px;
+
+  margin-bottom: 14px;
+
+  box-shadow:
+    0 5px 14px
+    rgba(0,0,0,.05);
+}
+
+
+.request-top {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 10px;
+
+  margin-bottom: 12px;
+}
+
+
+.request-id {
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  color:
+    var(--primary);
+}
+
+
+.request-date {
+
+  font-size: 10px;
+
+  color:
+    var(--muted);
+
+  text-align: right;
+}
+
+
+.dog-name {
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+  margin-bottom: 4px;
+}
+
+
+.owner-name {
+
+  font-size: 12px;
+
+  color:
+    var(--muted);
+}
+
+
+.update-type {
+
+  display: inline-block;
+
+  margin-top: 10px;
+
+  padding:
+    5px
+    9px;
+
+  border-radius: 20px;
+
+  background:
+    var(--primary-light);
+
+  color:
+    var(--primary);
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+
+.info-grid {
+
+  margin-top: 14px;
+
+  border-top:
+    1px solid
+    #edf0ee;
+
+  padding-top: 12px;
+}
+
+
+.info-row {
+
+  margin-bottom: 9px;
+}
+
+
+.info-label {
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  color:
+    #7b878c;
+
+  margin-bottom: 3px;
+}
+
+
+.info-value {
+
+  font-size: 12px;
+
+  line-height: 1.45;
+
+  color:
+    #334147;
+
+  white-space: pre-wrap;
+
+  word-break: break-word;
+}
+
+
+/* ============================================================
+   REQUEST ACTIONS
+============================================================ */
+
+.request-actions {
+
+  display: flex;
+
+  gap: 9px;
+
+  margin-top: 15px;
+}
+
+
+.request-actions .btn {
+
+  flex: 1;
+
+  min-height: 42px;
+}
+
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+.empty {
+
+  text-align: center;
+
+  padding:
+    55px
+    20px;
+
+  color:
+    var(--muted);
+}
+
+
+.empty-icon {
+
+  font-size: 45px;
+
+  margin-bottom: 12px;
+}
+
+
+.empty h3 {
+
+  margin:
+    0
+    0
+    7px;
+
+  color:
+    #445257;
+}
+
+
+.empty p {
+
+  margin: 0;
+
+  font-size: 12px;
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+.footer {
+
+  text-align: center;
+
+  padding:
+    35px
+    20px
+    20px;
+
+  color:
+    #809097;
+
+  font-size: 10px;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   MODAL
+============================================================ */
+
+.modal {
+
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 999;
+
+  background:
+    rgba(0,0,0,.45);
+
+  align-items: flex-end;
+
+  justify-content: center;
+}
+
+
+.modal.show {
+
+  display: flex;
+}
+
+
+.modal-box {
+
+  width: 100%;
+
+  max-width: 720px;
+
+  background: white;
+
+  border-radius:
+    22px
+    22px
+    0
+    0;
+
+  padding:
+    22px;
+
+  box-shadow:
+    0 -10px 40px
+    rgba(0,0,0,.20);
+
+  animation:
+    slideUp .25s ease;
+}
+
+
+@keyframes slideUp {
+
+  from {
+    transform:
+      translateY(40px);
+    opacity: 0;
+  }
+
+  to {
+    transform:
+      translateY(0);
+    opacity: 1;
+  }
+
+}
+
+
+.modal-title {
+
+  margin:
+    0
+    0
+    10px;
+
+  font-size: 19px;
+}
+
+
+.modal-text {
+
+  margin:
+    0
+    0
+    16px;
+
+  font-size: 13px;
+
+  color:
+    var(--muted);
+
+  line-height: 1.5;
+}
+
+
+textarea {
+
+  width: 100%;
+
+  min-height: 100px;
+
+  resize: vertical;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  border:
+    1px solid
+    #b9c8bf;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  outline: none;
+}
+
+
+textarea:focus {
+
+  border-color:
+    var(--primary);
+}
+
+
+.modal-actions {
+
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+
+.modal-actions .btn {
+
+  flex: 1;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 480px) {
+
+  .brand {
+    padding:
+      13px
+      15px;
+  }
+
+  .logo {
+    width: 46px;
+    height: 46px;
+  }
+
+  .brand-title {
+    font-size: 18px;
+  }
+
+  .system-bar {
+    padding:
+      10px
+      15px;
+  }
+
+  .main {
+    padding:
+      38px
+      12px
+      55px;
+  }
+
+  .login-header h1 {
+    font-size: 22px;
+  }
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<!-- ========================================================
+     HEADER
+========================================================= -->
+
+<header class="header">
+
+
+  <!-- BARANGAY BRAND -->
+
+  <div class="brand">
+
+    <img
+      src="barangay-logo.png"
+      class="logo"
+      alt="Barangay Tupol Oeste Logo"
+      onerror="this.style.display='none'"
+    >
+
+
+    <div class="brand-text">
+
+      <div class="brand-title">
+        Barangay Tupol Oeste
+      </div>
+
+      <div class="brand-subtitle">
+        Municipality of Cabatuan, Province of Iloilo
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- SYSTEM BAR -->
+
+  <div class="system-bar">
+
+    <div>
+
+      <div class="system-name">
+        🐕 BRCC-DMS Approval Center
+      </div>
+
+      <div class="system-subtitle">
+        Mobile Registry Update Approval System
+      </div>
+
+    </div>
+
+
+    <div class="secure-badge">
+      🔒 SECURE ACCESS
+    </div>
+
+  </div>
+
+
+</header>
+
+
+
+<!-- ========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+  <!-- ======================================================
+       LOGIN SECTION
+  ======================================================= -->
+
+  <section
+    id="loginSection"
+  >
+
+
+    <div class="card login-card">
+
+
+      <div class="login-icon-wrap">
+
+        <div class="login-icon">
+          🔐
+        </div>
+
+      </div>
+
+
+
+      <div class="login-header">
+
+        <h1>
+          Administrator Access
+        </h1>
+
+        <p>
+          Authorized personnel only. Enter your Admin PIN to
+          access pending registry update requests.
+        </p>
+
+      </div>
+
+
+
+      <div class="notice">
+
+        🔒 This Approval Center allows authorized administrators
+        to review, approve, or reject Dog Registry update requests.
+
+      </div>
+
+
+
+      <div class="form">
+
+
+        <div class="form-group">
+
+          <label for="adminPin">
+            ADMIN PIN
+          </label>
+
+          <input
+            type="password"
+            id="adminPin"
+            placeholder="Enter Admin PIN"
+            autocomplete="current-password"
+            inputmode="numeric"
+          >
+
+        </div>
+
+
+
+        <button
+          class="btn btn-primary"
+          id="loginButton"
+          onclick="login()"
+        >
+
+          🔐 Access Approval Center
+
+        </button>
+
+
+      </div>
+
+
+
+      <div
+        id="loginMessage"
+        class="message"
+      ></div>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ======================================================
+       DASHBOARD
+  ======================================================= -->
+
+  <section
+    id="dashboard"
+    class="dashboard"
+  >
+
+
+    <div class="card">
+
+
+      <!-- DASHBOARD HEADER -->
+
+      <div class="dashboard-head">
+
+        <div class="dashboard-head-row">
+
+
+          <div>
+
+            <div class="dashboard-title">
+              Pending Requests
+            </div>
+
+            <div class="dashboard-subtitle">
+              Review and process registry update requests
+            </div>
+
+          </div>
+
+
+
+          <div class="pending-count">
+
+            <strong id="pendingCount">
+              0
+            </strong>
+
+            <span>
+              PENDING
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+
+      <!-- CONTENT -->
+
+      <div class="dashboard-content">
+
+
+        <!-- TOOLBAR -->
+
+        <div class="toolbar">
+
+          <button
+            class="btn btn-outline"
+            onclick="loadPendingRequests()"
+          >
+
+            🔄 Refresh
+
+          </button>
+
+
+          <button
+            class="btn btn-outline"
+            onclick="logout()"
+          >
+
+            🚪 Logout
+
+          </button>
+
+        </div>
+
+
+
+        <!-- LOADING -->
+
+        <div
+          id="loading"
+          class="loading"
+        >
+
+          <div class="spinner"></div>
+
+          Loading pending requests...
+
+        </div>
+
+
+
+        <!-- DASHBOARD MESSAGE -->
+
+        <div
+          id="dashboardMessage"
+          class="message"
+        ></div>
+
+
+
+        <!-- REQUEST LIST -->
+
+        <div
+          id="requestList"
+        ></div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- FOOTER -->
+
+  <footer class="footer">
+
+    Barangay Rabies Control Committee<br>
+
+    Dog Management System (BRCC-DMS)
+
+  </footer>
+
+
+</main>
+
+
+</div>
+
+
+
+<!-- ========================================================
+     REJECTION MODAL
+========================================================= -->
+
+<div
+  id="rejectModal"
+  class="modal"
+>
+
+
+  <div class="modal-box">
+
+
+    <h2 class="modal-title">
+      Reject Request
+    </h2>
+
+
+    <p class="modal-text">
+
+      Please provide the reason for rejecting this registry
+      update request.
+
+    </p>
+
+
+    <textarea
+      id="rejectionReason"
+      placeholder="Enter reason for rejection..."
+    ></textarea>
+
+
+    <div class="modal-actions">
+
+
+      <button
+        class="btn btn-outline"
+        onclick="closeRejectModal()"
+      >
+        Cancel
+      </button>
+
+
+      <button
+        class="btn btn-danger"
+        onclick="confirmReject()"
+      >
+        ❌ Reject Request
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+
+<!-- ========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* ============================================================
+   CONFIGURATION
+============================================================ */
+
+const API_URL =
+  'https://script.google.com/macros/s/AKfycbzCGq7RqItFizrjt6EosUzTnGO9-FhxDgWrrwG-qfXu1YcPwGy8SydZvrGhkow64r3C7Q/exec';
+
+
+/* ============================================================
+   STATE
+============================================================ */
+
+let sessionToken = '';
+
+let selectedRequestId = '';
+
+let isProcessing = false;
+
+
+/* ============================================================
+   INITIALIZE
+============================================================ */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  function() {
+
+    const savedSession =
+      sessionStorage.getItem(
+        'BRCC_MOBILE_APPROVAL_SESSION'
+      );
+
+
+    if (savedSession) {
+
+      sessionToken =
+        savedSession;
+
+
+      showDashboard();
+
+      loadPendingRequests();
+
+    }
+
+
+    const pinInput =
+      document.getElementById(
+        'adminPin'
+      );
+
+
+    pinInput.addEventListener(
+      'keydown',
+      function(event) {
+
+        if (
+          event.key === 'Enter'
+        ) {
+
+          login();
+
+        }
+
+      }
+    );
+
+  }
+);
+
+
+/* ============================================================
+   API REQUEST
+
+   IMPORTANT:
+
+   PublicPortalRouter.gs expects:
+
+   {
+     service: "mobile_approval",
+     data: {
+       action: "...",
+       ...
+     }
+   }
+
+============================================================ */
+
+async function apiRequest(
+  action,
+  data = {}
+) {
+
+  const payload = {
+
+    service:
+      'mobile_approval',
+
+    data: {
+
+      action:
+        action,
+
+      ...data
+
+    }
+
+  };
+
+
+  console.log(
+    'BRCC API REQUEST:',
+    payload
+  );
+
+
+  let response;
+
+
+  try {
+
+    response =
+      await fetch(
+        API_URL,
+        {
+
+          method:
+            'POST',
+
+          headers: {
+
+            'Content-Type':
+              'text/plain;charset=utf-8'
+
+          },
+
+          body:
+            JSON.stringify(
+              payload
+            ),
+
+          redirect:
+            'follow'
+
+        }
+      );
+
+  }
+  catch (error) {
+
+    console.error(
+      'NETWORK ERROR:',
+      error
+    );
+
+
+    throw new Error(
+      'Unable to connect to BRCC-DMS server.'
+    );
+
+  }
+
+
+  const responseText =
+    await response.text();
+
+
+  console.log(
+    'API RAW RESPONSE:',
+    responseText
+  );
+
+
+  let result;
+
+
+  try {
+
+    result =
+      JSON.parse(
+        responseText
+      );
+
+  }
+  catch (error) {
+
+    console.error(
+      'INVALID JSON RESPONSE:',
+      responseText
+    );
+
+
+    throw new Error(
+      'Invalid server response.'
+    );
+
+  }
+
+
+  if (
+    !result ||
+    result.success !== true
+  ) {
+
+    throw new Error(
+
+      (
+        result &&
+        result.message
+      )
+
+      ||
+
+      'Request failed.'
+
+    );
+
+  }
+
+
+  /*
+     PublicPortalRouter wraps the service response:
+
+     {
+       success: true,
+       service: "mobile_approval",
+       result: {...}
+     }
+  */
+
+  return result.result || {};
+
+}
+
+
+/* ============================================================
+   LOGIN
+============================================================ */
+
+async function login() {
+
+
+  if (isProcessing) {
+    return;
+  }
+
+
+  const pinInput =
+    document.getElementById(
+      'adminPin'
+    );
+
+
+  const pin =
     String(
-      data.pin || ''
+      pinInput.value || ''
     ).trim();
 
 
   if (!pin) {
 
-    throw new Error(
-      'Admin PIN is required.'
+    showMessage(
+      'loginMessage',
+      'Please enter the Admin PIN.',
+      'error'
     );
+
+    pinInput.focus();
+
+    return;
 
   }
 
 
-  var correctPin =
-    String(
-      MOBILE_APPROVAL_CONFIG.ADMIN_PIN
+  const button =
+    document.getElementById(
+      'loginButton'
     );
 
 
-  if (
-    pin !== correctPin
-  ) {
-
-    throw new Error(
-      'Invalid Admin PIN.'
-    );
-
-  }
+  isProcessing = true;
 
 
-  /* ========================================================
-     CREATE SESSION TOKEN
-  ======================================================== */
+  button.disabled = true;
 
-  var sessionToken =
-    Utilities.getUuid() +
-    '-' +
-    new Date().getTime();
+  button.innerHTML =
+    '⏳ Verifying access...';
 
 
-  var expiration =
-    new Date(
-      new Date().getTime() +
-      (
-        MOBILE_APPROVAL_CONFIG
-          .SESSION_DURATION_MINUTES *
-        60 *
-        1000
-      )
-    );
-
-
-  /* ========================================================
-     SAVE SESSION
-  ======================================================== */
-
-  var cache =
-    CacheService
-      .getScriptCache();
-
-
-  cache.put(
-
-    'MOBILE_APPROVAL_SESSION_' +
-    sessionToken,
-
-    'AUTHORIZED',
-
-    MOBILE_APPROVAL_CONFIG
-      .SESSION_DURATION_MINUTES *
-    60
-
+  hideMessage(
+    'loginMessage'
   );
 
 
-  Logger.log(
-    'MOBILE ADMIN LOGIN SUCCESSFUL'
-  );
+  try {
 
 
-  return {
+    /* ======================================================
+       EXACT BACKEND ACTION:
 
-    success:
-      true,
+       case 'login'
+    ======================================================= */
 
-    sessionToken:
-      sessionToken,
+    const result =
+      await apiRequest(
 
-    expiresAt:
-      expiration.toISOString(),
+        'login',
 
-    message:
-      'Mobile admin access granted.'
+        {
+          pin: pin
+        }
 
-  };
-
-}
-
-
-/* ============================================================
-   VALIDATE SESSION
-============================================================ */
-
-function mobileApprovalValidateSession_(
-  sessionToken
-) {
-
-  sessionToken =
-    String(
-      sessionToken || ''
-    ).trim();
+      );
 
 
-  if (!sessionToken) {
-
-    throw new Error(
-      'Mobile admin session is required.'
+    console.log(
+      'LOGIN RESULT:',
+      result
     );
 
-  }
+
+    if (
+      !result.sessionToken
+    ) {
+
+      throw new Error(
+        'Session token was not returned by the server.'
+      );
+
+    }
 
 
-  var cache =
-    CacheService
-      .getScriptCache();
+    sessionToken =
+      result.sessionToken;
 
 
-  var session =
-    cache.get(
+    sessionStorage.setItem(
 
-      'MOBILE_APPROVAL_SESSION_' +
+      'BRCC_MOBILE_APPROVAL_SESSION',
+
       sessionToken
 
     );
 
 
-  if (
-    session !== 'AUTHORIZED'
-  ) {
+    pinInput.value = '';
 
-    throw new Error(
-      'Your admin session has expired. Please login again.'
+
+    showDashboard();
+
+
+    await loadPendingRequests();
+
+
+  }
+  catch (error) {
+
+
+    console.error(
+      'LOGIN ERROR:',
+      error
     );
+
+
+    showMessage(
+
+      'loginMessage',
+
+      error.message ||
+      'Unable to login.',
+
+      'error'
+
+    );
+
+
+  }
+  finally {
+
+
+    isProcessing = false;
+
+
+    button.disabled = false;
+
+    button.innerHTML =
+      '🔐 Access Approval Center';
+
+  }
+
+}
+
+
+/* ============================================================
+   SHOW DASHBOARD
+============================================================ */
+
+function showDashboard() {
+
+  document.getElementById(
+    'loginSection'
+  ).style.display =
+    'none';
+
+
+  document.getElementById(
+    'dashboard'
+  ).classList.add(
+    'show'
+  );
+
+}
+
+
+/* ============================================================
+   SHOW LOGIN
+============================================================ */
+
+function showLogin() {
+
+  document.getElementById(
+    'dashboard'
+  ).classList.remove(
+    'show'
+  );
+
+
+  document.getElementById(
+    'loginSection'
+  ).style.display =
+    'block';
+
+
+  document.getElementById(
+    'adminPin'
+  ).focus();
+
+}
+
+
+/* ============================================================
+   LOAD PENDING REQUESTS
+============================================================ */
+
+async function loadPendingRequests() {
+
+
+  if (!sessionToken) {
+
+    showLogin();
+
+    return;
 
   }
 
 
-  return true;
+  showLoading(
+    true
+  );
+
+
+  hideMessage(
+    'dashboardMessage'
+  );
+
+
+  try {
+
+
+    /* ======================================================
+       EXACT BACKEND ACTION:
+
+       case 'get_pending_requests'
+    ======================================================= */
+
+    const result =
+      await apiRequest(
+
+        'get_pending_requests',
+
+        {
+          sessionToken:
+            sessionToken
+        }
+
+      );
+
+
+    console.log(
+      'PENDING REQUEST RESULT:',
+      result
+    );
+
+
+    renderRequests(
+
+      result.requests || []
+
+    );
+
+
+    document.getElementById(
+      'pendingCount'
+    ).textContent =
+      result.count || 0;
+
+
+  }
+  catch (error) {
+
+
+    console.error(
+      'LOAD REQUEST ERROR:',
+      error
+    );
+
+
+    const message =
+      error.message ||
+      'Unable to load pending requests.';
+
+
+    if (
+      message.toLowerCase()
+        .includes('session')
+    ) {
+
+      sessionExpired();
+
+      return;
+
+    }
+
+
+    showMessage(
+
+      'dashboardMessage',
+
+      message,
+
+      'error'
+
+    );
+
+
+  }
+  finally {
+
+    showLoading(
+      false
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   RENDER REQUESTS
+============================================================ */
+
+function renderRequests(
+  requests
+) {
+
+
+  const container =
+    document.getElementById(
+      'requestList'
+    );
+
+
+  container.innerHTML = '';
+
+
+  if (
+    !requests ||
+    requests.length === 0
+  ) {
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          ✅
+        </div>
+
+        <h3>
+          No Pending Requests
+        </h3>
+
+        <p>
+          All registry update requests have been processed.
+        </p>
+
+      </div>
+
+    `;
+
+
+    return;
+
+  }
+
+
+  requests.forEach(
+    function(request) {
+
+
+      const card =
+        document.createElement(
+          'div'
+        );
+
+
+      card.className =
+        'request-card';
+
+
+      card.innerHTML = `
+
+        <div class="request-top">
+
+          <div>
+
+            <div class="request-id">
+              ${escapeHtml(
+                request.requestId || 'NO REQUEST ID'
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="request-date">
+
+            ${escapeHtml(
+              formatValue(
+                request.submittedDate
+              )
+            )}
+
+          </div>
+
+        </div>
+
+
+
+        <div class="dog-name">
+
+          🐕 ${escapeHtml(
+            request.dogName ||
+            'Unnamed Dog'
+          )}
+
+        </div>
+
+
+
+        <div class="owner-name">
+
+          Owner:
+          ${escapeHtml(
+            request.ownerName ||
+            'Not specified'
+          )}
+
+        </div>
+
+
+
+        ${
+          request.updateType
+          ?
+          `
+            <div class="update-type">
+              ${escapeHtml(
+                request.updateType
+              )}
+            </div>
+          `
+          :
+          ''
+        }
+
+
+
+        <div class="info-grid">
+
+
+          <div class="info-row">
+
+            <div class="info-label">
+              Registry Number
+            </div>
+
+            <div class="info-value">
+
+              ${escapeHtml(
+                formatValue(
+                  request.registryNumber
+                )
+              )}
+
+            </div>
+
+          </div>
+
+
+
+          <div class="info-row">
+
+            <div class="info-label">
+              Requested Information
+            </div>
+
+            <div class="info-value">
+
+              ${escapeHtml(
+                formatValue(
+                  request.requestedInformation
+                )
+              )}
+
+            </div>
+
+          </div>
+
+
+
+          ${
+            request.currentInformation
+            ?
+            `
+
+              <div class="info-row">
+
+                <div class="info-label">
+                  Current Information
+                </div>
+
+                <div class="info-value">
+
+                  ${escapeHtml(
+                    request.currentInformation
+                  )}
+
+                </div>
+
+              </div>
+
+            `
+            :
+            ''
+          }
+
+
+
+          ${
+            request.remarks
+            ?
+            `
+
+              <div class="info-row">
+
+                <div class="info-label">
+                  Remarks
+                </div>
+
+                <div class="info-value">
+
+                  ${escapeHtml(
+                    request.remarks
+                  )}
+
+                </div>
+
+              </div>
+
+            `
+            :
+            ''
+          }
+
+
+        </div>
+
+
+
+        <div class="request-actions">
+
+
+          <button
+            class="btn btn-primary"
+            onclick="approveRequest('${escapeAttribute(
+              request.requestId
+            )}')"
+          >
+
+            ✅ Approve
+
+          </button>
+
+
+
+          <button
+            class="btn btn-danger"
+            onclick="openRejectModal('${escapeAttribute(
+              request.requestId
+            )}')"
+          >
+
+            ❌ Reject
+
+          </button>
+
+
+        </div>
+
+      `;
+
+
+      container.appendChild(
+        card
+      );
+
+
+    }
+  );
+
+}
+
+
+/* ============================================================
+   APPROVE REQUEST
+============================================================ */
+
+async function approveRequest(
+  requestId
+) {
+
+
+  if (!requestId) {
+    return;
+  }
+
+
+  const confirmed =
+    confirm(
+      'Approve this registry update request?\n\nRequest ID: ' +
+      requestId
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  try {
+
+
+    showMessage(
+
+      'dashboardMessage',
+
+      'Processing approval request...',
+
+      'info'
+
+    );
+
+
+    /* ======================================================
+       EXACT BACKEND ACTION:
+
+       case 'approve_request'
+    ======================================================= */
+
+    const result =
+      await apiRequest(
+
+        'approve_request',
+
+        {
+
+          sessionToken:
+            sessionToken,
+
+          requestId:
+            requestId
+
+        }
+
+      );
+
+
+    console.log(
+      'APPROVAL RESULT:',
+      result
+    );
+
+
+    showMessage(
+
+      'dashboardMessage',
+
+      result.message ||
+      'Request approved successfully.',
+
+      'success'
+
+    );
+
+
+    await loadPendingRequests();
+
+
+  }
+  catch (error) {
+
+
+    console.error(
+      'APPROVAL ERROR:',
+      error
+    );
+
+
+    showMessage(
+
+      'dashboardMessage',
+
+      error.message ||
+      'Unable to approve request.',
+
+      'error'
+
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   OPEN REJECT MODAL
+============================================================ */
+
+function openRejectModal(
+  requestId
+) {
+
+  selectedRequestId =
+    requestId;
+
+
+  document.getElementById(
+    'rejectionReason'
+  ).value = '';
+
+
+  document.getElementById(
+    'rejectModal'
+  ).classList.add(
+    'show'
+  );
+
+
+  setTimeout(
+    function() {
+
+      document.getElementById(
+        'rejectionReason'
+      ).focus();
+
+    },
+    100
+  );
+
+}
+
+
+/* ============================================================
+   CLOSE REJECT MODAL
+============================================================ */
+
+function closeRejectModal() {
+
+  selectedRequestId = '';
+
+
+  document.getElementById(
+    'rejectModal'
+  ).classList.remove(
+    'show'
+  );
+
+}
+
+
+/* ============================================================
+   CONFIRM REJECT
+============================================================ */
+
+async function confirmReject() {
+
+
+  const reason =
+    String(
+
+      document.getElementById(
+        'rejectionReason'
+      ).value || ''
+
+    ).trim();
+
+
+  if (!reason) {
+
+    alert(
+      'Please provide the reason for rejection.'
+    );
+
+    return;
+
+  }
+
+
+  if (!selectedRequestId) {
+
+    alert(
+      'No request selected.'
+    );
+
+    return;
+
+  }
+
+
+  const requestId =
+    selectedRequestId;
+
+
+  try {
+
+
+    closeRejectModal();
+
+
+    showMessage(
+
+      'dashboardMessage',
+
+      'Processing rejection request...',
+
+      'info'
+
+    );
+
+
+    /* ======================================================
+       EXACT BACKEND ACTION:
+
+       case 'reject_request'
+    ======================================================= */
+
+    const result =
+      await apiRequest(
+
+        'reject_request',
+
+        {
+
+          sessionToken:
+            sessionToken,
+
+          requestId:
+            requestId,
+
+          rejectionReason:
+            reason
+
+        }
+
+      );
+
+
+    console.log(
+      'REJECTION RESULT:',
+      result
+    );
+
+
+    showMessage(
+
+      'dashboardMessage',
+
+      result.message ||
+      'Request rejected successfully.',
+
+      'success'
+
+    );
+
+
+    await loadPendingRequests();
+
+
+  }
+  catch (error) {
+
+
+    console.error(
+      'REJECTION ERROR:',
+      error
+    );
+
+
+    showMessage(
+
+      'dashboardMessage',
+
+      error.message ||
+      'Unable to reject request.',
+
+      'error'
+
+    );
+
+  }
 
 }
 
@@ -326,544 +2790,268 @@ function mobileApprovalValidateSession_(
    LOGOUT
 ============================================================ */
 
-function mobileApprovalLogout_(
-  sessionToken
-) {
-
-  sessionToken =
-    String(
-      sessionToken || ''
-    ).trim();
+async function logout() {
 
 
-  if (sessionToken) {
-
-    CacheService
-      .getScriptCache()
-      .remove(
-
-        'MOBILE_APPROVAL_SESSION_' +
-        sessionToken
-
-      );
-
-  }
-
-
-  return {
-
-    success:
-      true,
-
-    message:
-      'Logged out successfully.'
-
-  };
-
-}
-
-
-/* ============================================================
-   GET PENDING REQUESTS
-============================================================ */
-
-function mobileApprovalGetPendingRequests_() {
-
-  var requestSheet =
-    getSheet_(
-      CONFIG.SHEETS.REGISTRY_UPDATE_REQUESTS
-    );
-
-
-  if (!requestSheet) {
-
-    throw new Error(
-      'Registry Update Requests sheet not found.'
-    );
-
-  }
-
-
-  var lastRow =
-    requestSheet.getLastRow();
-
-
-  if (lastRow < 2) {
-
-    return {
-
-      success:
-        true,
-
-      count:
-        0,
-
-      requests:
-        []
-
-    };
-
-  }
-
-
-  /* ========================================================
-     GET HEADERS
-  ======================================================== */
-
-  var headers =
-    requestSheet
-      .getRange(
-        1,
-        1,
-        1,
-        requestSheet.getLastColumn()
-      )
-      .getDisplayValues()[0];
-
-
-  var values =
-    requestSheet
-      .getRange(
-        2,
-        1,
-        lastRow - 1,
-        headers.length
-      )
-      .getValues();
-
-
-  var requests =
-    [];
-
-
-  /* ========================================================
-     BUILD REQUEST OBJECTS
-  ======================================================== */
-
-  for (
-    var i = 0;
-    i < values.length;
-    i++
+  if (
+    !confirm(
+      'Logout from the Approval Center?'
+    )
   ) {
 
-    var row =
-      values[i];
-
-
-    var record =
-      {};
-
-
-    for (
-      var j = 0;
-      j < headers.length;
-      j++
-    ) {
-
-      record[
-        headers[j]
-      ] =
-        row[j];
-
-    }
-
-
-    /* ======================================================
-       DETERMINE STATUS
-    ====================================================== */
-
-    var status =
-      String(
-
-        record['Request Status'] ||
-
-        record['Submission Status'] ||
-
-        ''
-
-      )
-        .trim()
-        .toUpperCase();
-
-
-    if (
-      status !== 'PENDING'
-    ) {
-
-      continue;
-
-    }
-
-
-    /* ======================================================
-       REQUEST ID
-    ====================================================== */
-
-    var requestId =
-      String(
-
-        record['Request ID'] ||
-
-        record['Request Number'] ||
-
-        ''
-
-      ).trim();
-
-
-    if (!requestId) {
-
-      Logger.log(
-        'SKIPPED REQUEST WITHOUT ID AT ROW: ' +
-        (i + 2)
-      );
-
-      continue;
-
-    }
-
-
-    /* ======================================================
-       FORMAT DATE
-    ====================================================== */
-
-    var submittedDate =
-
-      record['Submission Date'] ||
-
-      record['Date Submitted'] ||
-
-      record['Timestamp'] ||
-
-      '';
-
-
-    if (
-      submittedDate instanceof Date
-    ) {
-
-      submittedDate =
-        Utilities.formatDate(
-
-          submittedDate,
-
-          Session.getScriptTimeZone(),
-
-          'MMM dd, yyyy hh:mm a'
-
-        );
-
-    }
-
-
-    /* ======================================================
-       ADD MOBILE REQUEST
-    ====================================================== */
-
-    requests.push({
-
-      rowNumber:
-        i + 2,
-
-      requestId:
-        requestId,
-
-      registryNumber:
-        String(
-
-          record['Registry Number'] ||
-
-          record['Registry No'] ||
-
-          ''
-
-        ).trim(),
-
-      ownerName:
-        String(
-          record['Owner Name'] || ''
-        ).trim(),
-
-      dogName:
-        String(
-          record['Dog Name'] || ''
-        ).trim(),
-
-      updateType:
-        String(
-          record['Update Type'] || ''
-        ).trim(),
-
-      requestedInformation:
-        String(
-
-          record['Requested Information'] ||
-
-          record['New Information'] ||
-
-          ''
-
-        ).trim(),
-
-      currentInformation:
-        String(
-
-          record['Current Information'] ||
-
-          record['Current Value'] ||
-
-          ''
-
-        ).trim(),
-
-      submittedDate:
-        submittedDate,
-
-      remarks:
-        String(
-          record['Remarks'] || ''
-        ).trim()
-
-    });
+    return;
 
   }
 
 
-  /* ========================================================
-     SORT NEWEST FIRST
-
-     Keeps Sheet order untouched.
-  ======================================================== */
-
-  requests.reverse();
+  try {
 
 
-  Logger.log(
-    'PENDING MOBILE REQUESTS: ' +
-    requests.length
-  );
+    /* ======================================================
+       EXACT BACKEND ACTION:
+
+       case 'logout'
+    ======================================================= */
+
+    if (sessionToken) {
+
+      await apiRequest(
+
+        'logout',
+
+        {
+          sessionToken:
+            sessionToken
+        }
+
+      );
+
+    }
 
 
-  return {
+  }
+  catch (error) {
 
-    success:
-      true,
-
-    count:
-      requests.length,
-
-    requests:
-      requests
-
-  };
-
-}
-
-
-/* ============================================================
-   APPROVE REQUEST
-
-   IMPORTANT:
-   Calls the EXISTING working function:
-
-   reviewRegistryUpdateRequest()
-
-   No duplication of approval logic.
-============================================================ */
-
-function mobileApprovalApproveRequest_(
-  data
-) {
-
-  var requestId =
-    String(
-      data.requestId || ''
-    ).trim();
-
-
-  if (!requestId) {
-
-    throw new Error(
-      'Request ID is required.'
+    console.warn(
+      'LOGOUT API ERROR:',
+      error
     );
 
   }
 
 
-  Logger.log(
-    'MOBILE APPROVAL REQUEST: ' +
-    requestId
+  sessionToken = '';
+
+
+  sessionStorage.removeItem(
+    'BRCC_MOBILE_APPROVAL_SESSION'
   );
 
 
-  /* ========================================================
-     CALL EXISTING APPROVAL FUNCTION
-  ======================================================== */
+  document.getElementById(
+    'requestList'
+  ).innerHTML = '';
 
-  var result =
-    reviewRegistryUpdateRequest(
 
-      requestId,
+  document.getElementById(
+    'pendingCount'
+  ).textContent = '0';
 
-      'APPROVE',
 
-      'Mobile Admin',
+  showLogin();
 
+}
+
+
+/* ============================================================
+   SESSION EXPIRED
+============================================================ */
+
+function sessionExpired() {
+
+
+  sessionToken = '';
+
+
+  sessionStorage.removeItem(
+    'BRCC_MOBILE_APPROVAL_SESSION'
+  );
+
+
+  alert(
+    'Your admin session has expired. Please login again.'
+  );
+
+
+  showLogin();
+
+}
+
+
+/* ============================================================
+   MESSAGE
+============================================================ */
+
+function showMessage(
+  elementId,
+  message,
+  type
+) {
+
+
+  const element =
+    document.getElementById(
+      elementId
+    );
+
+
+  element.textContent =
+    message;
+
+
+  element.className =
+    'message show ' +
+    type;
+
+}
+
+
+/* ============================================================
+   HIDE MESSAGE
+============================================================ */
+
+function hideMessage(
+  elementId
+) {
+
+
+  const element =
+    document.getElementById(
+      elementId
+    );
+
+
+  element.textContent = '';
+
+
+  element.className =
+    'message';
+
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+function showLoading(
+  show
+) {
+
+  const loading =
+    document.getElementById(
+      'loading'
+    );
+
+
+  loading.style.display =
+    show
+      ?
+      'block'
+      :
+      'none';
+
+}
+
+
+/* ============================================================
+   FORMAT VALUE
+============================================================ */
+
+function formatValue(
+  value
+) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ''
+  ) {
+
+    return '—';
+
+  }
+
+
+  return String(
+    value
+  );
+
+}
+
+
+/* ============================================================
+   HTML ESCAPE
+============================================================ */
+
+function escapeHtml(
+  value
+) {
+
+  return String(
+    value === null ||
+    value === undefined
+      ?
       ''
+      :
+      value
+  )
 
-    );
+  .replace(
+    /&/g,
+    '&amp;'
+  )
 
+  .replace(
+    /</g,
+    '&lt;'
+  )
 
-  if (
-    !result ||
-    !result.success
-  ) {
+  .replace(
+    />/g,
+    '&gt;'
+  )
 
-    throw new Error(
+  .replace(
+    /"/g,
+    '&quot;'
+  )
 
-      (
-        result &&
-        result.message
-      ) ||
-
-      'Unable to approve request.'
-
-    );
-
-  }
-
-
-  Logger.log(
-    'MOBILE APPROVAL SUCCESS: ' +
-    requestId
+  .replace(
+    /'/g,
+    '&#039;'
   );
-
-
-  return {
-
-    success:
-      true,
-
-    requestId:
-      requestId,
-
-    result:
-      result,
-
-    message:
-      'Request approved successfully.'
-
-  };
 
 }
 
 
 /* ============================================================
-   REJECT REQUEST
-
-   IMPORTANT:
-   Calls the EXISTING working function:
-
-   reviewRegistryUpdateRequest()
+   ATTRIBUTE ESCAPE
 ============================================================ */
 
-function mobileApprovalRejectRequest_(
-  data
+function escapeAttribute(
+  value
 ) {
 
-  var requestId =
-    String(
-      data.requestId || ''
-    ).trim();
-
-
-  var rejectionReason =
-    String(
-      data.rejectionReason || ''
-    ).trim();
-
-
-  if (!requestId) {
-
-    throw new Error(
-      'Request ID is required.'
-    );
-
-  }
-
-
-  if (!rejectionReason) {
-
-    throw new Error(
-      'Reason for rejection is required.'
-    );
-
-  }
-
-
-  Logger.log(
-    'MOBILE REJECTION REQUEST: ' +
-    requestId
+  return escapeHtml(
+    value
   );
-
-
-  /* ========================================================
-     CALL EXISTING REJECTION FUNCTION
-  ======================================================== */
-
-  var result =
-    reviewRegistryUpdateRequest(
-
-      requestId,
-
-      'REJECT',
-
-      'Mobile Admin',
-
-      rejectionReason
-
-    );
-
-
-  if (
-    !result ||
-    !result.success
-  ) {
-
-    throw new Error(
-
-      (
-        result &&
-        result.message
-      ) ||
-
-      'Unable to reject request.'
-
-    );
-
-  }
-
-
-  Logger.log(
-    'MOBILE REJECTION SUCCESS: ' +
-    requestId
-  );
-
-
-  return {
-
-    success:
-      true,
-
-    requestId:
-      requestId,
-
-    result:
-      result,
-
-    message:
-      'Request rejected successfully.'
-
-  };
 
 }
+
+
+</script>
+
+
+</body>
+</html>
