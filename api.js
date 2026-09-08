@@ -1,324 +1,43 @@
 /* ============================================================
-   BRCC-DMS V3
-   FILE: api.js
-
-   PUBLIC PORTAL API CONNECTOR
-
-   USED BY:
-   - GitHub Public Portal
-   - Dog Registration
-   - Registry Update
-   - Puppy Report
-   - QR Verification
-   - Mobile Approval Center
-============================================================ */
-
-
-/* ============================================================
-   GOOGLE APPS SCRIPT WEB APP URL
-============================================================ */
-
-const BRCC_API_URL =
-  'https://script.google.com/macros/s/AKfycbzCGq7RqItFizrjt6EosUzTnGO9-FhxDgWrrwG-qfXu1YcPwGy8SydZvrGhkow64r3C7Q/exec';
-
-
-/* ============================================================
-   GENERIC BRCC API REQUEST
-
-   Payload format:
-
-   {
-     service: "service_name",
-     data: {...}
-   }
-============================================================ */
-
-async function brccRequest(
-  service,
-  data = {}
-) {
-
-  if (
-    !BRCC_API_URL ||
-    BRCC_API_URL.includes('ILAGAY_DITO')
-  ) {
-
-    throw new Error(
-      'API URL is not configured.'
-    );
-
-  }
-
-
-  const payload = {
-
-    service:
-      String(service || '')
-        .trim(),
-
-    data:
-      data || {}
-
-  };
-
-
-  if (!payload.service) {
-
-    throw new Error(
-      'API service is required.'
-    );
-
-  }
-
-
-  console.log(
-    'BRCC API REQUEST:',
-    payload
-  );
-
-
-  let response;
-
-
-  try {
-
-    response =
-      await fetch(
-        BRCC_API_URL,
-        {
-
-          method:
-            'POST',
-
-          headers: {
-
-            'Content-Type':
-              'text/plain;charset=utf-8'
-
-          },
-
-          body:
-            JSON.stringify(
-              payload
-            ),
-
-          redirect:
-            'follow'
-
-        }
-      );
-
-  }
-  catch (networkError) {
-
-    console.error(
-      'BRCC API network error:',
-      networkError
-    );
-
-
-    throw new Error(
-      'Unable to connect to the BRCC-DMS server.'
-    );
-
-  }
-
-
-  let result;
-
-
-  try {
-
-    result =
-      await response.json();
-
-  }
-  catch (jsonError) {
-
-    console.error(
-      'Invalid API response:',
-      jsonError
-    );
-
-
-    throw new Error(
-      'Invalid response from server.'
-    );
-
-  }
-
-
-  console.log(
-    'BRCC API RESPONSE:',
-    result
-  );
-
-
-  if (!result) {
-
-    throw new Error(
-      'Empty response from server.'
-    );
-
-  }
-
-
-  if (!result.success) {
-
-    throw new Error(
-      result.message ||
-      'Request failed.'
-    );
-
-  }
-
-
-  /*
-   ============================================================
-   IMPORTANT
-
-   PublicPortalRouter.gs returns:
-
-   {
-     success: true,
-     service: "...",
-     result: {
-       success: true,
-       ...
-     }
-   }
-
-   We return the complete response so existing pages
-   remain compatible.
-   ============================================================
-  */
-
-  return result;
-
-}
-
-
-/* ============================================================
-   SUBMIT TO BRCC-DMS
-
-   Generic public service submission.
-
-   Example:
-
-   brccSubmit(
-     'puppy_report',
-     formData
-   );
-============================================================ */
-
-async function brccSubmit(
-  service,
-  data
-) {
-
-  return await brccRequest(
-    service,
-    data
-  );
-
-}
-
-
-/* ============================================================
-   VERIFY MOTHER DOG
-
-   Used by:
-   - Puppy Report
-
-   NOTE:
-   Requires corresponding router/service support.
-============================================================ */
-
-async function brccVerifyMotherDog(
-  registryNumber
-) {
-
-  if (
-    !registryNumber ||
-    !String(registryNumber).trim()
-  ) {
-
-    throw new Error(
-      'Mother Dog Registry Number is required.'
-    );
-
-  }
-
-
-  return await brccRequest(
-    'verify_mother_dog',
-    {
-
-      registryNumber:
-        String(registryNumber)
-          .trim()
-
-    }
-  );
-
-}
-
-
-/* ============================================================
-   VERIFY DOG QR CODE
-
-   Used by:
-   - verify.html
-   - Public QR Verification
-============================================================ */
-
-async function brccVerifyDogQR(
-  token
-) {
-
-  if (
-    !token ||
-    !String(token).trim()
-  ) {
-
-    throw new Error(
-      'Verification token is required.'
-    );
-
-  }
-
-
-  return await brccRequest(
-    'verify_dog_qr',
-    {
-
-      token:
-        String(token)
-          .trim()
-
-    }
-  );
-
-}
-
-
-/* ============================================================
    MOBILE APPROVAL CENTER API
 ============================================================ */
 
 
 /* ============================================================
-   MOBILE ADMIN LOGIN
+   NORMALIZE MOBILE APPROVAL RESPONSE
 
-   Sends:
+   PublicPortalRouter.gs wraps the service response inside:
 
    {
+     success: true,
      service: "mobile_approval",
-     data: {
-       action: "login",
-       pin: "..."
-     }
+     result: {...}
    }
+
+   This function returns the actual service result.
+============================================================ */
+
+function brccMobileApprovalExtractResult_(
+  response
+) {
+
+  if (
+    response &&
+    response.result
+  ) {
+
+    return response.result;
+
+  }
+
+
+  return response;
+
+}
+
+
+/* ============================================================
+   MOBILE ADMIN LOGIN
 ============================================================ */
 
 async function brccMobileApprovalLogin(
@@ -339,17 +58,23 @@ async function brccMobileApprovalLogin(
   }
 
 
-  return await brccRequest(
-    'mobile_approval',
-    {
+  const response =
+    await brccRequest(
+      'mobile_approval',
+      {
 
-      action:
-        'login',
+        action:
+          'login',
 
-      pin:
-        pin
+        pin:
+          pin
 
-    }
+      }
+    );
+
+
+  return brccMobileApprovalExtractResult_(
+    response
   );
 
 }
@@ -377,17 +102,23 @@ async function brccMobileApprovalGetPendingRequests(
   }
 
 
-  return await brccRequest(
-    'mobile_approval',
-    {
+  const response =
+    await brccRequest(
+      'mobile_approval',
+      {
 
-      action:
-        'get_pending_requests',
+        action:
+          'get_pending_requests',
 
-      sessionToken:
-        sessionToken
+        sessionToken:
+          sessionToken
 
-    }
+      }
+    );
+
+
+  return brccMobileApprovalExtractResult_(
+    response
   );
 
 }
@@ -430,20 +161,26 @@ async function brccMobileApprovalApproveRequest(
   }
 
 
-  return await brccRequest(
-    'mobile_approval',
-    {
+  const response =
+    await brccRequest(
+      'mobile_approval',
+      {
 
-      action:
-        'approve_request',
+        action:
+          'approve_request',
 
-      sessionToken:
-        sessionToken,
+        sessionToken:
+          sessionToken,
 
-      requestId:
-        requestId
+        requestId:
+          requestId
 
-    }
+      }
+    );
+
+
+  return brccMobileApprovalExtractResult_(
+    response
   );
 
 }
@@ -501,23 +238,29 @@ async function brccMobileApprovalRejectRequest(
   }
 
 
-  return await brccRequest(
-    'mobile_approval',
-    {
+  const response =
+    await brccRequest(
+      'mobile_approval',
+      {
 
-      action:
-        'reject_request',
+        action:
+          'reject_request',
 
-      sessionToken:
-        sessionToken,
+        sessionToken:
+          sessionToken,
 
-      requestId:
-        requestId,
+        requestId:
+          requestId,
 
-      rejectionReason:
-        rejectionReason
+        rejectionReason:
+          rejectionReason
 
-    }
+      }
+    );
+
+
+  return brccMobileApprovalExtractResult_(
+    response
   );
 
 }
@@ -536,17 +279,23 @@ async function brccMobileApprovalLogout(
       .trim();
 
 
-  return await brccRequest(
-    'mobile_approval',
-    {
+  const response =
+    await brccRequest(
+      'mobile_approval',
+      {
 
-      action:
-        'logout',
+        action:
+          'logout',
 
-      sessionToken:
-        sessionToken
+        sessionToken:
+          sessionToken
 
-    }
+      }
+    );
+
+
+  return brccMobileApprovalExtractResult_(
+    response
   );
 
 }
