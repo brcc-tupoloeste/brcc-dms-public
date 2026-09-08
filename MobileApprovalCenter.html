@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+  >
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      color: #1f2937;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #f8fafc;
+    }
+
+    /* ==========================================
+       HEADER
+    ========================================== */
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 18px 16px;
+      background: #166534;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .header p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      opacity: .85;
+    }
+
+    /* ==========================================
+       CONTENT
+    ========================================== */
+
+    .content {
+      padding: 16px;
+    }
+
+    /* ==========================================
+       LOGIN SCREEN
+    ========================================== */
+
+    .login-screen {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-card {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 28px 22px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    }
+
+    .login-icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      background: #dcfce7;
+    }
+
+    .login-card h2 {
+      text-align: center;
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .login-card p {
+      text-align: center;
+      margin: 0 0 22px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    /* ==========================================
+       FORM
+    ========================================== */
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 16px;
+      outline: none;
+      background: #ffffff;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #166534;
+      box-shadow: 0 0 0 3px rgba(22,101,52,.12);
+    }
+
+    /* ==========================================
+       BUTTONS
+    ========================================== */
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 14px 16px;
+      transition: .15s ease;
+    }
+
+    button:active {
+      transform: scale(.98);
+    }
+
+    .btn-primary {
+      width: 100%;
+      margin-top: 16px;
+      background: #166534;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #14532d;
+    }
+
+    .btn-refresh {
+      background: #ffffff;
+      color: #166534;
+      padding: 9px 13px;
+      font-size: 13px;
+    }
+
+    /* ==========================================
+       DASHBOARD
+    ========================================== */
+
+    .dashboard-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .dashboard-title {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .request-count {
+      font-size: 12px;
+      background: #dcfce7;
+      color: #166534;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    /* ==========================================
+       REQUEST CARD
+    ========================================== */
+
+    .request-card {
+      background: #ffffff;
+      border-radius: 14px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,.07);
+      border: 1px solid #e5e7eb;
+    }
+
+    .request-card-header {
+      padding: 14px;
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .request-id {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 5px;
+    }
+
+    .dog-name {
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .request-card-body {
+      padding: 14px;
+    }
+
+    .info-row {
+      margin-bottom: 12px;
+    }
+
+    .info-label {
+      display: block;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 3px;
+    }
+
+    .info-value {
+      font-size: 14px;
+      color: #1f2937;
+      word-break: break-word;
+    }
+
+    .update-box {
+      background: #fefce8;
+      border-left: 4px solid #ca8a04;
+      padding: 12px;
+      border-radius: 7px;
+      margin-top: 10px;
+    }
+
+    .update-box .info-value {
+      font-weight: 600;
+    }
+
+    /* ==========================================
+       ACTION BUTTONS
+    ========================================== */
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 14px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .btn-approve {
+      background: #16a34a;
+      color: #ffffff;
+    }
+
+    .btn-reject {
+      background: #dc2626;
+      color: #ffffff;
+    }
+
+    /* ==========================================
+       EMPTY STATE
+    ========================================== */
+
+    .empty {
+      text-align: center;
+      padding: 55px 20px;
+      color: #6b7280;
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    /* ==========================================
+       LOADING
+    ========================================== */
+
+    .loading {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+    }
+
+    .spinner {
+      width: 35px;
+      height: 35px;
+      border: 4px solid #e5e7eb;
+      border-top-color: #166534;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ==========================================
+       MODAL
+    ========================================== */
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,.5);
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal h3 {
+      margin-top: 0;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .modal-actions button {
+      flex: 1;
+    }
+
+    .btn-cancel {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    /* ==========================================
+       TOAST
+    ========================================== */
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 500px;
+      padding: 14px;
+      border-radius: 10px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      display: none;
+      z-index: 2000;
+      text-align: center;
+    }
+
+    .toast.success {
+      background: #16a34a;
+    }
+
+    .toast.error {
+      background: #dc2626;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- ======================================
+       HEADER
+  ======================================= -->
+
+  <div class="header">
+
+    <h1>BRCC-DMS Approval Center</h1>
+
+    <p>
+      Mobile Registry Update Approval
+    </p>
+
+  </div>
+
+
+  <!-- ======================================
+       MAIN CONTENT
+  ======================================= -->
+
+  <div
+    id="appContent"
+    class="content"
+  ></div>
+
+</div>
+
+
+<!-- ======================================
+     MODAL
+======================================= -->
+
+<div
+  id="modalOverlay"
+  class="modal-overlay"
+>
+
+  <div
+    id="modalContent"
+    class="modal"
+  ></div>
+
+</div>
+
+
+<!-- ======================================
+     TOAST
+======================================= -->
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<script>
+
+  /* ==========================================
+     CONFIG
+  ========================================== */
+
+  const APP = {
+
+    pin: '',
+
+    requests: []
+
+  };
+
+
+  /* ==========================================
+     INITIALIZE
+  ========================================== */
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    function() {
+
+      showLogin();
+
+    }
+  );
+
+
+  /* ==========================================
+     LOGIN SCREEN
+  ========================================== */
+
+  function showLogin() {
+
+    document.getElementById(
+      'appContent'
+    ).innerHTML = `
+
+      <div class="login-screen">
+
+        <div class="login-card">
+
+          <div class="login-icon">
+            🔐
+          </div>
+
+          <h2>
+            Admin Access
+          </h2>
+
+          <p>
+            Enter your Admin PIN to access pending registry updates.
+          </p>
+
+          <label>
+            Admin PIN
+          </label>
+
+          <input
+            id="pinInput"
+            type="password"
+            inputmode="numeric"
+            placeholder="Enter Admin PIN"
+            autocomplete="off"
+          >
+
+          <button
+            class="btn-primary"
+            onclick="login()"
+          >
+            Access Approval Center
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    setTimeout(
+      function() {
+
+        const input =
+          document.getElementById(
+            'pinInput'
+          );
+
+        if (input) {
+
+          input.focus();
+
+          input.addEventListener(
+            'keydown',
+            function(event) {
+
+              if (
+                event.key === 'Enter'
+              ) {
+
+                login();
+
+              }
+
+            }
+          );
+
+        }
+
+      },
+      100
+    );
+
+  }
+
+
+  /* ==========================================
+     LOGIN
+  ========================================== */
+
+  async function login() {
+
+    const pin =
+      document.getElementById(
+        'pinInput'
+      ).value.trim();
+
+
+    if (!pin) {
+
+      showToast(
+        'Please enter your Admin PIN.',
+        'error'
+      );
+
+      return;
+
+    }
+
+
+    showLoading(
+      'Verifying Admin PIN...'
+    );
+
+
+    try {
+
+      const response =
+        await apiCall(
+          'admin_login',
+          {
+            pin: pin
+          }
+        );
+
+
+      if (
+        !response.success ||
+        !response.result ||
+        !response.result.authenticated
+      ) {
+
+        throw new Error(
+          response.message ||
+          'Authentication failed.'
+        );
+
+      }
+
+
+      APP.pin =
+        pin;
+
+
+      showToast(
+        'Login successful.',
+        'success'
+      );
+
+
+      loadPendingRequests();
+
+
+    }
+    catch (error) {
+
+      showToast(
+        error.message ||
+        'Unable to login.',
+        'error'
+      );
+
+
+      showLogin();
+
+    }
+
+  }
+
+
+  /* ==========================================
+     LOAD PENDING REQUESTS
+  ========================================== */
+
+  async function loadPendingRequests() {
+
+    showLoading(
+      'Loading pending requests...'
+    );
+
+
+    try {
+
+      const response =
+        await apiCall(
+          'get_pending_updates',
+          {
+            pin:
+              APP.pin
+          }
+        );
+
+
+      if (
+        !response.success
+      ) {
+
+        throw new Error(
+          response.message ||
+          'Unable to load requests.'
+        );
+
+      }
+
+
+      APP.requests =
+        response.result.requests || [];
+
+
+      showDashboard();
+
+
+    }
+    catch (error) {
+
+      showToast(
+        error.message ||
+        'Unable to load pending requests.',
+        'error'
+      );
+
+
+      showLogin();
+
+    }
+
+  }
+
+
+  /* ==========================================
+     DASHBOARD
+  ========================================== */
+
+  function showDashboard() {
+
+    const requests =
+      APP.requests;
+
+
+    let html = `
+
+      <div class="dashboard-top">
+
+        <div>
+
+          <h2 class="dashboard-title">
+            Pending Requests
+          </h2>
+
+          <div
+            class="request-count"
+            style="display:inline-block;margin-top:6px"
+          >
+            ${requests.length} Pending
+          </div>
+
+        </div>
+
+
+        <button
+          class="btn-refresh"
+          onclick="loadPendingRequests()"
+        >
+          ↻ Refresh
+        </button>
+
+      </div>
+
+    `;
+
+
+    if (
+      requests.length === 0
+    ) {
+
+      html += `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            ✓
+          </div>
+
+          <h3>
+            No Pending Requests
+          </h3>
+
+          <p>
+            All registry update requests have been reviewed.
+          </p>
+
+        </div>
+
+      `;
+
+    }
+    else {
+
+      requests.forEach(
+        function(request) {
+
+          html += createRequestCard(
+            request
+          );
+
+        }
+      );
+
+    }
+
+
+    document.getElementById(
+      'appContent'
+    ).innerHTML =
+      html;
+
+  }
+
+
+  /* ==========================================
+     REQUEST CARD
+  ========================================== */
+
+  function createRequestCard(request) {
+
+    return `
+
+      <div class="request-card">
+
+        <div class="request-card-header">
+
+          <div class="request-id">
+            ${escapeHtml(request.requestId)}
+          </div>
+
+          <div class="dog-name">
+            🐕 ${escapeHtml(request.dogName || 'Unknown Dog')}
+          </div>
+
+        </div>
+
+
+        <div class="request-card-body">
+
+          <div class="info-row">
+
+            <span class="info-label">
+              Registry Number
+            </span>
+
+            <div class="info-value">
+              ${escapeHtml(request.registryNumber)}
+            </div>
+
+          </div>
+
+
+          <div class="info-row">
+
+            <span class="info-label">
+              Owner
+            </span>
+
+            <div class="info-value">
+              ${escapeHtml(request.ownerName)}
+            </div>
+
+          </div>
+
+
+          <div class="info-row">
+
+            <span class="info-label">
+              Update Type
+            </span>
+
+            <div class="info-value">
+              ${escapeHtml(request.updateType)}
+            </div>
+
+          </div>
+
+
+          <div class="update-box">
+
+            <span class="info-label">
+              Requested Update
+            </span>
+
+            <div class="info-value">
+              ${escapeHtml(request.requestedInformation)}
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            class="btn-approve"
+            onclick="confirmApprove('${escapeJs(request.requestId)}')"
+          >
+            ✓ Approve
+          </button>
+
+
+          <button
+            class="btn-reject"
+            onclick="showRejectModal('${escapeJs(request.requestId)}')"
+          >
+            ✕ Reject
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* ==========================================
+     CONFIRM APPROVAL
+  ========================================== */
+
+  function confirmApprove(requestId) {
+
+    showModal(`
+
+      <h3>
+        Approve Update?
+      </h3>
+
+      <p>
+        This will update the Dog Registry and regenerate the official documents.
+      </p>
+
+      <div class="modal-actions">
+
+        <button
+          class="btn-cancel"
+          onclick="closeModal()"
+        >
+          Cancel
+        </button>
+
+
+        <button
+          class="btn-approve"
+          onclick="reviewRequest('${escapeJs(requestId)}','APPROVE','')"
+        >
+          Approve
+        </button>
+
+      </div>
+
+    `);
+
+  }
+
+
+  /* ==========================================
+     REJECT MODAL
+  ========================================== */
+
+  function showRejectModal(requestId) {
+
+    showModal(`
+
+      <h3>
+        Reject Update
+      </h3>
+
+      <p>
+        Please provide a reason for rejection.
+      </p>
+
+
+      <textarea
+        id="rejectionReason"
+        rows="4"
+        placeholder="Enter rejection reason..."
+      ></textarea>
+
+
+      <div class="modal-actions">
+
+        <button
+          class="btn-cancel"
+          onclick="closeModal()"
+        >
+          Cancel
+        </button>
+
+
+        <button
+          class="btn-reject"
+          onclick="submitReject('${escapeJs(requestId)}')"
+        >
+          Reject
+        </button>
+
+      </div>
+
+    `);
+
+  }
+
+
+  /* ==========================================
+     SUBMIT REJECTION
+  ========================================== */
+
+  function submitReject(requestId) {
+
+    const reason =
+      document.getElementById(
+        'rejectionReason'
+      ).value.trim();
+
+
+    if (!reason) {
+
+      showToast(
+        'Please provide a rejection reason.',
+        'error'
+      );
+
+      return;
+
+    }
+
+
+    reviewRequest(
+      requestId,
+      'REJECT',
+      reason
+    );
+
+  }
+
+
+  /* ==========================================
+     REVIEW REQUEST
+  ========================================== */
+
+  async function reviewRequest(
+    requestId,
+    decision,
+    rejectionReason
+  ) {
+
+    closeModal();
+
+
+    showLoading(
+      decision === 'APPROVE'
+        ? 'Approving update and regenerating documents...'
+        : 'Rejecting request...'
+    );
+
+
+    try {
+
+      const response =
+        await apiCall(
+          'review_registry_update',
+          {
+
+            pin:
+              APP.pin,
+
+            requestId:
+              requestId,
+
+            decision:
+              decision,
+
+            rejectionReason:
+              rejectionReason
+
+          }
+        );
+
+
+      if (
+        !response.success
+      ) {
+
+        throw new Error(
+          response.message ||
+          'Unable to process request.'
+        );
+
+      }
+
+
+      showToast(
+        decision === 'APPROVE'
+          ? 'Request approved successfully.'
+          : 'Request rejected successfully.',
+        'success'
+      );
+
+
+      setTimeout(
+        function() {
+
+          loadPendingRequests();
+
+        },
+        1000
+      );
+
+
+    }
+    catch (error) {
+
+      showToast(
+        error.message ||
+        'Unable to process request.',
+        'error'
+      );
+
+
+      loadPendingRequests();
+
+    }
+
+  }
+
+
+  /* ==========================================
+     API CALL
+
+     IMPORTANT:
+     Replace API_URL with your deployed
+     Google Apps Script Web App URL.
+  ========================================== */
+
+  async function apiCall(
+    service,
+    data
+  ) {
+
+    const API_URL =
+      'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+
+
+    const response =
+      await fetch(
+        API_URL,
+        {
+
+          method:
+            'POST',
+
+          headers: {
+
+            'Content-Type':
+              'text/plain;charset=utf-8'
+
+          },
+
+          body:
+            JSON.stringify({
+
+              service:
+                service,
+
+              data:
+                data
+
+            })
+
+        }
+      );
+
+
+    const text =
+      await response.text();
+
+
+    let json;
+
+
+    try {
+
+      json =
+        JSON.parse(
+          text
+        );
+
+    }
+    catch (error) {
+
+      throw new Error(
+        'Invalid server response.'
+      );
+
+    }
+
+
+    if (
+      !json.success
+    ) {
+
+      throw new Error(
+        json.message ||
+        'Server request failed.'
+      );
+
+    }
+
+
+    return json;
+
+  }
+
+
+  /* ==========================================
+     LOADING SCREEN
+  ========================================== */
+
+  function showLoading(message) {
+
+    document.getElementById(
+      'appContent'
+    ).innerHTML = `
+
+      <div class="loading">
+
+        <div class="spinner"></div>
+
+        <div>
+          ${escapeHtml(message)}
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* ==========================================
+     MODAL
+  ========================================== */
+
+  function showModal(html) {
+
+    document.getElementById(
+      'modalContent'
+    ).innerHTML =
+      html;
+
+
+    document.getElementById(
+      'modalOverlay'
+    ).style.display =
+      'flex';
+
+  }
+
+
+  function closeModal() {
+
+    document.getElementById(
+      'modalOverlay'
+    ).style.display =
+      'none';
+
+  }
+
+
+  /* ==========================================
+     TOAST
+  ========================================== */
+
+  function showToast(
+    message,
+    type
+  ) {
+
+    const toast =
+      document.getElementById(
+        'toast'
+      );
+
+
+    toast.textContent =
+      message;
+
+
+    toast.className =
+      'toast ' +
+      (
+        type || 'success'
+      );
+
+
+    toast.style.display =
+      'block';
+
+
+    setTimeout(
+      function() {
+
+        toast.style.display =
+          'none';
+
+      },
+      3500
+    );
+
+  }
+
+
+  /* ==========================================
+     ESCAPE HTML
+  ========================================== */
+
+  function escapeHtml(value) {
+
+    return String(
+      value || ''
+    )
+
+      .replace(
+        /&/g,
+        '&amp;'
+      )
+
+      .replace(
+        /</g,
+        '&lt;'
+      )
+
+      .replace(
+        />/g,
+        '&gt;'
+      )
+
+      .replace(
+        /"/g,
+        '&quot;'
+      )
+
+      .replace(
+        /'/g,
+        '&#039;'
+      );
+
+  }
+
+
+  /* ==========================================
+     ESCAPE JAVASCRIPT
+  ========================================== */
+
+  function escapeJs(value) {
+
+    return String(
+      value || ''
+    )
+
+      .replace(
+        /\\/g,
+        '\\\\'
+      )
+
+      .replace(
+        /'/g,
+        "\\'"
+      )
+
+      .replace(
+        /"/g,
+        '&quot;'
+      );
+
+  }
+
+</script>
+
+</body>
+</html>
