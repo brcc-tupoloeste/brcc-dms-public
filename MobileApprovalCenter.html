@@ -1135,84 +1135,96 @@
   ========================================== */
 
   async function apiCall(
-    service,
-    data
-  ) {
+  action,
+  data
+) {
 
-    const API_URL =
-      'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+  const API_URL =
+    'https://script.google.com/macros/s/AKfycbzCGq7RqItFizrjt6EosUzTnGO9-FhxDgWrrwG-qfXu1YcPwGy8SydZvrGhkow64r3C7Q/exec';
 
 
-    const response =
-      await fetch(
-        API_URL,
-        {
+  const response =
+    await fetch(
+      API_URL,
+      {
 
-          method:
-            'POST',
+        method:
+          'POST',
 
-          headers: {
+        headers: {
 
-            'Content-Type':
-              'text/plain;charset=utf-8'
+          'Content-Type':
+            'text/plain;charset=utf-8'
 
-          },
+        },
 
-          body:
-            JSON.stringify({
+        body:
+          JSON.stringify({
 
-              service:
-                service,
+            service:
+              'mobile_approval',
 
-              data:
-                data
+            data:
+              Object.assign(
+                {
+                  action:
+                    action
+                },
+                data || {}
+              )
 
-            })
+          })
 
         }
+
+      }
+    );
+
+
+  const text =
+    await response.text();
+
+
+  let json;
+
+
+  try {
+
+    json =
+      JSON.parse(
+        text
       );
 
+  }
+  catch (error) {
 
-    const text =
-      await response.text();
+    console.error(
+      'RAW SERVER RESPONSE:',
+      text
+    );
 
-
-    let json;
-
-
-    try {
-
-      json =
-        JSON.parse(
-          text
-        );
-
-    }
-    catch (error) {
-
-      throw new Error(
-        'Invalid server response.'
-      );
-
-    }
-
-
-    if (
-      !json.success
-    ) {
-
-      throw new Error(
-        json.message ||
-        'Server request failed.'
-      );
-
-    }
-
-
-    return json;
+    throw new Error(
+      'Invalid server response.'
+    );
 
   }
 
+
+  if (
+    !json.success
+  ) {
+
+    throw new Error(
+      json.message ||
+      'Server request failed.'
+    );
+
+  }
+
+
+  return json;
+
+}
 
   /* ==========================================
      LOADING SCREEN
