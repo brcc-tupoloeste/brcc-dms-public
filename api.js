@@ -1,301 +1,235 @@
 /* ============================================================
-   MOBILE APPROVAL CENTER API
+   BRCC-DMS V3
+   PUBLIC PORTAL API CONNECTOR
 ============================================================ */
 
 
 /* ============================================================
-   NORMALIZE MOBILE APPROVAL RESPONSE
+   GOOGLE APPS SCRIPT WEB APP URL
 
-   PublicPortalRouter.gs wraps the service response inside:
-
-   {
-     success: true,
-     service: "mobile_approval",
-     result: {...}
-   }
-
-   This function returns the actual service result.
+   IMPORTANT:
+   This must be the deployed /exec URL.
 ============================================================ */
 
-function brccMobileApprovalExtractResult_(
-  response
-) {
+const BRCC_API_URL =
+  'https://script.google.com/macros/s/AKfycbzCGq7RqItFizrjt6EosUzTnGO9-FhxDgWrrwG-qfXu1YcPwGy8SydZvrGhkow64r3C7Q/exec';
+
+
+/* ============================================================
+   GENERIC BRCC API REQUEST
+============================================================ */
+
+async function brccRequest(service, data = {}) {
+
+  if (!BRCC_API_URL) {
+    throw new Error('BRCC API URL is not configured.');
+  }
+
+
+  const payload = {
+    service: String(service || '').trim(),
+    data: data || {}
+  };
+
+
+  console.log('========================================');
+  console.log('BRCC API REQUEST');
+  console.log('URL:', BRCC_API_URL);
+  console.log('PAYLOAD:', payload);
+  console.log('========================================');
+
+
+  let response;
+
+
+  try {
+
+    response = await fetch(
+      BRCC_API_URL,
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+
+        body: JSON.stringify(payload),
+
+        redirect: 'follow'
+      }
+    );
+
+  }
+  catch (error) {
+
+    console.error('BRCC NETWORK ERROR:', error);
+
+    throw new Error(
+      'Unable to connect to the BRCC-DMS server.'
+    );
+
+  }
+
+
+  console.log(
+    'BRCC API HTTP STATUS:',
+    response.status
+  );
+
+
+  const responseText =
+    await response.text();
+
+
+  console.log(
+    'BRCC API RAW RESPONSE:',
+    responseText
+  );
+
+
+  let result;
+
+
+  try {
+
+    result =
+      JSON.parse(responseText);
+
+  }
+  catch (error) {
+
+    console.error(
+      'BRCC INVALID JSON RESPONSE:',
+      responseText
+    );
+
+    throw new Error(
+      'Invalid server response.'
+    );
+
+  }
+
+
+  if (!result) {
+
+    throw new Error(
+      'Empty response from server.'
+    );
+
+  }
+
+
+  if (result.success !== true) {
+
+    throw new Error(
+      result.message ||
+      'Request failed.'
+    );
+
+  }
+
+
+  console.log(
+    'BRCC API SUCCESS:',
+    result
+  );
+
+
+  return result;
+
+}
+
+
+/* ============================================================
+   GENERIC SUBMIT
+============================================================ */
+
+async function brccSubmit(service, data) {
+
+  return brccRequest(
+    service,
+    data
+  );
+
+}
+
+
+/* ============================================================
+   VERIFY MOTHER DOG
+============================================================ */
+
+async function brccVerifyMotherDog(registryNumber) {
 
   if (
-    response &&
-    response.result
+    !registryNumber ||
+    !String(registryNumber).trim()
   ) {
 
-    return response.result;
-
-  }
-
-
-  return response;
-
-}
-
-
-/* ============================================================
-   MOBILE ADMIN LOGIN
-============================================================ */
-
-async function brccMobileApprovalLogin(
-  pin
-) {
-
-  pin =
-    String(pin || '')
-      .trim();
-
-
-  if (!pin) {
-
     throw new Error(
-      'Admin PIN is required.'
+      'Mother Dog Registry Number is required.'
     );
 
   }
 
 
-  const response =
-    await brccRequest(
-      'mobile_approval',
-      {
-
-        action:
-          'login',
-
-        pin:
-          pin
-
-      }
-    );
-
-
-  return brccMobileApprovalExtractResult_(
-    response
+  return brccRequest(
+    'verify_mother_dog',
+    {
+      registryNumber:
+        String(registryNumber).trim()
+    }
   );
 
 }
 
 
 /* ============================================================
-   GET PENDING REGISTRY UPDATE REQUESTS
+   VERIFY DOG QR CODE
 ============================================================ */
 
-async function brccMobileApprovalGetPendingRequests(
-  sessionToken
-) {
+async function brccVerifyDogQR(token) {
 
-  sessionToken =
-    String(sessionToken || '')
-      .trim();
-
-
-  if (!sessionToken) {
+  if (
+    !token ||
+    !String(token).trim()
+  ) {
 
     throw new Error(
-      'Mobile admin session is required.'
+      'Verification token is required.'
     );
 
   }
 
 
-  const response =
-    await brccRequest(
-      'mobile_approval',
-      {
-
-        action:
-          'get_pending_requests',
-
-        sessionToken:
-          sessionToken
-
-      }
-    );
-
-
-  return brccMobileApprovalExtractResult_(
-    response
+  return brccRequest(
+    'verify_dog_qr',
+    {
+      token:
+        String(token).trim()
+    }
   );
 
 }
 
 
 /* ============================================================
-   APPROVE REGISTRY UPDATE REQUEST
+   MOBILE APPROVAL API
 ============================================================ */
 
-async function brccMobileApprovalApproveRequest(
-  sessionToken,
-  requestId
-) {
+async function brccMobileApproval(action, data = {}) {
 
-  sessionToken =
-    String(sessionToken || '')
-      .trim();
-
-
-  requestId =
-    String(requestId || '')
-      .trim();
-
-
-  if (!sessionToken) {
-
-    throw new Error(
-      'Mobile admin session is required.'
-    );
-
-  }
-
-
-  if (!requestId) {
-
-    throw new Error(
-      'Request ID is required.'
-    );
-
-  }
-
-
-  const response =
-    await brccRequest(
-      'mobile_approval',
+  return brccRequest(
+    'mobile_approval',
+    Object.assign(
+      {},
+      data,
       {
-
         action:
-          'approve_request',
-
-        sessionToken:
-          sessionToken,
-
-        requestId:
-          requestId
-
+          String(action || '')
+            .trim()
+            .toLowerCase()
       }
-    );
-
-
-  return brccMobileApprovalExtractResult_(
-    response
-  );
-
-}
-
-
-/* ============================================================
-   REJECT REGISTRY UPDATE REQUEST
-============================================================ */
-
-async function brccMobileApprovalRejectRequest(
-  sessionToken,
-  requestId,
-  rejectionReason
-) {
-
-  sessionToken =
-    String(sessionToken || '')
-      .trim();
-
-
-  requestId =
-    String(requestId || '')
-      .trim();
-
-
-  rejectionReason =
-    String(rejectionReason || '')
-      .trim();
-
-
-  if (!sessionToken) {
-
-    throw new Error(
-      'Mobile admin session is required.'
-    );
-
-  }
-
-
-  if (!requestId) {
-
-    throw new Error(
-      'Request ID is required.'
-    );
-
-  }
-
-
-  if (!rejectionReason) {
-
-    throw new Error(
-      'Reason for rejection is required.'
-    );
-
-  }
-
-
-  const response =
-    await brccRequest(
-      'mobile_approval',
-      {
-
-        action:
-          'reject_request',
-
-        sessionToken:
-          sessionToken,
-
-        requestId:
-          requestId,
-
-        rejectionReason:
-          rejectionReason
-
-      }
-    );
-
-
-  return brccMobileApprovalExtractResult_(
-    response
-  );
-
-}
-
-
-/* ============================================================
-   MOBILE ADMIN LOGOUT
-============================================================ */
-
-async function brccMobileApprovalLogout(
-  sessionToken
-) {
-
-  sessionToken =
-    String(sessionToken || '')
-      .trim();
-
-
-  const response =
-    await brccRequest(
-      'mobile_approval',
-      {
-
-        action:
-          'logout',
-
-        sessionToken:
-          sessionToken
-
-      }
-    );
-
-
-  return brccMobileApprovalExtractResult_(
-    response
+    )
   );
 
 }
