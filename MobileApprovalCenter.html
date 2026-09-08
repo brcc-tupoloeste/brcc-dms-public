@@ -1,235 +1,2725 @@
-/* ============================================================
-   BRCC-DMS V3
-   PUBLIC PORTAL API CONNECTOR
-============================================================ */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#155c35"
+  >
+
+  <title>
+    BRCC-DMS Approval Center
+  </title>
 
 
-/* ============================================================
-   GOOGLE APPS SCRIPT WEB APP URL
+  <!-- ========================================================
+       API CONNECTOR
+  ========================================================= -->
 
-   IMPORTANT:
-   This must be the deployed /exec URL.
-============================================================ */
-
-const BRCC_API_URL =
-  'https://script.google.com/macros/s/AKfycbzCGq7RqItFizrjt6EosUzTnGO9-FhxDgWrrwG-qfXu1YcPwGy8SydZvrGhkow64r3C7Q/exec';
+  <script src="api.js"></script>
 
 
-/* ============================================================
-   GENERIC BRCC API REQUEST
-============================================================ */
+  <style>
 
-async function brccRequest(service, data = {}) {
+    /* ========================================================
+       ROOT
+    ========================================================= */
 
-  if (!BRCC_API_URL) {
-    throw new Error('BRCC API URL is not configured.');
-  }
-
-
-  const payload = {
-    service: String(service || '').trim(),
-    data: data || {}
-  };
+    * {
+      box-sizing: border-box;
+    }
 
 
-  console.log('========================================');
-  console.log('BRCC API REQUEST');
-  console.log('URL:', BRCC_API_URL);
-  console.log('PAYLOAD:', payload);
-  console.log('========================================');
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+    }
 
 
-  let response;
+    body {
+      background:
+        linear-gradient(
+          135deg,
+          #eef3f0,
+          #dfe8e3
+        );
+
+      color: #243447;
+    }
 
 
-  try {
+    button,
+    input,
+    textarea {
+      font-family: inherit;
+    }
 
-    response = await fetch(
-      BRCC_API_URL,
-      {
-        method: 'POST',
 
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
+    button {
+      cursor: pointer;
+    }
+
+
+    /* ========================================================
+       APP CONTAINER
+    ========================================================= */
+
+    .app-shell {
+      width: 100%;
+      max-width: 760px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #f5f7f6;
+
+      box-shadow:
+        0 0 30px rgba(0,0,0,.12);
+    }
+
+
+    /* ========================================================
+       BARANGAY HEADER
+    ========================================================= */
+
+    .barangay-header {
+      background:
+        linear-gradient(
+          135deg,
+          #17633a,
+          #0d4728
+        );
+
+      color: #ffffff;
+
+      padding: 14px 18px;
+
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,.12);
+    }
+
+
+    .barangay-logo {
+      width: 54px;
+      height: 54px;
+
+      border-radius: 50%;
+
+      object-fit: cover;
+
+      background: #ffffff;
+
+      padding: 3px;
+
+      box-shadow:
+        0 3px 10px
+        rgba(0,0,0,.25);
+
+      flex-shrink: 0;
+    }
+
+
+    .barangay-info {
+      min-width: 0;
+    }
+
+
+    .barangay-name {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      line-height: 1.2;
+    }
+
+
+    .barangay-location {
+      margin-top: 4px;
+
+      font-size: 11px;
+
+      color:
+        rgba(255,255,255,.82);
+    }
+
+
+    /* ========================================================
+       SYSTEM BAR
+    ========================================================= */
+
+    .system-bar {
+      background:
+        linear-gradient(
+          90deg,
+          #123f26,
+          #155c35
+        );
+
+      color: white;
+
+      padding: 12px 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      box-shadow:
+        0 3px 8px
+        rgba(0,0,0,.12);
+    }
+
+
+    .system-title-wrap {
+      min-width: 0;
+    }
+
+
+    .system-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+
+    .system-subtitle {
+      margin-top: 3px;
+
+      font-size: 10px;
+
+      color:
+        rgba(255,255,255,.72);
+    }
+
+
+    .secure-badge {
+      flex-shrink: 0;
+
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+
+      padding:
+        5px 9px;
+
+      border-radius: 20px;
+
+      font-size: 9px;
+      font-weight: 700;
+
+      color: #ffffff;
+
+      background:
+        rgba(255,255,255,.12);
+
+      border:
+        1px solid
+        rgba(255,255,255,.18);
+    }
+
+
+    /* ========================================================
+       MAIN CONTENT
+    ========================================================= */
+
+    .main-content {
+      padding:
+        50px 18px 40px;
+    }
+
+
+    /* ========================================================
+       CARD
+    ========================================================= */
+
+    .card {
+      background: #ffffff;
+
+      border-radius: 18px;
+
+      border:
+        1px solid
+        #d9e1dc;
+
+      box-shadow:
+        0 10px 30px
+        rgba(20,60,40,.10);
+
+      overflow: hidden;
+
+      margin-bottom: 20px;
+    }
+
+
+    .card-body {
+      padding: 26px 20px;
+    }
+
+
+    /* ========================================================
+       ACCESS ICON
+    ========================================================= */
+
+    .access-icon-wrap {
+      display: flex;
+      justify-content: center;
+
+      margin-top: -58px;
+      margin-bottom: 18px;
+    }
+
+
+    .access-icon {
+      width: 70px;
+      height: 70px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 34px;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #edf8f1,
+          #dcefe3
+        );
+
+      border:
+        4px solid
+        #ffffff;
+
+      box-shadow:
+        0 5px 16px
+        rgba(21,92,53,.18);
+    }
+
+
+    /* ========================================================
+       TEXT
+    ========================================================= */
+
+    .section-title {
+      margin: 0;
+
+      text-align: center;
+
+      font-size: 23px;
+
+      color: #243447;
+
+      font-weight: 700;
+    }
+
+
+    .section-description {
+      margin:
+        10px auto 20px;
+
+      max-width: 540px;
+
+      text-align: center;
+
+      font-size: 13px;
+
+      line-height: 1.5;
+
+      color: #5c6875;
+    }
+
+
+    /* ========================================================
+       SECURITY NOTICE
+    ========================================================= */
+
+    .security-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+
+      padding: 12px;
+
+      margin-bottom: 18px;
+
+      border-radius: 10px;
+
+      background:
+        #fffaf0;
+
+      border:
+        1px solid
+        #f0d28b;
+
+      color: #805c17;
+
+      font-size: 11px;
+
+      line-height: 1.5;
+    }
+
+
+    /* ========================================================
+       FORM
+    ========================================================= */
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+
+    .form-label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: .4px;
+
+      color: #43505c;
+    }
+
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+
+      border:
+        1px solid
+        #cdd7d1;
+
+      border-radius: 10px;
+
+      padding:
+        13px 14px;
+
+      font-size: 15px;
+
+      outline: none;
+
+      background: #ffffff;
+
+      transition:
+        border-color .2s,
+        box-shadow .2s;
+    }
+
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: #17633a;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(23,99,58,.12);
+    }
+
+
+    /* ========================================================
+       BUTTONS
+    ========================================================= */
+
+    .btn {
+      width: 100%;
+
+      border: none;
+
+      border-radius: 10px;
+
+      padding:
+        14px 16px;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      transition:
+        transform .15s,
+        opacity .15s,
+        box-shadow .15s;
+    }
+
+
+    .btn:hover {
+      transform:
+        translateY(-1px);
+    }
+
+
+    .btn:active {
+      transform:
+        translateY(0);
+    }
+
+
+    .btn:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+
+    .btn-primary {
+      color: #ffffff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #237a43,
+          #155c35
+        );
+
+      box-shadow:
+        0 5px 14px
+        rgba(21,92,53,.20);
+    }
+
+
+    .btn-success {
+      color: #ffffff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #21894b,
+          #146c35
+        );
+    }
+
+
+    .btn-danger {
+      color: #ffffff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #e13c3c,
+          #b82020
+        );
+    }
+
+
+    .btn-secondary {
+      color: #45525e;
+
+      background: #eef1f3;
+
+      border:
+        1px solid
+        #d6dde1;
+    }
+
+
+    .btn-row {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 10px;
+    }
+
+
+    /* ========================================================
+       ALERT
+    ========================================================= */
+
+    .alert {
+      display: none;
+
+      margin-top: 18px;
+
+      padding:
+        13px 15px;
+
+      border-radius: 10px;
+
+      font-size: 12px;
+
+      line-height: 1.45;
+    }
+
+
+    .alert.error {
+      color: #ffffff;
+
+      background:
+        #dc2626;
+
+      box-shadow:
+        0 6px 15px
+        rgba(220,38,38,.18);
+    }
+
+
+    .alert.success {
+      color: #ffffff;
+
+      background:
+        #198754;
+    }
+
+
+    .alert.info {
+      color: #164a70;
+
+      background:
+        #d9efff;
+
+      border:
+        1px solid
+        #acd8f5;
+    }
+
+
+    /* ========================================================
+       LOADING
+    ========================================================= */
+
+    .loading {
+      display: none;
+
+      text-align: center;
+
+      padding: 30px;
+
+      color: #61707b;
+    }
+
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+
+      margin:
+        0 auto 12px;
+
+      border:
+        4px solid
+        #dce8e0;
+
+      border-top-color:
+        #17633a;
+
+      border-radius: 50%;
+
+      animation:
+        spin 1s linear infinite;
+    }
+
+
+    @keyframes spin {
+
+      to {
+        transform:
+          rotate(360deg);
+      }
+
+    }
+
+
+    /* ========================================================
+       DASHBOARD
+    ========================================================= */
+
+    #dashboardSection {
+      display: none;
+    }
+
+
+    .dashboard-header {
+      margin-bottom: 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+    }
+
+
+    .dashboard-title {
+      margin: 0;
+
+      font-size: 20px;
+
+      color: #243447;
+    }
+
+
+    .dashboard-subtitle {
+      margin-top: 5px;
+
+      font-size: 12px;
+
+      color: #687580;
+    }
+
+
+    .logout-btn {
+      width: auto;
+
+      padding:
+        9px 13px;
+
+      font-size: 11px;
+
+      color: #a52b2b;
+
+      background: #fff1f1;
+
+      border:
+        1px solid
+        #f0caca;
+
+      border-radius: 8px;
+    }
+
+
+    /* ========================================================
+       COUNT CARD
+    ========================================================= */
+
+    .count-card {
+      margin-bottom: 16px;
+
+      padding: 18px;
+
+      border-radius: 14px;
+
+      color: #ffffff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #17633a,
+          #0f492a
+        );
+
+      box-shadow:
+        0 8px 18px
+        rgba(21,92,53,.18);
+    }
+
+
+    .count-label {
+      font-size: 11px;
+
+      opacity: .8;
+
+      text-transform: uppercase;
+
+      letter-spacing: .5px;
+    }
+
+
+    .count-number {
+      margin-top: 5px;
+
+      font-size: 34px;
+
+      font-weight: 700;
+    }
+
+
+    /* ========================================================
+       REQUEST CARD
+    ========================================================= */
+
+    .request-card {
+      background: #ffffff;
+
+      border:
+        1px solid
+        #dce3df;
+
+      border-radius: 14px;
+
+      padding: 16px;
+
+      margin-bottom: 14px;
+
+      box-shadow:
+        0 4px 12px
+        rgba(0,0,0,.05);
+    }
+
+
+    .request-top {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: flex-start;
+
+      gap: 10px;
+
+      margin-bottom: 12px;
+    }
+
+
+    .request-id {
+      font-size: 11px;
+
+      font-weight: 700;
+
+      color: #17633a;
+    }
+
+
+    .request-date {
+      font-size: 10px;
+
+      color: #7b8791;
+
+      text-align: right;
+    }
+
+
+    .request-dog {
+      font-size: 18px;
+
+      font-weight: 700;
+
+      color: #263746;
+    }
+
+
+    .request-owner {
+      margin-top: 4px;
+
+      font-size: 12px;
+
+      color: #687580;
+    }
+
+
+    .request-type {
+      display: inline-block;
+
+      margin-top: 10px;
+
+      padding:
+        5px 9px;
+
+      border-radius: 20px;
+
+      font-size: 10px;
+
+      font-weight: 700;
+
+      color: #17633a;
+
+      background: #e7f4eb;
+    }
+
+
+    .request-details {
+      margin-top: 13px;
+
+      padding: 11px;
+
+      border-radius: 8px;
+
+      background: #f6f8f7;
+
+      border-left:
+        3px solid
+        #17633a;
+    }
+
+
+    .detail-label {
+      font-size: 10px;
+
+      font-weight: 700;
+
+      color: #6b7882;
+
+      text-transform: uppercase;
+
+      margin-bottom: 4px;
+    }
+
+
+    .detail-value {
+      font-size: 12px;
+
+      color: #34434e;
+
+      line-height: 1.5;
+
+      word-break: break-word;
+    }
+
+
+    .request-actions {
+      margin-top: 15px;
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 10px;
+    }
+
+
+    .request-actions button {
+      padding:
+        11px 10px;
+
+      font-size: 12px;
+    }
+
+
+    /* ========================================================
+       EMPTY STATE
+    ========================================================= */
+
+    .empty-state {
+      padding:
+        45px 20px;
+
+      text-align: center;
+
+      background: #ffffff;
+
+      border-radius: 14px;
+
+      border:
+        1px dashed
+        #cbd7d0;
+    }
+
+
+    .empty-icon {
+      font-size: 42px;
+    }
+
+
+    .empty-title {
+      margin-top: 12px;
+
+      font-size: 17px;
+
+      font-weight: 700;
+
+      color: #42515b;
+    }
+
+
+    .empty-text {
+      margin-top: 7px;
+
+      font-size: 12px;
+
+      color: #77838d;
+    }
+
+
+    /* ========================================================
+       MODAL
+    ========================================================= */
+
+    .modal-overlay {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 999;
+
+      padding: 20px;
+
+      background:
+        rgba(0,0,0,.48);
+
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    .modal {
+      width: 100%;
+      max-width: 480px;
+
+      background: #ffffff;
+
+      border-radius: 16px;
+
+      box-shadow:
+        0 20px 50px
+        rgba(0,0,0,.28);
+
+      overflow: hidden;
+    }
+
+
+    .modal-header {
+      padding: 16px 18px;
+
+      color: #ffffff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #b42323,
+          #dc2626
+        );
+
+      font-size: 16px;
+
+      font-weight: 700;
+    }
+
+
+    .modal-body {
+      padding: 18px;
+    }
+
+
+    .modal-description {
+      margin:
+        0 0 14px;
+
+      font-size: 13px;
+
+      line-height: 1.5;
+
+      color: #5c6875;
+    }
+
+
+    .modal-footer {
+      display: flex;
+
+      gap: 10px;
+
+      padding:
+        0 18px 18px;
+    }
+
+
+    .modal-footer button {
+      flex: 1;
+    }
+
+
+    /* ========================================================
+       FOOTER
+    ========================================================= */
+
+    .footer {
+      padding:
+        28px 15px 20px;
+
+      text-align: center;
+
+      font-size: 10px;
+
+      color: #89949d;
+    }
+
+
+    /* ========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (
+      max-width: 600px
+    ) {
+
+      .app-shell {
+        width: 100%;
+      }
+
+
+      .barangay-name {
+        font-size: 18px;
+      }
+
+
+      .main-content {
+        padding:
+          55px 12px 30px;
+      }
+
+
+      .card-body {
+        padding:
+          24px 16px;
+      }
+
+
+      .section-title {
+        font-size: 21px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- ========================================================
+       APP
+  ========================================================= -->
+
+  <div class="app-shell">
+
+
+    <!-- ======================================================
+         BARANGAY HEADER
+    ======================================================= -->
+
+    <header class="barangay-header">
+
+      <img
+        src="barangay-logo.png"
+        class="barangay-logo"
+        alt="Barangay Tupol Oeste Logo"
+        onerror="this.style.display='none'"
+      >
+
+      <div class="barangay-info">
+
+        <div class="barangay-name">
+          Barangay Tupol Oeste
+        </div>
+
+        <div class="barangay-location">
+          Municipality of Cabatuan, Province of Iloilo
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- ======================================================
+         SYSTEM BAR
+    ======================================================= -->
+
+    <div class="system-bar">
+
+      <div class="system-title-wrap">
+
+        <div class="system-title">
+          🐕 BRCC-DMS Approval Center
+        </div>
+
+        <div class="system-subtitle">
+          Mobile Registry Update Approval System
+        </div>
+
+      </div>
+
+
+      <div class="secure-badge">
+        🔒 SECURE ACCESS
+      </div>
+
+    </div>
+
+
+    <!-- ======================================================
+         MAIN
+    ======================================================= -->
+
+    <main class="main-content">
+
+
+      <!-- ====================================================
+           LOGIN SECTION
+      ===================================================== -->
+
+      <section
+        id="loginSection"
+      >
+
+        <div class="card">
+
+          <div class="card-body">
+
+
+            <div class="access-icon-wrap">
+
+              <div class="access-icon">
+                🔓
+              </div>
+
+            </div>
+
+
+            <h1 class="section-title">
+              Administrator Access
+            </h1>
+
+
+            <div class="section-description">
+
+              Authorized personnel only.
+              Enter your Admin PIN to access pending
+              registry update requests.
+
+            </div>
+
+
+            <div class="security-notice">
+
+              <div>
+                🔒
+              </div>
+
+              <div>
+                This Approval Center allows authorized
+                administrators to review, approve, or reject
+                Dog Registry update requests.
+              </div>
+
+            </div>
+
+
+            <form
+              id="loginForm"
+            >
+
+              <div class="form-group">
+
+                <label
+                  class="form-label"
+                  for="adminPin"
+                >
+                  ADMIN PIN
+                </label>
+
+
+                <input
+                  type="password"
+                  id="adminPin"
+                  class="form-input"
+                  placeholder="Enter Admin PIN"
+                  autocomplete="current-password"
+                  inputmode="numeric"
+                  required
+                >
+
+              </div>
+
+
+              <button
+                type="submit"
+                id="loginButton"
+                class="btn btn-primary"
+              >
+                🔓 Access Approval Center
+              </button>
+
+            </form>
+
+
+            <div
+              id="loginAlert"
+              class="alert error"
+            ></div>
+
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ====================================================
+           LOADING
+      ===================================================== -->
+
+      <div
+        id="loadingSection"
+        class="loading"
+      >
+
+        <div class="spinner"></div>
+
+        <div id="loadingText">
+          Loading requests...
+        </div>
+
+      </div>
+
+
+      <!-- ====================================================
+           DASHBOARD
+      ===================================================== -->
+
+      <section
+        id="dashboardSection"
+      >
+
+
+        <div class="dashboard-header">
+
+          <div>
+
+            <h2 class="dashboard-title">
+              Pending Requests
+            </h2>
+
+            <div class="dashboard-subtitle">
+              Review and manage registry update requests.
+            </div>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="logout-btn"
+            onclick="logout()"
+          >
+            Logout
+          </button>
+
+        </div>
+
+
+        <!-- COUNT -->
+
+        <div class="count-card">
+
+          <div class="count-label">
+            Pending Registry Updates
+          </div>
+
+          <div
+            class="count-number"
+            id="pendingCount"
+          >
+            0
+          </div>
+
+        </div>
+
+
+        <!-- DASHBOARD ALERT -->
+
+        <div
+          id="dashboardAlert"
+          class="alert error"
+        ></div>
+
+
+        <!-- REQUEST LIST -->
+
+        <div
+          id="requestList"
+        ></div>
+
+
+      </section>
+
+
+      <!-- FOOTER -->
+
+      <div class="footer">
+
+        Barangay Rabies Control Committee<br>
+
+        Dog Management System (BRCC-DMS)
+
+      </div>
+
+
+    </main>
+
+
+  </div>
+
+
+  <!-- ========================================================
+       REJECTION MODAL
+  ========================================================= -->
+
+  <div
+    id="rejectModal"
+    class="modal-overlay"
+  >
+
+    <div class="modal">
+
+
+      <div class="modal-header">
+        Reject Registry Update
+      </div>
+
+
+      <div class="modal-body">
+
+        <p class="modal-description">
+
+          Please provide the reason why this registry
+          update request is being rejected.
+
+        </p>
+
+
+        <textarea
+          id="rejectionReason"
+          class="form-textarea"
+          rows="5"
+          placeholder="Enter reason for rejection..."
+        ></textarea>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closeRejectModal()"
+        >
+          Cancel
+        </button>
+
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          onclick="confirmReject()"
+        >
+          Reject Request
+        </button>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================================
+       JAVASCRIPT
+  ========================================================= -->
+
+  <script>
+
+    /* ========================================================
+       GLOBAL STATE
+    ========================================================= */
+
+    let mobileApprovalSessionToken =
+      localStorage.getItem(
+        'BRCC_MOBILE_APPROVAL_SESSION'
+      ) || '';
+
+
+    let selectedRejectRequestId =
+      '';
+
+
+    /* ========================================================
+       ELEMENTS
+    ========================================================= */
+
+    const loginSection =
+      document.getElementById(
+        'loginSection'
+      );
+
+
+    const dashboardSection =
+      document.getElementById(
+        'dashboardSection'
+      );
+
+
+    const loadingSection =
+      document.getElementById(
+        'loadingSection'
+      );
+
+
+    const loadingText =
+      document.getElementById(
+        'loadingText'
+      );
+
+
+    const loginForm =
+      document.getElementById(
+        'loginForm'
+      );
+
+
+    const adminPin =
+      document.getElementById(
+        'adminPin'
+      );
+
+
+    const loginButton =
+      document.getElementById(
+        'loginButton'
+      );
+
+
+    const loginAlert =
+      document.getElementById(
+        'loginAlert'
+      );
+
+
+    const dashboardAlert =
+      document.getElementById(
+        'dashboardAlert'
+      );
+
+
+    const requestList =
+      document.getElementById(
+        'requestList'
+      );
+
+
+    const pendingCount =
+      document.getElementById(
+        'pendingCount'
+      );
+
+
+    /* ========================================================
+       INITIALIZE
+    ========================================================= */
+
+    document.addEventListener(
+      'DOMContentLoaded',
+      async function() {
+
+        console.log(
+          'BRCC-DMS Mobile Approval Center Initialized'
+        );
+
+
+        /* ====================================================
+           CHECK API CONNECTOR
+        ===================================================== */
+
+        if (
+          typeof brccMobileApproval !==
+          'function'
+        ) {
+
+          showLoginAlert(
+            'API connector failed to load. ' +
+            'Please verify that api.js exists.'
+          );
+
+          console.error(
+            'brccMobileApproval is not defined.'
+          );
+
+          return;
+
+        }
+
+
+        /* ====================================================
+           EXISTING SESSION
+        ===================================================== */
+
+        if (
+          mobileApprovalSessionToken
+        ) {
+
+          try {
+
+            await loadPendingRequests();
+
+          }
+          catch (error) {
+
+            console.warn(
+              'Existing session invalid:',
+              error
+            );
+
+            clearSession();
+
+          }
+
+        }
+
+      }
+    );
+
+
+    /* ========================================================
+       LOGIN FORM
+    ========================================================= */
+
+    loginForm.addEventListener(
+      'submit',
+      async function(event) {
+
+        event.preventDefault();
+
+
+        hideLoginAlert();
+
+
+        const pin =
+          String(
+            adminPin.value || ''
+          ).trim();
+
+
+        if (!pin) {
+
+          showLoginAlert(
+            'Please enter your Admin PIN.'
+          );
+
+          adminPin.focus();
+
+          return;
+
+        }
+
+
+        /* ====================================================
+           BUTTON LOADING
+        ===================================================== */
+
+        loginButton.disabled =
+          true;
+
+
+        loginButton.textContent =
+          'Authenticating...';
+
+
+        try {
+
+          console.log(
+            'Attempting Mobile Approval Login'
+          );
+
+
+          /* ==================================================
+             API CALL
+
+             IMPORTANT:
+             Uses api.js only.
+          ================================================== */
+
+          const response =
+            await brccMobileApproval(
+              'login',
+              {
+                pin: pin
+              }
+            );
+
+
+          console.log(
+            'LOGIN RESPONSE:',
+            response
+          );
+
+
+          /* ==================================================
+             GET RESULT
+
+             Router response structure:
+
+             {
+               success: true,
+               service: "mobile_approval",
+               result: {
+                 success: true,
+                 sessionToken: "..."
+               }
+             }
+          ================================================== */
+
+          const result =
+            response.result ||
+            response;
+
+
+          if (
+            !result ||
+            !result.sessionToken
+          ) {
+
+            throw new Error(
+              'Invalid server response. ' +
+              'Session token was not received.'
+            );
+
+          }
+
+
+          mobileApprovalSessionToken =
+            result.sessionToken;
+
+
+          localStorage.setItem(
+            'BRCC_MOBILE_APPROVAL_SESSION',
+            mobileApprovalSessionToken
+          );
+
+
+          adminPin.value =
+            '';
+
+
+          hideLoginAlert();
+
+
+          await loadPendingRequests();
+
+
+        }
+        catch (error) {
+
+          console.error(
+            'LOGIN ERROR:',
+            error
+          );
+
+
+          showLoginAlert(
+            error.message ||
+            'Unable to login.'
+          );
+
+        }
+        finally {
+
+          loginButton.disabled =
+            false;
+
+
+          loginButton.innerHTML =
+            '🔓 Access Approval Center';
+
+        }
+
+      }
+    );
+
+
+    /* ========================================================
+       LOAD PENDING REQUESTS
+    ========================================================= */
+
+    async function loadPendingRequests() {
+
+      hideDashboardAlert();
+
+
+      showLoading(
+        'Loading pending registry update requests...'
+      );
+
+
+      try {
+
+        console.log(
+          'Loading pending requests...'
+        );
+
+
+        const response =
+          await brccMobileApproval(
+            'get_pending_requests',
+            {
+              sessionToken:
+                mobileApprovalSessionToken
+            }
+          );
+
+
+        console.log(
+          'PENDING REQUEST RESPONSE:',
+          response
+        );
+
+
+        const result =
+          response.result ||
+          response;
+
+
+        if (
+          !result ||
+          result.success === false
+        ) {
+
+          throw new Error(
+            (
+              result &&
+              result.message
+            ) ||
+            'Unable to load pending requests.'
+          );
+
+        }
+
+
+        const requests =
+          Array.isArray(
+            result.requests
+          )
+            ?
+            result.requests
+            :
+            [];
+
+
+        loginSection.style.display =
+          'none';
+
+
+        dashboardSection.style.display =
+          'block';
+
+
+        renderRequests(
+          requests
+        );
+
+
+      }
+      catch (error) {
+
+        console.error(
+          'LOAD REQUESTS ERROR:',
+          error
+        );
+
+
+        clearSession();
+
+
+        dashboardSection.style.display =
+          'none';
+
+
+        loginSection.style.display =
+          'block';
+
+
+        showLoginAlert(
+          error.message ||
+          'Unable to load requests.'
+        );
+
+
+        throw error;
+
+      }
+      finally {
+
+        hideLoading();
+
+      }
+
+    }
+
+
+    /* ========================================================
+       RENDER REQUESTS
+    ========================================================= */
+
+    function renderRequests(
+      requests
+    ) {
+
+      pendingCount.textContent =
+        requests.length;
+
+
+      requestList.innerHTML =
+        '';
+
+
+      /* ======================================================
+         EMPTY
+      ======================================================= */
+
+      if (
+        requests.length === 0
+      ) {
+
+        requestList.innerHTML = `
+
+          <div class="empty-state">
+
+            <div class="empty-icon">
+              ✅
+            </div>
+
+            <div class="empty-title">
+              No Pending Requests
+            </div>
+
+            <div class="empty-text">
+              All registry update requests have been reviewed.
+            </div>
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      /* ======================================================
+         REQUESTS
+      ======================================================= */
+
+      requests.forEach(
+        function(request) {
+
+          const card =
+            document.createElement(
+              'div'
+            );
+
+
+          card.className =
+            'request-card';
+
+
+          const requestId =
+            escapeHtml(
+              request.requestId || ''
+            );
+
+
+          const dogName =
+            escapeHtml(
+              request.dogName ||
+              'Unnamed Dog'
+            );
+
+
+          const ownerName =
+            escapeHtml(
+              request.ownerName ||
+              'Not specified'
+            );
+
+
+          const registryNumber =
+            escapeHtml(
+              request.registryNumber ||
+              'N/A'
+            );
+
+
+          const updateType =
+            escapeHtml(
+              request.updateType ||
+              'Registry Update'
+            );
+
+
+          const requestedInformation =
+            escapeHtml(
+              request.requestedInformation ||
+              'No information provided.'
+            );
+
+
+          const currentInformation =
+            escapeHtml(
+              request.currentInformation ||
+              ''
+            );
+
+
+          const submittedDate =
+            escapeHtml(
+              request.submittedDate ||
+              ''
+            );
+
+
+          card.innerHTML = `
+
+            <div class="request-top">
+
+              <div>
+
+                <div class="request-id">
+                  ${requestId}
+                </div>
+
+              </div>
+
+
+              <div class="request-date">
+                ${submittedDate}
+              </div>
+
+            </div>
+
+
+            <div class="request-dog">
+              🐕 ${dogName}
+            </div>
+
+
+            <div class="request-owner">
+              Owner: ${ownerName}
+              <br>
+              Registry No.: ${registryNumber}
+            </div>
+
+
+            <div class="request-type">
+              ${updateType}
+            </div>
+
+
+            <div class="request-details">
+
+              <div class="detail-label">
+                Requested Update
+              </div>
+
+              <div class="detail-value">
+                ${requestedInformation}
+              </div>
+
+            </div>
+
+
+            ${
+              currentInformation
+                ?
+                `
+
+                <div
+                  class="request-details"
+                  style="
+                    border-left-color:#7b8791;
+                    margin-top:8px;
+                  "
+                >
+
+                  <div class="detail-label">
+                    Current Information
+                  </div>
+
+                  <div class="detail-value">
+                    ${currentInformation}
+                  </div>
+
+                </div>
+
+                `
+                :
+                ''
+            }
+
+
+            <div class="request-actions">
+
+              <button
+                type="button"
+                class="btn btn-success"
+                onclick="approveRequest('${encodeJsString(request.requestId)}')"
+              >
+                ✓ Approve
+              </button>
+
+
+              <button
+                type="button"
+                class="btn btn-danger"
+                onclick="openRejectModal('${encodeJsString(request.requestId)}')"
+              >
+                ✕ Reject
+              </button>
+
+            </div>
+
+          `;
+
+
+          requestList.appendChild(
+            card
+          );
+
+        }
+      );
+
+    }
+
+
+    /* ========================================================
+       APPROVE REQUEST
+    ========================================================= */
+
+    async function approveRequest(
+      requestId
+    ) {
+
+      if (!requestId) {
+        return;
+      }
+
+
+      const confirmed =
+        confirm(
+          'Approve this registry update request?\n\n' +
+          'The registry information and related documents ' +
+          'will be updated automatically.'
+        );
+
+
+      if (!confirmed) {
+        return;
+      }
+
+
+      try {
+
+        showLoading(
+          'Approving registry update...'
+        );
+
+
+        const response =
+          await brccMobileApproval(
+            'approve_request',
+            {
+              sessionToken:
+                mobileApprovalSessionToken,
+
+              requestId:
+                requestId
+            }
+          );
+
+
+        console.log(
+          'APPROVAL RESPONSE:',
+          response
+        );
+
+
+        const result =
+          response.result ||
+          response;
+
+
+        if (
+          !result ||
+          result.success === false
+        ) {
+
+          throw new Error(
+            (
+              result &&
+              result.message
+            ) ||
+            'Unable to approve request.'
+          );
+
+        }
+
+
+        showDashboardAlert(
+          'success',
+          '✓ Registry update request approved successfully.'
+        );
+
+
+        await loadPendingRequestsSilently();
+
+
+      }
+      catch (error) {
+
+        console.error(
+          'APPROVAL ERROR:',
+          error
+        );
+
+
+        showDashboardAlert(
+          'error',
+          error.message ||
+          'Unable to approve request.'
+        );
+
+      }
+      finally {
+
+        hideLoading();
+
+      }
+
+    }
+
+
+    /* ========================================================
+       REJECT MODAL
+    ========================================================= */
+
+    function openRejectModal(
+      requestId
+    ) {
+
+      selectedRejectRequestId =
+        requestId;
+
+
+      document.getElementById(
+        'rejectionReason'
+      ).value =
+        '';
+
+
+      document.getElementById(
+        'rejectModal'
+      ).style.display =
+        'flex';
+
+
+      setTimeout(
+        function() {
+
+          document.getElementById(
+            'rejectionReason'
+          ).focus();
+
         },
+        100
+      );
 
-        body: JSON.stringify(payload),
+    }
 
-        redirect: 'follow'
+
+    function closeRejectModal() {
+
+      selectedRejectRequestId =
+        '';
+
+
+      document.getElementById(
+        'rejectModal'
+      ).style.display =
+        'none';
+
+    }
+
+
+    /* ========================================================
+       CONFIRM REJECTION
+    ========================================================= */
+
+    async function confirmReject() {
+
+      const reason =
+        String(
+          document.getElementById(
+            'rejectionReason'
+          ).value || ''
+        ).trim();
+
+
+      if (!reason) {
+
+        alert(
+          'Please enter the reason for rejection.'
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !selectedRejectRequestId
+      ) {
+
+        alert(
+          'No request selected.'
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        closeRejectModal();
+
+
+        showLoading(
+          'Rejecting registry update...'
+        );
+
+
+        const response =
+          await brccMobileApproval(
+            'reject_request',
+            {
+              sessionToken:
+                mobileApprovalSessionToken,
+
+              requestId:
+                selectedRejectRequestId,
+
+              rejectionReason:
+                reason
+            }
+          );
+
+
+        console.log(
+          'REJECTION RESPONSE:',
+          response
+        );
+
+
+        const result =
+          response.result ||
+          response;
+
+
+        if (
+          !result ||
+          result.success === false
+        ) {
+
+          throw new Error(
+            (
+              result &&
+              result.message
+            ) ||
+            'Unable to reject request.'
+          );
+
+        }
+
+
+        showDashboardAlert(
+          'success',
+          '✓ Registry update request rejected successfully.'
+        );
+
+
+        await loadPendingRequestsSilently();
+
+
+      }
+      catch (error) {
+
+        console.error(
+          'REJECTION ERROR:',
+          error
+        );
+
+
+        showDashboardAlert(
+          'error',
+          error.message ||
+          'Unable to reject request.'
+        );
+
+      }
+      finally {
+
+        hideLoading();
+
+      }
+
+    }
+
+
+    /* ========================================================
+       SILENT RELOAD
+    ========================================================= */
+
+    async function loadPendingRequestsSilently() {
+
+      const response =
+        await brccMobileApproval(
+          'get_pending_requests',
+          {
+            sessionToken:
+              mobileApprovalSessionToken
+          }
+        );
+
+
+      const result =
+        response.result ||
+        response;
+
+
+      if (
+        !result ||
+        result.success === false
+      ) {
+
+        throw new Error(
+          (
+            result &&
+            result.message
+          ) ||
+          'Unable to refresh requests.'
+        );
+
+      }
+
+
+      renderRequests(
+        Array.isArray(result.requests)
+          ?
+          result.requests
+          :
+          []
+      );
+
+    }
+
+
+    /* ========================================================
+       LOGOUT
+    ========================================================= */
+
+    async function logout() {
+
+      const confirmed =
+        confirm(
+          'Logout from the Approval Center?'
+        );
+
+
+      if (!confirmed) {
+        return;
+      }
+
+
+      try {
+
+        if (
+          mobileApprovalSessionToken
+        ) {
+
+          await brccMobileApproval(
+            'logout',
+            {
+              sessionToken:
+                mobileApprovalSessionToken
+            }
+          );
+
+        }
+
+      }
+      catch (error) {
+
+        console.warn(
+          'Logout API error:',
+          error
+        );
+
+      }
+
+
+      clearSession();
+
+
+      dashboardSection.style.display =
+        'none';
+
+
+      loginSection.style.display =
+        'block';
+
+
+      requestList.innerHTML =
+        '';
+
+
+      pendingCount.textContent =
+        '0';
+
+
+      hideDashboardAlert();
+
+
+      adminPin.value =
+        '';
+
+
+      adminPin.focus();
+
+    }
+
+
+    /* ========================================================
+       CLEAR SESSION
+    ========================================================= */
+
+    function clearSession() {
+
+      mobileApprovalSessionToken =
+        '';
+
+
+      localStorage.removeItem(
+        'BRCC_MOBILE_APPROVAL_SESSION'
+      );
+
+    }
+
+
+    /* ========================================================
+       LOADING
+    ========================================================= */
+
+    function showLoading(
+      message
+    ) {
+
+      loadingText.textContent =
+        message ||
+        'Loading...';
+
+
+      loadingSection.style.display =
+        'block';
+
+    }
+
+
+    function hideLoading() {
+
+      loadingSection.style.display =
+        'none';
+
+    }
+
+
+    /* ========================================================
+       LOGIN ALERT
+    ========================================================= */
+
+    function showLoginAlert(
+      message
+    ) {
+
+      loginAlert.textContent =
+        message;
+
+
+      loginAlert.style.display =
+        'block';
+
+    }
+
+
+    function hideLoginAlert() {
+
+      loginAlert.textContent =
+        '';
+
+
+      loginAlert.style.display =
+        'none';
+
+    }
+
+
+    /* ========================================================
+       DASHBOARD ALERT
+    ========================================================= */
+
+    function showDashboardAlert(
+      type,
+      message
+    ) {
+
+      dashboardAlert.className =
+        'alert ' +
+        (
+          type === 'success'
+            ?
+            'success'
+            :
+            'error'
+        );
+
+
+      dashboardAlert.textContent =
+        message;
+
+
+      dashboardAlert.style.display =
+        'block';
+
+
+      setTimeout(
+        function() {
+
+          dashboardAlert.style.display =
+            'none';
+
+        },
+        5000
+      );
+
+    }
+
+
+    function hideDashboardAlert() {
+
+      dashboardAlert.style.display =
+        'none';
+
+
+      dashboardAlert.textContent =
+        '';
+
+    }
+
+
+    /* ========================================================
+       HTML ESCAPE
+    ========================================================= */
+
+    function escapeHtml(value) {
+
+      return String(
+        value || ''
+      )
+
+        .replace(
+          /&/g,
+          '&amp;'
+        )
+
+        .replace(
+          /</g,
+          '&lt;'
+        )
+
+        .replace(
+          />/g,
+          '&gt;'
+        )
+
+        .replace(
+          /"/g,
+          '&quot;'
+        )
+
+        .replace(
+          /'/g,
+          '&#039;'
+        );
+
+    }
+
+
+    /* ========================================================
+       JAVASCRIPT STRING ESCAPE
+    ========================================================= */
+
+    function encodeJsString(value) {
+
+      return String(
+        value || ''
+      )
+
+        .replace(
+          /\\/g,
+          '\\\\'
+        )
+
+        .replace(
+          /'/g,
+          "\\'"
+        )
+
+        .replace(
+          /\n/g,
+          '\\n'
+        )
+
+        .replace(
+          /\r/g,
+          ''
+        );
+
+    }
+
+
+    /* ========================================================
+       CLOSE MODAL ON OUTSIDE CLICK
+    ========================================================= */
+
+    document.getElementById(
+      'rejectModal'
+    ).addEventListener(
+      'click',
+      function(event) {
+
+        if (
+          event.target === this
+        ) {
+
+          closeRejectModal();
+
+        }
+
       }
     );
 
-  }
-  catch (error) {
-
-    console.error('BRCC NETWORK ERROR:', error);
-
-    throw new Error(
-      'Unable to connect to the BRCC-DMS server.'
-    );
-
-  }
+  </script>
 
 
-  console.log(
-    'BRCC API HTTP STATUS:',
-    response.status
-  );
-
-
-  const responseText =
-    await response.text();
-
-
-  console.log(
-    'BRCC API RAW RESPONSE:',
-    responseText
-  );
-
-
-  let result;
-
-
-  try {
-
-    result =
-      JSON.parse(responseText);
-
-  }
-  catch (error) {
-
-    console.error(
-      'BRCC INVALID JSON RESPONSE:',
-      responseText
-    );
-
-    throw new Error(
-      'Invalid server response.'
-    );
-
-  }
-
-
-  if (!result) {
-
-    throw new Error(
-      'Empty response from server.'
-    );
-
-  }
-
-
-  if (result.success !== true) {
-
-    throw new Error(
-      result.message ||
-      'Request failed.'
-    );
-
-  }
-
-
-  console.log(
-    'BRCC API SUCCESS:',
-    result
-  );
-
-
-  return result;
-
-}
-
-
-/* ============================================================
-   GENERIC SUBMIT
-============================================================ */
-
-async function brccSubmit(service, data) {
-
-  return brccRequest(
-    service,
-    data
-  );
-
-}
-
-
-/* ============================================================
-   VERIFY MOTHER DOG
-============================================================ */
-
-async function brccVerifyMotherDog(registryNumber) {
-
-  if (
-    !registryNumber ||
-    !String(registryNumber).trim()
-  ) {
-
-    throw new Error(
-      'Mother Dog Registry Number is required.'
-    );
-
-  }
-
-
-  return brccRequest(
-    'verify_mother_dog',
-    {
-      registryNumber:
-        String(registryNumber).trim()
-    }
-  );
-
-}
-
-
-/* ============================================================
-   VERIFY DOG QR CODE
-============================================================ */
-
-async function brccVerifyDogQR(token) {
-
-  if (
-    !token ||
-    !String(token).trim()
-  ) {
-
-    throw new Error(
-      'Verification token is required.'
-    );
-
-  }
-
-
-  return brccRequest(
-    'verify_dog_qr',
-    {
-      token:
-        String(token).trim()
-    }
-  );
-
-}
-
-
-/* ============================================================
-   MOBILE APPROVAL API
-============================================================ */
-
-async function brccMobileApproval(action, data = {}) {
-
-  return brccRequest(
-    'mobile_approval',
-    Object.assign(
-      {},
-      data,
-      {
-        action:
-          String(action || '')
-            .trim()
-            .toLowerCase()
-      }
-    )
-  );
-
-}
+</body>
+</html>
