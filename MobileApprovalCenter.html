@@ -1714,64 +1714,33 @@ document.addEventListener(
    Handled by mobileApprovalApiRouter_()
 ============================================================ */
 
-async function apiRequest(
-  action,
-  data = {}
-) {
+async function apiRequest(action, data = {}) {
 
   const payload = {
-
-    action:
-      'mobile_approval',
-
+    service: 'mobile_approval',
     data: {
-
-      action:
-        action,
-
+      action: action,
       ...data
-
     }
-
   };
-
 
   console.log(
     'BRCC API REQUEST:',
-    JSON.stringify(payload, null, 2)
+    JSON.stringify(payload)
   );
-
 
   let response;
 
-
   try {
 
-    response =
-      await fetch(
-        API_URL,
-        {
-
-          method:
-            'POST',
-
-          headers: {
-
-            'Content-Type':
-              'text/plain;charset=utf-8'
-
-          },
-
-          body:
-            JSON.stringify(
-              payload
-            ),
-
-          redirect:
-            'follow'
-
-        }
-      );
+    response = await fetch(
+      API_URL,
+      {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        redirect: 'follow'
+      }
+    );
 
   }
   catch (error) {
@@ -1781,33 +1750,26 @@ async function apiRequest(
       error
     );
 
-
     throw new Error(
       'Unable to connect to BRCC-DMS server.'
     );
 
   }
 
-
   const responseText =
     await response.text();
-
 
   console.log(
     'API RAW RESPONSE:',
     responseText
   );
 
-
   let result;
-
 
   try {
 
     result =
-      JSON.parse(
-        responseText
-      );
+      JSON.parse(responseText);
 
   }
   catch (error) {
@@ -1817,19 +1779,11 @@ async function apiRequest(
       responseText
     );
 
-
     throw new Error(
       'Invalid server response.'
     );
 
   }
-
-
-  console.log(
-    'API PARSED RESPONSE:',
-    result
-  );
-
 
   if (
     !result ||
@@ -1837,40 +1791,18 @@ async function apiRequest(
   ) {
 
     throw new Error(
-
       (
         result &&
         result.message
-      )
-
-      ||
-
+      ) ||
       'Request failed.'
-
     );
 
   }
 
-
-  /*
-     Supports wrapped responses:
-
-     {
-       success: true,
-       result: {...}
-     }
-
-     or direct responses.
-  */
-
-  return (
-    result.result ||
-    result.data ||
-    result
-  );
+  return result.result || {};
 
 }
-
 
 /* ============================================================
    LOGIN
