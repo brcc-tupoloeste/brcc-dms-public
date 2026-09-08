@@ -555,15 +555,36 @@ async function login() {
      INITIALIZE
   ========================================== */
 
+/* ==========================================
+   INITIALIZE APPLICATION
+========================================== */
+
+function initializeMobileApprovalCenter() {
+
+  showLogin();
+
+}
+
+
+/* ==========================================
+   START APPLICATION
+========================================== */
+
+if (
+  document.readyState === 'loading'
+) {
+
   document.addEventListener(
     'DOMContentLoaded',
-    function() {
-
-      showLogin();
-
-    }
+    initializeMobileApprovalCenter
   );
 
+}
+else {
+
+  initializeMobileApprovalCenter();
+
+}
 
   /* ==========================================
      LOGIN SCREEN
