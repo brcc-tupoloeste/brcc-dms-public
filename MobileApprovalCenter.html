@@ -1521,1146 +1521,982 @@
 
 <script>
 
-
-  /* =========================================================
-     CONFIGURATION
-  ========================================================= */
-
-  const API_URL =
-    'https://script.google.com/macros/s/AKfycbzCGq7RqItFizrjt6EosUzTnGO9-FhxDgWrrwG-qfXu1YcPwGy8SydZvrGhkow64r3C7Q/exec';
+const APP = {
+  sessionToken: '',
+  requests: []
+};
 
 
-  const APP = {
+/* ==========================================
+   CONFIG
+========================================== */
 
-    sessionToken: '',
-
-    requests: []
-
-  };
-
-
-  /* =========================================================
-     INITIALIZE
-  ========================================================= */
-
-  document.addEventListener(
-    'DOMContentLoaded',
-    function() {
-
-      showLogin();
-
-    }
-  );
+const API_URL =
+  'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
 
 
-  /* =========================================================
-     LOGIN SCREEN
-  ========================================================= */
+/* ==========================================
+   INITIALIZE
+========================================== */
 
-  function showLogin() {
-
-    document.getElementById(
-      'appContent'
-    ).innerHTML = `
-
-      <div class="login-screen">
-
-        <div class="login-card">
+document.addEventListener(
+  'DOMContentLoaded',
+  function() {
+    showLogin();
+  }
+);
 
 
-          <div class="login-banner">
+/* ==========================================
+   LOGIN SCREEN
+========================================== */
 
-            <div class="login-icon">
-              🔐
-            </div>
+function showLogin() {
 
+  document.getElementById('appContent').innerHTML = `
 
-            <h2>
-              Administrator Access
-            </h2>
+    <div class="login-screen">
 
+      <div class="login-card">
 
-            <p>
-              Authorized personnel only. Enter your
-              Admin PIN to access pending registry
-              update requests.
-            </p>
-
-          </div>
-
-
-          <div class="login-form">
-
-
-            <div class="security-note">
-
-              <div>
-                🔒
-              </div>
-
-              <div>
-                This Approval Center allows authorized
-                administrators to review, approve, or
-                reject Dog Registry update requests.
-              </div>
-
-            </div>
-
-
-            <label>
-              Admin PIN
-            </label>
-
-
-            <input
-              id="pinInput"
-              type="password"
-              inputmode="numeric"
-              placeholder="Enter Admin PIN"
-              autocomplete="off"
-            >
-
-
-            <button
-              class="btn-primary"
-              onclick="login()"
-            >
-              🔐 Access Approval Center
-            </button>
-
-
-          </div>
-
+        <div class="login-icon">
+          🔐
         </div>
+
+        <h2>
+          Administrator Access
+        </h2>
+
+        <p>
+          Authorized personnel only. Enter your Admin PIN to access pending registry update requests.
+        </p>
+
+        <div class="security-note">
+          🔒 This Approval Center allows authorized administrators to review, approve, or reject Dog Registry update requests.
+        </div>
+
+        <label>
+          ADMIN PIN
+        </label>
+
+        <input
+          id="pinInput"
+          type="password"
+          inputmode="numeric"
+          placeholder="Enter Admin PIN"
+          autocomplete="off"
+        >
+
+        <button
+          class="btn-primary"
+          onclick="login()"
+        >
+          🔐 Access Approval Center
+        </button>
 
       </div>
 
-    `;
+    </div>
+
+  `;
 
 
-    setTimeout(
-      function() {
+  setTimeout(function() {
 
-        const input =
-          document.getElementById(
-            'pinInput'
-          );
+    const input =
+      document.getElementById('pinInput');
 
+    if (input) {
 
-        if (input) {
+      input.focus();
 
-          input.focus();
+      input.addEventListener(
+        'keydown',
+        function(event) {
 
-
-          input.addEventListener(
-            'keydown',
-            function(event) {
-
-              if (
-                event.key === 'Enter'
-              ) {
-
-                login();
-
-              }
-
-            }
-          );
+          if (event.key === 'Enter') {
+            login();
+          }
 
         }
+      );
 
-      },
-      100
+    }
+
+  }, 100);
+
+}
+
+
+/* ==========================================
+   LOGIN
+========================================== */
+
+async function login() {
+
+  const pin =
+    document.getElementById('pinInput')
+      .value
+      .trim();
+
+
+  if (!pin) {
+
+    showToast(
+      'Please enter your Admin PIN.',
+      'error'
     );
+
+    return;
 
   }
 
 
-  /* =========================================================
-     LOGIN
-  ========================================================= */
-
-  async function login() {
-
-    const pin =
-      document.getElementById(
-        'pinInput'
-      )
-        .value
-        .trim();
+  showLoading(
+    'Verifying Administrator Access...'
+  );
 
 
-    if (!pin) {
+  try {
+
+    const response =
+      await apiCall(
+        'login',
+        {
+          pin: pin
+        }
+      );
+
+
+    const result =
+      response.result || response;
+
+
+    if (
+      !result.success ||
+      !result.sessionToken
+    ) {
+
+      throw new Error(
+        result.message ||
+        'Authentication failed.'
+      );
+
+    }
+
+
+    APP.sessionToken =
+      result.sessionToken;
+
+
+    showToast(
+      'Administrator access granted.',
+      'success'
+    );
+
+
+    loadPendingRequests();
+
+  }
+  catch (error) {
+
+    showToast(
+      error.message ||
+      'Unable to login.',
+      'error'
+    );
+
+    showLogin();
+
+  }
+
+}
+
+
+/* ==========================================
+   LOAD PENDING REQUESTS
+========================================== */
+
+async function loadPendingRequests() {
+
+  showLoading(
+    'Loading pending registry update requests...'
+  );
+
+
+  try {
+
+    const response =
+      await apiCall(
+        'get_pending_requests',
+        {
+          sessionToken:
+            APP.sessionToken
+        }
+      );
+
+
+    const result =
+      response.result || response;
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        'Unable to load pending requests.'
+      );
+
+    }
+
+
+    APP.requests =
+      result.requests || [];
+
+
+    showDashboard();
+
+  }
+  catch (error) {
+
+    if (
+      String(error.message)
+        .toLowerCase()
+        .includes('session')
+    ) {
+
+      APP.sessionToken = '';
 
       showToast(
-        'Please enter your Admin PIN.',
+        'Your session has expired. Please login again.',
         'error'
       );
+
+      showLogin();
 
       return;
 
     }
 
 
-    showLoading(
-      'Verifying administrator access...'
+    showToast(
+      error.message ||
+      'Unable to load pending requests.',
+      'error'
     );
 
 
-    try {
-
-      const response =
-        await apiCall(
-          'login',
-          {
-            pin: pin
-          }
-        );
-
-
-      if (
-        !response.success ||
-        !response.sessionToken
-      ) {
-
-        throw new Error(
-          response.message ||
-          'Authentication failed.'
-        );
-
-      }
-
-
-      APP.sessionToken =
-        response.sessionToken;
-
-
-      showToast(
-        'Administrator access granted.',
-        'success'
-      );
-
-
-      loadPendingRequests();
-
-    }
-    catch (error) {
-
-      showToast(
-        error.message ||
-        'Unable to login.',
-        'error'
-      );
-
-
-      showLogin();
-
-    }
+    showLogin();
 
   }
 
+}
 
-  /* =========================================================
-     LOAD PENDING REQUESTS
-  ========================================================= */
 
-  async function loadPendingRequests() {
+/* ==========================================
+   DASHBOARD
+========================================== */
 
-    showLoading(
-      'Loading pending registry update requests...'
-    );
+function showDashboard() {
 
+  const requests =
+    APP.requests;
 
-    try {
 
-      const response =
-        await apiCall(
-          'get_pending_requests',
-          {
+  let html = `
 
-            sessionToken:
-              APP.sessionToken
+    <div class="dashboard-top">
 
-          }
-        );
+      <div>
 
+        <h2 class="dashboard-title">
+          Pending Requests
+        </h2>
 
-      if (!response.success) {
-
-        throw new Error(
-          response.message ||
-          'Unable to load requests.'
-        );
-
-      }
-
-
-      APP.requests =
-        response.requests || [];
-
-
-      showDashboard();
-
-    }
-    catch (error) {
-
-      showToast(
-        error.message ||
-        'Unable to load pending requests.',
-        'error'
-      );
-
-
-      APP.sessionToken = '';
-
-
-      showLogin();
-
-    }
-
-  }
-
-
-  /* =========================================================
-     DASHBOARD
-  ========================================================= */
-
-  function showDashboard() {
-
-    const requests =
-      APP.requests;
-
-
-    let html = `
-
-      <div class="dashboard-top">
-
-
-        <div>
-
-          <h2 class="dashboard-title">
-            Pending Requests
-          </h2>
-
-          <p class="dashboard-subtitle">
-            Review and process registry update requests.
-          </p>
-
-
-          <div class="request-count">
-
-            ⏳
-
-            ${requests.length}
-
-            Pending Request${requests.length !== 1 ? 's' : ''}
-
-          </div>
-
-        </div>
-
-
-        <div class="dashboard-actions">
-
-          <button
-            class="btn-refresh"
-            onclick="loadPendingRequests()"
-          >
-            ↻ Refresh
-          </button>
-
-
-          <button
-            class="btn-logout"
-            onclick="logout()"
-          >
-            Logout
-          </button>
-
-        </div>
-
-
-      </div>
-
-    `;
-
-
-    if (
-      requests.length === 0
-    ) {
-
-      html += `
-
-        <div class="empty">
-
-          <div class="empty-icon">
-            ✓
-          </div>
-
-          <h3>
-            No Pending Requests
-          </h3>
-
-          <p>
-            All registry update requests have been reviewed.
-          </p>
-
-        </div>
-
-      `;
-
-    }
-    else {
-
-      requests.forEach(
-        function(request) {
-
-          html +=
-            createRequestCard(
-              request
-            );
-
-        }
-      );
-
-    }
-
-
-    document.getElementById(
-      'appContent'
-    ).innerHTML =
-      html;
-
-  }
-
-
-  /* =========================================================
-     CREATE REQUEST CARD
-  ========================================================= */
-
-  function createRequestCard(request) {
-
-    return `
-
-      <div class="request-card">
-
-
-        <div class="request-card-header">
-
-          <div class="request-id">
-
-            ${escapeHtml(
-              request.requestId
-            )}
-
-          </div>
-
-
-          <div class="dog-name">
-
-            🐕
-            ${escapeHtml(
-              request.dogName ||
-              'Unknown Dog'
-            )}
-
-          </div>
-
-        </div>
-
-
-        <div class="request-card-body">
-
-
-          <div class="info-row">
-
-            <span class="info-label">
-              Registry Number
-            </span>
-
-            <div class="info-value">
-
-              ${escapeHtml(
-                request.registryNumber
-              )}
-
-            </div>
-
-          </div>
-
-
-          <div class="info-row">
-
-            <span class="info-label">
-              Registered Owner
-            </span>
-
-            <div class="info-value">
-
-              ${escapeHtml(
-                request.ownerName
-              )}
-
-            </div>
-
-          </div>
-
-
-          <div class="info-row">
-
-            <span class="info-label">
-              Update Type
-            </span>
-
-            <div class="info-value">
-
-              ${escapeHtml(
-                request.updateType
-              )}
-
-            </div>
-
-          </div>
-
-
-          <div class="update-box">
-
-            <span class="info-label">
-              Requested Update
-            </span>
-
-            <div class="info-value">
-
-              ${escapeHtml(
-                request.requestedInformation
-              )}
-
-            </div>
-
-          </div>
-
-
-        </div>
-
-
-        <div class="actions">
-
-
-          <button
-            class="btn-approve"
-            onclick="confirmApprove('${escapeJs(request.requestId)}')"
-          >
-            ✓ Approve
-          </button>
-
-
-          <button
-            class="btn-reject"
-            onclick="showRejectModal('${escapeJs(request.requestId)}')"
-          >
-            ✕ Reject
-          </button>
-
-
-        </div>
-
-
-      </div>
-
-    `;
-
-  }
-
-
-  /* =========================================================
-     CONFIRM APPROVAL
-  ========================================================= */
-
-  function confirmApprove(requestId) {
-
-    showModal(`
-
-      <h3>
-        Approve Registry Update?
-      </h3>
-
-
-      <p>
-        This action will apply the requested update
-        to the official Dog Registry and trigger the
-        existing document regeneration process.
-      </p>
-
-
-      <div class="modal-actions">
-
-
-        <button
-          class="btn-cancel"
-          onclick="closeModal()"
+        <div
+          class="request-count"
+          style="display:inline-block;margin-top:6px"
         >
-          Cancel
-        </button>
+          ${requests.length} Pending
+        </div>
 
+      </div>
+
+
+      <button
+        class="btn-refresh"
+        onclick="loadPendingRequests()"
+      >
+        ↻ Refresh
+      </button>
+
+    </div>
+
+  `;
+
+
+  if (requests.length === 0) {
+
+    html += `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          ✓
+        </div>
+
+        <h3>
+          No Pending Requests
+        </h3>
+
+        <p>
+          All registry update requests have been reviewed.
+        </p>
+
+      </div>
+
+    `;
+
+  }
+  else {
+
+    requests.forEach(
+      function(request) {
+
+        html +=
+          createRequestCard(request);
+
+      }
+    );
+
+  }
+
+
+  document.getElementById(
+    'appContent'
+  ).innerHTML =
+    html;
+
+}
+
+
+/* ==========================================
+   REQUEST CARD
+========================================== */
+
+function createRequestCard(request) {
+
+  return `
+
+    <div class="request-card">
+
+      <div class="request-card-header">
+
+        <div class="request-id">
+          ${escapeHtml(request.requestId)}
+        </div>
+
+        <div class="dog-name">
+          🐕 ${escapeHtml(request.dogName || 'Unknown Dog')}
+        </div>
+
+      </div>
+
+
+      <div class="request-card-body">
+
+        <div class="info-row">
+
+          <span class="info-label">
+            Registry Number
+          </span>
+
+          <div class="info-value">
+            ${escapeHtml(request.registryNumber)}
+          </div>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span class="info-label">
+            Owner
+          </span>
+
+          <div class="info-value">
+            ${escapeHtml(request.ownerName)}
+          </div>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span class="info-label">
+            Update Type
+          </span>
+
+          <div class="info-value">
+            ${escapeHtml(request.updateType)}
+          </div>
+
+        </div>
+
+
+        <div class="update-box">
+
+          <span class="info-label">
+            Requested Update
+          </span>
+
+          <div class="info-value">
+            ${escapeHtml(request.requestedInformation)}
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="actions">
 
         <button
           class="btn-approve"
-          onclick="approveRequest('${escapeJs(requestId)}')"
+          onclick="confirmApprove('${escapeJs(request.requestId)}')"
         >
-          ✓ Confirm Approval
-        </button>
-
-
-      </div>
-
-    `);
-
-  }
-
-
-  /* =========================================================
-     APPROVE REQUEST
-  ========================================================= */
-
-  async function approveRequest(
-    requestId
-  ) {
-
-    closeModal();
-
-
-    showLoading(
-      'Approving update and regenerating documents...'
-    );
-
-
-    try {
-
-      const response =
-        await apiCall(
-          'approve_request',
-          {
-
-            sessionToken:
-              APP.sessionToken,
-
-            requestId:
-              requestId
-
-          }
-        );
-
-
-      if (!response.success) {
-
-        throw new Error(
-          response.message ||
-          'Unable to approve request.'
-        );
-
-      }
-
-
-      showToast(
-        'Registry update approved successfully.',
-        'success'
-      );
-
-
-      setTimeout(
-        loadPendingRequests,
-        800
-      );
-
-    }
-    catch (error) {
-
-      showToast(
-        error.message ||
-        'Unable to approve request.',
-        'error'
-      );
-
-
-      loadPendingRequests();
-
-    }
-
-  }
-
-
-  /* =========================================================
-     REJECT MODAL
-  ========================================================= */
-
-  function showRejectModal(
-    requestId
-  ) {
-
-    showModal(`
-
-      <h3>
-        Reject Registry Update
-      </h3>
-
-
-      <p>
-        Please provide the reason for rejecting
-        this registry update request.
-      </p>
-
-
-      <textarea
-        id="rejectionReason"
-        rows="4"
-        placeholder="Enter rejection reason..."
-      ></textarea>
-
-
-      <div class="modal-actions">
-
-
-        <button
-          class="btn-cancel"
-          onclick="closeModal()"
-        >
-          Cancel
+          ✓ Approve
         </button>
 
 
         <button
           class="btn-reject"
-          onclick="submitReject('${escapeJs(requestId)}')"
+          onclick="showRejectModal('${escapeJs(request.requestId)}')"
         >
-          ✕ Reject Request
+          ✕ Reject
         </button>
-
 
       </div>
 
-    `);
+    </div>
 
-  }
+  `;
 
-
-  /* =========================================================
-     SUBMIT REJECTION
-  ========================================================= */
-
-  function submitReject(
-    requestId
-  ) {
-
-    const reason =
-      document.getElementById(
-        'rejectionReason'
-      )
-        .value
-        .trim();
+}
 
 
-    if (!reason) {
+/* ==========================================
+   APPROVE CONFIRMATION
+========================================== */
 
-      showToast(
-        'Please provide a reason for rejection.',
-        'error'
-      );
+function confirmApprove(requestId) {
 
-      return;
+  showModal(`
 
-    }
+    <h3>
+      Approve Update?
+    </h3>
 
+    <p>
+      This will process the registry update using the existing BRCC-DMS approval system.
+    </p>
 
-    rejectRequest(
-      requestId,
-      reason
-    );
+    <div class="modal-actions">
 
-  }
-
-
-  /* =========================================================
-     REJECT REQUEST
-  ========================================================= */
-
-  async function rejectRequest(
-    requestId,
-    rejectionReason
-  ) {
-
-    closeModal();
+      <button
+        class="btn-cancel"
+        onclick="closeModal()"
+      >
+        Cancel
+      </button>
 
 
-    showLoading(
-      'Rejecting registry update request...'
-    );
+      <button
+        class="btn-approve"
+        onclick="approveRequest('${escapeJs(requestId)}')"
+      >
+        ✓ Approve
+      </button>
+
+    </div>
+
+  `);
+
+}
 
 
-    try {
+/* ==========================================
+   REJECT MODAL
+========================================== */
 
-      const response =
-        await apiCall(
-          'reject_request',
-          {
+function showRejectModal(requestId) {
 
-            sessionToken:
-              APP.sessionToken,
+  showModal(`
 
-            requestId:
-              requestId,
+    <h3>
+      Reject Update
+    </h3>
 
-            rejectionReason:
-              rejectionReason
-
-          }
-        );
+    <p>
+      Please provide a reason for rejection.
+    </p>
 
 
-      if (!response.success) {
-
-        throw new Error(
-          response.message ||
-          'Unable to reject request.'
-        );
-
-      }
+    <textarea
+      id="rejectionReason"
+      rows="4"
+      placeholder="Enter rejection reason..."
+    ></textarea>
 
 
-      showToast(
-        'Registry update request rejected.',
-        'success'
-      );
+    <div class="modal-actions">
+
+      <button
+        class="btn-cancel"
+        onclick="closeModal()"
+      >
+        Cancel
+      </button>
 
 
-      setTimeout(
-        loadPendingRequests,
-        800
-      );
+      <button
+        class="btn-reject"
+        onclick="submitReject('${escapeJs(requestId)}')"
+      >
+        ✕ Reject
+      </button>
 
-    }
-    catch (error) {
+    </div>
 
-      showToast(
-        error.message ||
-        'Unable to reject request.',
-        'error'
-      );
+  `);
 
-
-      loadPendingRequests();
-
-    }
-
-  }
+}
 
 
-  /* =========================================================
-     LOGOUT
-  ========================================================= */
+/* ==========================================
+   SUBMIT REJECTION
+========================================== */
 
-  async function logout() {
+function submitReject(requestId) {
 
-    try {
-
-      if (
-        APP.sessionToken
-      ) {
-
-        await apiCall(
-          'logout',
-          {
-
-            sessionToken:
-              APP.sessionToken
-
-          }
-        );
-
-      }
-
-    }
-    catch (error) {
-
-      console.log(
-        'Logout warning:',
-        error
-      );
-
-    }
+  const reason =
+    document.getElementById(
+      'rejectionReason'
+    )
+      .value
+      .trim();
 
 
-    APP.sessionToken = '';
-
-    APP.requests = [];
-
-
-    showLogin();
-
+  if (!reason) {
 
     showToast(
-      'You have been logged out.',
-      'success'
+      'Please provide a rejection reason.',
+      'error'
     );
+
+    return;
 
   }
 
 
-  /* =========================================================
-     API CALL
-  ========================================================= */
+  rejectRequest(
+    requestId,
+    reason
+  );
 
-  async function apiCall(
-    action,
-    data
-  ) {
+}
 
-    const url =
-      API_URL +
-      '?action=' +
-      encodeURIComponent(
-        action
-      );
 
+/* ==========================================
+   APPROVE REQUEST
+========================================== */
+
+async function approveRequest(requestId) {
+
+  closeModal();
+
+
+  showLoading(
+    'Approving update and regenerating documents...'
+  );
+
+
+  try {
 
     const response =
-      await fetch(
-        url,
+      await apiCall(
+        'approve_request',
         {
 
-          method:
-            'POST',
+          sessionToken:
+            APP.sessionToken,
 
-          headers: {
-
-            'Content-Type':
-              'text/plain;charset=utf-8'
-
-          },
-
-          body:
-            JSON.stringify(
-              data || {}
-            )
+          requestId:
+            requestId
 
         }
       );
 
 
-    const text =
-      await response.text();
+    const result =
+      response.result || response;
 
 
-    let json;
-
-
-    try {
-
-      json =
-        JSON.parse(
-          text
-        );
-
-    }
-    catch (error) {
+    if (!result.success) {
 
       throw new Error(
-        'Invalid server response.'
+        result.message ||
+        'Unable to approve request.'
       );
 
     }
 
 
-    if (!json.success) {
-
-      throw new Error(
-        json.message ||
-        'Server request failed.'
-      );
-
-    }
-
-
-    return json;
-
-  }
-
-
-  /* =========================================================
-     LOADING
-  ========================================================= */
-
-  function showLoading(
-    message
-  ) {
-
-    document.getElementById(
-      'appContent'
-    ).innerHTML = `
-
-      <div class="loading">
-
-        <div class="spinner"></div>
-
-        <div>
-
-          ${escapeHtml(message)}
-
-        </div>
-
-      </div>
-
-    `;
-
-  }
-
-
-  /* =========================================================
-     MODAL
-  ========================================================= */
-
-  function showModal(
-    html
-  ) {
-
-    document.getElementById(
-      'modalContent'
-    ).innerHTML =
-      html;
-
-
-    document.getElementById(
-      'modalOverlay'
-    ).style.display =
-      'flex';
-
-  }
-
-
-  function closeModal() {
-
-    document.getElementById(
-      'modalOverlay'
-    ).style.display =
-      'none';
-
-  }
-
-
-  /* =========================================================
-     TOAST
-  ========================================================= */
-
-  function showToast(
-    message,
-    type
-  ) {
-
-    const toast =
-      document.getElementById(
-        'toast'
-      );
-
-
-    toast.textContent =
-      message;
-
-
-    toast.className =
-      'toast ' +
-      (
-        type || 'success'
-      );
-
-
-    toast.style.display =
-      'block';
+    showToast(
+      'Request approved successfully.',
+      'success'
+    );
 
 
     setTimeout(
-      function() {
+      loadPendingRequests,
+      1000
+    );
 
-        toast.style.display =
-          'none';
+  }
+  catch (error) {
 
-      },
-      3500
+    handleRequestError_(error);
+
+  }
+
+}
+
+
+/* ==========================================
+   REJECT REQUEST
+========================================== */
+
+async function rejectRequest(
+  requestId,
+  rejectionReason
+) {
+
+  closeModal();
+
+
+  showLoading(
+    'Rejecting registry update request...'
+  );
+
+
+  try {
+
+    const response =
+      await apiCall(
+        'reject_request',
+        {
+
+          sessionToken:
+            APP.sessionToken,
+
+          requestId:
+            requestId,
+
+          rejectionReason:
+            rejectionReason
+
+        }
+      );
+
+
+    const result =
+      response.result || response;
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        'Unable to reject request.'
+      );
+
+    }
+
+
+    showToast(
+      'Request rejected successfully.',
+      'success'
+    );
+
+
+    setTimeout(
+      loadPendingRequests,
+      1000
+    );
+
+  }
+  catch (error) {
+
+    handleRequestError_(error);
+
+  }
+
+}
+
+
+/* ==========================================
+   HANDLE REQUEST ERROR
+========================================== */
+
+function handleRequestError_(error) {
+
+  const message =
+    error.message ||
+    'Unable to process request.';
+
+
+  showToast(
+    message,
+    'error'
+  );
+
+
+  if (
+    message
+      .toLowerCase()
+      .includes('session')
+  ) {
+
+    APP.sessionToken = '';
+
+    setTimeout(
+      showLogin,
+      1000
+    );
+
+  }
+  else {
+
+    setTimeout(
+      loadPendingRequests,
+      1200
+    );
+
+  }
+
+}
+
+
+/* ==========================================
+   API CALL
+========================================== */
+
+async function apiCall(
+  action,
+  data
+) {
+
+  const response =
+    await fetch(
+      API_URL,
+      {
+
+        method:
+          'POST',
+
+        headers: {
+          'Content-Type':
+            'text/plain;charset=utf-8'
+        },
+
+        body:
+          JSON.stringify({
+
+            action:
+              action,
+
+            data:
+              data || {}
+
+          })
+
+      }
+    );
+
+
+  const text =
+    await response.text();
+
+
+  let json;
+
+
+  try {
+
+    json =
+      JSON.parse(text);
+
+  }
+  catch (error) {
+
+    console.error(
+      'API RESPONSE:',
+      text
+    );
+
+    throw new Error(
+      'Invalid server response.'
     );
 
   }
 
 
-  /* =========================================================
-     ESCAPE HTML
-  ========================================================= */
-
-  function escapeHtml(
-    value
+  if (
+    json.success === false
   ) {
 
-    return String(
-      value || ''
-    )
-
-      .replace(
-        /&/g,
-        '&amp;'
-      )
-
-      .replace(
-        /</g,
-        '&lt;'
-      )
-
-      .replace(
-        />/g,
-        '&gt;'
-      )
-
-      .replace(
-        /"/g,
-        '&quot;'
-      )
-
-      .replace(
-        /'/g,
-        '&#039;'
-      );
+    throw new Error(
+      json.message ||
+      'Server request failed.'
+    );
 
   }
 
 
-  /* =========================================================
-     ESCAPE JAVASCRIPT
-  ========================================================= */
+  return json;
 
-  function escapeJs(
-    value
-  ) {
+}
 
-    return String(
-      value || ''
-    )
 
-      .replace(
-        /\\/g,
-        '\\\\'
-      )
+/* ==========================================
+   LOADING
+========================================== */
 
-      .replace(
-        /'/g,
-        "\\'"
-      )
+function showLoading(message) {
 
-      .replace(
-        /"/g,
-        '&quot;'
-      );
+  document.getElementById(
+    'appContent'
+  ).innerHTML = `
 
-  }
+    <div class="loading">
 
+      <div class="spinner"></div>
+
+      <div>
+        ${escapeHtml(message)}
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ==========================================
+   MODAL
+========================================== */
+
+function showModal(html) {
+
+  document.getElementById(
+    'modalContent'
+  ).innerHTML =
+    html;
+
+
+  document.getElementById(
+    'modalOverlay'
+  ).style.display =
+    'flex';
+
+}
+
+
+function closeModal() {
+
+  document.getElementById(
+    'modalOverlay'
+  ).style.display =
+    'none';
+
+}
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+function showToast(
+  message,
+  type
+) {
+
+  const toast =
+    document.getElementById(
+      'toast'
+    );
+
+
+  toast.textContent =
+    message;
+
+
+  toast.className =
+    'toast ' +
+    (type || 'success');
+
+
+  toast.style.display =
+    'block';
+
+
+  setTimeout(
+    function() {
+
+      toast.style.display =
+        'none';
+
+    },
+    3500
+  );
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHtml(value) {
+
+  return String(value || '')
+
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+}
+
+
+/* ==========================================
+   ESCAPE JAVASCRIPT
+========================================== */
+
+function escapeJs(value) {
+
+  return String(value || '')
+
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '&quot;');
+
+}
 
 </script>
-
 
 </body>
 
