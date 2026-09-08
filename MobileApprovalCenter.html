@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -10,6 +11,7 @@
 
 <title>BRCC-DMS Approval Center</title>
 
+
 <style>
 
 /* ============================================================
@@ -17,6 +19,7 @@
 ============================================================ */
 
 :root {
+
   --primary: #155b35;
   --primary-dark: #0e4728;
   --primary-light: #eaf5ee;
@@ -38,6 +41,7 @@
 
   --shadow:
     0 12px 35px rgba(0,0,0,.10);
+
 }
 
 
@@ -49,26 +53,34 @@
   box-sizing: border-box;
 }
 
+
 html,
 body {
+
   margin: 0;
   padding: 0;
+
   min-height: 100%;
+
   font-family:
     Arial,
     Helvetica,
     sans-serif;
 
   color: var(--text);
+
 }
 
+
 body {
+
   background:
     linear-gradient(
       135deg,
       #edf3ef,
       #e5ece8
     );
+
 }
 
 
@@ -77,8 +89,10 @@ body {
 ============================================================ */
 
 .app {
+
   width: 100%;
   max-width: 720px;
+
   min-height: 100vh;
 
   margin: auto;
@@ -92,6 +106,7 @@ body {
 
   box-shadow:
     0 0 35px rgba(0,0,0,.10);
+
 }
 
 
@@ -112,6 +127,7 @@ body {
 
   box-shadow:
     0 3px 10px rgba(0,0,0,.16);
+
 }
 
 
@@ -134,6 +150,7 @@ body {
   border-bottom:
     1px solid
     rgba(255,255,255,.14);
+
 }
 
 
@@ -155,6 +172,7 @@ body {
   box-shadow:
     0 3px 8px
     rgba(0,0,0,.20);
+
 }
 
 
@@ -172,6 +190,7 @@ body {
   letter-spacing: .2px;
 
   line-height: 1.2;
+
 }
 
 
@@ -182,6 +201,7 @@ body {
   font-size: 11px;
 
   opacity: .85;
+
 }
 
 
@@ -202,6 +222,7 @@ body {
   padding:
     12px
     20px;
+
 }
 
 
@@ -210,6 +231,7 @@ body {
   font-size: 15px;
 
   font-weight: 700;
+
 }
 
 
@@ -220,6 +242,7 @@ body {
   font-size: 10px;
 
   opacity: .78;
+
 }
 
 
@@ -243,6 +266,7 @@ body {
   font-size: 10px;
 
   font-weight: 700;
+
 }
 
 
@@ -256,6 +280,7 @@ body {
     44px
     18px
     70px;
+
 }
 
 
@@ -278,6 +303,7 @@ body {
     var(--shadow);
 
   overflow: hidden;
+
 }
 
 
@@ -291,6 +317,7 @@ body {
     0
     0
     24px;
+
 }
 
 
@@ -301,6 +328,7 @@ body {
   justify-content: center;
 
   margin-top: -32px;
+
 }
 
 
@@ -332,6 +360,7 @@ body {
     rgba(21,91,53,.18);
 
   font-size: 31px;
+
 }
 
 
@@ -347,6 +376,7 @@ body {
     16px;
 
   text-align: center;
+
 }
 
 
@@ -358,6 +388,7 @@ body {
 
   color:
     #2d3d42;
+
 }
 
 
@@ -374,6 +405,7 @@ body {
   font-size: 13px;
 
   line-height: 1.5;
+
 }
 
 
@@ -407,6 +439,7 @@ body {
   font-size: 11px;
 
   line-height: 1.5;
+
 }
 
 
@@ -419,12 +452,14 @@ body {
   padding:
     0
     20px;
+
 }
 
 
 .form-group {
 
   margin-bottom: 14px;
+
 }
 
 
@@ -442,6 +477,7 @@ label {
 
   color:
     #435158;
+
 }
 
 
@@ -473,6 +509,7 @@ input {
 
   transition:
     .2s;
+
 }
 
 
@@ -484,6 +521,7 @@ input:focus {
   box-shadow:
     0 0 0 3px
     rgba(21,91,53,.10);
+
 }
 
 
@@ -521,6 +559,7 @@ input:focus {
   justify-content: center;
 
   gap: 7px;
+
 }
 
 
@@ -528,6 +567,7 @@ input:focus {
 
   transform:
     scale(.98);
+
 }
 
 
@@ -538,6 +578,7 @@ input:focus {
   cursor: not-allowed;
 
   transform: none;
+
 }
 
 
@@ -555,6 +596,7 @@ input:focus {
   box-shadow:
     0 6px 15px
     rgba(21,91,53,.18);
+
 }
 
 
@@ -564,6 +606,7 @@ input:focus {
     var(--danger);
 
   color: white;
+
 }
 
 
@@ -577,20 +620,7 @@ input:focus {
   border:
     1px solid
     #a9c5b3;
-}
 
-
-.btn-small {
-
-  min-height: 38px;
-
-  padding:
-    8px
-    12px;
-
-  font-size: 12px;
-
-  width: auto;
 }
 
 
@@ -616,6 +646,7 @@ input:focus {
   font-size: 12px;
 
   line-height: 1.4;
+
 }
 
 
@@ -630,6 +661,7 @@ input:focus {
 
   background:
     #d92525;
+
 }
 
 
@@ -644,6 +676,7 @@ input:focus {
   border:
     1px solid
     #a9d7b7;
+
 }
 
 
@@ -658,6 +691,7 @@ input:focus {
   border:
     1px solid
     #b8d8ec;
+
 }
 
 
@@ -678,6 +712,7 @@ input:focus {
     var(--muted);
 
   font-size: 13px;
+
 }
 
 
@@ -702,14 +737,17 @@ input:focus {
 
   animation:
     spin .8s linear infinite;
+
 }
 
 
 @keyframes spin {
 
   to {
+
     transform:
       rotate(360deg);
+
   }
 
 }
@@ -722,12 +760,14 @@ input:focus {
 .dashboard {
 
   display: none;
+
 }
 
 
 .dashboard.show {
 
   display: block;
+
 }
 
 
@@ -749,6 +789,7 @@ input:focus {
     );
 
   color: white;
+
 }
 
 
@@ -761,6 +802,7 @@ input:focus {
   justify-content: space-between;
 
   gap: 12px;
+
 }
 
 
@@ -769,6 +811,7 @@ input:focus {
   font-size: 20px;
 
   font-weight: 700;
+
 }
 
 
@@ -779,6 +822,7 @@ input:focus {
   font-size: 11px;
 
   opacity: .80;
+
 }
 
 
@@ -800,6 +844,7 @@ input:focus {
   border:
     1px solid
     rgba(255,255,255,.20);
+
 }
 
 
@@ -808,6 +853,7 @@ input:focus {
   display: block;
 
   font-size: 20px;
+
 }
 
 
@@ -816,6 +862,7 @@ input:focus {
   font-size: 9px;
 
   opacity: .85;
+
 }
 
 
@@ -827,6 +874,7 @@ input:focus {
 
   padding:
     16px;
+
 }
 
 
@@ -841,6 +889,7 @@ input:focus {
   gap: 10px;
 
   margin-bottom: 16px;
+
 }
 
 
@@ -866,6 +915,7 @@ input:focus {
   box-shadow:
     0 5px 14px
     rgba(0,0,0,.05);
+
 }
 
 
@@ -880,6 +930,7 @@ input:focus {
   gap: 10px;
 
   margin-bottom: 12px;
+
 }
 
 
@@ -891,6 +942,7 @@ input:focus {
 
   color:
     var(--primary);
+
 }
 
 
@@ -902,6 +954,7 @@ input:focus {
     var(--muted);
 
   text-align: right;
+
 }
 
 
@@ -912,6 +965,7 @@ input:focus {
   font-weight: 700;
 
   margin-bottom: 4px;
+
 }
 
 
@@ -921,6 +975,7 @@ input:focus {
 
   color:
     var(--muted);
+
 }
 
 
@@ -945,6 +1000,7 @@ input:focus {
   font-size: 10px;
 
   font-weight: 700;
+
 }
 
 
@@ -957,12 +1013,14 @@ input:focus {
     #edf0ee;
 
   padding-top: 12px;
+
 }
 
 
 .info-row {
 
   margin-bottom: 9px;
+
 }
 
 
@@ -978,6 +1036,7 @@ input:focus {
     #7b878c;
 
   margin-bottom: 3px;
+
 }
 
 
@@ -993,6 +1052,7 @@ input:focus {
   white-space: pre-wrap;
 
   word-break: break-word;
+
 }
 
 
@@ -1007,6 +1067,7 @@ input:focus {
   gap: 9px;
 
   margin-top: 15px;
+
 }
 
 
@@ -1015,6 +1076,7 @@ input:focus {
   flex: 1;
 
   min-height: 42px;
+
 }
 
 
@@ -1032,6 +1094,7 @@ input:focus {
 
   color:
     var(--muted);
+
 }
 
 
@@ -1040,6 +1103,7 @@ input:focus {
   font-size: 45px;
 
   margin-bottom: 12px;
+
 }
 
 
@@ -1052,6 +1116,7 @@ input:focus {
 
   color:
     #445257;
+
 }
 
 
@@ -1060,6 +1125,7 @@ input:focus {
   margin: 0;
 
   font-size: 12px;
+
 }
 
 
@@ -1082,6 +1148,7 @@ input:focus {
   font-size: 10px;
 
   line-height: 1.4;
+
 }
 
 
@@ -1105,12 +1172,14 @@ input:focus {
   align-items: flex-end;
 
   justify-content: center;
+
 }
 
 
 .modal.show {
 
   display: flex;
+
 }
 
 
@@ -1137,21 +1206,28 @@ input:focus {
 
   animation:
     slideUp .25s ease;
+
 }
 
 
 @keyframes slideUp {
 
   from {
+
     transform:
       translateY(40px);
+
     opacity: 0;
+
   }
 
   to {
+
     transform:
       translateY(0);
+
     opacity: 1;
+
   }
 
 }
@@ -1165,6 +1241,7 @@ input:focus {
     10px;
 
   font-size: 19px;
+
 }
 
 
@@ -1181,6 +1258,7 @@ input:focus {
     var(--muted);
 
   line-height: 1.5;
+
 }
 
 
@@ -1205,6 +1283,7 @@ textarea {
   font-size: 13px;
 
   outline: none;
+
 }
 
 
@@ -1212,6 +1291,7 @@ textarea:focus {
 
   border-color:
     var(--primary);
+
 }
 
 
@@ -1222,12 +1302,14 @@ textarea:focus {
   gap: 10px;
 
   margin-top: 14px;
+
 }
 
 
 .modal-actions .btn {
 
   flex: 1;
+
 }
 
 
@@ -1238,35 +1320,52 @@ textarea:focus {
 @media (max-width: 480px) {
 
   .brand {
+
     padding:
       13px
       15px;
+
   }
+
 
   .logo {
+
     width: 46px;
     height: 46px;
+
   }
+
 
   .brand-title {
+
     font-size: 18px;
+
   }
 
+
   .system-bar {
+
     padding:
       10px
       15px;
+
   }
 
+
   .main {
+
     padding:
       38px
       12px
       55px;
+
   }
 
+
   .login-header h1 {
+
     font-size: 22px;
+
   }
 
 }
@@ -1275,7 +1374,9 @@ textarea:focus {
 
 </head>
 
+
 <body>
+
 
 <div class="app">
 
@@ -1286,8 +1387,6 @@ textarea:focus {
 
 <header class="header">
 
-
-  <!-- BARANGAY BRAND -->
 
   <div class="brand">
 
@@ -1305,6 +1404,7 @@ textarea:focus {
         Barangay Tupol Oeste
       </div>
 
+
       <div class="brand-subtitle">
         Municipality of Cabatuan, Province of Iloilo
       </div>
@@ -1315,8 +1415,6 @@ textarea:focus {
 
 
 
-  <!-- SYSTEM BAR -->
-
   <div class="system-bar">
 
     <div>
@@ -1324,6 +1422,7 @@ textarea:focus {
       <div class="system-name">
         🐕 BRCC-DMS Approval Center
       </div>
+
 
       <div class="system-subtitle">
         Mobile Registry Update Approval System
@@ -1354,6 +1453,7 @@ textarea:focus {
 
   <section id="loginSection">
 
+
     <div class="card login-card">
 
 
@@ -1371,6 +1471,7 @@ textarea:focus {
         <h1>
           Administrator Access
         </h1>
+
 
         <p>
           Authorized personnel only. Enter your Admin PIN to
@@ -1390,11 +1491,13 @@ textarea:focus {
 
       <div class="form">
 
+
         <div class="form-group">
 
           <label for="adminPin">
             ADMIN PIN
           </label>
+
 
           <input
             type="password"
@@ -1432,12 +1535,15 @@ textarea:focus {
 
 
 
-  <!-- DASHBOARD -->
+  <!-- ======================================================
+       DASHBOARD
+  ======================================================= -->
 
   <section
     id="dashboard"
     class="dashboard"
   >
+
 
     <div class="card">
 
@@ -1448,11 +1554,13 @@ textarea:focus {
 
         <div class="dashboard-head-row">
 
+
           <div>
 
             <div class="dashboard-title">
               Pending Requests
             </div>
+
 
             <div class="dashboard-subtitle">
               Review and process registry update requests
@@ -1473,12 +1581,14 @@ textarea:focus {
 
           </div>
 
+
         </div>
 
       </div>
 
 
-      <!-- CONTENT -->
+
+      <!-- DASHBOARD CONTENT -->
 
       <div class="dashboard-content">
 
@@ -1509,6 +1619,7 @@ textarea:focus {
         </div>
 
 
+
         <!-- LOADING -->
 
         <div
@@ -1523,7 +1634,8 @@ textarea:focus {
         </div>
 
 
-        <!-- DASHBOARD MESSAGE -->
+
+        <!-- MESSAGE -->
 
         <div
           id="dashboardMessage"
@@ -1531,18 +1643,19 @@ textarea:focus {
         ></div>
 
 
+
         <!-- REQUEST LIST -->
 
-        <div
-          id="requestList"
-        ></div>
+        <div id="requestList"></div>
 
 
       </div>
 
+
     </div>
 
   </section>
+
 
 
   <!-- FOOTER -->
@@ -1558,6 +1671,7 @@ textarea:focus {
 
 </main>
 
+
 </div>
 
 
@@ -1571,7 +1685,9 @@ textarea:focus {
   class="modal"
 >
 
+
   <div class="modal-box">
+
 
     <h2 class="modal-title">
       Reject Request
@@ -1594,11 +1710,14 @@ textarea:focus {
 
     <div class="modal-actions">
 
+
       <button
         class="btn btn-outline"
         onclick="closeRejectModal()"
       >
+
         Cancel
+
       </button>
 
 
@@ -1606,12 +1725,17 @@ textarea:focus {
         class="btn btn-danger"
         onclick="confirmReject()"
       >
+
         ❌ Reject Request
+
       </button>
+
 
     </div>
 
+
   </div>
+
 
 </div>
 
@@ -1632,6 +1756,7 @@ const API_URL =
   'https://script.google.com/macros/s/AKfycbzCGq7RqItFizrjt6EosUzTnGO9-FhxDgWrrwG-qfXu1YcPwGy8SydZvrGhkow64r3C7Q/exec';
 
 
+
 /* ============================================================
    STATE
 ============================================================ */
@@ -1640,7 +1765,10 @@ let sessionToken = '';
 
 let selectedRequestId = '';
 
+let selectedRequestSource = '';
+
 let isProcessing = false;
+
 
 
 /* ============================================================
@@ -1650,6 +1778,7 @@ let isProcessing = false;
 document.addEventListener(
   'DOMContentLoaded',
   function() {
+
 
     const savedSession =
       sessionStorage.getItem(
@@ -1694,53 +1823,63 @@ document.addEventListener(
 );
 
 
+
 /* ============================================================
    API REQUEST
-
-   IMPORTANT PAYLOAD STRUCTURE:
-
-   {
-     action: "mobile_approval",
-     data: {
-       action: "login",
-       pin: "..."
-     }
-   }
-
-   OUTER ACTION:
-   Handled by PublicPortalRouter.gs
-
-   INNER ACTION:
-   Handled by mobileApprovalApiRouter_()
 ============================================================ */
 
-async function apiRequest(action, data = {}) {
+async function apiRequest(
+  action,
+  data = {}
+) {
+
 
   const payload = {
-    service: 'mobile_approval',
+
+    service:
+      'mobile_approval',
+
     data: {
-      action: action,
+
+      action:
+        action,
+
       ...data
+
     }
+
   };
+
 
   console.log(
     'BRCC API REQUEST:',
     JSON.stringify(payload)
   );
 
+
   let response;
+
 
   try {
 
-    response = await fetch(
-      API_URL,
-      {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        redirect: 'follow'
-      }
-    );
+    response =
+      await fetch(
+        API_URL,
+        {
+
+          method:
+            'POST',
+
+          body:
+            JSON.stringify(
+              payload
+            ),
+
+          redirect:
+            'follow'
+
+        }
+      );
 
   }
   catch (error) {
@@ -1750,26 +1889,33 @@ async function apiRequest(action, data = {}) {
       error
     );
 
+
     throw new Error(
       'Unable to connect to BRCC-DMS server.'
     );
 
   }
 
+
   const responseText =
     await response.text();
+
 
   console.log(
     'API RAW RESPONSE:',
     responseText
   );
 
+
   let result;
+
 
   try {
 
     result =
-      JSON.parse(responseText);
+      JSON.parse(
+        responseText
+      );
 
   }
   catch (error) {
@@ -1779,11 +1925,13 @@ async function apiRequest(action, data = {}) {
       responseText
     );
 
+
     throw new Error(
       'Invalid server response.'
     );
 
   }
+
 
   if (
     !result ||
@@ -1791,24 +1939,31 @@ async function apiRequest(action, data = {}) {
   ) {
 
     throw new Error(
+
       (
         result &&
         result.message
       ) ||
+
       'Request failed.'
+
     );
 
   }
 
+
   return result.result || {};
 
 }
+
+
 
 /* ============================================================
    LOGIN
 ============================================================ */
 
 async function login() {
+
 
   if (isProcessing) {
     return;
@@ -1939,11 +2094,13 @@ async function login() {
 }
 
 
+
 /* ============================================================
    SHOW DASHBOARD
 ============================================================ */
 
 function showDashboard() {
+
 
   document.getElementById(
     'loginSection'
@@ -1960,11 +2117,13 @@ function showDashboard() {
 }
 
 
+
 /* ============================================================
    SHOW LOGIN
 ============================================================ */
 
 function showLogin() {
+
 
   document.getElementById(
     'dashboard'
@@ -1993,11 +2152,13 @@ function showLogin() {
 }
 
 
+
 /* ============================================================
    LOAD PENDING REQUESTS
 ============================================================ */
 
 async function loadPendingRequests() {
+
 
   if (!sessionToken) {
 
@@ -2024,8 +2185,10 @@ async function loadPendingRequests() {
       await apiRequest(
         'get_pending_requests',
         {
+
           sessionToken:
             sessionToken
+
         }
       );
 
@@ -2091,6 +2254,7 @@ async function loadPendingRequests() {
 }
 
 
+
 /* ============================================================
    RENDER REQUESTS
 ============================================================ */
@@ -2098,6 +2262,7 @@ async function loadPendingRequests() {
 function renderRequests(
   requests
 ) {
+
 
   const container =
     document.getElementById(
@@ -2141,6 +2306,7 @@ function renderRequests(
   requests.forEach(
     function(request) {
 
+
       const card =
         document.createElement(
           'div'
@@ -2149,6 +2315,58 @@ function renderRequests(
 
       card.className =
         'request-card';
+
+
+      /*
+       * REQUEST ID
+       */
+
+      const requestId =
+        String(
+
+          request.requestId ||
+
+          request.requestID ||
+
+          request.id ||
+
+          ''
+
+        ).trim();
+
+
+      /*
+       * REQUEST SOURCE
+       *
+       * Supports multiple backend naming formats.
+       */
+
+      const requestSource =
+        String(
+
+          request.requestSource ||
+
+          request.source ||
+
+          request.request_source ||
+
+          request.sourceType ||
+
+          request.requestType ||
+
+          ''
+
+        ).trim();
+
+
+      console.log(
+        'RENDERING REQUEST:',
+        {
+          requestId: requestId,
+          requestSource: requestSource,
+          rawRequest: request
+        }
+      );
 
 
       card.innerHTML = `
@@ -2160,7 +2378,7 @@ function renderRequests(
             <div class="request-id">
 
               ${escapeHtml(
-                request.requestId ||
+                requestId ||
                 'NO REQUEST ID'
               )}
 
@@ -2182,6 +2400,7 @@ function renderRequests(
         </div>
 
 
+
         <div class="dog-name">
 
           🐕 ${escapeHtml(
@@ -2190,6 +2409,7 @@ function renderRequests(
           )}
 
         </div>
+
 
 
         <div class="owner-name">
@@ -2203,19 +2423,25 @@ function renderRequests(
         </div>
 
 
+
         ${
           request.updateType
           ?
           `
+
             <div class="update-type">
+
               ${escapeHtml(
                 request.updateType
               )}
+
             </div>
+
           `
           :
           ''
         }
+
 
 
         <div class="info-grid">
@@ -2240,6 +2466,7 @@ function renderRequests(
           </div>
 
 
+
           <div class="info-row">
 
             <div class="info-label">
@@ -2257,6 +2484,7 @@ function renderRequests(
             </div>
 
           </div>
+
 
 
           ${
@@ -2284,6 +2512,7 @@ function renderRequests(
             :
             ''
           }
+
 
 
           ${
@@ -2316,14 +2545,13 @@ function renderRequests(
         </div>
 
 
+
         <div class="request-actions">
 
 
           <button
             class="btn btn-primary"
-            onclick="approveRequest('${escapeAttribute(
-              request.requestId
-            )}')"
+            type="button"
           >
 
             ✅ Approve
@@ -2331,11 +2559,10 @@ function renderRequests(
           </button>
 
 
+
           <button
             class="btn btn-danger"
-            onclick="openRejectModal('${escapeAttribute(
-              request.requestId
-            )}')"
+            type="button"
           >
 
             ❌ Reject
@@ -2348,6 +2575,52 @@ function renderRequests(
       `;
 
 
+      /*
+       * SAFE EVENT LISTENERS
+       *
+       * Avoids inline onclick escaping problems.
+       */
+
+      const buttons =
+        card.querySelectorAll(
+          '.request-actions button'
+        );
+
+
+      const approveButton =
+        buttons[0];
+
+
+      const rejectButton =
+        buttons[1];
+
+
+      approveButton.addEventListener(
+        'click',
+        function() {
+
+          approveRequest(
+            requestId,
+            requestSource
+          );
+
+        }
+      );
+
+
+      rejectButton.addEventListener(
+        'click',
+        function() {
+
+          openRejectModal(
+            requestId,
+            requestSource
+          );
+
+        }
+      );
+
+
       container.appendChild(
         card
       );
@@ -2358,16 +2631,49 @@ function renderRequests(
 }
 
 
+
 /* ============================================================
    APPROVE REQUEST
 ============================================================ */
 
 async function approveRequest(
-  requestId
+  requestId,
+  requestSource
 ) {
 
+
   if (!requestId) {
+
+    showMessage(
+      'dashboardMessage',
+      'Request ID is required.',
+      'error'
+    );
+
     return;
+
+  }
+
+
+  if (!requestSource) {
+
+    console.error(
+      'MISSING REQUEST SOURCE:',
+      {
+        requestId: requestId,
+        requestSource: requestSource
+      }
+    );
+
+
+    showMessage(
+      'dashboardMessage',
+      'Request source is missing. Please refresh the request list.',
+      'error'
+    );
+
+    return;
+
   }
 
 
@@ -2378,8 +2684,12 @@ async function approveRequest(
 
   const confirmed =
     confirm(
-      'Approve this registry update request?\n\nRequest ID: ' +
+
+      'Approve this registry update request?\n\n' +
+
+      'Request ID: ' +
       requestId
+
     );
 
 
@@ -2400,6 +2710,20 @@ async function approveRequest(
     );
 
 
+    console.log(
+      'APPROVING REQUEST:',
+      {
+
+        requestId:
+          requestId,
+
+        requestSource:
+          requestSource
+
+      }
+    );
+
+
     const result =
       await apiRequest(
         'approve_request',
@@ -2409,7 +2733,17 @@ async function approveRequest(
             sessionToken,
 
           requestId:
-            requestId
+            requestId,
+
+          requestSource:
+            requestSource,
+
+          /*
+           * Compatibility alias.
+           */
+
+          source:
+            requestSource
 
         }
       );
@@ -2421,15 +2755,15 @@ async function approveRequest(
     );
 
 
+    await loadPendingRequests();
+
+
     showMessage(
       'dashboardMessage',
       result.message ||
       'Request approved successfully.',
       'success'
     );
-
-
-    await loadPendingRequests();
 
 
   }
@@ -2474,21 +2808,41 @@ async function approveRequest(
 }
 
 
+
 /* ============================================================
    OPEN REJECT MODAL
 ============================================================ */
 
 function openRejectModal(
-  requestId
+  requestId,
+  requestSource
 ) {
+
 
   if (!requestId) {
     return;
   }
 
 
+  if (!requestSource) {
+
+    showMessage(
+      'dashboardMessage',
+      'Request source is missing. Please refresh the request list.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
   selectedRequestId =
     requestId;
+
+
+  selectedRequestSource =
+    requestSource;
 
 
   document.getElementById(
@@ -2517,13 +2871,17 @@ function openRejectModal(
 }
 
 
+
 /* ============================================================
    CLOSE REJECT MODAL
 ============================================================ */
 
 function closeRejectModal() {
 
+
   selectedRequestId = '';
+
+  selectedRequestSource = '';
 
 
   document.getElementById(
@@ -2535,11 +2893,13 @@ function closeRejectModal() {
 }
 
 
+
 /* ============================================================
    CONFIRM REJECT
 ============================================================ */
 
 async function confirmReject() {
+
 
   if (isProcessing) {
     return;
@@ -2548,9 +2908,13 @@ async function confirmReject() {
 
   const reason =
     String(
+
       document.getElementById(
         'rejectionReason'
-      ).value || ''
+      ).value ||
+
+      ''
+
     ).trim();
 
 
@@ -2576,8 +2940,23 @@ async function confirmReject() {
   }
 
 
+  if (!selectedRequestSource) {
+
+    alert(
+      'Request source is missing.'
+    );
+
+    return;
+
+  }
+
+
   const requestId =
     selectedRequestId;
+
+
+  const requestSource =
+    selectedRequestSource;
 
 
   isProcessing = true;
@@ -2595,6 +2974,23 @@ async function confirmReject() {
     );
 
 
+    console.log(
+      'REJECTING REQUEST:',
+      {
+
+        requestId:
+          requestId,
+
+        requestSource:
+          requestSource,
+
+        rejectionReason:
+          reason
+
+      }
+    );
+
+
     const result =
       await apiRequest(
         'reject_request',
@@ -2605,6 +3001,16 @@ async function confirmReject() {
 
           requestId:
             requestId,
+
+          requestSource:
+            requestSource,
+
+          /*
+           * Compatibility alias.
+           */
+
+          source:
+            requestSource,
 
           rejectionReason:
             reason
@@ -2619,15 +3025,15 @@ async function confirmReject() {
     );
 
 
+    await loadPendingRequests();
+
+
     showMessage(
       'dashboardMessage',
       result.message ||
       'Request rejected successfully.',
       'success'
     );
-
-
-    await loadPendingRequests();
 
 
   }
@@ -2672,11 +3078,13 @@ async function confirmReject() {
 }
 
 
+
 /* ============================================================
    LOGOUT
 ============================================================ */
 
 async function logout() {
+
 
   if (
     !confirm(
@@ -2696,8 +3104,10 @@ async function logout() {
       await apiRequest(
         'logout',
         {
+
           sessionToken:
             sessionToken
+
         }
       );
 
@@ -2715,6 +3125,12 @@ async function logout() {
 
 
   sessionToken = '';
+
+
+  selectedRequestId = '';
+
+
+  selectedRequestSource = '';
 
 
   sessionStorage.removeItem(
@@ -2742,13 +3158,19 @@ async function logout() {
 }
 
 
+
 /* ============================================================
    SESSION EXPIRED
 ============================================================ */
 
 function sessionExpired() {
 
+
   sessionToken = '';
+
+  selectedRequestId = '';
+
+  selectedRequestSource = '';
 
 
   sessionStorage.removeItem(
@@ -2766,6 +3188,7 @@ function sessionExpired() {
 }
 
 
+
 /* ============================================================
    MESSAGE
 ============================================================ */
@@ -2775,6 +3198,7 @@ function showMessage(
   message,
   type
 ) {
+
 
   const element =
     document.getElementById(
@@ -2793,6 +3217,7 @@ function showMessage(
 }
 
 
+
 /* ============================================================
    HIDE MESSAGE
 ============================================================ */
@@ -2800,6 +3225,7 @@ function showMessage(
 function hideMessage(
   elementId
 ) {
+
 
   const element =
     document.getElementById(
@@ -2816,6 +3242,7 @@ function hideMessage(
 }
 
 
+
 /* ============================================================
    LOADING
 ============================================================ */
@@ -2823,6 +3250,7 @@ function hideMessage(
 function showLoading(
   show
 ) {
+
 
   const loading =
     document.getElementById(
@@ -2840,6 +3268,7 @@ function showLoading(
 }
 
 
+
 /* ============================================================
    FORMAT VALUE
 ============================================================ */
@@ -2847,6 +3276,7 @@ function showLoading(
 function formatValue(
   value
 ) {
+
 
   if (
     value === null ||
@@ -2866,6 +3296,7 @@ function formatValue(
 }
 
 
+
 /* ============================================================
    HTML ESCAPE
 ============================================================ */
@@ -2874,13 +3305,16 @@ function escapeHtml(
   value
 ) {
 
+
   return String(
+
     value === null ||
     value === undefined
       ?
       ''
       :
       value
+
   )
 
   .replace(
@@ -2927,6 +3361,7 @@ function escapeAttribute(
 
 
 </script>
+
 
 </body>
 </html>
