@@ -466,13 +466,13 @@
      CONFIG
   ========================================== */
 
-  const APP = {
+const APP = {
 
-    pin: '',
+  sessionToken: '',
 
-    requests: []
+  requests: []
 
-  };
+};
 
 
   /* ==========================================
@@ -608,13 +608,14 @@
 
     try {
 
-      const response =
-        await apiCall(
-          'admin_login',
-          {
-            pin: pin
-          }
-        );
+const response =
+  await apiCall(
+    'get_pending_requests',
+    {
+      sessionToken:
+        APP.sessionToken
+    }
+  );
 
 
       if (
@@ -631,8 +632,8 @@
       }
 
 
-      APP.pin =
-        pin;
+      APP.sessionToken =
+  response.result.sessionToken;
 
 
       showToast(
@@ -1060,23 +1061,28 @@
 
       const response =
         await apiCall(
-          'review_registry_update',
-          {
+ const action =
+  decision === 'APPROVE'
+    ? 'approve_request'
+    : 'reject_request';
 
-            pin:
-              APP.pin,
 
-            requestId:
-              requestId,
+const response =
+  await apiCall(
+    action,
+    {
 
-            decision:
-              decision,
+      sessionToken:
+        APP.sessionToken,
 
-            rejectionReason:
-              rejectionReason
+      requestId:
+        requestId,
 
-          }
-        );
+      rejectionReason:
+        rejectionReason
+
+    }
+  );
 
 
       if (
