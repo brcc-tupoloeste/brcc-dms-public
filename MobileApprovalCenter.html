@@ -11,7 +11,6 @@
 
 <title>BRCC-DMS Approval Center</title>
 
-
 <style>
 
 /* ============================================================
@@ -19,7 +18,6 @@
 ============================================================ */
 
 :root {
-
   --primary: #155b35;
   --primary-dark: #0e4728;
   --primary-light: #eaf5ee;
@@ -41,7 +39,6 @@
 
   --shadow:
     0 12px 35px rgba(0,0,0,.10);
-
 }
 
 
@@ -53,34 +50,26 @@
   box-sizing: border-box;
 }
 
-
 html,
 body {
-
   margin: 0;
   padding: 0;
-
   min-height: 100%;
-
   font-family:
     Arial,
     Helvetica,
     sans-serif;
 
   color: var(--text);
-
 }
 
-
 body {
-
   background:
     linear-gradient(
       135deg,
       #edf3ef,
       #e5ece8
     );
-
 }
 
 
@@ -89,10 +78,8 @@ body {
 ============================================================ */
 
 .app {
-
   width: 100%;
   max-width: 720px;
-
   min-height: 100vh;
 
   margin: auto;
@@ -106,7 +93,6 @@ body {
 
   box-shadow:
     0 0 35px rgba(0,0,0,.10);
-
 }
 
 
@@ -127,7 +113,6 @@ body {
 
   box-shadow:
     0 3px 10px rgba(0,0,0,.16);
-
 }
 
 
@@ -138,9 +123,7 @@ body {
 .brand {
 
   display: flex;
-
   align-items: center;
-
   gap: 14px;
 
   padding:
@@ -150,7 +133,6 @@ body {
   border-bottom:
     1px solid
     rgba(255,255,255,.14);
-
 }
 
 
@@ -172,7 +154,6 @@ body {
   box-shadow:
     0 3px 8px
     rgba(0,0,0,.20);
-
 }
 
 
@@ -184,13 +165,11 @@ body {
 .brand-title {
 
   font-size: 21px;
-
   font-weight: 700;
 
   letter-spacing: .2px;
 
   line-height: 1.2;
-
 }
 
 
@@ -201,7 +180,6 @@ body {
   font-size: 11px;
 
   opacity: .85;
-
 }
 
 
@@ -222,7 +200,6 @@ body {
   padding:
     12px
     20px;
-
 }
 
 
@@ -231,7 +208,6 @@ body {
   font-size: 15px;
 
   font-weight: 700;
-
 }
 
 
@@ -242,7 +218,6 @@ body {
   font-size: 10px;
 
   opacity: .78;
-
 }
 
 
@@ -266,7 +241,6 @@ body {
   font-size: 10px;
 
   font-weight: 700;
-
 }
 
 
@@ -280,7 +254,6 @@ body {
     44px
     18px
     70px;
-
 }
 
 
@@ -303,7 +276,6 @@ body {
     var(--shadow);
 
   overflow: hidden;
-
 }
 
 
@@ -317,7 +289,6 @@ body {
     0
     0
     24px;
-
 }
 
 
@@ -328,7 +299,6 @@ body {
   justify-content: center;
 
   margin-top: -32px;
-
 }
 
 
@@ -360,7 +330,6 @@ body {
     rgba(21,91,53,.18);
 
   font-size: 31px;
-
 }
 
 
@@ -376,7 +345,6 @@ body {
     16px;
 
   text-align: center;
-
 }
 
 
@@ -388,7 +356,6 @@ body {
 
   color:
     #2d3d42;
-
 }
 
 
@@ -405,7 +372,6 @@ body {
   font-size: 13px;
 
   line-height: 1.5;
-
 }
 
 
@@ -439,7 +405,6 @@ body {
   font-size: 11px;
 
   line-height: 1.5;
-
 }
 
 
@@ -452,14 +417,12 @@ body {
   padding:
     0
     20px;
-
 }
 
 
 .form-group {
 
   margin-bottom: 14px;
-
 }
 
 
@@ -477,7 +440,6 @@ label {
 
   color:
     #435158;
-
 }
 
 
@@ -506,10 +468,6 @@ input {
     var(--text);
 
   font-size: 15px;
-
-  transition:
-    .2s;
-
 }
 
 
@@ -521,7 +479,6 @@ input:focus {
   box-shadow:
     0 0 0 3px
     rgba(21,91,53,.10);
-
 }
 
 
@@ -559,7 +516,6 @@ input:focus {
   justify-content: center;
 
   gap: 7px;
-
 }
 
 
@@ -567,18 +523,18 @@ input:focus {
 
   transform:
     scale(.98);
-
 }
 
 
 .btn:disabled {
 
-  opacity: .70;
+  opacity: .55;
 
   cursor: not-allowed;
 
-  transform: none;
+  pointer-events: none;
 
+  transform: none;
 }
 
 
@@ -596,7 +552,6 @@ input:focus {
   box-shadow:
     0 6px 15px
     rgba(21,91,53,.18);
-
 }
 
 
@@ -606,7 +561,6 @@ input:focus {
     var(--danger);
 
   color: white;
-
 }
 
 
@@ -620,7 +574,6 @@ input:focus {
   border:
     1px solid
     #a9c5b3;
-
 }
 
 
@@ -646,7 +599,6 @@ input:focus {
   font-size: 12px;
 
   line-height: 1.4;
-
 }
 
 
@@ -661,7 +613,6 @@ input:focus {
 
   background:
     #d92525;
-
 }
 
 
@@ -676,7 +627,6 @@ input:focus {
   border:
     1px solid
     #a9d7b7;
-
 }
 
 
@@ -691,7 +641,6 @@ input:focus {
   border:
     1px solid
     #b8d8ec;
-
 }
 
 
@@ -712,7 +661,6 @@ input:focus {
     var(--muted);
 
   font-size: 13px;
-
 }
 
 
@@ -737,17 +685,14 @@ input:focus {
 
   animation:
     spin .8s linear infinite;
-
 }
 
 
 @keyframes spin {
 
   to {
-
     transform:
       rotate(360deg);
-
   }
 
 }
@@ -760,14 +705,12 @@ input:focus {
 .dashboard {
 
   display: none;
-
 }
 
 
 .dashboard.show {
 
   display: block;
-
 }
 
 
@@ -789,7 +732,6 @@ input:focus {
     );
 
   color: white;
-
 }
 
 
@@ -802,7 +744,6 @@ input:focus {
   justify-content: space-between;
 
   gap: 12px;
-
 }
 
 
@@ -811,7 +752,6 @@ input:focus {
   font-size: 20px;
 
   font-weight: 700;
-
 }
 
 
@@ -822,7 +762,6 @@ input:focus {
   font-size: 11px;
 
   opacity: .80;
-
 }
 
 
@@ -844,7 +783,6 @@ input:focus {
   border:
     1px solid
     rgba(255,255,255,.20);
-
 }
 
 
@@ -853,7 +791,6 @@ input:focus {
   display: block;
 
   font-size: 20px;
-
 }
 
 
@@ -862,7 +799,6 @@ input:focus {
   font-size: 9px;
 
   opacity: .85;
-
 }
 
 
@@ -874,7 +810,6 @@ input:focus {
 
   padding:
     16px;
-
 }
 
 
@@ -889,7 +824,6 @@ input:focus {
   gap: 10px;
 
   margin-bottom: 16px;
-
 }
 
 
@@ -915,7 +849,6 @@ input:focus {
   box-shadow:
     0 5px 14px
     rgba(0,0,0,.05);
-
 }
 
 
@@ -930,7 +863,6 @@ input:focus {
   gap: 10px;
 
   margin-bottom: 12px;
-
 }
 
 
@@ -942,7 +874,6 @@ input:focus {
 
   color:
     var(--primary);
-
 }
 
 
@@ -954,7 +885,6 @@ input:focus {
     var(--muted);
 
   text-align: right;
-
 }
 
 
@@ -965,7 +895,6 @@ input:focus {
   font-weight: 700;
 
   margin-bottom: 4px;
-
 }
 
 
@@ -975,7 +904,6 @@ input:focus {
 
   color:
     var(--muted);
-
 }
 
 
@@ -1000,7 +928,6 @@ input:focus {
   font-size: 10px;
 
   font-weight: 700;
-
 }
 
 
@@ -1013,14 +940,12 @@ input:focus {
     #edf0ee;
 
   padding-top: 12px;
-
 }
 
 
 .info-row {
 
   margin-bottom: 9px;
-
 }
 
 
@@ -1036,7 +961,6 @@ input:focus {
     #7b878c;
 
   margin-bottom: 3px;
-
 }
 
 
@@ -1052,7 +976,6 @@ input:focus {
   white-space: pre-wrap;
 
   word-break: break-word;
-
 }
 
 
@@ -1067,7 +990,6 @@ input:focus {
   gap: 9px;
 
   margin-top: 15px;
-
 }
 
 
@@ -1076,7 +998,6 @@ input:focus {
   flex: 1;
 
   min-height: 42px;
-
 }
 
 
@@ -1094,7 +1015,6 @@ input:focus {
 
   color:
     var(--muted);
-
 }
 
 
@@ -1103,7 +1023,6 @@ input:focus {
   font-size: 45px;
 
   margin-bottom: 12px;
-
 }
 
 
@@ -1116,7 +1035,6 @@ input:focus {
 
   color:
     #445257;
-
 }
 
 
@@ -1125,7 +1043,6 @@ input:focus {
   margin: 0;
 
   font-size: 12px;
-
 }
 
 
@@ -1148,12 +1065,11 @@ input:focus {
   font-size: 10px;
 
   line-height: 1.4;
-
 }
 
 
 /* ============================================================
-   MODAL
+   REJECTION MODAL
 ============================================================ */
 
 .modal {
@@ -1172,14 +1088,12 @@ input:focus {
   align-items: flex-end;
 
   justify-content: center;
-
 }
 
 
 .modal.show {
 
   display: flex;
-
 }
 
 
@@ -1206,28 +1120,21 @@ input:focus {
 
   animation:
     slideUp .25s ease;
-
 }
 
 
 @keyframes slideUp {
 
   from {
-
     transform:
       translateY(40px);
-
     opacity: 0;
-
   }
 
   to {
-
     transform:
       translateY(0);
-
     opacity: 1;
-
   }
 
 }
@@ -1241,7 +1148,6 @@ input:focus {
     10px;
 
   font-size: 19px;
-
 }
 
 
@@ -1258,7 +1164,6 @@ input:focus {
     var(--muted);
 
   line-height: 1.5;
-
 }
 
 
@@ -1283,7 +1188,6 @@ textarea {
   font-size: 13px;
 
   outline: none;
-
 }
 
 
@@ -1291,7 +1195,6 @@ textarea:focus {
 
   border-color:
     var(--primary);
-
 }
 
 
@@ -1302,14 +1205,319 @@ textarea:focus {
   gap: 10px;
 
   margin-top: 14px;
-
 }
 
 
 .modal-actions .btn {
 
   flex: 1;
+}
 
+
+/* ============================================================
+   GLOBAL PROCESSING OVERLAY
+============================================================ */
+
+.processing-overlay {
+
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9999;
+
+  background:
+    rgba(10, 25, 17, .72);
+
+  backdrop-filter:
+    blur(4px);
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+}
+
+
+.processing-overlay.show {
+
+  display: flex;
+}
+
+
+.processing-box {
+
+  width: 100%;
+
+  max-width: 360px;
+
+  background: white;
+
+  border-radius: 22px;
+
+  padding:
+    30px
+    25px;
+
+  text-align: center;
+
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.30);
+
+  animation:
+    processingAppear .25s ease;
+}
+
+
+@keyframes processingAppear {
+
+  from {
+    opacity: 0;
+    transform: scale(.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+}
+
+
+.processing-spinner {
+
+  width: 58px;
+  height: 58px;
+
+  margin:
+    0 auto 20px;
+
+  border-radius: 50%;
+
+  border:
+    5px solid
+    #dce9e0;
+
+  border-top-color:
+    var(--primary);
+
+  animation:
+    spin .8s linear infinite;
+}
+
+
+.processing-title {
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+  color:
+    var(--primary-dark);
+
+  margin-bottom: 9px;
+}
+
+
+.processing-text {
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  color:
+    var(--muted);
+}
+
+
+.processing-warning {
+
+  margin-top: 16px;
+
+  padding-top: 14px;
+
+  border-top:
+    1px solid
+    #edf0ee;
+
+  font-size: 10px;
+
+  color:
+    #8a969b;
+}
+
+
+/* ============================================================
+   SUCCESS MODAL
+============================================================ */
+
+.success-modal {
+
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 10000;
+
+  background:
+    rgba(0,0,0,.50);
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+}
+
+
+.success-modal.show {
+
+  display: flex;
+}
+
+
+.success-box {
+
+  width: 100%;
+
+  max-width: 400px;
+
+  background: white;
+
+  border-radius: 22px;
+
+  padding: 28px 24px;
+
+  text-align: center;
+
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.30);
+
+  animation:
+    processingAppear .25s ease;
+}
+
+
+.success-icon {
+
+  width: 70px;
+  height: 70px;
+
+  margin:
+    0 auto 15px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    #e7f6ec;
+
+  font-size: 36px;
+}
+
+
+.success-title {
+
+  font-size: 21px;
+
+  font-weight: 700;
+
+  color:
+    var(--primary-dark);
+
+  margin-bottom: 8px;
+}
+
+
+.success-text {
+
+  font-size: 13px;
+
+  color:
+    var(--muted);
+
+  line-height: 1.5;
+
+  margin-bottom: 18px;
+}
+
+
+.success-details {
+
+  text-align: left;
+
+  background:
+    #f5f8f6;
+
+  border:
+    1px solid
+    #dce7df;
+
+  border-radius: 14px;
+
+  padding: 14px;
+
+  margin-bottom: 18px;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+}
+
+
+.success-detail-row {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  border-bottom:
+    1px solid
+    #e5ece7;
+
+  padding:
+    6px
+    0;
+}
+
+
+.success-detail-row:last-child {
+
+  border-bottom: none;
+}
+
+
+.success-detail-label {
+
+  color:
+    var(--muted);
+
+  font-weight: 600;
+}
+
+
+.success-detail-value {
+
+  color:
+    var(--text);
+
+  font-weight: 700;
+
+  text-align: right;
 }
 
 
@@ -1320,52 +1528,35 @@ textarea:focus {
 @media (max-width: 480px) {
 
   .brand {
-
     padding:
       13px
       15px;
-
   }
-
 
   .logo {
-
     width: 46px;
     height: 46px;
-
   }
-
 
   .brand-title {
-
     font-size: 18px;
-
   }
 
-
   .system-bar {
-
     padding:
       10px
       15px;
-
   }
 
-
   .main {
-
     padding:
       38px
       12px
       55px;
-
   }
 
-
   .login-header h1 {
-
     font-size: 22px;
-
   }
 
 }
@@ -1374,19 +1565,11 @@ textarea:focus {
 
 </head>
 
-
 <body>
-
 
 <div class="app">
 
-
-<!-- ========================================================
-     HEADER
-========================================================= -->
-
 <header class="header">
-
 
   <div class="brand">
 
@@ -1397,13 +1580,11 @@ textarea:focus {
       onerror="this.style.display='none'"
     >
 
-
     <div class="brand-text">
 
       <div class="brand-title">
         Barangay Tupol Oeste
       </div>
-
 
       <div class="brand-subtitle">
         Municipality of Cabatuan, Province of Iloilo
@@ -1414,7 +1595,6 @@ textarea:focus {
   </div>
 
 
-
   <div class="system-bar">
 
     <div>
@@ -1423,13 +1603,11 @@ textarea:focus {
         🐕 BRCC-DMS Approval Center
       </div>
 
-
       <div class="system-subtitle">
         Mobile Registry Update Approval System
       </div>
 
     </div>
-
 
     <div class="secure-badge">
       🔒 SECURE ACCESS
@@ -1437,262 +1615,188 @@ textarea:focus {
 
   </div>
 
-
 </header>
 
 
-
-<!-- ========================================================
-     MAIN
-========================================================= -->
-
 <main class="main">
 
+<section id="loginSection">
 
-  <!-- LOGIN SECTION -->
+  <div class="card login-card">
 
-  <section id="loginSection">
+    <div class="login-icon-wrap">
+      <div class="login-icon">🔐</div>
+    </div>
 
+    <div class="login-header">
 
-    <div class="card login-card">
+      <h1>Administrator Access</h1>
 
+      <p>
+        Authorized personnel only. Enter your Admin PIN to
+        access pending registry update requests.
+      </p>
 
-      <div class="login-icon-wrap">
+    </div>
 
-        <div class="login-icon">
-          🔐
-        </div>
+    <div class="notice">
 
-      </div>
+      🔒 This Approval Center allows authorized administrators
+      to review, approve, or reject Dog Registry update requests.
 
+    </div>
 
-      <div class="login-header">
+    <div class="form">
 
-        <h1>
-          Administrator Access
-        </h1>
+      <div class="form-group">
 
+        <label for="adminPin">
+          ADMIN PIN
+        </label>
 
-        <p>
-          Authorized personnel only. Enter your Admin PIN to
-          access pending registry update requests.
-        </p>
-
-      </div>
-
-
-      <div class="notice">
-
-        🔒 This Approval Center allows authorized administrators
-        to review, approve, or reject Dog Registry update requests.
-
-      </div>
-
-
-      <div class="form">
-
-
-        <div class="form-group">
-
-          <label for="adminPin">
-            ADMIN PIN
-          </label>
-
-
-          <input
-            type="password"
-            id="adminPin"
-            placeholder="Enter Admin PIN"
-            autocomplete="current-password"
-            inputmode="numeric"
-          >
-
-        </div>
-
-
-        <button
-          class="btn btn-primary"
-          id="loginButton"
-          onclick="login()"
+        <input
+          type="password"
+          id="adminPin"
+          placeholder="Enter Admin PIN"
+          autocomplete="current-password"
+          inputmode="numeric"
         >
 
-          🔐 Access Approval Center
+      </div>
 
+      <button
+        class="btn btn-primary"
+        id="loginButton"
+        onclick="login()"
+      >
+        🔐 Access Approval Center
+      </button>
+
+    </div>
+
+    <div
+      id="loginMessage"
+      class="message"
+    ></div>
+
+  </div>
+
+</section>
+
+
+<section
+  id="dashboard"
+  class="dashboard"
+>
+
+  <div class="card">
+
+    <div class="dashboard-head">
+
+      <div class="dashboard-head-row">
+
+        <div>
+
+          <div class="dashboard-title">
+            Pending Requests
+          </div>
+
+          <div class="dashboard-subtitle">
+            Review and process registry update requests
+          </div>
+
+        </div>
+
+        <div class="pending-count">
+
+          <strong id="pendingCount">
+            0
+          </strong>
+
+          <span>PENDING</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="dashboard-content">
+
+      <div class="toolbar">
+
+        <button
+          class="btn btn-outline"
+          onclick="loadPendingRequests()"
+        >
+          🔄 Refresh
+        </button>
+
+        <button
+          class="btn btn-outline"
+          onclick="logout()"
+        >
+          🚪 Logout
         </button>
 
       </div>
 
 
       <div
-        id="loginMessage"
+        id="loading"
+        class="loading"
+      >
+
+        <div class="spinner"></div>
+
+        Loading pending requests...
+
+      </div>
+
+
+      <div
+        id="dashboardMessage"
         class="message"
       ></div>
 
 
-    </div>
-
-  </section>
-
-
-
-  <!-- ======================================================
-       DASHBOARD
-  ======================================================= -->
-
-  <section
-    id="dashboard"
-    class="dashboard"
-  >
-
-
-    <div class="card">
-
-
-      <!-- DASHBOARD HEADER -->
-
-      <div class="dashboard-head">
-
-        <div class="dashboard-head-row">
-
-
-          <div>
-
-            <div class="dashboard-title">
-              Pending Requests
-            </div>
-
-
-            <div class="dashboard-subtitle">
-              Review and process registry update requests
-            </div>
-
-          </div>
-
-
-          <div class="pending-count">
-
-            <strong id="pendingCount">
-              0
-            </strong>
-
-            <span>
-              PENDING
-            </span>
-
-          </div>
-
-
-        </div>
-
-      </div>
-
-
-
-      <!-- DASHBOARD CONTENT -->
-
-      <div class="dashboard-content">
-
-
-        <!-- TOOLBAR -->
-
-        <div class="toolbar">
-
-          <button
-            class="btn btn-outline"
-            onclick="loadPendingRequests()"
-          >
-
-            🔄 Refresh
-
-          </button>
-
-
-          <button
-            class="btn btn-outline"
-            onclick="logout()"
-          >
-
-            🚪 Logout
-
-          </button>
-
-        </div>
-
-
-
-        <!-- LOADING -->
-
-        <div
-          id="loading"
-          class="loading"
-        >
-
-          <div class="spinner"></div>
-
-          Loading pending requests...
-
-        </div>
-
-
-
-        <!-- MESSAGE -->
-
-        <div
-          id="dashboardMessage"
-          class="message"
-        ></div>
-
-
-
-        <!-- REQUEST LIST -->
-
-        <div id="requestList"></div>
-
-
-      </div>
-
+      <div id="requestList"></div>
 
     </div>
 
-  </section>
+  </div>
+
+</section>
 
 
+<footer class="footer">
 
-  <!-- FOOTER -->
+  Barangay Rabies Control Committee<br>
 
-  <footer class="footer">
+  Dog Management System (BRCC-DMS)
 
-    Barangay Rabies Control Committee<br>
-
-    Dog Management System (BRCC-DMS)
-
-  </footer>
-
+</footer>
 
 </main>
-
 
 </div>
 
 
-
-<!-- ========================================================
+<!-- ============================================================
      REJECTION MODAL
-========================================================= -->
+============================================================ -->
 
 <div
   id="rejectModal"
   class="modal"
 >
 
-
   <div class="modal-box">
-
 
     <h2 class="modal-title">
       Reject Request
     </h2>
-
 
     <p class="modal-text">
 
@@ -1701,52 +1805,117 @@ textarea:focus {
 
     </p>
 
-
     <textarea
       id="rejectionReason"
       placeholder="Enter reason for rejection..."
     ></textarea>
 
-
     <div class="modal-actions">
-
 
       <button
         class="btn btn-outline"
         onclick="closeRejectModal()"
       >
-
         Cancel
-
       </button>
-
 
       <button
         class="btn btn-danger"
         onclick="confirmReject()"
       >
-
         ❌ Reject Request
-
       </button>
-
 
     </div>
 
-
   </div>
-
 
 </div>
 
 
+<!-- ============================================================
+     GLOBAL PROCESSING OVERLAY
+============================================================ -->
 
-<!-- ========================================================
-     JAVASCRIPT
-========================================================= -->
+<div
+  id="processingOverlay"
+  class="processing-overlay"
+>
+
+  <div class="processing-box">
+
+    <div class="processing-spinner"></div>
+
+    <div
+      id="processingTitle"
+      class="processing-title"
+    >
+      Processing Request
+    </div>
+
+    <div
+      id="processingText"
+      class="processing-text"
+    >
+      Please wait while the request is being processed.
+    </div>
+
+    <div class="processing-warning">
+      Please do not close, refresh, or navigate away from this page.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ============================================================
+     SUCCESS MODAL
+============================================================ -->
+
+<div
+  id="successModal"
+  class="success-modal"
+>
+
+  <div class="success-box">
+
+    <div class="success-icon">
+      ✅
+    </div>
+
+    <div
+      id="successTitle"
+      class="success-title"
+    >
+      Request Processed Successfully
+    </div>
+
+    <div
+      id="successText"
+      class="success-text"
+    >
+      The registry update has been completed.
+    </div>
+
+    <div
+      id="successDetails"
+      class="success-details"
+    ></div>
+
+    <button
+      class="btn btn-primary"
+      onclick="closeSuccessModal()"
+    >
+      ✓ OK
+    </button>
+
+  </div>
+
+</div>
+
 
 <script>
-
 
 /* ============================================================
    CONFIGURATION
@@ -1754,7 +1923,6 @@ textarea:focus {
 
 const API_URL =
   'https://script.google.com/macros/s/AKfycbzCGq7RqItFizrjt6EosUzTnGO9-FhxDgWrrwG-qfXu1YcPwGy8SydZvrGhkow64r3C7Q/exec';
-
 
 
 /* ============================================================
@@ -1765,10 +1933,9 @@ let sessionToken = '';
 
 let selectedRequestId = '';
 
-let selectedRequestSource = '';
-
 let isProcessing = false;
 
+let reloadAfterSuccess = false;
 
 
 /* ============================================================
@@ -1779,12 +1946,10 @@ document.addEventListener(
   'DOMContentLoaded',
   function() {
 
-
     const savedSession =
       sessionStorage.getItem(
         'BRCC_MOBILE_APPROVAL_SESSION'
       );
-
 
     if (savedSession) {
 
@@ -1797,12 +1962,10 @@ document.addEventListener(
 
     }
 
-
     const pinInput =
       document.getElementById(
         'adminPin'
       );
-
 
     pinInput.addEventListener(
       'keydown',
@@ -1811,9 +1974,7 @@ document.addEventListener(
         if (
           event.key === 'Enter'
         ) {
-
           login();
-
         }
 
       }
@@ -1823,72 +1984,35 @@ document.addEventListener(
 );
 
 
-
 /* ============================================================
    API REQUEST
 ============================================================ */
 
-async function apiRequest(
-  action,
-  data = {}
-) {
-
+async function apiRequest(action, data = {}) {
 
   const payload = {
-
-    service:
-      'mobile_approval',
-
+    service: 'mobile_approval',
     data: {
-
-      action:
-        action,
-
+      action: action,
       ...data
-
     }
-
   };
-
-
-  console.log(
-    'BRCC API REQUEST:',
-    JSON.stringify(payload)
-  );
-
 
   let response;
 
-
   try {
 
-    response =
-      await fetch(
-        API_URL,
-        {
-
-          method:
-            'POST',
-
-          body:
-            JSON.stringify(
-              payload
-            ),
-
-          redirect:
-            'follow'
-
-        }
-      );
+    response = await fetch(
+      API_URL,
+      {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        redirect: 'follow'
+      }
+    );
 
   }
   catch (error) {
-
-    console.error(
-      'NETWORK ERROR:',
-      error
-    );
-
 
     throw new Error(
       'Unable to connect to BRCC-DMS server.'
@@ -1896,35 +2020,18 @@ async function apiRequest(
 
   }
 
-
   const responseText =
     await response.text();
 
-
-  console.log(
-    'API RAW RESPONSE:',
-    responseText
-  );
-
-
   let result;
-
 
   try {
 
     result =
-      JSON.parse(
-        responseText
-      );
+      JSON.parse(responseText);
 
   }
   catch (error) {
-
-    console.error(
-      'INVALID JSON RESPONSE:',
-      responseText
-    );
-
 
     throw new Error(
       'Invalid server response.'
@@ -1932,30 +2039,105 @@ async function apiRequest(
 
   }
 
-
   if (
     !result ||
     result.success !== true
   ) {
 
     throw new Error(
-
       (
         result &&
         result.message
       ) ||
-
       'Request failed.'
-
     );
 
   }
-
 
   return result.result || {};
 
 }
 
+
+/* ============================================================
+   GLOBAL UI LOCK
+============================================================ */
+
+function lockInterface() {
+
+  document
+    .querySelectorAll('button')
+    .forEach(
+      function(button) {
+
+        button.disabled = true;
+
+      }
+    );
+
+}
+
+
+function unlockInterface() {
+
+  document
+    .querySelectorAll('button')
+    .forEach(
+      function(button) {
+
+        button.disabled = false;
+
+      }
+    );
+
+}
+
+
+/* ============================================================
+   PROCESSING OVERLAY
+============================================================ */
+
+function showProcessing(
+  title,
+  message
+) {
+
+  lockInterface();
+
+  document.getElementById(
+    'processingTitle'
+  ).textContent =
+    title ||
+    'Processing Request';
+
+
+  document.getElementById(
+    'processingText'
+  ).textContent =
+    message ||
+    'Please wait while the request is being processed.';
+
+
+  document.getElementById(
+    'processingOverlay'
+  ).classList.add(
+    'show'
+  );
+
+}
+
+
+function hideProcessing() {
+
+  document.getElementById(
+    'processingOverlay'
+  ).classList.remove(
+    'show'
+  );
+
+  unlockInterface();
+
+}
 
 
 /* ============================================================
@@ -1964,23 +2146,19 @@ async function apiRequest(
 
 async function login() {
 
-
   if (isProcessing) {
     return;
   }
-
 
   const pinInput =
     document.getElementById(
       'adminPin'
     );
 
-
   const pin =
     String(
       pinInput.value || ''
     ).trim();
-
 
   if (!pin) {
 
@@ -1996,12 +2174,10 @@ async function login() {
 
   }
 
-
   const button =
     document.getElementById(
       'loginButton'
     );
-
 
   isProcessing = true;
 
@@ -2010,11 +2186,9 @@ async function login() {
   button.innerHTML =
     '⏳ Verifying access...';
 
-
   hideMessage(
     'loginMessage'
   );
-
 
   try {
 
@@ -2026,13 +2200,6 @@ async function login() {
         }
       );
 
-
-    console.log(
-      'LOGIN RESULT:',
-      result
-    );
-
-
     if (
       !result.sessionToken
     ) {
@@ -2043,34 +2210,22 @@ async function login() {
 
     }
 
-
     sessionToken =
       result.sessionToken;
-
 
     sessionStorage.setItem(
       'BRCC_MOBILE_APPROVAL_SESSION',
       sessionToken
     );
 
-
     pinInput.value = '';
-
 
     showDashboard();
 
-
     await loadPendingRequests();
-
 
   }
   catch (error) {
-
-    console.error(
-      'LOGIN ERROR:',
-      error
-    );
-
 
     showMessage(
       'loginMessage',
@@ -2094,19 +2249,16 @@ async function login() {
 }
 
 
-
 /* ============================================================
    SHOW DASHBOARD
 ============================================================ */
 
 function showDashboard() {
 
-
   document.getElementById(
     'loginSection'
   ).style.display =
     'none';
-
 
   document.getElementById(
     'dashboard'
@@ -2117,13 +2269,11 @@ function showDashboard() {
 }
 
 
-
 /* ============================================================
    SHOW LOGIN
 ============================================================ */
 
 function showLogin() {
-
 
   document.getElementById(
     'dashboard'
@@ -2131,12 +2281,10 @@ function showLogin() {
     'show'
   );
 
-
   document.getElementById(
     'loginSection'
   ).style.display =
     'block';
-
 
   setTimeout(
     function() {
@@ -2152,13 +2300,11 @@ function showLogin() {
 }
 
 
-
 /* ============================================================
    LOAD PENDING REQUESTS
 ============================================================ */
 
 async function loadPendingRequests() {
-
 
   if (!sessionToken) {
 
@@ -2168,16 +2314,11 @@ async function loadPendingRequests() {
 
   }
 
-
-  showLoading(
-    true
-  );
-
+  showLoading(true);
 
   hideMessage(
     'dashboardMessage'
   );
-
 
   try {
 
@@ -2185,44 +2326,26 @@ async function loadPendingRequests() {
       await apiRequest(
         'get_pending_requests',
         {
-
           sessionToken:
             sessionToken
-
         }
       );
-
-
-    console.log(
-      'PENDING REQUEST RESULT:',
-      result
-    );
-
 
     renderRequests(
       result.requests || []
     );
-
 
     document.getElementById(
       'pendingCount'
     ).textContent =
       result.count || 0;
 
-
   }
   catch (error) {
-
-    console.error(
-      'LOAD REQUEST ERROR:',
-      error
-    );
-
 
     const message =
       error.message ||
       'Unable to load pending requests.';
-
 
     if (
       message.toLowerCase()
@@ -2235,7 +2358,6 @@ async function loadPendingRequests() {
 
     }
 
-
     showMessage(
       'dashboardMessage',
       message,
@@ -2245,33 +2367,25 @@ async function loadPendingRequests() {
   }
   finally {
 
-    showLoading(
-      false
-    );
+    showLoading(false);
 
   }
 
 }
 
 
-
 /* ============================================================
    RENDER REQUESTS
 ============================================================ */
 
-function renderRequests(
-  requests
-) {
-
+function renderRequests(requests) {
 
   const container =
     document.getElementById(
       'requestList'
     );
 
-
   container.innerHTML = '';
-
 
   if (
     !requests ||
@@ -2279,7 +2393,6 @@ function renderRequests(
   ) {
 
     container.innerHTML = `
-
       <div class="empty">
 
         <div class="empty-icon">
@@ -2295,79 +2408,20 @@ function renderRequests(
         </p>
 
       </div>
-
     `;
 
     return;
 
   }
 
-
   requests.forEach(
     function(request) {
 
-
       const card =
-        document.createElement(
-          'div'
-        );
-
+        document.createElement('div');
 
       card.className =
         'request-card';
-
-
-      /*
-       * REQUEST ID
-       */
-
-      const requestId =
-        String(
-
-          request.requestId ||
-
-          request.requestID ||
-
-          request.id ||
-
-          ''
-
-        ).trim();
-
-
-      /*
-       * REQUEST SOURCE
-       *
-       * Supports multiple backend naming formats.
-       */
-
-      const requestSource =
-        String(
-
-          request.requestSource ||
-
-          request.source ||
-
-          request.request_source ||
-
-          request.sourceType ||
-
-          request.requestType ||
-
-          ''
-
-        ).trim();
-
-
-      console.log(
-        'RENDERING REQUEST:',
-        {
-          requestId: requestId,
-          requestSource: requestSource,
-          rawRequest: request
-        }
-      );
-
 
       card.innerHTML = `
 
@@ -2376,16 +2430,13 @@ function renderRequests(
           <div>
 
             <div class="request-id">
-
               ${escapeHtml(
-                requestId ||
+                request.requestId ||
                 'NO REQUEST ID'
               )}
-
             </div>
 
           </div>
-
 
           <div class="request-date">
 
@@ -2400,7 +2451,6 @@ function renderRequests(
         </div>
 
 
-
         <div class="dog-name">
 
           🐕 ${escapeHtml(
@@ -2409,7 +2459,6 @@ function renderRequests(
           )}
 
         </div>
-
 
 
         <div class="owner-name">
@@ -2423,29 +2472,22 @@ function renderRequests(
         </div>
 
 
-
         ${
           request.updateType
           ?
           `
-
             <div class="update-type">
-
               ${escapeHtml(
                 request.updateType
               )}
-
             </div>
-
           `
           :
           ''
         }
 
 
-
         <div class="info-grid">
-
 
           <div class="info-row">
 
@@ -2464,7 +2506,6 @@ function renderRequests(
             </div>
 
           </div>
-
 
 
           <div class="info-row">
@@ -2486,12 +2527,10 @@ function renderRequests(
           </div>
 
 
-
           ${
             request.currentInformation
             ?
             `
-
               <div class="info-row">
 
                 <div class="info-label">
@@ -2507,19 +2546,16 @@ function renderRequests(
                 </div>
 
               </div>
-
             `
             :
             ''
           }
 
 
-
           ${
             request.remarks
             ?
             `
-
               <div class="info-row">
 
                 <div class="info-label">
@@ -2535,95 +2571,40 @@ function renderRequests(
                 </div>
 
               </div>
-
             `
             :
             ''
           }
 
-
         </div>
-
 
 
         <div class="request-actions">
 
-
           <button
             class="btn btn-primary"
-            type="button"
+            onclick="approveRequest('${escapeAttribute(
+              request.requestId
+            )}')"
           >
-
             ✅ Approve
-
           </button>
-
 
 
           <button
             class="btn btn-danger"
-            type="button"
+            onclick="openRejectModal('${escapeAttribute(
+              request.requestId
+            )}')"
           >
-
             ❌ Reject
-
           </button>
-
 
         </div>
 
       `;
 
-
-      /*
-       * SAFE EVENT LISTENERS
-       *
-       * Avoids inline onclick escaping problems.
-       */
-
-      const buttons =
-        card.querySelectorAll(
-          '.request-actions button'
-        );
-
-
-      const approveButton =
-        buttons[0];
-
-
-      const rejectButton =
-        buttons[1];
-
-
-      approveButton.addEventListener(
-        'click',
-        function() {
-
-          approveRequest(
-            requestId,
-            requestSource
-          );
-
-        }
-      );
-
-
-      rejectButton.addEventListener(
-        'click',
-        function() {
-
-          openRejectModal(
-            requestId,
-            requestSource
-          );
-
-        }
-      );
-
-
-      container.appendChild(
-        card
-      );
+      container.appendChild(card);
 
     }
   );
@@ -2631,154 +2612,64 @@ function renderRequests(
 }
 
 
-
 /* ============================================================
    APPROVE REQUEST
 ============================================================ */
 
-async function approveRequest(
-  requestId,
-  requestSource
-) {
+async function approveRequest(requestId) {
 
-
-  if (!requestId) {
-
-    showMessage(
-      'dashboardMessage',
-      'Request ID is required.',
-      'error'
-    );
-
-    return;
-
-  }
-
-
-  if (!requestSource) {
-
-    console.error(
-      'MISSING REQUEST SOURCE:',
-      {
-        requestId: requestId,
-        requestSource: requestSource
-      }
-    );
-
-
-    showMessage(
-      'dashboardMessage',
-      'Request source is missing. Please refresh the request list.',
-      'error'
-    );
-
-    return;
-
-  }
-
-
-  if (isProcessing) {
+  if (!requestId || isProcessing) {
     return;
   }
-
 
   const confirmed =
     confirm(
-
       'Approve this registry update request?\n\n' +
-
       'Request ID: ' +
-      requestId
-
+      requestId +
+      '\n\nPlease wait after confirmation while the system updates the registry and regenerates official documents.'
     );
-
 
   if (!confirmed) {
     return;
   }
 
-
   isProcessing = true;
 
+  showProcessing(
+    'Processing Approval',
+    'Updating Dog Registry and regenerating official documents. Please wait...'
+  );
 
   try {
-
-    showMessage(
-      'dashboardMessage',
-      'Processing approval request...',
-      'info'
-    );
-
-
-    console.log(
-      'APPROVING REQUEST:',
-      {
-
-        requestId:
-          requestId,
-
-        requestSource:
-          requestSource
-
-      }
-    );
-
 
     const result =
       await apiRequest(
         'approve_request',
         {
-
           sessionToken:
             sessionToken,
 
           requestId:
-            requestId,
-
-          requestSource:
-            requestSource,
-
-          /*
-           * Compatibility alias.
-           */
-
-          source:
-            requestSource
-
+            requestId
         }
       );
 
+    hideProcessing();
 
-    console.log(
-      'APPROVAL RESULT:',
-      result
+    showApprovalSuccessModal(
+      result,
+      requestId
     );
-
-
-    await loadPendingRequests();
-
-
-    showMessage(
-      'dashboardMessage',
-      result.message ||
-      'Request approved successfully.',
-      'success'
-    );
-
 
   }
   catch (error) {
 
-    console.error(
-      'APPROVAL ERROR:',
-      error
-    );
-
+    hideProcessing();
 
     const message =
       error.message ||
       'Unable to approve request.';
-
 
     if (
       message.toLowerCase()
@@ -2790,7 +2681,6 @@ async function approveRequest(
       return;
 
     }
-
 
     showMessage(
       'dashboardMessage',
@@ -2808,54 +2698,197 @@ async function approveRequest(
 }
 
 
+/* ============================================================
+   APPROVAL SUCCESS MODAL
+============================================================ */
+
+function showApprovalSuccessModal(
+  result,
+  requestId
+) {
+
+  reloadAfterSuccess = true;
+
+  document.getElementById(
+    'successTitle'
+  ).textContent =
+    'Request Approved Successfully';
+
+
+  document.getElementById(
+    'successText'
+  ).textContent =
+    result.message ||
+    'The registry update has been successfully processed.';
+
+
+  const emailStatus =
+    result.emailStatus ||
+    (
+      result.emailSent
+        ? 'SENT'
+        : 'NOT AVAILABLE'
+    );
+
+
+  document.getElementById(
+    'successDetails'
+  ).innerHTML = `
+
+    <div class="success-detail-row">
+
+      <span class="success-detail-label">
+        Request ID
+      </span>
+
+      <span class="success-detail-value">
+        ${escapeHtml(
+          result.requestId ||
+          requestId
+        )}
+      </span>
+
+    </div>
+
+
+    <div class="success-detail-row">
+
+      <span class="success-detail-label">
+        Registry Number
+      </span>
+
+      <span class="success-detail-value">
+        ${escapeHtml(
+          result.registryNumber ||
+          '—'
+        )}
+      </span>
+
+    </div>
+
+
+    <div class="success-detail-row">
+
+      <span class="success-detail-label">
+        Dog Registry
+      </span>
+
+      <span class="success-detail-value">
+        ✓ Updated
+      </span>
+
+    </div>
+
+
+    <div class="success-detail-row">
+
+      <span class="success-detail-label">
+        Registration Certificate
+      </span>
+
+      <span class="success-detail-value">
+        ✓ Regenerated
+      </span>
+
+    </div>
+
+
+    <div class="success-detail-row">
+
+      <span class="success-detail-label">
+        Vaccination Card
+      </span>
+
+      <span class="success-detail-value">
+        ✓ Regenerated
+      </span>
+
+    </div>
+
+
+    <div class="success-detail-row">
+
+      <span class="success-detail-label">
+        Owner Email
+      </span>
+
+      <span class="success-detail-value">
+        ${escapeHtml(emailStatus)}
+      </span>
+
+    </div>
+
+  `;
+
+
+  document.getElementById(
+    'successModal'
+  ).classList.add(
+    'show'
+  );
+
+}
+
+
+/* ============================================================
+   CLOSE SUCCESS MODAL
+============================================================ */
+
+async function closeSuccessModal() {
+
+  document.getElementById(
+    'successModal'
+  ).classList.remove(
+    'show'
+  );
+
+  if (reloadAfterSuccess) {
+
+    reloadAfterSuccess = false;
+
+    showProcessing(
+      'Refreshing Requests',
+      'Loading the latest pending registry update requests...'
+    );
+
+    try {
+
+      await loadPendingRequests();
+
+    }
+    finally {
+
+      hideProcessing();
+
+    }
+
+  }
+
+}
+
 
 /* ============================================================
    OPEN REJECT MODAL
 ============================================================ */
 
-function openRejectModal(
-  requestId,
-  requestSource
-) {
+function openRejectModal(requestId) {
 
-
-  if (!requestId) {
+  if (!requestId || isProcessing) {
     return;
   }
-
-
-  if (!requestSource) {
-
-    showMessage(
-      'dashboardMessage',
-      'Request source is missing. Please refresh the request list.',
-      'error'
-    );
-
-    return;
-
-  }
-
 
   selectedRequestId =
     requestId;
 
-
-  selectedRequestSource =
-    requestSource;
-
-
   document.getElementById(
     'rejectionReason'
   ).value = '';
-
 
   document.getElementById(
     'rejectModal'
   ).classList.add(
     'show'
   );
-
 
   setTimeout(
     function() {
@@ -2871,18 +2904,17 @@ function openRejectModal(
 }
 
 
-
 /* ============================================================
    CLOSE REJECT MODAL
 ============================================================ */
 
 function closeRejectModal() {
 
+  if (isProcessing) {
+    return;
+  }
 
   selectedRequestId = '';
-
-  selectedRequestSource = '';
-
 
   document.getElementById(
     'rejectModal'
@@ -2893,30 +2925,22 @@ function closeRejectModal() {
 }
 
 
-
 /* ============================================================
    CONFIRM REJECT
 ============================================================ */
 
 async function confirmReject() {
 
-
   if (isProcessing) {
     return;
   }
 
-
   const reason =
     String(
-
       document.getElementById(
         'rejectionReason'
-      ).value ||
-
-      ''
-
+      ).value || ''
     ).trim();
-
 
   if (!reason) {
 
@@ -2928,7 +2952,6 @@ async function confirmReject() {
 
   }
 
-
   if (!selectedRequestId) {
 
     alert(
@@ -2939,116 +2962,54 @@ async function confirmReject() {
 
   }
 
-
-  if (!selectedRequestSource) {
-
-    alert(
-      'Request source is missing.'
-    );
-
-    return;
-
-  }
-
-
   const requestId =
     selectedRequestId;
 
-
-  const requestSource =
-    selectedRequestSource;
-
+  document.getElementById(
+    'rejectModal'
+  ).classList.remove(
+    'show'
+  );
 
   isProcessing = true;
 
+  showProcessing(
+    'Processing Rejection',
+    'Rejecting the registry update request and sending notification. Please wait...'
+  );
 
   try {
-
-    closeRejectModal();
-
-
-    showMessage(
-      'dashboardMessage',
-      'Processing rejection request...',
-      'info'
-    );
-
-
-    console.log(
-      'REJECTING REQUEST:',
-      {
-
-        requestId:
-          requestId,
-
-        requestSource:
-          requestSource,
-
-        rejectionReason:
-          reason
-
-      }
-    );
-
 
     const result =
       await apiRequest(
         'reject_request',
         {
-
           sessionToken:
             sessionToken,
 
           requestId:
             requestId,
 
-          requestSource:
-            requestSource,
-
-          /*
-           * Compatibility alias.
-           */
-
-          source:
-            requestSource,
-
           rejectionReason:
             reason
-
         }
       );
 
+    hideProcessing();
 
-    console.log(
-      'REJECTION RESULT:',
-      result
+    showRejectionSuccessModal(
+      result,
+      requestId
     );
-
-
-    await loadPendingRequests();
-
-
-    showMessage(
-      'dashboardMessage',
-      result.message ||
-      'Request rejected successfully.',
-      'success'
-    );
-
 
   }
   catch (error) {
 
-    console.error(
-      'REJECTION ERROR:',
-      error
-    );
-
+    hideProcessing();
 
     const message =
       error.message ||
       'Unable to reject request.';
-
 
     if (
       message.toLowerCase()
@@ -3061,7 +3022,6 @@ async function confirmReject() {
 
     }
 
-
     showMessage(
       'dashboardMessage',
       message,
@@ -3071,12 +3031,119 @@ async function confirmReject() {
   }
   finally {
 
+    selectedRequestId = '';
+
     isProcessing = false;
 
   }
 
 }
 
+
+/* ============================================================
+   REJECTION SUCCESS MODAL
+============================================================ */
+
+function showRejectionSuccessModal(
+  result,
+  requestId
+) {
+
+  reloadAfterSuccess = true;
+
+  document.getElementById(
+    'successTitle'
+  ).textContent =
+    'Request Rejected';
+
+
+  document.getElementById(
+    'successText'
+  ).textContent =
+    result.message ||
+    'The registry update request has been rejected.';
+
+
+  const emailStatus =
+    result.emailStatus ||
+    (
+      result.emailSent
+        ? 'SENT'
+        : 'NOT SENT'
+    );
+
+
+  document.getElementById(
+    'successDetails'
+  ).innerHTML = `
+
+    <div class="success-detail-row">
+
+      <span class="success-detail-label">
+        Request ID
+      </span>
+
+      <span class="success-detail-value">
+        ${escapeHtml(
+          result.requestId ||
+          requestId
+        )}
+      </span>
+
+    </div>
+
+
+    <div class="success-detail-row">
+
+      <span class="success-detail-label">
+        Registry Number
+      </span>
+
+      <span class="success-detail-value">
+        ${escapeHtml(
+          result.registryNumber ||
+          '—'
+        )}
+      </span>
+
+    </div>
+
+
+    <div class="success-detail-row">
+
+      <span class="success-detail-label">
+        Request Status
+      </span>
+
+      <span class="success-detail-value">
+        ✓ REJECTED
+      </span>
+
+    </div>
+
+
+    <div class="success-detail-row">
+
+      <span class="success-detail-label">
+        Owner Email
+      </span>
+
+      <span class="success-detail-value">
+        ${escapeHtml(emailStatus)}
+      </span>
+
+    </div>
+
+  `;
+
+
+  document.getElementById(
+    'successModal'
+  ).classList.add(
+    'show'
+  );
+
+}
 
 
 /* ============================================================
@@ -3085,17 +3152,17 @@ async function confirmReject() {
 
 async function logout() {
 
+  if (isProcessing) {
+    return;
+  }
 
   if (
     !confirm(
       'Logout from the Approval Center?'
     )
   ) {
-
     return;
-
   }
-
 
   try {
 
@@ -3104,10 +3171,8 @@ async function logout() {
       await apiRequest(
         'logout',
         {
-
           sessionToken:
             sessionToken
-
         }
       );
 
@@ -3123,40 +3188,27 @@ async function logout() {
 
   }
 
-
   sessionToken = '';
-
-
-  selectedRequestId = '';
-
-
-  selectedRequestSource = '';
-
 
   sessionStorage.removeItem(
     'BRCC_MOBILE_APPROVAL_SESSION'
   );
 
-
   document.getElementById(
     'requestList'
   ).innerHTML = '';
-
 
   document.getElementById(
     'pendingCount'
   ).textContent = '0';
 
-
   hideMessage(
     'dashboardMessage'
   );
 
-
   showLogin();
 
 }
-
 
 
 /* ============================================================
@@ -3165,28 +3217,19 @@ async function logout() {
 
 function sessionExpired() {
 
-
   sessionToken = '';
-
-  selectedRequestId = '';
-
-  selectedRequestSource = '';
-
 
   sessionStorage.removeItem(
     'BRCC_MOBILE_APPROVAL_SESSION'
   );
 
-
   alert(
     'Your admin session has expired. Please login again.'
   );
 
-
   showLogin();
 
 }
-
 
 
 /* ============================================================
@@ -3199,16 +3242,13 @@ function showMessage(
   type
 ) {
 
-
   const element =
     document.getElementById(
       elementId
     );
 
-
   element.textContent =
     message;
-
 
   element.className =
     'message show ' +
@@ -3217,24 +3257,18 @@ function showMessage(
 }
 
 
-
 /* ============================================================
    HIDE MESSAGE
 ============================================================ */
 
-function hideMessage(
-  elementId
-) {
-
+function hideMessage(elementId) {
 
   const element =
     document.getElementById(
       elementId
     );
 
-
   element.textContent = '';
-
 
   element.className =
     'message';
@@ -3242,21 +3276,16 @@ function hideMessage(
 }
 
 
-
 /* ============================================================
    LOADING
 ============================================================ */
 
-function showLoading(
-  show
-) {
-
+function showLoading(show) {
 
   const loading =
     document.getElementById(
       'loading'
     );
-
 
   loading.style.display =
     show
@@ -3268,79 +3297,45 @@ function showLoading(
 }
 
 
-
 /* ============================================================
    FORMAT VALUE
 ============================================================ */
 
-function formatValue(
-  value
-) {
-
+function formatValue(value) {
 
   if (
     value === null ||
     value === undefined ||
     value === ''
   ) {
-
     return '—';
-
   }
 
-
-  return String(
-    value
-  );
+  return String(value);
 
 }
-
 
 
 /* ============================================================
    HTML ESCAPE
 ============================================================ */
 
-function escapeHtml(
-  value
-) {
-
+function escapeHtml(value) {
 
   return String(
-
     value === null ||
     value === undefined
       ?
       ''
       :
       value
-
   )
 
-  .replace(
-    /&/g,
-    '&amp;'
-  )
-
-  .replace(
-    /</g,
-    '&lt;'
-  )
-
-  .replace(
-    />/g,
-    '&gt;'
-  )
-
-  .replace(
-    /"/g,
-    '&quot;'
-  )
-
-  .replace(
-    /'/g,
-    '&#039;'
-  );
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#039;');
 
 }
 
@@ -3349,19 +3344,13 @@ function escapeHtml(
    ATTRIBUTE ESCAPE
 ============================================================ */
 
-function escapeAttribute(
-  value
-) {
+function escapeAttribute(value) {
 
-  return escapeHtml(
-    value
-  );
+  return escapeHtml(value);
 
 }
 
-
 </script>
-
 
 </body>
 </html>
