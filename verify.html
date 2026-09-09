@@ -188,6 +188,20 @@
       display: none;
     }
 
+    .owner-summary {
+  margin: 5px 0 20px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.owner-summary .row {
+  background: #fafafa;
+}
+
+.owner-summary .label {
+  font-weight: 600;
+}
+
   </style>
 
 </head>
@@ -543,6 +557,32 @@ content.innerHTML =
 
   }
 
+  function formatDogCount(count) {
+
+  count = Number(count || 0);
+
+  if (count === 1) {
+    return '1 Dog';
+  }
+
+  return count + ' Dogs';
+}
+
+
+function formatPuppyCount(count) {
+
+  count = Number(count || 0);
+
+  if (count === 0) {
+    return 'None';
+  }
+
+  if (count === 1) {
+    return '1 Puppy';
+  }
+
+  return count + ' Puppies';
+}
 
   /* ==========================================================
      DISPLAY INVALID
