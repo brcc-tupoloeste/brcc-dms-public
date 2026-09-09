@@ -391,6 +391,9 @@
     const dog =
       result.dog || {};
 
+    const owner =
+  result.owner || {};
+
 
     let photoHtml = '';
 
@@ -412,23 +415,47 @@
     }
 
 
-    content.innerHTML =
+content.innerHTML =
 
-      '<div class="status verified">' +
+  '<div class="status verified">' +
 
-        '<div class="status-icon">✓</div>' +
+    '<div class="status-icon">✓</div>' +
 
-        '<h2>VERIFIED</h2>' +
+    '<h2>VERIFIED</h2>' +
 
-        '<div class="valid-badge">' +
-          'VALID DOG REGISTRATION' +
-        '</div>' +
+    '<div class="valid-badge">' +
+      'VALID DOG REGISTRATION' +
+    '</div>' +
 
-      '</div>' +
+  '</div>' +
 
-      photoHtml +
+  photoHtml +
 
-      '<div class="registry-number">' +
+  '<div class="owner-summary">' +
+
+    detailRow(
+      'Owner',
+      owner.maskedName
+    ) +
+
+    detailRow(
+      'Registered Dogs',
+      formatDogCount(
+        owner.registeredDogCount
+      )
+    ) +
+
+    detailRow(
+      'Puppies Reported',
+      formatPuppyCount(
+        owner.puppyCount
+      )
+    ) +
+
+  '</div>' +
+
+  '<div class="registry-number">' +
+  
         escapeHtml(
           dog.registryNumber || ''
         ) +
