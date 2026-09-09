@@ -872,6 +872,7 @@
             <option value="Sex">Sex</option>
             <option value="Birthdate">Birthdate</option>
             <option value="Dog Photo">Dog Photo</option>
+            <option value="Vaccination">Vaccination</option>
 
           </select>
 
@@ -921,6 +922,57 @@
             class="photo-empty"
           >
             No current dog photo is available in the registry.
+          </div>
+
+        </div>
+
+
+        <!-- VACCINATION UPDATE -->
+
+        <div id="vaccinationGroup" class="hidden">
+
+          <div class="form-group">
+            <label for="vaccinationStatus">
+              Vaccination Status <span class="required">*</span>
+            </label>
+            <select id="vaccinationStatus">
+              <option value="">Select vaccination status</option>
+              <option value="VACCINATED">Vaccinated</option>
+              <option value="UNVACCINATED">Unvaccinated</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="vaccinationDate">
+              Vaccination Date <span class="required">*</span>
+            </label>
+            <input type="date" id="vaccinationDate">
+          </div>
+
+          <div class="form-group">
+            <label for="vaccineName">
+              Vaccine Name <span class="required">*</span>
+            </label>
+            <input type="text" id="vaccineName" placeholder="Enter vaccine name" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label for="batchNumber">Batch Number</label>
+            <input type="text" id="batchNumber" placeholder="Enter batch number" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label for="vaccinatedBy">
+              Vaccinated By <span class="required">*</span>
+            </label>
+            <input type="text" id="vaccinatedBy" placeholder="Enter name of vaccinator" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label for="nextVaccinationDate">
+              Next Vaccination Date <span class="required">*</span>
+            </label>
+            <input type="date" id="nextVaccinationDate">
           </div>
 
         </div>
@@ -1116,6 +1168,27 @@
 
       const photoPreview =
         document.getElementById('photoPreview');
+
+      const vaccinationGroup =
+        document.getElementById('vaccinationGroup');
+
+      const vaccinationStatusInput =
+        document.getElementById('vaccinationStatus');
+
+      const vaccinationDateInput =
+        document.getElementById('vaccinationDate');
+
+      const vaccineNameInput =
+        document.getElementById('vaccineName');
+
+      const batchNumberInput =
+        document.getElementById('batchNumber');
+
+      const vaccinatedByInput =
+        document.getElementById('vaccinatedBy');
+
+      const nextVaccinationDateInput =
+        document.getElementById('nextVaccinationDate');
 
 
       /* =========================================
@@ -1457,6 +1530,13 @@
 
         selectedFileName = '';
 
+        vaccinationStatusInput.value = '';
+        vaccinationDateInput.value = '';
+        vaccineNameInput.value = '';
+        batchNumberInput.value = '';
+        vaccinatedByInput.value = '';
+        nextVaccinationDateInput.value = '';
+
         photoPreview.removeAttribute(
           'src'
         );
@@ -1476,8 +1556,26 @@
 
         }
 
+        if (
+          updateType === 'Vaccination'
+        ) {
+
+          handleVaccinationUpdate();
+
+          return;
+
+        }
+
 
         /* NORMAL INFORMATION UPDATE */
+
+        vaccinationGroup.classList.add('hidden');
+
+        vaccinationStatusInput.required = false;
+        vaccinationDateInput.required = false;
+        vaccineNameInput.required = false;
+        vaccinatedByInput.required = false;
+        nextVaccinationDateInput.required = false;
 
         currentInformationGroup.classList.remove(
           'hidden'
@@ -1564,6 +1662,47 @@
           verifiedRecord
         );
 
+      }
+
+
+      /* =========================================
+         VACCINATION UPDATE MODE
+      ========================================= */
+
+      function handleVaccinationUpdate() {
+
+        if (!verifiedRecord) {
+          console.warn(
+            'No verified record available for vaccination update.'
+          );
+          return;
+        }
+
+        currentInformationGroup.classList.remove('hidden');
+        newInformationGroup.classList.add('hidden');
+        vaccinationGroup.classList.remove('hidden');
+
+        newInformationInput.required = false;
+
+        vaccinationStatusInput.required = true;
+        vaccinationDateInput.required = true;
+        vaccineNameInput.required = true;
+        vaccinatedByInput.required = true;
+        nextVaccinationDateInput.required = true;
+
+        newInformationInput.value = '';
+
+        supportingFileInput.required = true;
+
+        supportingFileLabel.innerHTML =
+          'Upload Vaccination Card <span class="required">*</span>';
+
+        fileNote.textContent =
+          'Required. Upload a clear JPG or PNG image of the vaccination card. Maximum file size: 5MB.';
+
+        currentPhotoBox.classList.remove('show');
+
+        displayCurrentVaccinationInformation();
       }
 
 
@@ -1721,6 +1860,55 @@
           'empty'
         );
 
+      }
+
+
+      /* =========================================
+         DISPLAY CURRENT VACCINATION
+      ========================================= */
+
+      function displayCurrentVaccinationInformation() {
+
+        if (!verifiedRecord) return;
+
+        const status = getRecordValue(
+          ['vaccinationStatus', 'Vaccination Status'], ''
+        );
+
+        const lastDate = getRecordValue(
+          ['lastVaccinationDate', 'Last Vaccination Date',
+           'vaccinationDate', 'Vaccination Date'], ''
+        );
+
+        const nextDate = getRecordValue(
+          ['nextVaccinationDate', 'Next Vaccination Date'], ''
+        );
+
+        const vaccineName = getRecordValue(
+          ['vaccineName', 'Vaccine Name'], ''
+        );
+
+        const vaccinatedBy = getRecordValue(
+          ['vaccinatedBy', 'Vaccinated By'], ''
+        );
+
+        const lines = [];
+
+        if (status) lines.push('Status: ' + status);
+        if (lastDate) lines.push('Last Vaccination Date: ' + lastDate);
+        if (nextDate) lines.push('Next Vaccination Date: ' + nextDate);
+        if (vaccineName) lines.push('Vaccine Name: ' + vaccineName);
+        if (vaccinatedBy) lines.push('Vaccinated By: ' + vaccinatedBy);
+
+        if (!lines.length) {
+          currentInformationBox.textContent =
+            'No current vaccination information is available in the registry.';
+          currentInformationBox.classList.add('empty');
+          return;
+        }
+
+        currentInformationBox.textContent = lines.join('\n');
+        currentInformationBox.classList.remove('empty');
       }
 
 
@@ -2196,10 +2384,47 @@
           }
 
 
+          /* VACCINATION UPDATE VALIDATION */
+
+          if (updateType === 'Vaccination') {
+
+            if (!vaccinationStatusInput.value) {
+              showMessage('Please select the vaccination status.', 'error');
+              return;
+            }
+
+            if (!vaccinationDateInput.value) {
+              showMessage('Please enter the vaccination date.', 'error');
+              return;
+            }
+
+            if (!vaccineNameInput.value.trim()) {
+              showMessage('Please enter the vaccine name.', 'error');
+              return;
+            }
+
+            if (!vaccinatedByInput.value.trim()) {
+              showMessage('Please enter who vaccinated the dog.', 'error');
+              return;
+            }
+
+            if (!nextVaccinationDateInput.value) {
+              showMessage('Please enter the next vaccination date.', 'error');
+              return;
+            }
+
+            if (!selectedFileData) {
+              showMessage('Please upload the vaccination card.', 'error');
+              return;
+            }
+          }
+
+
           /* NORMAL FIELD VALIDATION */
 
           if (
             updateType !== 'Dog Photo' &&
+            updateType !== 'Vaccination' &&
             !newInformationInput.value.trim()
           ) {
 
@@ -2234,6 +2459,15 @@
 
             newInformation =
               'Dog Photo Update';
+
+          }
+
+          if (
+            updateType === 'Vaccination'
+          ) {
+
+            newInformation =
+              'Vaccination Update';
 
           }
 
@@ -2277,7 +2511,37 @@
               selectedFileData,
 
             supportingFileName:
-              selectedFileName
+              selectedFileName,
+
+            vaccinationStatus:
+              updateType === 'Vaccination'
+                ? vaccinationStatusInput.value
+                : '',
+
+            vaccinationDate:
+              updateType === 'Vaccination'
+                ? vaccinationDateInput.value
+                : '',
+
+            vaccineName:
+              updateType === 'Vaccination'
+                ? vaccineNameInput.value.trim()
+                : '',
+
+            batchNumber:
+              updateType === 'Vaccination'
+                ? batchNumberInput.value.trim()
+                : '',
+
+            vaccinatedBy:
+              updateType === 'Vaccination'
+                ? vaccinatedByInput.value.trim()
+                : '',
+
+            nextVaccinationDate:
+              updateType === 'Vaccination'
+                ? nextVaccinationDateInput.value
+                : ''
 
           };
 
@@ -2412,6 +2676,15 @@
           'show'
         );
 
+        vaccinationGroup.classList.add('hidden');
+
+        vaccinationStatusInput.value = '';
+        vaccinationDateInput.value = '';
+        vaccineNameInput.value = '';
+        batchNumberInput.value = '';
+        vaccinatedByInput.value = '';
+        nextVaccinationDateInput.value = '';
+
 
         verifiedBox.classList.remove(
           'show'
@@ -2440,6 +2713,14 @@
 
         newInformationInput.required =
           true;
+
+        vaccinationGroup.classList.add('hidden');
+
+        vaccinationStatusInput.required = false;
+        vaccinationDateInput.required = false;
+        vaccineNameInput.required = false;
+        vaccinatedByInput.required = false;
+        nextVaccinationDateInput.required = false;
 
 
         supportingFileInput.required =
