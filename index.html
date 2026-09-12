@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -10,12 +12,14 @@
 
   <title>BRCC-DMS | Public Services</title>
 
+
   <style>
 
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
+
 
     html,
     body {
@@ -25,229 +29,957 @@
       min-height: 100%;
     }
 
+
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-      color: #334155;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      color: #164e3b;
+
+      background:
+        linear-gradient(
+          180deg,
+          #b8f0bd 0%,
+          #e8f9e5 32%,
+          #f4fbea 70%,
+          #d7f1d7 100%
+        );
+
+      overflow-x: hidden;
     }
+
+
+    /* =========================================================
+       PAGE
+    ========================================================= */
 
     .page-wrapper {
+
       width: 100%;
       min-height: 100vh;
-      padding: 35px 20px 40px;
+
+      padding:
+        28px 16px 0;
+
+      position: relative;
+
+      overflow: hidden;
     }
+
 
     .container {
+
       width: 100%;
       max-width: 760px;
+
       margin: 0 auto;
+
+      position: relative;
+
+      z-index: 2;
     }
 
-    /* =========================================
+
+    /* =========================================================
+       BACKGROUND PAW DECORATIONS
+    ========================================================= */
+
+    .paw {
+
+      position: absolute;
+
+      font-size: 58px;
+
+      opacity: 0.12;
+
+      pointer-events: none;
+
+      z-index: 0;
+
+      transform: rotate(-15deg);
+    }
+
+
+    .paw-1 {
+      top: 80px;
+      left: 12px;
+    }
+
+
+    .paw-2 {
+
+      top: 170px;
+      right: 12px;
+
+      transform:
+        rotate(18deg);
+    }
+
+
+    .paw-3 {
+
+      top: 460px;
+      left: -10px;
+
+      font-size: 48px;
+
+      transform:
+        rotate(12deg);
+    }
+
+
+    .paw-4 {
+
+      top: 720px;
+      right: -5px;
+
+      font-size: 52px;
+
+      transform:
+        rotate(-18deg);
+    }
+
+
+    /* =========================================================
+       DECORATIVE WAVES
+    ========================================================= */
+
+    .wave-top {
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 250px;
+
+      overflow: hidden;
+
+      pointer-events: none;
+
+      z-index: 0;
+    }
+
+
+    .wave-top::before {
+
+      content: "";
+
+      position: absolute;
+
+      width: 120%;
+      height: 170px;
+
+      left: -10%;
+      top: -70px;
+
+      background:
+        #6dcc79;
+
+      border-radius:
+        0 0 50% 50%;
+
+      opacity: 0.28;
+
+      transform:
+        rotate(-3deg);
+    }
+
+
+    .wave-top::after {
+
+      content: "";
+
+      position: absolute;
+
+      width: 125%;
+      height: 120px;
+
+      left: -12%;
+      top: 40px;
+
+      background:
+        #32a852;
+
+      border-radius:
+        50%;
+
+      opacity: 0.15;
+
+      transform:
+        rotate(-5deg);
+    }
+
+
+    /* =========================================================
        HEADER
-    ========================================= */
+    ========================================================= */
 
     .header {
+
       text-align: center;
+
       margin-bottom: 30px;
+
+      position: relative;
+
+      z-index: 2;
     }
+
 
     .barangay-logo {
-      width: 100px;
-      height: 100px;
+
+      width: 105px;
+      height: 105px;
+
       object-fit: contain;
+
       display: block;
-      margin: 0 auto 12px;
+
+      margin:
+        10px auto 12px;
+
+      filter:
+        drop-shadow(
+          0 5px 8px
+          rgba(0, 80, 45, 0.16)
+        );
     }
+
 
     .barangay-name {
+
       margin: 0;
-      font-size: 25px;
-      font-weight: 800;
+
+      font-size: 27px;
+
+      font-weight: 900;
+
       letter-spacing: 1px;
-      color: #334155;
+
+      color: #064e3b;
+
+      text-shadow:
+        0 1px 0 #ffffff;
     }
+
 
     .barangay-location {
+
       margin-top: 5px;
-      font-size: 15px;
-      color: #64748b;
+
+      font-size: 16px;
+
+      color: #28734e;
+
+      font-weight: 500;
     }
+
+
+    /* =========================================================
+       TITLE
+    ========================================================= */
+
+    .title-divider {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 14px;
+
+      margin:
+        22px auto 4px;
+
+      max-width: 540px;
+    }
+
+
+    .title-divider-line {
+
+      height: 2px;
+
+      flex: 1;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          #279653
+        );
+    }
+
+
+    .title-divider-line.right {
+
+      background:
+        linear-gradient(
+          90deg,
+          #279653,
+          transparent
+        );
+    }
+
+
+    .title-leaf {
+
+      font-size: 25px;
+
+      line-height: 1;
+
+      color: #16834a;
+    }
+
 
     .page-title {
-      margin: 22px 0 8px;
-      font-size: 30px;
-      font-weight: 800;
-      color: #334155;
+
+      margin:
+        14px 0 8px;
+
+      font-size: 36px;
+
+      font-weight: 900;
+
+      color: #064e3b;
+
+      letter-spacing: -0.5px;
     }
+
 
     .page-subtitle {
-      margin: 0;
+
+      margin: 0 auto;
+
+      max-width: 600px;
+
       font-size: 16px;
+
       line-height: 1.5;
-      color: #64748b;
+
+      color: #365f50;
     }
 
 
-    /* =========================================
+    /* =========================================================
        SERVICES
-    ========================================= */
+    ========================================================= */
 
     .services {
+
       display: flex;
+
       flex-direction: column;
+
       gap: 16px;
+
       margin-top: 30px;
+
+      position: relative;
+
+      z-index: 3;
     }
+
+
+    /* =========================================================
+       SERVICE CARD
+    ========================================================= */
 
     .service-card {
+
       display: flex;
+
       align-items: center;
+
       width: 100%;
-      padding: 20px;
+
+      min-height: 132px;
+
+      padding: 18px 20px;
+
       text-decoration: none;
+
       color: inherit;
-      background: #ffffff;
-      border: 1px solid #dbe2ea;
-      border-radius: 18px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      cursor: pointer;
+
+      background:
+        rgba(255, 255, 255, 0.96);
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.85);
+
+      border-left:
+        8px solid #21a052;
+
+      border-radius: 20px;
+
+      box-shadow:
+        0 8px 22px
+        rgba(20, 83, 45, 0.12);
+
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
     }
+
 
     .service-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 12px 28px
+        rgba(20, 83, 45, 0.18);
     }
+
 
     .service-card:active {
-      transform: scale(0.99);
+
+      transform:
+        scale(0.985);
     }
 
+
+    /* =========================================================
+       CARD COLORS
+    ========================================================= */
+
+    .service-card.registration {
+
+      border-left-color:
+        #159447;
+    }
+
+
+    .service-card.update {
+
+      border-left-color:
+        #168bea;
+    }
+
+
+    .service-card.puppy {
+
+      border-left-color:
+        #f59a0b;
+    }
+
+
+    /* =========================================================
+       SERVICE ICON
+    ========================================================= */
+
     .service-icon {
-      width: 66px;
-      height: 66px;
-      min-width: 66px;
+
+      width: 78px;
+      height: 78px;
+
+      min-width: 78px;
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
 
       margin-right: 18px;
 
-      border-radius: 16px;
+      border-radius: 50%;
 
-      background: #eef2f6;
+      font-size: 40px;
 
-      font-size: 34px;
+      box-shadow:
+        inset 0 0 0 1px
+        rgba(0, 0, 0, 0.025);
     }
 
+
+    .registration .service-icon {
+
+      background:
+        #d8f5d3;
+    }
+
+
+    .update .service-icon {
+
+      background:
+        #d8edff;
+    }
+
+
+    .puppy .service-icon {
+
+      background:
+        #ffebcf;
+    }
+
+
+    /* =========================================================
+       CARD CONTENT
+    ========================================================= */
+
     .service-content {
+
       flex: 1;
+
       min-width: 0;
     }
 
+
     .service-title {
-      margin: 0 0 7px;
-      font-size: 21px;
-      font-weight: 800;
-      color: #334155;
+
+      margin:
+        0 0 6px;
+
+      font-size: 22px;
+
+      line-height: 1.2;
+
+      font-weight: 900;
+
+      color: #064e3b;
     }
+
 
     .service-description {
+
       margin: 0;
+
       font-size: 15px;
-      line-height: 1.5;
-      color: #64748b;
+
+      line-height: 1.45;
+
+      color: #52675e;
     }
+
+
+    /* =========================================================
+       ARROW
+    ========================================================= */
 
     .service-arrow {
-      margin-left: 15px;
-      font-size: 30px;
+
+      margin-left: 12px;
+
+      font-size: 42px;
+
+      line-height: 1;
+
       font-weight: 300;
-      color: #94a3b8;
     }
 
 
-    /* =========================================
+    .registration .service-arrow {
+
+      color:
+        #159447;
+    }
+
+
+    .update .service-arrow {
+
+      color:
+        #168bea;
+    }
+
+
+    .puppy .service-arrow {
+
+      color:
+        #f59a0b;
+    }
+
+
+    /* =========================================================
+       BOTTOM LANDSCAPE
+    ========================================================= */
+
+    .landscape {
+
+      width: 100vw;
+
+      position: relative;
+
+      left: 50%;
+
+      margin-left: -50vw;
+
+      margin-top: 40px;
+
+      height: 155px;
+
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          180deg,
+          transparent 0%,
+          rgba(137, 211, 126, 0.25) 40%,
+          #8bd579 100%
+        );
+    }
+
+
+    .hill {
+
+      position: absolute;
+
+      bottom: 0;
+
+      width: 120%;
+
+      height: 105px;
+
+      left: -10%;
+
+      background:
+        #a8e78f;
+
+      border-radius:
+        50% 50% 0 0;
+
+      transform:
+        rotate(-2deg);
+    }
+
+
+    .hill-back {
+
+      position: absolute;
+
+      bottom: 5px;
+
+      width: 120%;
+
+      height: 80px;
+
+      left: -10%;
+
+      background:
+        #c8efad;
+
+      border-radius:
+        50% 50% 0 0;
+
+      transform:
+        rotate(3deg);
+    }
+
+
+    .grass {
+
+      position: absolute;
+
+      bottom: 0;
+
+      left: 0;
+
+      width: 100%;
+
+      height: 35px;
+
+      background:
+        #18864a;
+    }
+
+
+    .dog-silhouette {
+
+      position: absolute;
+
+      bottom: 18px;
+
+      left: 11%;
+
+      font-size: 72px;
+
+      line-height: 1;
+
+      filter:
+        grayscale(1);
+
+      opacity: 0.9;
+    }
+
+
+    .dog-silhouette-small {
+
+      position: absolute;
+
+      bottom: 17px;
+
+      left: 27%;
+
+      font-size: 45px;
+
+      line-height: 1;
+
+      opacity: 0.8;
+    }
+
+
+    /* =========================================================
        FOOTER
-    ========================================= */
+    ========================================================= */
 
     .footer {
-      margin-top: 34px;
-      padding-top: 20px;
-      border-top: 1px solid #dbe2ea;
+
+      position: relative;
+
+      z-index: 4;
+
+      margin:
+        0 -16px;
+
+      padding:
+        15px 20px 22px;
+
+      background:
+        #087a3e;
+
       text-align: center;
+
       font-size: 13px;
+
       line-height: 1.6;
-      color: #94a3b8;
+
+      color:
+        rgba(255,255,255,0.92);
     }
 
 
-    /* =========================================
+    .footer strong {
+
+      font-weight: 700;
+    }
+
+
+    /* =========================================================
        MOBILE
-    ========================================= */
+    ========================================================= */
 
     @media (max-width: 600px) {
 
+
       .page-wrapper {
-        padding: 25px 14px 30px;
+
+        padding:
+          22px 14px 0;
       }
 
-      .container {
-        max-width: 100%;
-      }
 
       .barangay-logo {
-        width: 85px;
-        height: 85px;
+
+        width: 92px;
+        height: 92px;
+
+        margin-top: 8px;
       }
 
+
       .barangay-name {
+
+        font-size: 22px;
+
+        letter-spacing:
+          0.5px;
+      }
+
+
+      .barangay-location {
+
+        font-size: 14px;
+      }
+
+
+      .title-divider {
+
+        margin-top: 18px;
+
+        gap: 10px;
+      }
+
+
+      .title-leaf {
+
         font-size: 21px;
       }
 
-      .barangay-location {
-        font-size: 14px;
-      }
 
       .page-title {
-        font-size: 27px;
+
+        margin-top: 12px;
+
+        font-size: 30px;
       }
+
 
       .page-subtitle {
+
         font-size: 14px;
+
+        padding:
+          0 8px;
       }
 
+
       .services {
+
         gap: 14px;
+
         margin-top: 25px;
       }
 
+
       .service-card {
-        padding: 16px;
-        border-radius: 16px;
+
+        min-height: 112px;
+
+        padding:
+          14px 14px;
+
+        border-radius: 18px;
+
+        border-left-width: 7px;
       }
+
 
       .service-icon {
-        width: 58px;
-        height: 58px;
-        min-width: 58px;
-        margin-right: 14px;
-        font-size: 29px;
+
+        width: 62px;
+        height: 62px;
+
+        min-width: 62px;
+
+        margin-right: 13px;
+
+        font-size: 31px;
       }
+
 
       .service-title {
+
         font-size: 18px;
+
+        margin-bottom: 5px;
       }
+
 
       .service-description {
+
         font-size: 13px;
+
+        line-height: 1.4;
       }
 
+
       .service-arrow {
-        margin-left: 8px;
-        font-size: 25px;
+
+        margin-left: 7px;
+
+        font-size: 32px;
+      }
+
+
+      .landscape {
+
+        height: 125px;
+
+        margin-top: 32px;
+      }
+
+
+      .dog-silhouette {
+
+        font-size: 57px;
+
+        left: 7%;
+      }
+
+
+      .dog-silhouette-small {
+
+        font-size: 36px;
+
+        left: 25%;
+      }
+
+
+      .footer {
+
+        margin:
+          0 -14px;
+
+        padding:
+          13px 15px 20px;
+
+        font-size: 12px;
+      }
+
+    }
+
+
+    /* =========================================================
+       VERY SMALL PHONES
+    ========================================================= */
+
+    @media (max-width: 380px) {
+
+
+      .barangay-name {
+
+        font-size: 20px;
+      }
+
+
+      .page-title {
+
+        font-size: 27px;
+      }
+
+
+      .service-card {
+
+        padding:
+          12px;
+      }
+
+
+      .service-icon {
+
+        width: 55px;
+        height: 55px;
+
+        min-width: 55px;
+
+        margin-right: 11px;
+
+        font-size: 27px;
+      }
+
+
+      .service-title {
+
+        font-size: 17px;
+      }
+
+
+      .service-description {
+
+        font-size: 12px;
+      }
+
+
+      .service-arrow {
+
+        font-size: 28px;
       }
 
     }
@@ -259,18 +991,30 @@
 
 <body>
 
+
+  <!-- =======================================================
+       BACKGROUND DECORATION
+  ======================================================== -->
+
+  <div class="wave-top"></div>
+
+  <div class="paw paw-1">🐾</div>
+  <div class="paw paw-2">🐾</div>
+  <div class="paw paw-3">🐾</div>
+  <div class="paw paw-4">🐾</div>
+
+
   <div class="page-wrapper">
 
     <div class="container">
 
 
-      <!-- =====================================
+      <!-- ===================================================
            HEADER
-      ====================================== -->
+      ==================================================== -->
 
       <header class="header">
 
-        <!-- BARANGAY LOGO -->
 
         <img
           src="barangay-logo.png"
@@ -289,31 +1033,50 @@
         </div>
 
 
+        <div class="title-divider">
+
+          <div class="title-divider-line"></div>
+
+          <div class="title-leaf">
+            🍃
+          </div>
+
+          <div
+            class="title-divider-line right"
+          ></div>
+
+        </div>
+
+
         <h2 class="page-title">
           Public Services
         </h2>
 
 
         <p class="page-subtitle">
-          Access the Barangay Rabies Control Committee online services.
+          Access the Barangay Rabies Control Committee
+          online services.
         </p>
+
 
       </header>
 
 
 
-      <!-- =====================================
+      <!-- ===================================================
            PUBLIC SERVICES
-      ====================================== -->
+      ==================================================== -->
 
       <main class="services">
 
 
-        <!-- DOG REGISTRATION -->
+        <!-- ===============================================
+             DOG REGISTRATION
+        ================================================ -->
 
         <a
           href="registration.html"
-          class="service-card"
+          class="service-card registration"
         >
 
           <div class="service-icon">
@@ -327,8 +1090,10 @@
               Dog Registration
             </h3>
 
+
             <p class="service-description">
-              Register your dog with the Barangay Dog Registry.
+              Register your dog with the
+              Barangay Dog Registry.
             </p>
 
           </div>
@@ -342,11 +1107,13 @@
 
 
 
-        <!-- REGISTRY UPDATE -->
+        <!-- ===============================================
+             REGISTRY UPDATE
+        ================================================ -->
 
         <a
           href="update.html"
-          class="service-card"
+          class="service-card update"
         >
 
           <div class="service-icon">
@@ -360,8 +1127,10 @@
               Registry Update
             </h3>
 
+
             <p class="service-description">
-              Request updates to an existing dog registry record.
+              Request updates to an existing
+              dog registry record.
             </p>
 
           </div>
@@ -375,11 +1144,13 @@
 
 
 
-        <!-- PUPPY REPORT -->
+        <!-- ===============================================
+             PUPPY REPORT
+        ================================================ -->
 
         <a
           href="puppy-report.html"
-          class="service-card"
+          class="service-card puppy"
         >
 
           <div class="service-icon">
@@ -393,8 +1164,10 @@
               Puppy Report
             </h3>
 
+
             <p class="service-description">
-              Report newborn puppies from a registered dog.
+              Report newborn puppies from a
+              registered dog.
             </p>
 
           </div>
@@ -410,23 +1183,52 @@
       </main>
 
 
+    </div>
 
-      <!-- =====================================
-           FOOTER
-      ====================================== -->
 
-      <footer class="footer">
+    <!-- =====================================================
+         LANDSCAPE FOOTER
+    ====================================================== -->
 
-        Barangay Rabies Control Committee
-        <br>
-        BRCC-DMS Public Services
+    <div class="landscape">
 
-      </footer>
+      <div class="hill-back"></div>
 
+      <div class="hill"></div>
+
+      <div class="dog-silhouette">
+        🐕
+      </div>
+
+      <div class="dog-silhouette-small">
+        🐕
+      </div>
+
+      <div class="grass"></div>
 
     </div>
 
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+      <strong>
+        Barangay Rabies Control Committee
+      </strong>
+
+      <br>
+
+      BRCC-DMS Public Services
+
+    </footer>
+
+
   </div>
 
+
 </body>
+
 </html>
