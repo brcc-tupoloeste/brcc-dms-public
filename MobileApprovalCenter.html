@@ -2430,7 +2430,8 @@ function renderRequests(requests) {
 
           Owner:
           ${escapeHtml(
-            maskOwnerName(request.ownerName || 'Not specified')
+            maskOwnerName(request.ownerName) ||
+            'Not specified'
           )}
 
         </div>
@@ -3309,23 +3310,43 @@ function showLoading(show) {
 
 
 /* ============================================================
-   FORMAT VALUE
+   MASK OWNER NAME
+   Display-only privacy masking.
+   ERLINDA G. ROSANO -> Exxxxxx Gx Rxxxxx
+   ERLINDA GARCIA ROSANO -> Exxxxxx Gxxxxx Rxxxxx
 ============================================================ */
 
 function maskOwnerName(value) {
 
-  var name = String(value || '').trim();
+  if (value === null || value === undefined) {
+    return '';
+  }
 
-  if (!name) return '—';
+  var name = String(value).trim();
+
+  if (!name) {
+    return '';
+  }
 
   return name.split(/\s+/).map(function(part) {
-    var clean = part.replace(/\./g, '');
-    if (!clean) return '';
-    return clean.charAt(0).toUpperCase() + 'x'.repeat(Math.max(clean.length - 1, 1));
-  }).filter(Boolean).join(' ');
 
+    var clean = String(part).replace(/[^A-Za-zÀ-ÖØ-öø-ÿ]/g, '');
+
+    if (!clean) {
+      return '';
+    }
+
+    return clean.charAt(0) + 'x'.repeat(Math.max(clean.length, 1));
+
+  }).filter(function(part) {
+    return part !== '';
+  }).join(' ');
 }
 
+
+/* ============================================================
+   FORMAT VALUE
+============================================================ */
 
 function formatValue(value) {
 
