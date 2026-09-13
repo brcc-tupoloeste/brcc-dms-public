@@ -1,0 +1,719 @@
+/* =========================================================
+   BRCC-DMS PUBLIC PORTAL
+   COMMON THEME
+   Based on index.html master theme
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color: #164e3b;
+
+  background:
+    linear-gradient(
+      180deg,
+      #b8f0bd 0%,
+      #e8f9e5 32%,
+      #f4fbea 70%,
+      #d7f1d7 100%
+    );
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page {
+  width: 100%;
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  padding:
+    28px
+    16px
+    45px;
+
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-button,
+.back-btn {
+  display: block;
+
+  width: 100%;
+
+  margin-bottom: 22px;
+
+  padding:
+    11px
+    15px;
+
+  border:
+    1px solid
+    rgba(21, 148, 71, .22);
+
+  border-radius: 11px;
+
+  background:
+    rgba(255,255,255,.92);
+
+  color:
+    #166534;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  text-align: center;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 12px
+    rgba(20,83,45,.07);
+
+  transition:
+    background .15s ease,
+    transform .15s ease,
+    box-shadow .15s ease;
+}
+
+.back-button:hover,
+.back-btn:hover {
+  background: #ffffff;
+
+  box-shadow:
+    0 6px 16px
+    rgba(20,83,45,.11);
+
+  transform:
+    translateY(-1px);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+  text-align: center;
+
+  margin-bottom: 28px;
+
+  position: relative;
+  z-index: 2;
+}
+
+.barangay-logo {
+  width: 105px;
+  height: 105px;
+
+  object-fit: contain;
+
+  display: block;
+
+  margin:
+    5px auto 12px;
+
+  filter:
+    drop-shadow(
+      0 5px 8px
+      rgba(0,80,45,.16)
+    );
+}
+
+.barangay {
+  margin: 0;
+
+  font-size: 27px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  color: #064e3b;
+
+  text-shadow:
+    0 1px 0 #ffffff;
+}
+
+.location,
+.municipality {
+  margin-top: 5px;
+
+  font-size: 15px;
+
+  color: #28734e;
+
+  font-weight: 500;
+}
+
+.header h1 {
+  margin:
+    18px 0 8px;
+
+  font-size: 32px;
+
+  line-height: 1.2;
+
+  font-weight: 900;
+
+  color: #064e3b;
+
+  letter-spacing: -.4px;
+}
+
+.subtitle,
+.header p {
+  max-width: 600px;
+
+  margin:
+    0 auto;
+
+  font-size: 15px;
+
+  line-height: 1.5;
+
+  color: #365f50;
+}
+
+
+/* =========================================================
+   GREEN DECORATIVE HEADER
+========================================================= */
+
+.page::before {
+  content: "";
+
+  position: fixed;
+
+  top: -90px;
+  left: -10%;
+
+  width: 120%;
+  height: 180px;
+
+  background:
+    #6dcc79;
+
+  border-radius:
+    0 0 50% 50%;
+
+  opacity: .18;
+
+  transform:
+    rotate(-3deg);
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+
+/* =========================================================
+   COMMON CARD
+========================================================= */
+
+.card {
+  width: 100%;
+
+  margin-bottom: 18px;
+
+  padding: 22px;
+
+  background:
+    rgba(255,255,255,.97);
+
+  border:
+    1px solid
+    rgba(21,148,71,.12);
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 8px 22px
+    rgba(20,83,45,.11);
+}
+
+
+/* =========================================================
+   SECTION HEADINGS
+========================================================= */
+
+.section-title {
+  margin-bottom: 7px;
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+  color: #064e3b;
+}
+
+.section-description {
+  margin-bottom: 20px;
+
+  font-size: 13px;
+
+  line-height: 1.55;
+
+  color: #52675e;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-group {
+  width: 100%;
+
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  color: #245c43;
+}
+
+.required {
+  color: #c53030;
+}
+
+input,
+select,
+textarea {
+  display: block;
+
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    13px
+    14px;
+
+  border:
+    1px solid
+    #c9dfcf;
+
+  border-radius: 10px;
+
+  background:
+    #ffffff;
+
+  color:
+    #243b32;
+
+  font-family: inherit;
+
+  font-size: 16px;
+
+  transition:
+    border-color .15s ease,
+    box-shadow .15s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+
+  border-color:
+    #27a653;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(39,166,83,.12);
+}
+
+textarea {
+  min-height: 105px;
+
+  resize: vertical;
+
+  line-height: 1.5;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9aa8a0;
+}
+
+
+/* =========================================================
+   COMMON PRIMARY BUTTONS
+========================================================= */
+
+button.search-btn,
+button.submit-btn,
+button.submit-button,
+button.verify-button,
+button.success-close {
+  width: 100%;
+
+  min-height: 50px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  padding:
+    13px
+    18px;
+
+  background:
+    #159447;
+
+  color:
+    #ffffff;
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 14px
+    rgba(21,148,71,.18);
+
+  transition:
+    background .15s ease,
+    transform .15s ease,
+    box-shadow .15s ease;
+}
+
+button.search-btn:hover,
+button.submit-btn:hover,
+button.submit-button:hover,
+button.verify-button:hover,
+button.success-close:hover {
+  background:
+    #087a3e;
+
+  box-shadow:
+    0 7px 18px
+    rgba(21,148,71,.23);
+
+  transform:
+    translateY(-1px);
+}
+
+button.search-btn:disabled,
+button.submit-btn:disabled,
+button.submit-button:disabled,
+button.verify-button:disabled,
+button.success-close:disabled {
+  opacity: .6;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+.message {
+  display: none;
+
+  margin-bottom: 18px;
+
+  padding:
+    14px
+    15px;
+
+  border-radius: 11px;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0,0,0,.04);
+}
+
+.message.error {
+  background:
+    #fff5f5;
+
+  border:
+    1px solid
+    #feb2b2;
+
+  color:
+    #c53030;
+}
+
+.message.success {
+  background:
+    #edf9f0;
+
+  border:
+    1px solid
+    #b7dfc1;
+
+  color:
+    #276749;
+}
+
+
+/* =========================================================
+   INFO / VERIFIED BOXES
+========================================================= */
+
+.info-box,
+.verified-box {
+  background:
+    #f0faf2;
+
+  border:
+    1px solid
+    #b9dfc2;
+
+  border-radius: 12px;
+}
+
+.info-title,
+.verified-title {
+  color:
+    #166534;
+}
+
+
+/* =========================================================
+   WARNING / UNLOCK NOTE
+========================================================= */
+
+.unlock-note {
+  background:
+    #fffaf0;
+
+  border:
+    1px solid
+    #f6d89a;
+
+  color:
+    #975a16;
+}
+
+
+/* =========================================================
+   TOTAL BOX
+========================================================= */
+
+.total-box {
+  background:
+    #eaf7ec;
+
+  border:
+    1px solid
+    #c5e5cb;
+
+  border-radius: 12px;
+}
+
+.total-label {
+  color:
+    #527060;
+}
+
+.total-value {
+  color:
+    #087a3e;
+}
+
+
+/* =========================================================
+   COMMON LINKS
+========================================================= */
+
+a {
+  color:
+    #16834a;
+}
+
+a:hover {
+  color:
+    #087a3e;
+}
+
+
+/* =========================================================
+   LOADING OVERLAY
+========================================================= */
+
+.loading-overlay,
+.success-overlay {
+  background:
+    rgba(6,78,59,.45);
+}
+
+.loading-box,
+.success-modal {
+  border-radius: 18px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.5);
+
+  box-shadow:
+    0 15px 45px
+    rgba(20,83,45,.25);
+}
+
+.loading-title,
+.success-title {
+  color:
+    #064e3b;
+}
+
+
+/* =========================================================
+   PUPPY REPORT ICON
+========================================================= */
+
+.dog-icon {
+  font-size: 46px;
+
+  line-height: 1;
+
+  margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .page {
+    max-width: 100%;
+
+    padding:
+      22px
+      10px
+      35px;
+  }
+
+  .barangay-logo {
+    width: 92px;
+    height: 92px;
+
+    margin-top: 4px;
+  }
+
+  .barangay {
+    font-size: 22px;
+
+    letter-spacing: .5px;
+  }
+
+  .location,
+  .municipality {
+    font-size: 14px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+  }
+
+  .subtitle,
+  .header p {
+    font-size: 14px;
+
+    padding:
+      0 8px;
+  }
+
+  .card {
+    padding:
+      18px
+      16px;
+
+    border-radius: 16px;
+  }
+
+  .section-title {
+    font-size: 17px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .page {
+    padding:
+      18px
+      8px
+      30px;
+  }
+
+  .barangay {
+    font-size: 20px;
+  }
+
+  .header h1 {
+    font-size: 25px;
+  }
+
+  .card {
+    padding:
+      16px
+      13px;
+  }
+
+}
