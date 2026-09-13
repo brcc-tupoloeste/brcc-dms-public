@@ -941,6 +941,42 @@ input:focus {
 }
 
 
+/* ============================================================
+   PENDING DOG REGISTRATION PHOTO
+   Only used for new Dog Registration requests.
+============================================================ */
+
+.dog-photo-preview {
+  width: 110px;
+  height: 110px;
+  margin-top: 14px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f1f4f2;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 36px;
+}
+
+.dog-photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dog-photo-missing {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 .request-top {
 
   display: flex;
@@ -1339,6 +1375,12 @@ textarea:focus {
 
   .login-header h1 {
     font-size: 22px;
+  }
+
+  .dog-photo-preview {
+    width: 92px;
+    height: 92px;
+    border-radius: 12px;
   }
 
 }
@@ -2413,23 +2455,90 @@ function renderRequests(requests) {
         <div class="info-grid">
 
 
-          <div class="info-row">
+          ${
+            requestSource === 'DOG_REGISTRATION'
+            ?
+            `
+              <div class="info-row">
 
-            <div class="info-label">
-              Registry Number
-            </div>
+                <div class="info-label">
+                  Dog Photo
+                </div>
 
-            <div class="info-value">
+                <div
+                  class="dog-photo-preview"
+                  aria-label="Dog Photo"
+                >
 
-              ${escapeHtml(
-                formatValue(
-                  request.registryNumber
-                )
-              )}
+                  ${
+                    request.dogPhotoUrl ||
+                    request.dogPhotoFileId
+                    ?
+                    `
+                      <img
+                        src="${escapeAttribute(
+                          request.dogPhotoUrl ||
+                          (
+                            'https://drive.google.com/thumbnail?id=' +
+                            encodeURIComponent(
+                              request.dogPhotoFileId
+                            ) +
+                            '&sz=w400'
+                          )
+                        )}"
+                        alt="Dog Photo"
+                        loading="lazy"
+                        onerror="${escapeAttribute(
+                          request.dogPhotoFileId
+                            ?
+                            "this.onerror=null;this.src='https://drive.google.com/thumbnail?id=" +
+                              encodeURIComponent(request.dogPhotoFileId) +
+                              "&sz=w400';"
+                            :
+                            "this.style.display='none';this.nextElementSibling.style.display='flex';"
+                        )}"
+                      >
 
-            </div>
+                      <div
+                        class="dog-photo-missing"
+                        style="display:none;"
+                      >
+                        🐶
+                      </div>
+                    `
+                    :
+                    `
+                      <div class="dog-photo-missing">
+                        🐶
+                      </div>
+                    `
+                  }
 
-          </div>
+                </div>
+
+              </div>
+            `
+            :
+            `
+              <div class="info-row">
+
+                <div class="info-label">
+                  Registry Number
+                </div>
+
+                <div class="info-value">
+
+                  ${escapeHtml(
+                    formatValue(
+                      request.registryNumber
+                    )
+                  )}
+
+                </div>
+
+              </div>
+            `
+          }
 
 
           <div class="info-row">
