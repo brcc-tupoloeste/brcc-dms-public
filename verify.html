@@ -1007,140 +1007,118 @@
   }
 
 
-  const maxAttempts = 3;
+  /*
+   * FIRST REQUEST
+   * Normal and immediate.
+   */
 
-  let lastError = null;
+  try {
 
-
-  for (
-    let attempt = 1;
-    attempt <= maxAttempts;
-    attempt++
-  ) {
-
-    try {
-
-      const loading =
-        document.getElementById('loading');
-
-
-      /*
-       * Show a friendly loading message
-       * while connecting/retrying.
-       */
-
-      if (attempt === 1) {
-
-        loading.innerHTML =
-          '<div class="spinner"></div>' +
-          '<div>Verifying dog registration...</div>';
-
-      } else {
-
-        loading.innerHTML =
-          '<div class="spinner"></div>' +
-          '<div>Connecting to verification server...</div>' +
-          '<div style="font-size:11px;margin-top:6px;color:#888;">' +
-          'Please wait...' +
-          '</div>';
-
-      }
-
-
-      loading.style.display =
-        'block';
-
-
-      const response =
-        await brccRequest(
-          'verify_dog_qr',
-          {
-            token: token
-          }
-        );
-
-
-      /*
-       * API wrapper:
-       *
-       * {
-       *   success: true,
-       *   service: "verify_dog_qr",
-       *   result: {...}
-       * }
-       */
-
-      const result =
-        response.result ||
-        response;
-
-
-      /*
-       * SUCCESSFUL SERVER RESPONSE
-       */
-
-      showVerification(
-        result
+    const response =
+      await brccRequest(
+        'verify_dog_qr',
+        {
+          token: token
+        }
       );
 
 
-      return;
+    const result =
+      response.result ||
+      response;
 
 
-    } catch (error) {
+    /*
+     * SERVER SUCCESS
+     *
+     * If the server returns a valid result,
+     * display it immediately.
+     */
 
-      lastError = error;
+    showVerification(
+      result
+    );
+
+    return;
 
 
-      console.warn(
-        'QR verification attempt ' +
-        attempt +
-        ' failed:',
-        error
-      );
+  } catch (firstError) {
 
-
-      /*
-       * Retry automatically.
-       */
-
-      if (
-        attempt < maxAttempts
-      ) {
-
-        await new Promise(
-          function(resolve) {
-
-            setTimeout(
-              resolve,
-              1000
-            );
-
-          }
-        );
-
-      }
-
-    }
+    console.warn(
+      'First QR verification request failed:',
+      firstError
+    );
 
   }
 
 
   /*
-   * All attempts failed.
+   * ONE FAST RETRY
    *
-   * IMPORTANT:
-   * Do NOT call this UNVERIFIED.
-   * The dog may still be valid.
+   * Google Apps Script may occasionally return
+   * a temporary 404 on the first request.
+   *
+   * Wait only 250 ms before trying once more.
    */
 
-  console.error(
-    'QR verification failed after ' +
-    maxAttempts +
-    ' attempts:',
-    lastError
+  await new Promise(
+    function(resolve) {
+
+      setTimeout(
+        resolve,
+        250
+      );
+
+    }
   );
 
+
+  try {
+
+    const response =
+      await brccRequest(
+        'verify_dog_qr',
+        {
+          token: token
+        }
+      );
+
+
+    const result =
+      response.result ||
+      response;
+
+
+    /*
+     * SECOND REQUEST SUCCESS
+     */
+
+    showVerification(
+      result
+    );
+
+    return;
+
+
+  } catch (secondError) {
+
+    console.error(
+      'QR verification failed after retry:',
+      secondError
+    );
+
+  }
+
+
+  /*
+   * BOTH REQUESTS FAILED
+   *
+   * IMPORTANT:
+   * Do NOT show "UNVERIFIED".
+   *
+   * A connection/server failure does NOT mean
+   * that the dog's registration is invalid.
+   */
 
   document
     .getElementById('loading')
@@ -1169,21 +1147,20 @@
       '</div>' +
 
       '<h2 style="color:#b47712;">' +
-        'VERIFICATION DELAYED' +
+        'VERIFICATION UNAVAILABLE' +
       '</h2>' +
 
       '<p>' +
-        'The verification server could not be reached right now.' +
+        'The verification server is temporarily unavailable.' +
       '</p>' +
 
       '<p style="font-size:12px;color:#777;">' +
-        'Please try again in a few seconds.' +
+        'Please scan the QR code again after a few seconds.' +
       '</p>' +
 
     '</div>';
 
 }
-
 
   /* ==========================================================
      DISPLAY VERIFIED DOG
