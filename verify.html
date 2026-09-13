@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <meta charset="UTF-8">
@@ -13,202 +14,877 @@
     Dog Registration Verification | Barangay Tupol Oeste
   </title>
 
+
   <style>
+
+    /* ==========================================================
+       GLOBAL
+    ========================================================== */
 
     * {
       box-sizing: border-box;
     }
 
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      color: #222;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      color: #17352a;
+
+      background:
+        radial-gradient(
+          circle at 10% 8%,
+          rgba(53, 180, 105, .10),
+          transparent 24%
+        ),
+        radial-gradient(
+          circle at 92% 20%,
+          rgba(53, 180, 105, .08),
+          transparent 22%
+        ),
+        #f3f8f5;
     }
+
+
+    /* ==========================================================
+       PAGE
+    ========================================================== */
 
     .page {
+
+      width: 100%;
       max-width: 600px;
+
       margin: 0 auto;
-      padding: 30px 20px;
+
+      padding:
+        14px
+        14px
+        20px;
+
+      position: relative;
+
+      overflow: hidden;
     }
+
+
+    /* ==========================================================
+       PAW BACKGROUND ACCENTS
+    ========================================================== */
+
+    .page::before,
+    .page::after {
+
+      position: absolute;
+
+      font-size: 75px;
+
+      color: rgba(31, 156, 83, .055);
+
+      z-index: 0;
+
+      pointer-events: none;
+    }
+
+    .page::before {
+
+      content: "🐾";
+
+      top: 120px;
+      left: -10px;
+    }
+
+    .page::after {
+
+      content: "🐾";
+
+      top: 260px;
+      right: -10px;
+    }
+
+
+    /* ==========================================================
+       HEADER
+    ========================================================== */
 
     .header {
+
+      position: relative;
+      z-index: 1;
+
       text-align: center;
-      margin-bottom: 25px;
+
+      margin-bottom: 12px;
+
+      padding:
+        8px
+        8px
+        4px;
     }
+
 
     .logo {
-      width: 75px;
-      height: 75px;
+
+      width: 62px;
+      height: 62px;
+
       object-fit: contain;
-      margin-bottom: 8px;
+
+      display: block;
+
+      margin:
+        0 auto
+        5px;
     }
+
 
     .barangay-name {
-      font-size: 20px;
-      font-weight: bold;
-      letter-spacing: 1px;
+
+      font-size: 21px;
+
+      font-weight: 800;
+
+      letter-spacing: .8px;
+
       text-transform: uppercase;
+
+      color: #164b31;
+
+      line-height: 1.15;
     }
+
 
     .location {
+
       font-size: 12px;
-      color: #777;
-      margin: 5px 0 18px;
+
+      color: #707a75;
+
+      margin:
+        4px 0
+        9px;
     }
+
 
     .header h1 {
+
       margin: 0;
-      font-size: 24px;
+
+      font-size: 21px;
+
+      line-height: 1.2;
+
+      font-weight: 800;
+
+      color: #145b36;
     }
+
 
     .header p {
-      margin: 8px 0 0;
-      color: #666;
-      font-size: 14px;
+
+      display: inline-block;
+
+      margin:
+        6px 0
+        0;
+
+      padding:
+        5px
+        12px;
+
+      border-radius: 20px;
+
+      background: #dff4e6;
+
+      color: #176b3d;
+
+      font-size: 11px;
+
+      font-weight: 700;
     }
+
+
+    /* ==========================================================
+       MAIN CARD
+    ========================================================== */
 
     .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.08);
+
+      position: relative;
+      z-index: 1;
+
+      background: rgba(255,255,255,.97);
+
+      border:
+        1px solid
+        #dfeee4;
+
+      border-radius: 20px;
+
+      padding: 17px;
+
+      box-shadow:
+        0 8px 28px
+        rgba(35, 88, 57, .10);
     }
+
+
+    /* ==========================================================
+       LOADING
+    ========================================================== */
 
     .loading {
+
       text-align: center;
-      padding: 35px 10px;
-      color: #666;
+
+      padding:
+        30px
+        10px;
+
+      color: #68746e;
     }
+
 
     .spinner {
-      width: 42px;
-      height: 42px;
-      border: 4px solid #ddd;
-      border-top-color: #444;
+
+      width: 38px;
+      height: 38px;
+
+      border:
+        4px solid
+        #dcebe1;
+
+      border-top-color:
+        #20a65a;
+
       border-radius: 50%;
-      margin: 0 auto 18px;
-      animation: spin .8s linear infinite;
+
+      margin:
+        0 auto
+        14px;
+
+      animation:
+        spin .8s linear infinite;
     }
 
+
     @keyframes spin {
+
       to {
         transform: rotate(360deg);
       }
+
     }
 
-    .status {
-      text-align: center;
-      padding: 10px 0 20px;
-    }
 
-    .status-icon {
-      font-size: 60px;
-      margin-bottom: 8px;
-    }
-
-    .verified {
-      color: #16803c;
-    }
-
-    .invalid {
-      color: #c62828;
-    }
-
-    .valid-badge {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 20px;
-      background: #e7f6ec;
-      color: #16803c;
-      font-weight: bold;
-      font-size: 12px;
-    }
-
-    .dog-photo {
-      display: block;
-      width: 130px;
-      height: 130px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin: 10px auto 25px;
-      border: 4px solid #eee;
-    }
-
-    .registry-number {
-      text-align: center;
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-
-    .details {
-      border-top: 1px solid #eee;
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 13px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .label {
-      color: #777;
-      font-size: 13px;
-    }
-
-    .value {
-      text-align: right;
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .invalid-box {
-      text-align: center;
-      padding: 30px 15px;
-    }
-
-    .invalid-box p {
-      color: #666;
-      line-height: 1.6;
-    }
-
-    .footer {
-      text-align: center;
-      color: #888;
-      font-size: 12px;
-      margin-top: 25px;
-      line-height: 1.6;
-    }
+    /* ==========================================================
+       CONTENT
+    ========================================================== */
 
     #content {
+
       display: none;
     }
 
+
+    /* ==========================================================
+       VERIFICATION STATUS
+    ========================================================== */
+
+    .status {
+
+      text-align: center;
+
+      padding:
+        0
+        0
+        10px;
+
+      color: #159447;
+    }
+
+
+    .status-icon {
+
+      width: 48px;
+      height: 48px;
+
+      margin:
+        0 auto
+        3px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: #22b765;
+
+      color: white;
+
+      font-size: 32px;
+
+      font-weight: 700;
+
+      line-height: 1;
+
+      box-shadow:
+        0 5px 14px
+        rgba(34, 183, 101, .20);
+    }
+
+
+    .status h2 {
+
+      margin:
+        4px 0
+        7px;
+
+      font-size: 30px;
+
+      line-height: 1;
+
+      font-weight: 800;
+
+      letter-spacing: -.5px;
+    }
+
+
+    .valid-badge {
+
+      display: inline-block;
+
+      padding:
+        6px
+        13px;
+
+      border-radius: 20px;
+
+      background: #e3f6ea;
+
+      color: #198348;
+
+      font-size: 11px;
+
+      font-weight: 800;
+
+      letter-spacing: .2px;
+    }
+
+
+    /* ==========================================================
+       DOG PHOTO
+    ========================================================== */
+
+    .dog-photo {
+
+      display: block;
+
+      width: 112px;
+      height: 112px;
+
+      object-fit: cover;
+
+      border-radius: 50%;
+
+      margin:
+        5px auto
+        13px;
+
+      border:
+        4px solid
+        #e5f5ea;
+
+      outline:
+        2px solid
+        #2bb66b;
+
+      box-shadow:
+        0 4px 15px
+        rgba(30, 100, 57, .12);
+    }
+
+
+    /* ==========================================================
+       OWNER SUMMARY
+    ========================================================== */
+
     .owner-summary {
-  margin: 5px 0 20px;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-}
 
-.owner-summary .row {
-  background: #fafafa;
-}
+      margin:
+        0
+        0
+        13px;
 
-.owner-summary .label {
-  font-weight: 600;
-}
+      padding:
+        2px
+        10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f1fbf4,
+          #e9f7ee
+        );
+
+      border:
+        1px solid
+        #dcefe3;
+
+      border-radius: 13px;
+    }
+
+
+    .owner-summary .row {
+
+      border-bottom:
+        1px solid
+        #dcebe1;
+    }
+
+
+    .owner-summary .row:last-child {
+
+      border-bottom: none;
+    }
+
+
+    .owner-summary .label {
+
+      font-weight: 600;
+    }
+
+
+    /* ==========================================================
+       ROWS
+    ========================================================== */
+
+    .row {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 12px;
+
+      padding:
+        9px
+        0;
+
+      border-bottom:
+        1px solid
+        #e7ece9;
+    }
+
+
+    .label {
+
+      color: #78817d;
+
+      font-size: 12px;
+
+      line-height: 1.25;
+
+      flex: 1;
+    }
+
+
+    .value {
+
+      text-align: right;
+
+      font-weight: 700;
+
+      font-size: 13px;
+
+      color: #26332d;
+
+      max-width: 62%;
+
+      word-break: break-word;
+    }
+
+
+    /* ==========================================================
+       REGISTRY NUMBER
+    ========================================================== */
+
+    .registry-number {
+
+      text-align: center;
+
+      margin:
+        0 0
+        4px;
+
+      padding:
+        9px
+        8px;
+
+      border-radius: 11px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #e4f7ea,
+          #d9f2e2
+        );
+
+      color: #126038;
+
+      font-weight: 800;
+
+      font-size: 20px;
+
+      letter-spacing: .2px;
+
+      border:
+        1px solid
+        #d1ebda;
+    }
+
+
+    /* ==========================================================
+       DETAILS
+    ========================================================== */
+
+    .details {
+
+      border-top: none;
+    }
+
+
+    .details .row:last-child {
+
+      border-bottom: none;
+    }
+
+
+    /* ==========================================================
+       ACTIVE STATUS
+    ========================================================== */
+
+    .details .row:nth-child(4) .value {
+
+      color: #168c48;
+    }
+
+
+    /* ==========================================================
+       INVALID
+    ========================================================== */
+
+    .invalid-box {
+
+      text-align: center;
+
+      padding:
+        25px
+        10px;
+    }
+
+
+    .invalid-box .status-icon {
+
+      background: #dc3e3e;
+
+      box-shadow: none;
+    }
+
+
+    .invalid {
+
+      color: #c62828;
+    }
+
+
+    .invalid-box p {
+
+      color: #68716d;
+
+      line-height: 1.5;
+
+      font-size: 13px;
+    }
+
+
+    /* ==========================================================
+       FOOTER
+       No slogan / no sayings
+    ========================================================== */
+
+    .footer {
+
+      position: relative;
+      z-index: 1;
+
+      text-align: center;
+
+      color: #7b8580;
+
+      font-size: 11px;
+
+      margin-top: 14px;
+
+      line-height: 1.55;
+    }
+
+
+    /* ==========================================================
+       MOBILE
+    ========================================================== */
+
+    @media (max-width: 480px) {
+
+      .page {
+
+        padding:
+          10px
+          10px
+          16px;
+      }
+
+
+      .header {
+
+        margin-bottom: 9px;
+
+        padding-top: 3px;
+      }
+
+
+      .logo {
+
+        width: 58px;
+        height: 58px;
+
+        margin-bottom: 4px;
+      }
+
+
+      .barangay-name {
+
+        font-size: 19px;
+      }
+
+
+      .location {
+
+        font-size: 11px;
+
+        margin:
+          3px 0
+          7px;
+      }
+
+
+      .header h1 {
+
+        font-size: 20px;
+      }
+
+
+      .header p {
+
+        margin-top: 5px;
+
+        font-size: 10px;
+
+        padding:
+          5px
+          11px;
+      }
+
+
+      .card {
+
+        padding:
+          14px;
+
+        border-radius: 18px;
+      }
+
+
+      .status {
+
+        padding-bottom: 8px;
+      }
+
+
+      .status-icon {
+
+        width: 44px;
+        height: 44px;
+
+        font-size: 29px;
+      }
+
+
+      .status h2 {
+
+        font-size: 28px;
+
+        margin:
+          4px 0
+          6px;
+      }
+
+
+      .valid-badge {
+
+        font-size: 10px;
+
+        padding:
+          5px
+          11px;
+      }
+
+
+      .dog-photo {
+
+        width: 100px;
+        height: 100px;
+
+        margin:
+          4px auto
+          11px;
+      }
+
+
+      .owner-summary {
+
+        margin-bottom: 10px;
+
+        padding:
+          1px
+          9px;
+      }
+
+
+      .row {
+
+        padding:
+          8px
+          0;
+
+        gap: 8px;
+      }
+
+
+      .label {
+
+        font-size: 11px;
+      }
+
+
+      .value {
+
+        font-size: 12px;
+      }
+
+
+      .registry-number {
+
+        font-size: 18px;
+
+        padding:
+          8px 6px;
+
+        margin-bottom: 2px;
+      }
+
+
+      .footer {
+
+        margin-top: 10px;
+
+        font-size: 10px;
+      }
+
+    }
+
+
+    /* ==========================================================
+       VERY SMALL PHONES
+    ========================================================== */
+
+    @media (max-width: 360px) {
+
+      .page {
+
+        padding:
+          8px
+          8px
+          14px;
+      }
+
+
+      .barangay-name {
+
+        font-size: 17px;
+      }
+
+
+      .header h1 {
+
+        font-size: 18px;
+      }
+
+
+      .card {
+
+        padding:
+          12px;
+      }
+
+
+      .status h2 {
+
+        font-size: 25px;
+      }
+
+
+      .dog-photo {
+
+        width: 92px;
+        height: 92px;
+      }
+
+
+      .registry-number {
+
+        font-size: 17px;
+      }
+
+    }
 
   </style>
 
 </head>
 
+
 <body>
 
+
 <div class="page">
+
+
+  <!-- ========================================================
+       HEADER
+  ========================================================= -->
 
   <div class="header">
 
@@ -237,7 +913,14 @@
   </div>
 
 
+  <!-- ========================================================
+       VERIFICATION CARD
+  ========================================================= -->
+
   <div class="card">
+
+
+    <!-- LOADING -->
 
     <div
       id="loading"
@@ -253,23 +936,35 @@
     </div>
 
 
+    <!-- RESULT -->
+
     <div id="content"></div>
+
 
   </div>
 
+
+  <!-- ========================================================
+       FOOTER
+       NO SAYING / NO SLOGAN
+  ========================================================= -->
 
   <div class="footer">
 
     Barangay Tupol Oeste<br>
+
     Cabatuan, Iloilo<br>
+
     BRCC-DMS V3
 
   </div>
+
 
 </div>
 
 
 <script src="api.js"></script>
+
 
 <script>
 
@@ -323,16 +1018,6 @@
         );
 
 
-      /*
-       * API wrapper structure:
-       *
-       * {
-       *   success: true,
-       *   service: "...",
-       *   result: {...}
-       * }
-       */
-
       const result =
         response.result ||
         response;
@@ -370,7 +1055,7 @@
     document
       .getElementById('loading')
       .style.display =
-        'none';
+      'none';
 
 
     const content =
@@ -405,8 +1090,9 @@
     const dog =
       result.dog || {};
 
+
     const owner =
-  result.owner || {};
+      result.owner || {};
 
 
     let photoHtml = '';
@@ -417,63 +1103,76 @@
       photoHtml =
 
         '<img ' +
+
           'class="dog-photo" ' +
+
           'src="' +
+
           escapeHtml(
             dog.photoUrl
           ) +
+
           '" ' +
+
           'alt="Dog Photo"' +
+
         '>';
 
     }
 
 
-content.innerHTML =
+    content.innerHTML =
 
-  '<div class="status verified">' +
+      '<div class="status verified">' +
 
-    '<div class="status-icon">✓</div>' +
+        '<div class="status-icon">✓</div>' +
 
-    '<h2>VERIFIED</h2>' +
+        '<h2>VERIFIED</h2>' +
 
-    '<div class="valid-badge">' +
-      'VALID DOG REGISTRATION' +
-    '</div>' +
+        '<div class="valid-badge">' +
 
-  '</div>' +
+          'VALID DOG REGISTRATION' +
 
-  photoHtml +
+        '</div>' +
 
-  '<div class="owner-summary">' +
+      '</div>' +
 
-    detailRow(
-      'Owner',
-      owner.maskedName
-    ) +
 
-    detailRow(
-      'Registered Dogs',
-      formatDogCount(
-        owner.registeredDogCount
-      )
-    ) +
+      photoHtml +
 
-    detailRow(
-      'Puppies Reported',
-      formatPuppyCount(
-        owner.puppyCount
-      )
-    ) +
 
-  '</div>' +
+      '<div class="owner-summary">' +
 
-  '<div class="registry-number">' +
-  
+        detailRow(
+          'Owner',
+          owner.maskedName
+        ) +
+
+        detailRow(
+          'Registered Dogs',
+          formatDogCount(
+            owner.registeredDogCount
+          )
+        ) +
+
+        detailRow(
+          'Puppies Reported',
+          formatPuppyCount(
+            owner.puppyCount
+          )
+        ) +
+
+      '</div>' +
+
+
+      '<div class="registry-number">' +
+
         escapeHtml(
           dog.registryNumber || ''
         ) +
+
       '</div>' +
+
 
       '<div class="details">' +
 
@@ -542,13 +1241,17 @@ content.innerHTML =
       '<div class="row">' +
 
         '<div class="label">' +
+
           escapeHtml(label) +
+
         '</div>' +
 
         '<div class="value">' +
+
           escapeHtml(
             String(value)
           ) +
+
         '</div>' +
 
       '</div>'
@@ -557,35 +1260,60 @@ content.innerHTML =
 
   }
 
-  function formatDogCount(count) {
-
-  count = Number(count || 0);
-
-  if (count === 1) {
-    return '1 Dog';
-  }
-
-  return count + ' Dogs';
-}
-
-
-function formatPuppyCount(count) {
-
-  count = Number(count || 0);
-
-  if (count === 0) {
-    return 'None';
-  }
-
-  if (count === 1) {
-    return '1 Puppy';
-  }
-
-  return count + ' Puppies';
-}
 
   /* ==========================================================
-     DISPLAY INVALID
+     DOG COUNT
+  ========================================================== */
+
+  function formatDogCount(count) {
+
+    count =
+      Number(count || 0);
+
+
+    if (count === 1) {
+
+      return '1 Dog';
+
+    }
+
+
+    return count + ' Dogs';
+
+  }
+
+
+  /* ==========================================================
+     PUPPY COUNT
+  ========================================================== */
+
+  function formatPuppyCount(count) {
+
+    count =
+      Number(count || 0);
+
+
+    if (count === 0) {
+
+      return 'None';
+
+    }
+
+
+    if (count === 1) {
+
+      return '1 Puppy';
+
+    }
+
+
+    return count + ' Puppies';
+
+  }
+
+
+  /* ==========================================================
+     INVALID
   ========================================================== */
 
   function showInvalid(message) {
@@ -593,7 +1321,7 @@ function formatPuppyCount(count) {
     document
       .getElementById('loading')
       .style.display =
-        'none';
+      'none';
 
 
     const content =
@@ -611,20 +1339,29 @@ function formatPuppyCount(count) {
       '<div class="invalid-box">' +
 
         '<div class="status-icon invalid">' +
+
           '✕' +
+
         '</div>' +
 
         '<h2 class="invalid">' +
+
           'UNVERIFIED' +
+
         '</h2>' +
 
         '<p>' +
+
           escapeHtml(message) +
+
         '</p>' +
 
-        '<p style="font-size:13px;">' +
+        '<p style="font-size:12px;">' +
+
           'Please contact the Barangay Rabies Control Committee ' +
+
           'for verification assistance.' +
+
         '</p>' +
 
       '</div>';
@@ -662,5 +1399,7 @@ function formatPuppyCount(count) {
 
 </script>
 
+
 </body>
+
 </html>
