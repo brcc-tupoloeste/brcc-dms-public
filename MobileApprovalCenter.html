@@ -2430,8 +2430,7 @@ function renderRequests(requests) {
 
           Owner:
           ${escapeHtml(
-            request.ownerName ||
-            'Not specified'
+            maskOwnerName(request.ownerName || 'Not specified')
           )}
 
         </div>
@@ -3312,6 +3311,21 @@ function showLoading(show) {
 /* ============================================================
    FORMAT VALUE
 ============================================================ */
+
+function maskOwnerName(value) {
+
+  var name = String(value || '').trim();
+
+  if (!name) return '—';
+
+  return name.split(/\s+/).map(function(part) {
+    var clean = part.replace(/\./g, '');
+    if (!clean) return '';
+    return clean.charAt(0).toUpperCase() + 'x'.repeat(Math.max(clean.length - 1, 1));
+  }).filter(Boolean).join(' ');
+
+}
+
 
 function formatValue(value) {
 
