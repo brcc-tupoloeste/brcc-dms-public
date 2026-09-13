@@ -1,850 +1,1661 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <base target="_top">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
+<meta charset="UTF-8">
 
-    * {
-      box-sizing: border-box;
-    }
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      color: #222;
-    }
+<title>BRCC-DMS Approval Center</title>
 
-    .page {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
-    }
+<style>
 
+/* ============================================================
+   ROOT
+============================================================ */
 
-    /* =========================================
-       HEADER
-    ========================================= */
+:root {
+  --primary: #155b35;
+  --primary-dark: #0e4728;
+  --primary-light: #eaf5ee;
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-    }
+  --gold: #d89b18;
 
-    .header-left h1 {
-      margin: 0;
-      font-size: 26px;
-    }
+  --danger: #c62828;
+  --danger-light: #fff1f1;
 
-    .header-left p {
-      margin: 5px 0 0;
-      color: #777;
-      font-size: 13px;
-    }
+  --success: #237a45;
 
-    .back-btn {
-      border: none;
-      padding: 10px 15px;
-      border-radius: 8px;
-      background: #fff;
-      color: #333;
-      font-size: 13px;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
-    }
+  --bg: #eef2f0;
+  --card: #ffffff;
 
-.header-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
+  --text: #253238;
+  --muted: #66757d;
+
+  --border: #d8e0dc;
+
+  --shadow:
+    0 12px 35px rgba(0,0,0,.10);
 }
 
-.dashboard-btn {
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  background: #222;
-  color: #fff;
-  font-size: 13px;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+
+/* ============================================================
+   RESET
+============================================================ */
+
+* {
+  box-sizing: border-box;
 }
 
-.dashboard-btn:hover {
-  opacity: .9;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color: var(--text);
 }
 
-    /* =========================================
-       SUMMARY
-    ========================================= */
-
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .summary-card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 18px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.07);
-    }
-
-    .summary-label {
-      font-size: 12px;
-      color: #777;
-      margin-bottom: 8px;
-    }
-
-    .summary-count {
-      font-size: 32px;
-      font-weight: bold;
-    }
-
-
-    /* =========================================
-       MAIN CARD
-    ========================================= */
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 3px 15px rgba(0,0,0,.08);
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .refresh-btn {
-      border: none;
-      background: #f1f3f5;
-      padding: 9px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-
-    /* =========================================
-       TABS
-    ========================================= */
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-      border-bottom: 1px solid #eee;
-      margin-bottom: 20px;
-      overflow-x: auto;
-    }
-
-    .tab-btn {
-      border: none;
-      background: none;
-      padding: 12px 16px;
-      cursor: pointer;
-      color: #777;
-      font-size: 13px;
-      white-space: nowrap;
-      border-bottom: 3px solid transparent;
-    }
-
-    .tab-btn.active {
-      color: #222;
-      font-weight: bold;
-      border-bottom-color: #222;
-    }
-
-
-    /* =========================================
-       REQUEST LIST
-    ========================================= */
-
-    .request-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .request-item {
-      border: 1px solid #e4e7eb;
-      border-radius: 12px;
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .request-item:hover {
-      background: #fafafa;
-    }
-
-    .request-main {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .request-photo-thumb {
-      width: 72px;
-      height: 72px;
-      flex: 0 0 72px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #f1f3f5;
-      border: 1px solid #e0e4e8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #999;
-      font-size: 28px;
-    }
-
-    .request-photo-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .request-photo-missing {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .request-title {
-      font-weight: bold;
-      font-size: 16px;
-    }
-
-    .request-subtitle {
-      font-size: 13px;
-      color: #666;
-      margin-top: 4px;
-    }
-
-    .request-meta {
-      font-size: 11px;
-      color: #888;
-      margin-top: 7px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 20px;
-      background: #f1f3f5;
-      font-size: 10px;
-      font-weight: bold;
-      margin-left: 6px;
-    }
-
-    .view-btn {
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #222;
-      color: #fff;
-      font-size: 12px;
-      flex-shrink: 0;
-    }
-
-
-    /* =========================================
-       EMPTY
-    ========================================= */
-
-    .empty {
-      text-align: center;
-      padding: 50px 15px;
-      color: #888;
-    }
-
-    .empty-icon {
-      font-size: 42px;
-      margin-bottom: 10px;
-    }
-
-
-    /* =========================================
-       LOADING
-    ========================================= */
-
-    .loading {
-      text-align: center;
-      padding: 35px;
-      color: #777;
-    }
-
-
-    /* =========================================
-       MODAL
-    ========================================= */
-
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.45);
-      z-index: 1000;
-      overflow-y: auto;
-      padding: 20px;
-    }
-
-    .modal {
-      background: #fff;
-      max-width: 750px;
-      margin: 20px auto;
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .modal-header {
-      padding: 18px 20px;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-title {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .close-btn {
-      border: none;
-      background: none;
-      font-size: 25px;
-      cursor: pointer;
-      color: #777;
-    }
-
-    .modal-body {
-      padding: 20px;
-    }
-
-
-    /* =========================================
-       DETAILS
-    ========================================= */
-
-    .detail-section {
-      margin-bottom: 24px;
-    }
-
-    .detail-section h3 {
-      font-size: 14px;
-      margin: 0 0 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-
-    .detail-item label {
-      display: block;
-      font-size: 11px;
-      color: #888;
-      margin-bottom: 4px;
-    }
-
-    .detail-item div {
-      font-size: 14px;
-      word-break: break-word;
-    }
-
-    .highlight-box {
-      padding: 15px;
-      border-radius: 10px;
-      background: #f6f7f8;
-      margin-bottom: 15px;
-    }
-
-
-    /* =========================================
-       PHOTO
-    ========================================= */
-
-    .dog-photo-container {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .dog-photo {
-      width: 180px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 14px;
-      border: 1px solid #ddd;
-    }
-
-/* =========================================
-   PHOTO COMPARISON
-========================================= */
-
-.photo-comparison {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin-top: 12px;
+body {
+  background:
+    linear-gradient(
+      135deg,
+      #edf3ef,
+      #e5ece8
+    );
 }
 
-.photo-compare-card {
-  border: 1px solid #e4e7eb;
-  border-radius: 12px;
-  padding: 12px;
-  background: #fafafa;
-  text-align: center;
-}
 
-.photo-compare-label {
-  font-size: 12px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #555;
-  text-transform: uppercase;
-}
+/* ============================================================
+   APP CONTAINER
+============================================================ */
 
-.photo-compare-image {
+.app {
   width: 100%;
-  max-width: 260px;
-  height: 230px;
-  object-fit: cover;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+  max-width: 720px;
+  min-height: 100vh;
+
+  margin: auto;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f7faf8 0%,
+      #edf2ef 100%
+    );
+
+  box-shadow:
+    0 0 35px rgba(0,0,0,.10);
 }
 
-.photo-unavailable {
-  height: 230px;
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.header {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+
+  color: white;
+
+  box-shadow:
+    0 3px 10px rgba(0,0,0,.16);
+}
+
+
+/* ============================================================
+   BARANGAY BRAND
+============================================================ */
+
+.brand {
+
   display: flex;
   align-items: center;
-  justify-content: center;
-  border: 1px dashed #ccc;
-  border-radius: 10px;
-  color: #999;
-  font-size: 12px;
+  gap: 14px;
+
+  padding:
+    16px
+    20px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.14);
 }
 
-@media(max-width:600px) {
 
-  .photo-comparison {
-    grid-template-columns: 1fr;
-  }
+.logo {
 
+  width: 52px;
+  height: 52px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  background: white;
+
+  border:
+    3px solid
+    rgba(255,255,255,.75);
+
+  box-shadow:
+    0 3px 8px
+    rgba(0,0,0,.20);
 }
 
-    /* =========================================
-       ACTIONS
-    ========================================= */
 
-    .action-section {
-      border-top: 1px solid #eee;
-      padding-top: 20px;
-      margin-top: 10px;
-    }
-
-    .remarks {
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 12px;
-      resize: vertical;
-      min-height: 80px;
-      margin-bottom: 12px;
-      font-family: inherit;
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 10px;
-    }
-
-    .approve-btn,
-    .reject-btn {
-      flex: 1;
-      border: none;
-      padding: 13px;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .approve-btn {
-      background: #222;
-      color: #fff;
-    }
-
-    .reject-btn {
-      background: #f1f1f1;
-      color: #b00020;
-    }
-
-    button:disabled {
-      opacity: .6;
-      cursor: not-allowed;
-    }
-
-
-    /* =========================================
-       MOBILE
-    ========================================= */
-
-    @media(max-width:600px) {
-
-      .page {
-        padding: 14px 10px;
-      }
-
-      .header-left h1 {
-        font-size: 21px;
-      }
-
-      .summary-grid {
-        gap: 8px;
-      }
-
-      .summary-card {
-        padding: 13px;
-      }
-
-      .summary-count {
-        font-size: 25px;
-      }
-
-      .summary-label {
-        font-size: 10px;
-      }
-
-      .request-item {
-        align-items: center;
-        gap: 10px;
-      }
-
-      .request-photo-thumb {
-        width: 64px;
-        height: 64px;
-        flex-basis: 64px;
-        border-radius: 10px;
-      }
-
-      .request-main {
-        flex: 1;
-      }
-
-      .view-btn {
-        width: 100%;
-      }
-
-      .detail-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .modal-overlay {
-        padding: 0;
-      }
-
-      .modal {
-        margin: 0;
-        min-height: 100vh;
-        border-radius: 0;
-      }
-
-    }
-
-    /* =========================================
-   PHOTO COMPARISON
-========================================= */
-
-.photo-comparison {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
+.brand-text {
+  min-width: 0;
 }
 
-.photo-comparison-card {
-  border: 1px solid #e4e7eb;
-  border-radius: 12px;
-  padding: 14px;
-  text-align: center;
-  background: #fafafa;
+
+.brand-title {
+
+  font-size: 21px;
+
+  font-weight: 700;
+
+  letter-spacing: .2px;
+
+  line-height: 1.2;
 }
 
-.photo-comparison-label {
+
+.brand-subtitle {
+
+  margin-top: 4px;
+
   font-size: 11px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #777;
-  margin-bottom: 10px;
+
+  opacity: .85;
 }
 
-.photo-comparison-image {
-  width: 100%;
-  max-width: 280px;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-}
 
-.photo-missing {
-  height: 250px;
+/* ============================================================
+   SYSTEM BAR
+============================================================ */
+
+.system-bar {
+
   display: flex;
+
   align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  padding:
+    12px
+    20px;
+}
+
+
+.system-name {
+
+  font-size: 15px;
+
+  font-weight: 700;
+}
+
+
+.system-subtitle {
+
+  margin-top: 3px;
+
+  font-size: 10px;
+
+  opacity: .78;
+}
+
+
+.secure-badge {
+
+  white-space: nowrap;
+
+  padding:
+    6px
+    10px;
+
+  border-radius: 20px;
+
+  background:
+    rgba(255,255,255,.10);
+
+  border:
+    1px solid
+    rgba(255,255,255,.20);
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+
+/* ============================================================
+   MAIN
+============================================================ */
+
+.main {
+
+  padding:
+    44px
+    18px
+    70px;
+}
+
+
+/* ============================================================
+   CARD
+============================================================ */
+
+.card {
+
+  background:
+    rgba(255,255,255,.96);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 20px;
+
+  box-shadow:
+    var(--shadow);
+
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   LOGIN CARD
+============================================================ */
+
+.login-card {
+
+  padding:
+    0
+    0
+    24px;
+}
+
+
+.login-icon-wrap {
+
+  display: flex;
+
   justify-content: center;
-  border: 1px dashed #ccc;
-  border-radius: 10px;
-  color: #999;
+
+  margin-top: -32px;
+}
+
+
+.login-icon {
+
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #eff9f2,
+      #dceee2
+    );
+
+  border:
+    5px solid white;
+
+  box-shadow:
+    0 8px 20px
+    rgba(21,91,53,.18);
+
+  font-size: 31px;
+}
+
+
+/* ============================================================
+   LOGIN HEADER
+============================================================ */
+
+.login-header {
+
+  padding:
+    20px
+    20px
+    16px;
+
+  text-align: center;
+}
+
+
+.login-header h1 {
+
+  margin: 0;
+
+  font-size: 25px;
+
+  color:
+    #2d3d42;
+}
+
+
+.login-header p {
+
+  margin:
+    10px
+    0
+    0;
+
+  color:
+    var(--muted);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   NOTICE
+============================================================ */
+
+.notice {
+
+  margin:
+    0
+    20px
+    16px;
+
+  padding:
+    12px
+    14px;
+
+  border-radius: 12px;
+
+  background:
+    #fffaf0;
+
+  border:
+    1px solid
+    #efd28b;
+
+  color:
+    #765719;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   FORM
+============================================================ */
+
+.form {
+
+  padding:
+    0
+    20px;
+}
+
+
+.form-group {
+
+  margin-bottom: 14px;
+}
+
+
+label {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: .5px;
+
+  color:
+    #435158;
+}
+
+
+input {
+
+  width: 100%;
+
+  height: 48px;
+
+  padding:
+    0
+    14px;
+
+  border-radius: 12px;
+
+  border:
+    1px solid
+    #9ab9a7;
+
+  outline: none;
+
+  background:
+    #fbfcfb;
+
+  color:
+    var(--text);
+
+  font-size: 15px;
+
+  transition:
+    .2s;
+}
+
+
+input:focus {
+
+  border-color:
+    var(--primary);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(21,91,53,.10);
+}
+
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+
+.btn {
+
+  width: 100%;
+
+  border: none;
+
+  border-radius: 12px;
+
+  min-height: 48px;
+
+  padding:
+    12px
+    16px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  transition:
+    .2s;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+}
+
+
+.btn:active {
+
+  transform:
+    scale(.98);
+}
+
+
+.btn:disabled {
+
+  opacity: .55;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+.btn-primary {
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #267d47,
+      #145a33
+    );
+
+  box-shadow:
+    0 6px 15px
+    rgba(21,91,53,.18);
+}
+
+
+.btn-danger {
+
+  background:
+    var(--danger);
+
+  color: white;
+}
+
+
+.btn-outline {
+
+  background: white;
+
+  color:
+    var(--primary);
+
+  border:
+    1px solid
+    #a9c5b3;
+}
+
+
+/* ============================================================
+   STATUS MESSAGE
+============================================================ */
+
+.message {
+
+  display: none;
+
+  margin:
+    16px
+    20px
+    0;
+
+  padding:
+    13px
+    15px;
+
+  border-radius: 12px;
+
+  font-size: 12px;
+
+  line-height: 1.4;
+}
+
+
+.message.show {
+  display: block;
+}
+
+
+.message.error {
+
+  color: white;
+
+  background:
+    #d92525;
+}
+
+
+.message.success {
+
+  color:
+    #155b35;
+
+  background:
+    #e7f6ec;
+
+  border:
+    1px solid
+    #a9d7b7;
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+.loading {
+
+  display: none;
+
+  text-align: center;
+
+  padding:
+    25px;
+
+  color:
+    var(--muted);
+
   font-size: 13px;
 }
 
-@media(max-width:600px) {
 
-  .photo-comparison {
-    grid-template-columns: 1fr;
+.spinner {
+
+  width: 30px;
+  height: 30px;
+
+  margin:
+    0
+    auto
+    12px;
+
+  border-radius: 50%;
+
+  border:
+    3px solid
+    #d9e6dd;
+
+  border-top-color:
+    var(--primary);
+
+  animation:
+    spin .8s linear infinite;
+}
+
+
+@keyframes spin {
+
+  to {
+    transform:
+      rotate(360deg);
   }
 
 }
 
-  </style>
-</head>
 
+/* ============================================================
+   PROCESSING OVERLAY
+============================================================ */
+
+.processing-overlay {
+
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9999;
+
+  background:
+    rgba(12, 30, 20, .58);
+
+  backdrop-filter:
+    blur(3px);
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+}
+
+
+.processing-overlay.show {
+
+  display: flex;
+}
+
+
+.processing-box {
+
+  width: 100%;
+
+  max-width: 330px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  padding:
+    28px
+    24px;
+
+  text-align: center;
+
+  box-shadow:
+    0 20px 50px
+    rgba(0,0,0,.30);
+}
+
+
+.processing-spinner {
+
+  width: 52px;
+  height: 52px;
+
+  margin:
+    0 auto 18px;
+
+  border-radius: 50%;
+
+  border:
+    5px solid #dce9e0;
+
+  border-top-color:
+    var(--primary);
+
+  animation:
+    spin .8s linear infinite;
+}
+
+
+.processing-title {
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  color:
+    var(--primary);
+
+  margin-bottom: 8px;
+}
+
+
+.processing-text {
+
+  font-size: 12px;
+
+  color:
+    var(--muted);
+
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   DASHBOARD
+============================================================ */
+
+.dashboard {
+
+  display: none;
+}
+
+
+.dashboard.show {
+
+  display: block;
+}
+
+
+/* ============================================================
+   DASHBOARD HEADER
+============================================================ */
+
+.dashboard-head {
+
+  padding:
+    18px
+    20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary-dark)
+    );
+
+  color: white;
+}
+
+
+.dashboard-head-row {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+
+.dashboard-title {
+
+  font-size: 20px;
+
+  font-weight: 700;
+}
+
+
+.dashboard-subtitle {
+
+  margin-top: 5px;
+
+  font-size: 11px;
+
+  opacity: .80;
+}
+
+
+.pending-count {
+
+  min-width: 62px;
+
+  text-align: center;
+
+  padding:
+    8px
+    12px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(255,255,255,.14);
+
+  border:
+    1px solid
+    rgba(255,255,255,.20);
+}
+
+
+.pending-count strong {
+
+  display: block;
+
+  font-size: 20px;
+}
+
+
+.pending-count span {
+
+  font-size: 9px;
+
+  opacity: .85;
+}
+
+
+/* ============================================================
+   DASHBOARD CONTENT
+============================================================ */
+
+.dashboard-content {
+
+  padding:
+    16px;
+}
+
+
+/* ============================================================
+   TOOLBAR
+============================================================ */
+
+.toolbar {
+
+  display: flex;
+
+  gap: 10px;
+
+  margin-bottom: 16px;
+}
+
+
+/* ============================================================
+   REQUEST ITEM
+============================================================ */
+
+.request-card {
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 16px;
+
+  padding:
+    16px;
+
+  margin-bottom: 14px;
+
+  box-shadow:
+    0 5px 14px
+    rgba(0,0,0,.05);
+}
+
+
+.request-top {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 10px;
+
+  margin-bottom: 12px;
+}
+
+
+.request-id {
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  color:
+    var(--primary);
+}
+
+
+.request-date {
+
+  font-size: 10px;
+
+  color:
+    var(--muted);
+
+  text-align: right;
+}
+
+
+.dog-name {
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+  margin-bottom: 4px;
+}
+
+
+.owner-name {
+
+  font-size: 12px;
+
+  color:
+    var(--muted);
+}
+
+
+.update-type {
+
+  display: inline-block;
+
+  margin-top: 10px;
+
+  padding:
+    5px
+    9px;
+
+  border-radius: 20px;
+
+  background:
+    var(--primary-light);
+
+  color:
+    var(--primary);
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+
+.info-grid {
+
+  margin-top: 14px;
+
+  border-top:
+    1px solid
+    #edf0ee;
+
+  padding-top: 12px;
+}
+
+
+.info-row {
+
+  margin-bottom: 12px;
+}
+
+
+.info-label {
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  color:
+    #7b878c;
+
+  margin-bottom: 5px;
+}
+
+
+.info-value {
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  color:
+    #334147;
+
+  white-space: pre-wrap;
+
+  word-break: break-word;
+}
+
+
+/* ============================================================
+   REQUEST ACTIONS
+============================================================ */
+
+.request-actions {
+
+  display: flex;
+
+  gap: 9px;
+
+  margin-top: 15px;
+}
+
+
+.request-actions .btn {
+
+  flex: 1;
+
+  min-height: 42px;
+}
+
+
+/* ============================================================
+   EMPTY
+============================================================ */
+
+.empty {
+
+  text-align: center;
+
+  padding:
+    55px
+    20px;
+
+  color:
+    var(--muted);
+}
+
+
+.empty-icon {
+
+  font-size: 45px;
+
+  margin-bottom: 12px;
+}
+
+
+.empty h3 {
+
+  margin:
+    0
+    0
+    7px;
+
+  color:
+    #445257;
+}
+
+
+.empty p {
+
+  margin: 0;
+
+  font-size: 12px;
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+.footer {
+
+  text-align: center;
+
+  padding:
+    35px
+    20px
+    20px;
+
+  color:
+    #809097;
+
+  font-size: 10px;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   MODAL
+============================================================ */
+
+.modal {
+
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 999;
+
+  background:
+    rgba(0,0,0,.45);
+
+  align-items: flex-end;
+
+  justify-content: center;
+}
+
+
+.modal.show {
+
+  display: flex;
+}
+
+
+.modal-box {
+
+  width: 100%;
+
+  max-width: 720px;
+
+  background: white;
+
+  border-radius:
+    22px
+    22px
+    0
+    0;
+
+  padding:
+    22px;
+
+  box-shadow:
+    0 -10px 40px
+    rgba(0,0,0,.20);
+
+  animation:
+    slideUp .25s ease;
+}
+
+
+@keyframes slideUp {
+
+  from {
+    transform:
+      translateY(40px);
+    opacity: 0;
+  }
+
+  to {
+    transform:
+      translateY(0);
+    opacity: 1;
+  }
+
+}
+
+
+.modal-title {
+
+  margin:
+    0
+    0
+    10px;
+
+  font-size: 19px;
+}
+
+
+.modal-text {
+
+  margin:
+    0
+    0
+    16px;
+
+  font-size: 13px;
+
+  color:
+    var(--muted);
+
+  line-height: 1.5;
+}
+
+
+textarea {
+
+  width: 100%;
+
+  min-height: 100px;
+
+  resize: vertical;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  border:
+    1px solid
+    #b9c8bf;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  outline: none;
+}
+
+
+textarea:focus {
+
+  border-color:
+    var(--primary);
+}
+
+
+.modal-actions {
+
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+
+.modal-actions .btn {
+
+  flex: 1;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 480px) {
+
+  .brand {
+    padding:
+      13px
+      15px;
+  }
+
+  .logo {
+    width: 46px;
+    height: 46px;
+  }
+
+  .brand-title {
+    font-size: 18px;
+  }
+
+  .system-bar {
+    padding:
+      10px
+      15px;
+  }
+
+  .main {
+    padding:
+      38px
+      12px
+      55px;
+  }
+
+  .login-header h1 {
+    font-size: 22px;
+  }
+
+}
+
+</style>
+
+</head>
 
 <body>
 
-<div class="page">
+<div class="app">
 
-  <!-- HEADER -->
+<header class="header">
 
-  <div class="header">
+  <div class="brand">
 
-    <div class="header-left">
+    <img
+      src="barangay-logo.png"
+      class="logo"
+      alt="Barangay Tupol Oeste Logo"
+      onerror="this.style.display='none'"
+    >
 
-      <h1>Approval Center</h1>
+    <div class="brand-text">
 
-      <p>
-        Review and process pending public submissions
-      </p>
+      <div class="brand-title">
+        Barangay Tupol Oeste
+      </div>
+
+      <div class="brand-subtitle">
+        Municipality of Cabatuan, Province of Iloilo
+      </div>
 
     </div>
 
-<div class="header-actions">
+  </div>
 
-  <button
-    class="dashboard-btn"
-    onclick="backToDashboard()">
 
-    🏠 Dashboard
+  <div class="system-bar">
 
-  </button>
+    <div>
 
-  <button
-    class="back-btn"
-    onclick="google.script.host.close()">
+      <div class="system-name">
+        🐕 BRCC-DMS Approval Center
+      </div>
 
-    ✕ Close
+      <div class="system-subtitle">
+        Mobile Registry Update Approval System
+      </div>
 
-  </button>
+    </div>
+
+    <div class="secure-badge">
+      🔒 SECURE ACCESS
+    </div>
+
+  </div>
+
+</header>
+
+
+<main class="main">
+
+
+  <!-- LOGIN -->
+
+  <section id="loginSection">
+
+    <div class="card login-card">
+
+      <div class="login-icon-wrap">
+        <div class="login-icon">
+          🔐
+        </div>
+      </div>
+
+
+      <div class="login-header">
+
+        <h1>
+          Administrator Access
+        </h1>
+
+        <p>
+          Authorized personnel only. Enter your Admin PIN to
+          access pending registry update requests.
+        </p>
+
+      </div>
+
+
+      <div class="notice">
+
+        🔒 This Approval Center allows authorized administrators
+        to review, approve, or reject Dog Registry update requests.
+
+      </div>
+
+
+      <div class="form">
+
+        <div class="form-group">
+
+          <label for="adminPin">
+            ADMIN PIN
+          </label>
+
+          <input
+            type="password"
+            id="adminPin"
+            placeholder="Enter Admin PIN"
+            autocomplete="current-password"
+            inputmode="numeric"
+          >
+
+        </div>
+
+
+        <button
+          class="btn btn-primary"
+          id="loginButton"
+          onclick="login()"
+        >
+          🔐 Access Approval Center
+        </button>
+
+      </div>
+
+
+      <div
+        id="loginMessage"
+        class="message"
+      ></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- DASHBOARD -->
+
+  <section
+    id="dashboard"
+    class="dashboard"
+  >
+
+    <div class="card">
+
+
+      <div class="dashboard-head">
+
+        <div class="dashboard-head-row">
+
+          <div>
+
+            <div class="dashboard-title">
+              Pending Requests
+            </div>
+
+            <div class="dashboard-subtitle">
+              Review and process registry update requests
+            </div>
+
+          </div>
+
+
+          <div class="pending-count">
+
+            <strong id="pendingCount">
+              0
+            </strong>
+
+            <span>
+              PENDING
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="dashboard-content">
+
+
+        <div class="toolbar">
+
+          <button
+            class="btn btn-outline"
+            onclick="loadPendingRequests()"
+          >
+            🔄 Refresh
+          </button>
+
+
+          <button
+            class="btn btn-outline"
+            onclick="logout()"
+          >
+            🚪 Logout
+          </button>
+
+        </div>
+
+
+        <div
+          id="loading"
+          class="loading"
+        >
+
+          <div class="spinner"></div>
+
+          Loading pending requests...
+
+        </div>
+
+
+        <div
+          id="dashboardMessage"
+          class="message"
+        ></div>
+
+
+        <div id="requestList"></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <footer class="footer">
+
+    Barangay Rabies Control Committee<br>
+
+    Dog Management System (BRCC-DMS)
+
+  </footer>
+
+</main>
 
 </div>
 
-  </div>
 
-
-  <!-- SUMMARY -->
-
-  <div class="summary-grid">
-
-    <div class="summary-card">
-
-      <div class="summary-label">
-        Dog Registrations
-      </div>
-
-      <div
-        class="summary-count"
-        id="dogRegistrationCount">
-
-        -
-
-      </div>
-
-    </div>
-
-
-    <div class="summary-card">
-
-      <div class="summary-label">
-        Registry Updates
-      </div>
-
-      <div
-        class="summary-count"
-        id="registryUpdateCount">
-
-        -
-
-      </div>
-
-    </div>
-
-
-    <div class="summary-card">
-
-      <div class="summary-label">
-        Puppy Reports
-      </div>
-
-      <div
-        class="summary-count"
-        id="puppyReportCount">
-
-        -
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- MAIN CARD -->
-
-  <div class="card">
-
-    <div class="card-header">
-
-      <div
-        class="card-title"
-        id="sectionTitle">
-
-        Pending Requests
-
-      </div>
-
-      <button
-        class="refresh-btn"
-        onclick="loadApprovalCenter()">
-
-        ↻ Refresh
-
-      </button>
-
-    </div>
-
-
-    <!-- TABS -->
-
-    <div class="tabs">
-
-      <button
-        class="tab-btn active"
-        data-tab="registration"
-        onclick="switchTab('registration')">
-
-        🐕 Dog Registrations
-
-      </button>
-
-
-      <button
-        class="tab-btn"
-        data-tab="update"
-        onclick="switchTab('update')">
-
-        ✏️ Registry Updates
-
-      </button>
-
-
-      <button
-        class="tab-btn"
-        data-tab="puppy"
-        onclick="switchTab('puppy')">
-
-        🐶 Puppy Reports
-
-      </button>
-
-    </div>
-
-
-    <!-- REQUEST LIST -->
-
-    <div
-      class="request-list"
-      id="requestList">
-
-      <div class="loading">
-        Loading requests...
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================================
-     DETAILS MODAL
-========================================= -->
+<!-- PROCESSING -->
 
 <div
-  class="modal-overlay"
-  id="detailsModal">
+  id="processingOverlay"
+  class="processing-overlay"
+>
 
-  <div class="modal">
+  <div class="processing-box">
 
-    <div class="modal-header">
-
-      <div
-        class="modal-title"
-        id="modalTitle">
-
-        Request Details
-
-      </div>
-
-      <button
-        class="close-btn"
-        onclick="closeModal()">
-
-        ×
-
-      </button>
-
-    </div>
-
+    <div class="processing-spinner"></div>
 
     <div
-      class="modal-body"
-      id="modalBody">
+      id="processingTitle"
+      class="processing-title"
+    >
+      Processing Request
+    </div>
 
-      Loading...
+    <div
+      id="processingText"
+      class="processing-text"
+    >
+      Please wait. Do not close or refresh this page.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- REJECTION MODAL -->
+
+<div
+  id="rejectModal"
+  class="modal"
+>
+
+  <div class="modal-box">
+
+    <h2 class="modal-title">
+      Reject Request
+    </h2>
+
+    <p class="modal-text">
+
+      Please provide the reason for rejecting this request.
+
+    </p>
+
+    <textarea
+      id="rejectionReason"
+      placeholder="Enter reason for rejection..."
+    ></textarea>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="btn btn-outline"
+        onclick="closeRejectModal()"
+      >
+        Cancel
+      </button>
+
+
+      <button
+        class="btn btn-danger"
+        onclick="confirmReject()"
+      >
+        ❌ Reject Request
+      </button>
 
     </div>
 
@@ -855,1003 +1666,589 @@
 
 <script>
 
-/* ==========================================================
-   GLOBAL STATE
-========================================================== */
+/* ============================================================
+   CONFIGURATION
+============================================================ */
 
-var currentTab = 'registration';
-
-var currentRequest = null;
-
-var dashboardData = {
-  registryUpdates: [],
-  puppyRequests: []
-};
+const API_URL =
+  'https://script.google.com/macros/s/AKfycbzCGq7RqItFizrjt6EosUzTnGO9-FhxDgWrrwG-qfXu1YcPwGy8SydZvrGhkow64r3C7Q/exec';
 
 
-/* ==========================================================
+/* ============================================================
+   STATE
+============================================================ */
+
+let sessionToken = '';
+
+let selectedRequest = null;
+
+let pendingRequests = [];
+
+let isProcessing = false;
+
+
+/* ============================================================
    INITIALIZE
-========================================================== */
+============================================================ */
 
 document.addEventListener(
   'DOMContentLoaded',
   function() {
-    loadApprovalCenter();
+
+    const savedSession =
+      sessionStorage.getItem(
+        'BRCC_MOBILE_APPROVAL_SESSION'
+      );
+
+    if (savedSession) {
+
+      sessionToken = savedSession;
+
+      showDashboard();
+
+      loadPendingRequests();
+
+    }
+
+
+    const pinInput =
+      document.getElementById(
+        'adminPin'
+      );
+
+    pinInput.addEventListener(
+      'keydown',
+      function(event) {
+
+        if (event.key === 'Enter') {
+          login();
+        }
+
+      }
+    );
+
   }
 );
 
 
-/* ==========================================================
-   LOAD APPROVAL CENTER
-========================================================== */
+/* ============================================================
+   PROCESSING
+============================================================ */
 
-function loadApprovalCenter() {
+function startProcessing(title, text) {
 
-  loadSummary();
+  isProcessing = true;
 
-  if (currentTab === 'registration') {
-    loadPendingDogRegistrations();
-  } else {
-    loadRequestDashboardData();
-  }
+  document.getElementById(
+    'processingTitle'
+  ).textContent =
+    title || 'Processing Request';
+
+  document.getElementById(
+    'processingText'
+  ).textContent =
+    text ||
+    'Please wait. Do not close or refresh this page.';
+
+  document.getElementById(
+    'processingOverlay'
+  ).classList.add('show');
+
+  lockAllControls(true);
 
 }
 
 
-/* ==========================================================
-   SWITCH TAB
-========================================================== */
+function stopProcessing() {
 
-function switchTab(tab) {
+  isProcessing = false;
 
-  currentTab = tab;
+  document.getElementById(
+    'processingOverlay'
+  ).classList.remove('show');
+
+  lockAllControls(false);
+
+}
+
+
+function lockAllControls(locked) {
 
   document
-    .querySelectorAll('.tab-btn')
+    .querySelectorAll('button')
     .forEach(function(button) {
-      button.classList.remove('active');
+      button.disabled = locked;
     });
 
 
-  var activeButton =
-    document.querySelector(
-      '[data-tab="' + tab + '"]'
-    );
+  document
+    .querySelectorAll('input, textarea')
+    .forEach(function(input) {
+      input.disabled = locked;
+    });
+
+}
 
 
-  if (activeButton) {
-    activeButton.classList.add('active');
-  }
+/* ============================================================
+   API REQUEST
+============================================================ */
 
+async function apiRequest(action, data = {}) {
 
-  var container =
-    document.getElementById(
-      'requestList'
-    );
+  const payload = {
 
+    service: 'mobile_approval',
 
-  /* DOG REGISTRATIONS */
+    data: {
 
-  if (tab === 'registration') {
+      action: action,
 
-    document.getElementById(
-      'sectionTitle'
-    ).textContent =
-      'Pending Dog Registrations';
-
-
-    container.innerHTML =
-      '<div class="loading">Loading dog registration requests...</div>';
-
-
-    loadPendingDogRegistrations();
-
-    return;
-
-  }
-
-
-  /* REGISTRY UPDATES */
-
-  if (tab === 'update') {
-
-    document.getElementById(
-      'sectionTitle'
-    ).textContent =
-      'Pending Registry Updates';
-
-
-    if (
-      dashboardData.registryUpdates &&
-      dashboardData.registryUpdates.length
-    ) {
-
-      renderRegistryUpdates(
-        dashboardData.registryUpdates
-      );
-
-    } else {
-
-      container.innerHTML =
-        '<div class="loading">Loading registry updates...</div>';
-
-      loadRequestDashboardData();
+      ...data
 
     }
 
-    return;
-
-  }
-
-
-  /* PUPPY REPORTS */
-
-  if (tab === 'puppy') {
-
-    document.getElementById(
-      'sectionTitle'
-    ).textContent =
-      'Pending Puppy Reports';
-
-
-    if (
-      dashboardData.puppyRequests &&
-      dashboardData.puppyRequests.length
-    ) {
-
-      renderPuppyRequests(
-        dashboardData.puppyRequests
-      );
-
-    } else {
-
-      container.innerHTML =
-        '<div class="loading">Loading puppy reports...</div>';
-
-      loadRequestDashboardData();
-
-    }
-
-  }
-
-}
-
-
-/* ==========================================================
-   LOAD SUMMARY
-========================================================== */
-
-function loadSummary() {
-
-  google.script.run
-
-    .withSuccessHandler(function(result) {
-
-      if (!result || !result.success) {
-        return;
-      }
-
-
-      document.getElementById(
-        'dogRegistrationCount'
-      ).textContent =
-        result.counts.dogRegistrations || 0;
-
-
-      document.getElementById(
-        'registryUpdateCount'
-      ).textContent =
-        result.counts.registryUpdates || 0;
-
-
-      document.getElementById(
-        'puppyReportCount'
-      ).textContent =
-        result.counts.puppyReports || 0;
-
-    })
-
-    .withFailureHandler(function(error) {
-
-      console.error(
-        'Summary error:',
-        error
-      );
-
-    })
-
-    .getApprovalCenterSummary();
-
-}
-
-
-/* ==========================================================
-   LOAD REGISTRY UPDATE + PUPPY DATA
-========================================================== */
-
-function loadRequestDashboardData() {
-
-  google.script.run
-
-    .withSuccessHandler(function(result) {
-
-      console.log(
-        'Approval dashboard result:',
-        result
-      );
-
-
-      dashboardData = {
-        registryUpdates:
-          result &&
-          result.registryUpdates
-            ? result.registryUpdates
-            : [],
-
-        puppyRequests:
-          result &&
-          result.puppyRequests
-            ? result.puppyRequests
-            : (
-                result &&
-                result.requests
-                  ? result.requests
-                  : []
-              )
-      };
-
-
-      if (currentTab === 'update') {
-
-        renderRegistryUpdates(
-          dashboardData.registryUpdates
-        );
-
-        return;
-
-      }
-
-
-      if (currentTab === 'puppy') {
-
-        renderPuppyRequests(
-          dashboardData.puppyRequests
-        );
-
-        return;
-
-      }
-
-    })
-
-    .withFailureHandler(function(error) {
-
-      console.error(
-        'Dashboard request error:',
-        error
-      );
-
-
-      if (
-        currentTab === 'update' ||
-        currentTab === 'puppy'
-      ) {
-
-        document.getElementById(
-          'requestList'
-        ).innerHTML =
-
-          '<div class="empty">' +
-          '<div class="empty-icon">⚠</div>' +
-          '<div>Unable to load requests.</div>' +
-          '<div style="font-size:11px;margin-top:8px;color:#999;">' +
-          escapeHtml(
-            error && error.message
-              ? error.message
-              : String(error)
-          ) +
-          '</div>' +
-          '</div>';
-
-      }
-
-    })
-
-    .getRequestDashboardData();
-
-}
-
-
-/* ==========================================================
-   LOAD DOG REGISTRATION REQUESTS
-========================================================== */
-
-function loadPendingDogRegistrations() {
-
-  if (currentTab !== 'registration') {
-    return;
-  }
-
-
-  var container =
-    document.getElementById('requestList');
-
-
-  container.innerHTML =
-    '<div class="loading">Loading dog registration requests...</div>';
-
-
-  google.script.run
-
-    .withSuccessHandler(function(result) {
-
-      console.log(
-        'Dog registration response:',
-        result
-      );
-
-
-      if (currentTab !== 'registration') {
-        return;
-      }
-
-
-      if (!result) {
-
-        container.innerHTML = `
-          <div class="empty">
-            <div class="empty-icon">⚠</div>
-            <div>No response received from server.</div>
-          </div>
-        `;
-
-        return;
-
-      }
-
-
-      if (result.success !== true) {
-
-        container.innerHTML = `
-          <div class="empty">
-            <div class="empty-icon">⚠</div>
-            <div>
-              ${escapeHtml(
-                result.message ||
-                'Unable to load dog registration requests.'
-              )}
-            </div>
-          </div>
-        `;
-
-        return;
-
-      }
-
-
-      renderDogRegistrationRequests(
-        Array.isArray(result.requests)
-          ? result.requests
-          : []
-      );
-
-    })
-
-    .withFailureHandler(function(error) {
-
-      console.error(
-        'getPendingDogRegistrationRequests FAILED:',
-        error
-      );
-
-
-      if (currentTab !== 'registration') {
-        return;
-      }
-
-
-      container.innerHTML = `
-        <div class="empty">
-          <div class="empty-icon">⚠</div>
-          <div>
-            Unable to load dog registration requests.
-          </div>
-          <div style="
-            margin-top:8px;
-            font-size:11px;
-            color:#999;
-          ">
-            ${escapeHtml(
-              error && error.message
-                ? error.message
-                : String(error || '')
-            )}
-          </div>
-        </div>
-      `;
-
-    })
-
-    .getPendingDogRegistrationRequests();
-
-}
-
-
-/* ==========================================================
-   RENDER DOG REGISTRATION REQUESTS
-========================================================== */
-
-function renderDogRegistrationRequests(requests) {
-
-  var container =
-    document.getElementById('requestList');
+  };
 
 
   console.log(
-    'Rendering dog registration requests:',
-    requests
+    'BRCC API REQUEST:',
+    JSON.stringify(payload)
   );
 
 
-  if (!requests || !requests.length) {
+  let response;
 
-    renderEmpty(
-      '✓',
-      'No pending dog registration requests.'
-    );
+  try {
 
-    return;
+    response =
+      await fetch(
+        API_URL,
+        {
 
-  }
+          method: 'POST',
 
+          body:
+            JSON.stringify(payload),
 
-  var html = '';
+          redirect: 'follow'
 
-
-  requests.forEach(function(request) {
-
-    html += `
-
-      <div class="request-item">
-
-        <div class="request-photo-thumb">
-          ${
-            request.dogPhotoFileId
-              ? `
-                <img
-                  src="https://drive.google.com/thumbnail?id=${encodeURIComponent(
-                    request.dogPhotoFileId
-                  )}&sz=w200"
-                  alt="Dog Photo"
-                  loading="lazy"
-                  onerror="
-                    this.style.display='none';
-                    this.nextElementSibling.style.display='flex';
-                  "
-                >
-                <div class="request-photo-missing" style="display:none;">🐶</div>
-              `
-              : `
-                <div class="request-photo-missing">🐶</div>
-              `
-          }
-        </div>
-
-        <div class="request-main">
-
-          <div class="request-title">
-
-            ${escapeHtml(
-              request.dogName || '-'
-            )}
-
-            <span class="badge">
-
-              ${escapeHtml(
-                request.status || 'PENDING'
-              )}
-
-            </span>
-
-          </div>
-
-
-          <div class="request-subtitle">
-
-            Owner:
-            ${escapeHtml(
-              request.ownerName || '-'
-            )}
-
-          </div>
-
-
-          <div class="request-meta">
-
-            ${escapeHtml(
-              request.requestNumber || '-'
-            )}
-
-            •
-
-            Breed:
-            ${escapeHtml(
-              request.breed || '-'
-            )}
-
-            •
-
-            Sitio:
-            ${escapeHtml(
-              request.sitio || '-'
-            )}
-
-            •
-
-            ${escapeHtml(
-              request.submittedAt || '-'
-            )}
-
-          </div>
-
-        </div>
-
-
-        <button
-          class="view-btn"
-          onclick="viewDogRegistration('${escapeAttribute(
-            request.requestNumber || ''
-          )}')">
-
-          Review
-
-        </button>
-
-      </div>
-
-    `;
-
-  });
-
-
-  container.innerHTML = html;
-
-}
-
-
-/* ==========================================================
-   RENDER REGISTRY UPDATES
-========================================================== */
-
-function renderRegistryUpdates(requests) {
-
-  if (!requests || !requests.length) {
-
-    renderEmpty(
-      '✓',
-      'No pending registry updates.'
-    );
-
-    return;
-
-  }
-
-
-  var html = '';
-
-
-  requests.forEach(function(request) {
-
-    html += `
-
-      <div class="request-item">
-
-        <div class="request-photo-thumb">
-          ${
-            request.dogPhotoFileId
-              ? `
-                <img
-                  src="https://drive.google.com/thumbnail?id=${encodeURIComponent(
-                    request.dogPhotoFileId
-                  )}&sz=w200"
-                  alt="Dog Photo"
-                  loading="lazy"
-                  onerror="
-                    this.style.display='none';
-                    this.nextElementSibling.style.display='flex';
-                  "
-                >
-                <div class="request-photo-missing" style="display:none;">🐶</div>
-              `
-              : `
-                <div class="request-photo-missing">🐶</div>
-              `
-          }
-        </div>
-
-        <div class="request-main">
-
-          <div class="request-title">
-
-            ${escapeHtml(
-              request['Dog Name'] ||
-              request.dogName ||
-              '-'
-            )}
-
-            <span class="badge">
-
-              ${escapeHtml(
-                request['Update Type'] ||
-                request.updateType ||
-                '-'
-              )}
-
-            </span>
-
-          </div>
-
-
-          <div class="request-subtitle">
-
-            Owner:
-            ${escapeHtml(
-              request['Owner Name'] ||
-              request.ownerName ||
-              '-'
-            )}
-
-          </div>
-
-
-          <div class="request-meta">
-
-            Registry:
-            ${escapeHtml(
-              request['Registry Number'] ||
-              request.registryNumber ||
-              '-'
-            )}
-
-            •
-
-            ${formatDate(
-              request['Request Date'] ||
-              request.requestDate
-            )}
-
-          </div>
-
-        </div>
-
-
-        <button
-          class="view-btn"
-          onclick="viewRegistryUpdate('${escapeAttribute(
-            getRequestId(request)
-          )}')">
-
-          Review
-
-        </button>
-
-      </div>
-
-    `;
-
-  });
-
-
-  document.getElementById(
-    'requestList'
-  ).innerHTML = html;
-
-}
-
-
-/* ==========================================================
-   RENDER PUPPY REQUESTS
-========================================================== */
-
-function renderPuppyRequests(requests) {
-
-  if (!requests || !requests.length) {
-
-    renderEmpty(
-      '✓',
-      'No pending puppy reports.'
-    );
-
-    return;
-
-  }
-
-
-  var html = '';
-
-
-  requests.forEach(function(request) {
-
-    html += `
-
-      <div class="request-item">
-
-        <div class="request-main">
-
-          <div class="request-title">
-
-            ${escapeHtml(
-              request.motherDogName ||
-              request['Mother Dog Name'] ||
-              '-'
-            )}
-
-          </div>
-
-
-          <div class="request-subtitle">
-
-            Owner:
-            ${escapeHtml(
-              request.ownerName ||
-              request['Owner Name'] ||
-              '-'
-            )}
-
-          </div>
-
-
-          <div class="request-meta">
-
-            ${escapeHtml(
-              getRequestId(request) || '-'
-            )}
-
-            •
-
-            Total Puppies:
-            ${escapeHtml(
-              request.totalPuppies ||
-              request['Total Puppies'] ||
-              0
-            )}
-
-          </div>
-
-        </div>
-
-
-        <button
-          class="view-btn"
-          onclick="viewPuppyRequest('${escapeAttribute(
-            getRequestId(request)
-          )}')">
-
-          Review
-
-        </button>
-
-      </div>
-
-    `;
-
-  });
-
-
-  document.getElementById(
-    'requestList'
-  ).innerHTML = html;
-
-}
-
-
-/* ==========================================================
-   VIEW DOG REGISTRATION
-========================================================== */
-
-function viewDogRegistration(requestNumber) {
-
-  openModal(
-    'Loading Registration...'
-  );
-
-
-  google.script.run
-
-    .withSuccessHandler(function(result) {
-
-      if (!result || !result.success) {
-
-        document.getElementById(
-          'modalBody'
-        ).innerHTML =
-          '<div class="empty">Unable to load request.</div>';
-
-        return;
-
-      }
-
-      console.log(
-  'DOG REGISTRATION DETAILS:',
-  result.request
-);
-
-
-      currentRequest = {
-        type: 'registration',
-        data: result.request
-      };
-
-
-      renderDogRegistrationDetails(
-        result.request
+        }
       );
 
-    })
+  }
+  catch (error) {
 
-    .withFailureHandler(function(error) {
+    console.error(
+      'NETWORK ERROR:',
+      error
+    );
 
-      console.error(error);
+    throw new Error(
+      'Unable to connect to BRCC-DMS server.'
+    );
+
+  }
+
+
+  const responseText =
+    await response.text();
+
+
+  console.log(
+    'API RAW RESPONSE:',
+    responseText
+  );
+
+
+  let result;
+
+  try {
+
+    result =
+      JSON.parse(responseText);
+
+  }
+  catch (error) {
+
+    console.error(
+      'INVALID JSON:',
+      responseText
+    );
+
+    throw new Error(
+      'Invalid server response.'
+    );
+
+  }
+
+
+  if (
+    !result ||
+    result.success !== true
+  ) {
+
+    throw new Error(
+      (result && result.message) ||
+      'Request failed.'
+    );
+
+  }
+
+
+  return result.result || {};
+
+}
+
+
+/* ============================================================
+   LOGIN
+============================================================ */
+
+async function login() {
+
+  if (isProcessing) {
+    return;
+  }
+
+
+  const pinInput =
+    document.getElementById('adminPin');
+
+
+  const pin =
+    String(pinInput.value || '').trim();
+
+
+  if (!pin) {
+
+    showMessage(
+      'loginMessage',
+      'Please enter the Admin PIN.',
+      'error'
+    );
+
+    pinInput.focus();
+
+    return;
+
+  }
+
+
+  hideMessage('loginMessage');
+
+
+  startProcessing(
+    'Verifying Access',
+    'Please wait while your administrator credentials are being verified.'
+  );
+
+
+  try {
+
+    const result =
+      await apiRequest(
+        'login',
+        {
+          pin: pin
+        }
+      );
+
+
+    if (!result.sessionToken) {
+
+      throw new Error(
+        'Session token was not returned by the server.'
+      );
+
+    }
+
+
+    sessionToken =
+      result.sessionToken;
+
+
+    sessionStorage.setItem(
+      'BRCC_MOBILE_APPROVAL_SESSION',
+      sessionToken
+    );
+
+
+    pinInput.value = '';
+
+
+    showDashboard();
+
+
+    await loadPendingRequests(true);
+
+  }
+  catch (error) {
+
+    console.error(
+      'LOGIN ERROR:',
+      error
+    );
+
+
+    showMessage(
+      'loginMessage',
+      error.message || 'Unable to login.',
+      'error'
+    );
+
+  }
+  finally {
+
+    stopProcessing();
+
+  }
+
+}
+
+
+/* ============================================================
+   SHOW DASHBOARD
+============================================================ */
+
+function showDashboard() {
+
+  document.getElementById(
+    'loginSection'
+  ).style.display = 'none';
+
+
+  document.getElementById(
+    'dashboard'
+  ).classList.add('show');
+
+}
+
+
+/* ============================================================
+   SHOW LOGIN
+============================================================ */
+
+function showLogin() {
+
+  document.getElementById(
+    'dashboard'
+  ).classList.remove('show');
+
+
+  document.getElementById(
+    'loginSection'
+  ).style.display = 'block';
+
+
+  setTimeout(
+    function() {
 
       document.getElementById(
-        'modalBody'
-      ).innerHTML =
-        '<div class="empty">Unable to load details.</div>';
+        'adminPin'
+      ).focus();
 
-    })
-
-    .getDogRegistrationRequestDetails(
-      requestNumber
-    );
+    },
+    100
+  );
 
 }
 
 
-/* ==========================================================
-   VIEW REGISTRY UPDATE
-========================================================== */
+/* ============================================================
+   LOAD PENDING REQUESTS
+============================================================ */
 
-function viewRegistryUpdate(requestId) {
+async function loadPendingRequests(silent = false) {
 
-  var request =
-    (dashboardData.registryUpdates || [])
-      .find(function(item) {
+  if (!sessionToken) {
 
-        return getRequestId(item) ===
-          String(requestId || '').trim();
-
-      });
-
-
-  if (!request) {
-
-    alert(
-      'Request details not found. Please refresh.'
-    );
+    showLogin();
 
     return;
 
   }
 
 
-  currentRequest = {
-    type: 'update',
-    data: request
-  };
-
-
-  openModal(
-    getRequestId(request) ||
-    'Registry Update Request'
-  );
-
-
-  renderRegistryUpdateDetails(
-    request
-  );
-
-}
-
-
-/* ==========================================================
-   VIEW PUPPY REQUEST
-========================================================== */
-
-function viewPuppyRequest(requestId) {
-
-  var request =
-    (dashboardData.puppyRequests || [])
-      .find(function(item) {
-
-        return getRequestId(item) ===
-          String(requestId || '').trim();
-
-      });
-
-
-  if (!request) {
-
-    alert(
-      'Request details not found. Please refresh.'
-    );
-
+  if (
+    isProcessing &&
+    !silent
+  ) {
     return;
+  }
+
+
+  if (!silent) {
+
+    startProcessing(
+      'Refreshing Requests',
+      'Loading the latest pending registry update requests...'
+    );
 
   }
 
 
-  currentRequest = {
-    type: 'puppy',
-    data: request
-  };
+  showLoading(true);
 
 
-  openModal(
-    getRequestId(request) ||
-    'Puppy Report Request'
-  );
+  try {
+
+    const result =
+      await apiRequest(
+        'get_pending_requests',
+        {
+          sessionToken: sessionToken
+        }
+      );
 
 
-  renderPuppyRequestDetails(
-    request
-  );
+    console.log(
+      'PENDING REQUEST RESULT:',
+      result
+    );
+
+
+    pendingRequests =
+      Array.isArray(result.requests)
+        ? result.requests
+        : [];
+
+
+    renderRequests(
+      pendingRequests
+    );
+
+
+    document.getElementById(
+      'pendingCount'
+    ).textContent =
+      result.count ||
+      pendingRequests.length ||
+      0;
+
+  }
+  catch (error) {
+
+    console.error(
+      'LOAD REQUEST ERROR:',
+      error
+    );
+
+
+    const message =
+      error.message ||
+      'Unable to load pending requests.';
+
+
+    if (
+      message.toLowerCase()
+        .includes('session')
+    ) {
+
+      sessionExpired();
+
+      return;
+
+    }
+
+
+    showMessage(
+      'dashboardMessage',
+      message,
+      'error'
+    );
+
+  }
+  finally {
+
+    showLoading(false);
+
+
+    if (!silent) {
+      stopProcessing();
+    }
+
+  }
 
 }
 
-/* ==========================================================
-   GET GOOGLE DRIVE FILE ID
-========================================================== */
 
-function extractGoogleDriveFileId_(value) {
+/* ============================================================
+   GET REQUEST SOURCE
+   IMPORTANT FIX
+============================================================ */
 
-  if (!value) {
+function getRequestSource(request) {
+
+  if (!request) {
     return '';
   }
 
 
-  value =
-    String(value).trim();
+  /*
+   Try all possible field names returned by backend
+  */
+
+  const possibleSources = [
+
+    request.requestSource,
+
+    request.source,
+
+    request.sheetName,
+
+    request.requestSheet,
+
+    request.sourceSheet,
+
+    request.typeSource
+
+  ];
+
+
+  for (let i = 0; i < possibleSources.length; i++) {
+
+    const value =
+      String(
+        possibleSources[i] || ''
+      ).trim();
+
+    if (value) {
+      return value;
+    }
+
+  }
 
 
   /*
-   * Already a File ID
-   */
+   Fallback based on request ID prefix
+  */
+
+  const requestId =
+    String(
+      request.requestId || ''
+    ).trim()
+    .toUpperCase();
+
 
   if (
-    /^[a-zA-Z0-9_-]{20,}$/
-      .test(value)
+    requestId.startsWith('DRR')
   ) {
-
-    return value;
-
+    return 'Dog Registration Requests';
   }
 
 
-  /*
-   * /d/FILE_ID/
-   */
-
-  var match =
-    value.match(
-      /\/d\/([a-zA-Z0-9_-]+)/
-    );
-
-  if (match && match[1]) {
-    return match[1];
+  if (
+    requestId.startsWith('RUR')
+  ) {
+    return 'Registry Update Requests';
   }
 
 
-  /*
-   * ?id=FILE_ID
-   */
-
-  match =
-    value.match(
-      /[?&]id=([a-zA-Z0-9_-]+)/
-    );
-
-  if (match && match[1]) {
-    return match[1];
+  if (
+    requestId.startsWith('PRR')
+  ) {
+    return 'Puppy Report Requests';
   }
 
 
@@ -1860,1253 +2257,324 @@ function extractGoogleDriveFileId_(value) {
 }
 
 
+/* ============================================================
+   FIND REQUEST
+============================================================ */
 
-/* ==========================================================
-   BUILD DISPLAYABLE PHOTO URL
-========================================================== */
+function findRequest(requestId) {
 
-function getDisplayPhotoUrl_(
-  fileId,
-  url
-) {
+  return pendingRequests.find(
+    function(request) {
 
-  var source =
-    String(
-      fileId || url || ''
-    ).trim();
+      return String(
+        request.requestId
+      ) === String(
+        requestId
+      );
 
-
-  if (!source) {
-    return '';
-  }
-
-
-  if (
-    source.startsWith('data:')
-  ) {
-    return source;
-  }
-
-
-  var driveFileId =
-    extractGoogleDriveFileId_(
-      fileId || url
-    );
-
-
-  if (driveFileId) {
-
-    return (
-      'https://drive.google.com/thumbnail?id=' +
-      encodeURIComponent(
-        driveFileId
-      ) +
-      '&sz=w1000'
-    );
-
-  }
-
-
-  return source;
+    }
+  ) || null;
 
 }
 
 
+/* ============================================================
+   RENDER REQUESTS
+============================================================ */
 
-/* ==========================================================
-   RENDER PHOTO COMPARISON
-========================================================== */
+function renderRequests(requests) {
 
-function renderPhotoComparison_(
-  request
-) {
-
-  var currentPhoto =
-    getDisplayPhotoUrl_(
-      request.currentPhotoFileId,
-      request.currentPhotoUrl
+  const container =
+    document.getElementById(
+      'requestList'
     );
 
 
-  var requestedPhoto =
-    getDisplayPhotoUrl_(
-      request.requestedPhotoFileId,
-      request.requestedPhotoUrl
-    );
+  container.innerHTML = '';
 
-
-  /*
-   * Don't show section if there is no
-   * photo update involved.
-   */
 
   if (
-    !currentPhoto &&
-    !requestedPhoto
+    !requests ||
+    requests.length === 0
   ) {
-    return '';
-  }
 
+    container.innerHTML = `
 
-  var currentHtml =
-    currentPhoto
+      <div class="empty">
 
-      ? `
-        <img
-          class="photo-comparison-image"
-          src="${escapeAttribute(currentPhoto)}"
-          alt="Current Dog Photo"
-        >
-      `
-
-      : `
-        <div class="photo-missing">
-          Current photo unavailable
-        </div>
-      `;
-
-
-  var requestedHtml =
-    requestedPhoto
-
-      ? `
-        <img
-          class="photo-comparison-image"
-          src="${escapeAttribute(requestedPhoto)}"
-          alt="Requested New Dog Photo"
-        >
-      `
-
-      : `
-        <div class="photo-missing">
-          No new photo uploaded
-        </div>
-      `;
-
-
-  return `
-
-    <div class="detail-section">
-
-      <h3>Dog Photo Comparison</h3>
-
-      <div class="photo-comparison">
-
-        <div class="photo-comparison-card">
-
-          <div class="photo-comparison-label">
-            Current Registry Photo
-          </div>
-
-          ${currentHtml}
-
+        <div class="empty-icon">
+          ✅
         </div>
 
-
-        <div class="photo-comparison-card">
-
-          <div class="photo-comparison-label">
-            Requested New Photo
-          </div>
-
-          ${requestedHtml}
-
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-/* ==========================================================
-   REGISTRY UPDATE DETAILS
-========================================================== */
-
-function renderRegistryUpdateDetails(request) {
-
-  document.getElementById(
-    'modalTitle'
-  ).textContent =
-    'Registry Update Request';
-
-
-  /* ==========================================
-     GET UPDATE TYPE
-  ========================================== */
-
-  var updateType =
-    String(
-      request['Update Type'] ||
-      request.updateType ||
-      ''
-    )
-    .trim()
-    .toLowerCase();
-
-
-  /* ==========================================
-     DETECT PHOTO UPDATE
-  ========================================== */
-
-  var isPhotoUpdate =
-
-    updateType === 'photo update' ||
-
-    updateType === 'photo' ||
-
-    updateType === 'update photo' ||
-
-    updateType === 'dog photo';
-
-
-  /* ==========================================
-     PHOTO COMPARISON
-  ========================================== */
-
-  var photoComparisonHtml = '';
-
-
-  if (isPhotoUpdate) {
-
-
-    /* ========================================
-       CURRENT DOG PHOTO
-
-       Supports backend properties from:
-       - Dog Registry
-       - Approval Center
-    ======================================== */
-
-    var currentPhoto =
-
-      request.currentPhotoUrl ||
-
-      request['Current Photo URL'] ||
-
-      request.currentPhoto ||
-
-      request['Dog Photo URL'] ||
-
-      request.dogPhotoUrl ||
-
-      request.photoUrl ||
-
-      '';
-
-
-    /* ========================================
-       NEW REQUESTED PHOTO
-
-       IMPORTANT:
-       Registry Update Request backend returns:
-
-       supportingPhotoUrl
-       supportingDocumentUrl
-    ======================================== */
-
-    var requestedPhoto =
-
-      request.supportingPhotoUrl ||
-
-      request['Supporting Photo URL'] ||
-
-      request.requestedPhotoUrl ||
-
-      request['Requested Photo URL'] ||
-
-      request.requestedPhoto ||
-
-      request.newPhoto ||
-
-      request.supportingDocumentUrl ||
-
-      request['Supporting Document URL'] ||
-
-      '';
-
-
-    /* ========================================
-       NORMALIZE GOOGLE DRIVE IMAGE URL
-    ======================================== */
-
-    currentPhoto =
-      normalizeDriveImageUrl_(
-        currentPhoto
-      );
-
-
-    requestedPhoto =
-      normalizeDriveImageUrl_(
-        requestedPhoto
-      );
-
-
-    photoComparisonHtml = `
-
-      <div class="detail-section">
-
-        <h3>Photo Comparison</h3>
-
-        <div class="photo-comparison">
-
-
-          <!-- CURRENT PHOTO -->
-
-          <div class="photo-compare-card">
-
-            <div class="photo-compare-label">
-
-              Current Photo
-
-            </div>
-
-
-            ${
-              currentPhoto
-                ? `
-                  <img
-                    class="photo-compare-image"
-                    src="${escapeAttribute(currentPhoto)}"
-                    alt="Current Dog Photo"
-
-                    onerror="
-                      this.style.display='none';
-                      this.nextElementSibling.style.display='flex';
-                    "
-                  >
-
-                  <div
-                    class="photo-unavailable"
-                    style="display:none;"
-                  >
-                    Unable to load current photo.
-                  </div>
-                `
-                : `
-                  <div class="photo-unavailable">
-                    No current photo available.
-                  </div>
-                `
-            }
-
-          </div>
-
-
-          <!-- NEW REQUESTED PHOTO -->
-
-          <div class="photo-compare-card">
-
-            <div class="photo-compare-label">
-
-              New Requested Photo
-
-            </div>
-
-
-            ${
-              requestedPhoto
-                ? `
-                  <img
-                    class="photo-compare-image"
-                    src="${escapeAttribute(requestedPhoto)}"
-                    alt="Requested Dog Photo"
-
-                    onerror="
-                      this.style.display='none';
-                      this.nextElementSibling.style.display='flex';
-                    "
-                  >
-
-                  <div
-                    class="photo-unavailable"
-                    style="display:none;"
-                  >
-                    Unable to load requested photo.
-                  </div>
-                `
-                : `
-                  <div class="photo-unavailable">
-                    No new photo uploaded.
-                  </div>
-                `
-            }
-
-          </div>
-
-
-        </div>
+        <h3>
+          No Pending Requests
+        </h3>
+
+        <p>
+          All registry update requests have been processed.
+        </p>
 
       </div>
 
     `;
 
+    return;
+
   }
 
 
-  /* ==========================================
-     RENDER MODAL
+  requests.forEach(
+    function(request) {
 
-     IMPORTANT:
-     Photo comparison rendered ONLY ONCE.
-  ========================================== */
-
-  document.getElementById(
-    'modalBody'
-  ).innerHTML = `
-
-    ${photoComparisonHtml}
+      const card =
+        document.createElement('div');
 
 
-    <div class="detail-section">
+      card.className =
+        'request-card';
 
-      <h3>Request Information</h3>
 
-      <div class="detail-grid">
+      const requestId =
+        request.requestId ||
+        '';
 
-        ${detailItem(
-          'Request ID',
-          getRequestId(request)
-        )}
 
-        ${detailItem(
-          'Request Date',
-          formatDate(
-            request['Request Date'] ||
-            request.requestDate
-          )
-        )}
+      const requestSource =
+        getRequestSource(request);
 
-        ${detailItem(
-          'Registry Number',
-          request['Registry Number'] ||
-          request.registryNumber
-        )}
 
-        ${detailItem(
-          'Dog Name',
-          request['Dog Name'] ||
-          request.dogName
-        )}
+      card.innerHTML = `
 
-        ${detailItem(
-          'Owner Name',
-          request['Owner Name'] ||
-          request.ownerName
-        )}
+        <div class="request-top">
 
-        ${detailItem(
-          'Update Type',
-          request['Update Type'] ||
+          <div>
+
+            <div class="request-id">
+
+              ${escapeHtml(
+                requestId ||
+                'NO REQUEST ID'
+              )}
+
+            </div>
+
+          </div>
+
+
+          <div class="request-date">
+
+            ${escapeHtml(
+              formatValue(
+                request.submittedDate
+              )
+            )}
+
+          </div>
+
+        </div>
+
+
+        <div class="dog-name">
+
+          🐕 ${escapeHtml(
+            request.dogName ||
+            'Unnamed Dog'
+          )}
+
+        </div>
+
+
+        <div class="owner-name">
+
+          Owner:
+          ${escapeHtml(
+            request.ownerName ||
+            'Not specified'
+          )}
+
+        </div>
+
+
+        ${
           request.updateType
-        )}
+          ?
+          `
+            <div class="update-type">
+              ${escapeHtml(
+                request.updateType
+              )}
+            </div>
+          `
+          :
+          ''
+        }
 
-      </div>
 
-    </div>
-
-
-    <div class="detail-section">
-
-      <h3>Requested Change</h3>
+        <div class="info-grid">
 
 
-      <div class="highlight-box">
+          <div class="info-row">
 
-        <strong>Current Information</strong>
+            <div class="info-label">
+              Registry Number
+            </div>
 
-        <div style="margin-top:6px">
+            <div class="info-value">
 
-          ${escapeHtml(
-            request['Current Information'] ||
-            request.currentInformation ||
-            '-'
-          )}
+              ${escapeHtml(
+                formatValue(
+                  request.registryNumber
+                )
+              )}
+
+            </div>
+
+          </div>
+
+
+          <div class="info-row">
+
+            <div class="info-label">
+              Requested Information
+            </div>
+
+            <div class="info-value">
+
+              ${escapeHtml(
+                formatValue(
+                  request.requestedInformation
+                )
+              )}
+
+            </div>
+
+          </div>
+
+
+          ${
+            request.currentInformation
+            ?
+            `
+
+              <div class="info-row">
+
+                <div class="info-label">
+                  Current Information
+                </div>
+
+                <div class="info-value">
+
+                  ${escapeHtml(
+                    request.currentInformation
+                  )}
+
+                </div>
+
+              </div>
+
+            `
+            :
+            ''
+          }
+
+
+          ${
+            request.remarks
+            ?
+            `
+
+              <div class="info-row">
+
+                <div class="info-label">
+                  Remarks
+                </div>
+
+                <div class="info-value">
+
+                  ${escapeHtml(
+                    request.remarks
+                  )}
+
+                </div>
+
+              </div>
+
+            `
+            :
+            ''
+          }
+
 
         </div>
 
-      </div>
+
+        <div class="request-actions">
 
 
-      <div class="highlight-box">
+          <button
+            class="btn btn-primary"
+            onclick="approveRequest('${escapeAttribute(requestId)}')"
+          >
 
-        <strong>Requested Information</strong>
+            ✅ Approve
 
-        <div style="margin-top:6px">
+          </button>
 
-          ${escapeHtml(
-            request['Requested Information'] ||
-            request.requestedInformation ||
-            '-'
-          )}
+
+          <button
+            class="btn btn-danger"
+            onclick="openRejectModal('${escapeAttribute(requestId)}')"
+          >
+
+            ❌ Reject
+
+          </button>
+
 
         </div>
 
-      </div>
+      `;
 
-    </div>
 
+      container.appendChild(card);
 
-    ${renderActionButtons('Approve Update')}
 
-  `;
+      console.log(
+        'REQUEST SOURCE DETECTED:',
+        {
+          requestId: requestId,
+          requestSource: requestSource,
+          originalRequest: request
+        }
+      );
 
-}
-
-
-/* ==========================================================
-   NORMALIZE GOOGLE DRIVE IMAGE URL
-
-   Converts:
-
-   https://drive.google.com/file/d/FILE_ID/view
-
-   INTO:
-
-   https://drive.google.com/uc?export=view&id=FILE_ID
-========================================================== */
-
-function normalizeDriveImageUrl_(url) {
-
-  if (!url) {
-
-    return '';
-
-  }
-
-
-  url =
-    String(url).trim();
-
-
-  /* ========================================
-     EXTRACT GOOGLE DRIVE FILE ID
-  ======================================== */
-
-  var match =
-    url.match(
-      /\/d\/([a-zA-Z0-9_-]+)/
-    );
-
-
-  if (match && match[1]) {
-
-    return (
-      'https://drive.google.com/uc?export=view&id=' +
-      match[1]
-    );
-
-  }
-
-
-  /* ========================================
-     ALTERNATIVE id= FORMAT
-  ======================================== */
-
-  var idMatch =
-    url.match(
-      /[?&]id=([a-zA-Z0-9_-]+)/
-    );
-
-
-  if (idMatch && idMatch[1]) {
-
-    return (
-      'https://drive.google.com/uc?export=view&id=' +
-      idMatch[1]
-    );
-
-  }
-
-
-  /* ========================================
-     RETURN ORIGINAL URL
-  ======================================== */
-
-  return url;
-
-}
-
-/* ==========================================================
-   PUPPY REQUEST DETAILS
-========================================================== */
-
-function renderPuppyRequestDetails(request) {
-
-  document.getElementById(
-    'modalTitle'
-  ).textContent =
-    getRequestId(request) ||
-    'Puppy Report Request';
-
-
-  document.getElementById(
-    'modalBody'
-  ).innerHTML = `
-
-    <div class="detail-section">
-
-      <h3>Mother Dog</h3>
-
-      <div class="detail-grid">
-
-        ${detailItem(
-          'Registry Number',
-          request.motherRegistryNumber ||
-          request['Mother Registry Number']
-        )}
-
-        ${detailItem(
-          'Dog Name',
-          request.motherDogName ||
-          request['Mother Dog Name']
-        )}
-
-      </div>
-
-    </div>
-
-
-    <div class="detail-section">
-
-      <h3>Owner Information</h3>
-
-      <div class="detail-grid">
-
-        ${detailItem(
-          'Owner Name',
-          request.ownerName ||
-          request['Owner Name']
-        )}
-
-        ${detailItem(
-          'Owner Address',
-          request.ownerAddress ||
-          request['Owner Address']
-        )}
-
-        ${detailItem(
-          'Sitio',
-          request.sitio ||
-          request['Sitio']
-        )}
-
-        ${detailItem(
-          'Contact Number',
-          request.contactNumber ||
-          request['Contact Number']
-        )}
-
-        ${detailItem(
-          'Email',
-          request.email ||
-          request['Email Address']
-        )}
-
-      </div>
-
-    </div>
-
-
-    <div class="detail-section">
-
-      <h3>Puppy Information</h3>
-
-      <div class="detail-grid">
-
-        ${detailItem(
-          'Birthdate',
-          request.puppyBirthdate ||
-          request['Puppy Birthdate']
-        )}
-
-        ${detailItem(
-          'Male Puppies',
-          request.maleCount ||
-          request['Male Count']
-        )}
-
-        ${detailItem(
-          'Female Puppies',
-          request.femaleCount ||
-          request['Female Count']
-        )}
-
-        ${detailItem(
-          'Total Puppies',
-          request.totalPuppies ||
-          request['Total Puppies']
-        )}
-
-        ${detailItem(
-          'Color',
-          request.color ||
-          request['Color']
-        )}
-
-        ${detailItem(
-          'Remarks',
-          request.remarks ||
-          request['Remarks']
-        )}
-
-        ${detailItem(
-          'Submitted',
-          request.submittedAt ||
-          request['Submitted At']
-        )}
-
-      </div>
-
-    </div>
-
-
-    ${renderActionButtons('Approve Puppy Report')}
-
-  `;
-
-}
-
-
-/* ==========================================================
-   DOG REGISTRATION DETAILS
-========================================================== */
-
-function renderDogRegistrationDetails(request) {
-
-  document.getElementById(
-    'modalTitle'
-  ).textContent =
-    request.requestNumber ||
-    'Dog Registration Request';
-
-
-/* ==========================================
-   DOG PHOTO
-========================================== */
-
-var photoHtml = '';
-
-var photoSource =
-  request.photoDataUrl ||
-  request.photoUrl ||
-  (
-    request.photoFileId
-      ? 'https://drive.google.com/thumbnail?id=' +
-        encodeURIComponent(
-          request.photoFileId
-        ) +
-        '&sz=w1000'
-      : ''
+    }
   );
 
-
-/* ==========================================
-   CONVERT GOOGLE DRIVE URL FOR IMAGE DISPLAY
-========================================== */
-
-if (
-  photoSource &&
-  !String(photoSource).startsWith('data:')
-) {
-
-  var driveFileId =
-    extractGoogleDriveFileId_(
-      photoSource
-    );
+}
 
 
-  if (driveFileId) {
+/* ============================================================
+   APPROVE REQUEST
+============================================================ */
 
-    photoSource =
-      'https://drive.google.com/thumbnail?id=' +
-      encodeURIComponent(
-        driveFileId
-      ) +
-      '&sz=w1000';
+async function approveRequest(requestId) {
 
+  if (!requestId || isProcessing) {
+    return;
   }
 
-}
 
+  const request =
+    findRequest(requestId);
 
-/* ==========================================
-   BUILD PHOTO HTML
-========================================== */
-
-if (photoSource) {
-
-  photoHtml = `
-
-    <div class="detail-section">
-
-      <h3>Uploaded Dog Photo</h3>
-
-      <div class="dog-photo-container">
-
-        <img
-          class="dog-photo"
-          src="${escapeAttribute(photoSource)}"
-          alt="Dog Photo"
-
-          onerror="
-            console.error(
-              'DOG PHOTO FAILED:',
-              this.src
-            );
-
-            this.style.display='none';
-
-            var errorBox =
-              document.getElementById(
-                'dogPhotoError'
-              );
-
-            if (errorBox) {
-              errorBox.style.display='block';
-            }
-          "
-
-          onload="
-            console.log(
-              'DOG PHOTO LOADED SUCCESSFULLY'
-            );
-          "
-        >
-
-        <div
-          id="dogPhotoError"
-          style="
-            display:none;
-            padding:15px;
-            color:#b00020;
-            font-size:13px;
-          "
-        >
-
-          Unable to load uploaded dog photo.
-
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-
-} else {
-
-  photoHtml = `
-
-    <div class="detail-section">
-
-      <h3>Uploaded Dog Photo</h3>
-
-      <div
-        style="
-          text-align:center;
-          padding:20px;
-          color:#888;
-          font-size:13px;
-        "
-      >
-
-        No dog photo uploaded.
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-  document.getElementById(
-    'modalBody'
-  ).innerHTML = `
-
-    ${photoHtml}
-
-
-    <div class="detail-section">
-
-      <h3>Request Information</h3>
-
-      <div class="detail-grid">
-
-        ${detailItem(
-          'Request Number',
-          request.requestNumber
-        )}
-
-        ${detailItem(
-          'Submission Status',
-          request.status
-        )}
-
-        ${detailItem(
-          'Submitted At',
-          request.submittedAt
-        )}
-
-      </div>
-
-    </div>
-
-
-    <div class="detail-section">
-
-      <h3>Owner Information</h3>
-
-      <div class="detail-grid">
-
-        ${detailItem(
-          'Owner Name',
-          request.ownerName
-        )}
-
-        ${detailItem(
-          'Address',
-          request.address
-        )}
-
-        ${detailItem(
-          'Sitio',
-          request.sitio
-        )}
-
-        ${detailItem(
-          'Contact Number',
-          request.contactNumber
-        )}
-
-        ${detailItem(
-          'Email',
-          request.email
-        )}
-
-      </div>
-
-    </div>
-
-
-    <div class="detail-section">
-
-      <h3>Dog Information</h3>
-
-      <div class="detail-grid">
-
-        ${detailItem(
-          'Dog Name',
-          request.dogName
-        )}
-
-        ${detailItem(
-          'Breed',
-          request.breed
-        )}
-
-        ${detailItem(
-          'Sex',
-          request.sex
-        )}
-
-        ${detailItem(
-          'Color',
-          request.color
-        )}
-
-        ${detailItem(
-          'Birthdate',
-          request.birthdate
-        )}
-
-      </div>
-
-    </div>
-
-
-    ${renderActionButtons(
-      'Approve Registration'
-    )}
-
-  `;
-
-}
-
-
-/* ==========================================================
-   DETAIL ITEM
-========================================================== */
-
-function detailItem(label, value) {
-
-  return `
-
-    <div class="detail-item">
-
-      <label>
-        ${escapeHtml(label)}
-      </label>
-
-      <div>
-        ${escapeHtml(
-          value === undefined ||
-          value === null ||
-          value === ''
-            ? '-'
-            : value
-        )}
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* ==========================================================
-   ACTION BUTTONS
-========================================================== */
-
-function renderActionButtons(approveText) {
-
-  return `
-
-    <div class="action-section">
-
-      <textarea
-        class="remarks"
-        id="reviewRemarks"
-        placeholder="Remarks (required when rejecting)"></textarea>
-
-      <div class="action-buttons">
-
-        <button
-          class="reject-btn"
-          id="rejectButton"
-          onclick="rejectCurrentRequest()">
-
-          Reject
-
-        </button>
-
-
-        <button
-          class="approve-btn"
-          id="approveButton"
-          onclick="approveCurrentRequest()">
-
-          ${escapeHtml(approveText)}
-
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* ==========================================================
-   GET SAFE REQUEST ID
-========================================================== */
-
-function getRequestId(request) {
 
   if (!request) {
-    return '';
-  }
 
-
-  return String(
-
-    request.requestId ||
-    request.requestID ||
-    request.requestNumber ||
-    request['Request ID'] ||
-    request['Request Number'] ||
-    request.id ||
-    ''
-
-  ).trim();
-
-}
-
-
-/* ==========================================================
-   APPROVE CURRENT REQUEST
-========================================================== */
-
-function approveCurrentRequest() {
-
-  if (!currentRequest) {
-    return;
-  }
-
-
-  if (!confirm('Approve this request?')) {
-    return;
-  }
-
-
-  setActionLoading(
-    true,
-    'Approving...'
-  );
-
-
-  var data =
-    currentRequest.data;
-
-
-  /* DOG REGISTRATION */
-
-  if (
-    currentRequest.type === 'registration'
-  ) {
-
-    google.script.run
-
-      .withSuccessHandler(
-        handleApprovalSuccess
-      )
-
-      .withFailureHandler(
-        handleApprovalFailure
-      )
-
-      .approveDogRegistrationRequest(
-        data.requestNumber,
-        'Administrator'
-      );
-
-    return;
-
-  }
-
-
-  /* REGISTRY UPDATE */
-
-  if (
-    currentRequest.type === 'update'
-  ) {
-
-    var updateRequestId =
-      getRequestId(data);
-
-
-    if (!updateRequestId) {
-
-      handleApprovalFailure(
-        'Registry Update Request ID is missing.'
-      );
-
-      return;
-
-    }
-
-
-    google.script.run
-
-      .withSuccessHandler(
-        handleApprovalSuccess
-      )
-
-      .withFailureHandler(
-        handleApprovalFailure
-      )
-
-      .approveRegistryRequest(
-        updateRequestId,
-        'BRCC Admin'
-      );
-
-    return;
-
-  }
-
-
-  /* PUPPY REPORT */
-
-  if (
-    currentRequest.type === 'puppy'
-  ) {
-
-    var puppyRequestId =
-      getRequestId(data);
-
-
-    if (!puppyRequestId) {
-
-      handleApprovalFailure(
-        'Puppy Request ID is missing.'
-      );
-
-      return;
-
-    }
-
-
-    google.script.run
-
-      .withSuccessHandler(
-        handleApprovalSuccess
-      )
-
-      .withFailureHandler(
-        handleApprovalFailure
-      )
-
-      .approvePuppyRequest(
-        puppyRequestId,
-        'BRCC Admin'
-      );
-
-    return;
-
-  }
-
-
-  handleApprovalFailure(
-    'Unknown request type.'
-  );
-
-}
-
-
-/* ==========================================================
-   REJECT CURRENT REQUEST
-========================================================== */
-
-function rejectCurrentRequest() {
-
-  if (!currentRequest) {
-    return;
-  }
-
-
-  var remarksElement =
-    document.getElementById(
-      'reviewRemarks'
-    );
-
-
-  var remarks =
-    remarksElement
-      ? remarksElement.value.trim()
-      : '';
-
-
-  if (!remarks) {
-
-    alert(
-      'Please provide a reason for rejection.'
+    showMessage(
+      'dashboardMessage',
+      'Unable to locate the selected request.',
+      'error'
     );
 
     return;
@@ -3114,199 +2582,26 @@ function rejectCurrentRequest() {
   }
 
 
-  if (!confirm('Reject this request?')) {
-    return;
-  }
+  const requestSource =
+    getRequestSource(request);
 
 
-  setActionLoading(
-    true,
-    'Rejecting...'
+  console.log(
+    'APPROVAL REQUEST DATA:',
+    {
+      requestId: requestId,
+      requestSource: requestSource,
+      request: request
+    }
   );
 
 
-  var data =
-    currentRequest.data;
-
-
-  /* DOG REGISTRATION */
-
-  if (
-    currentRequest.type === 'registration'
-  ) {
-
-    google.script.run
-
-      .withSuccessHandler(
-        handleApprovalSuccess
-      )
-
-      .withFailureHandler(
-        handleApprovalFailure
-      )
-
-      .rejectDogRegistrationRequest(
-        data.requestNumber,
-        remarks,
-        'Administrator'
-      );
-
-    return;
-
-  }
-
-
-  /* REGISTRY UPDATE */
-
-  if (
-    currentRequest.type === 'update'
-  ) {
-
-    var updateRequestId =
-      getRequestId(data);
-
-
-    if (!updateRequestId) {
-
-      handleApprovalFailure(
-        'Registry Update Request ID is missing.'
-      );
-
-      return;
-
-    }
-
-
-    google.script.run
-
-      .withSuccessHandler(
-        handleApprovalSuccess
-      )
-
-      .withFailureHandler(
-        handleApprovalFailure
-      )
-
-      .rejectRegistryRequest(
-        updateRequestId,
-        'BRCC Admin',
-        remarks
-      );
-
-    return;
-
-  }
-
-
-  /* PUPPY REPORT */
-
-  if (
-    currentRequest.type === 'puppy'
-  ) {
-
-    var puppyRequestId =
-      getRequestId(data);
-
-
-    if (!puppyRequestId) {
-
-      handleApprovalFailure(
-        'Puppy Request ID is missing.'
-      );
-
-      return;
-
-    }
-
-
-    google.script.run
-
-      .withSuccessHandler(
-        handleApprovalSuccess
-      )
-
-      .withFailureHandler(
-        handleApprovalFailure
-      )
-
-      .rejectPuppyRequest(
-        puppyRequestId,
-        'BRCC Admin',
-        remarks
-      );
-
-    return;
-
-  }
-
-
-  handleApprovalFailure(
-    'Unknown request type.'
-  );
-
-}
-
-
-/* ==========================================================
-   ACTION LOADING
-========================================================== */
-
-function setActionLoading(loading, text) {
-
-  var approveButton =
-    document.getElementById(
-      'approveButton'
-    );
-
-
-  var rejectButton =
-    document.getElementById(
-      'rejectButton'
-    );
-
-
-  if (approveButton) {
-
-    approveButton.disabled =
-      loading;
-
-    if (loading) {
-      approveButton.textContent =
-        text;
-    }
-
-  }
-
-
-  if (rejectButton) {
-
-    rejectButton.disabled =
-      loading;
-
-    if (loading) {
-      rejectButton.textContent =
-        text;
-    }
-
-  }
-
-}
-
-
-/* ==========================================================
-   APPROVAL SUCCESS
-========================================================== */
-
-function handleApprovalSuccess(result) {
-
-  if (
-    result &&
-    result.success === false
-  ) {
-
-    handleApprovalFailure(
-      result.message ||
-      'Unable to process request.'
+  if (!requestSource) {
+
+    showMessage(
+      'dashboardMessage',
+      '❌ Request source could not be determined for this request.',
+      'error'
     );
 
     return;
@@ -3314,282 +2609,667 @@ function handleApprovalSuccess(result) {
   }
 
 
-  alert(
-    result && result.message
-      ? result.message
-      : 'Request processed successfully.'
-  );
+  const confirmed =
+    confirm(
+      'Approve this registry update request?\n\n' +
+      'Request ID: ' + requestId +
+      '\nSource: ' + requestSource
+    );
 
 
-  closeModal();
-
-  loadApprovalCenter();
-
-}
-
-
-/* ==========================================================
-   APPROVAL FAILURE
-========================================================== */
-
-function handleApprovalFailure(error) {
-
-  console.error(error);
-
-
-  alert(
-    'Unable to process request.\n\n' +
-    (
-      error &&
-      error.message
-        ? error.message
-        : String(error || '')
-    )
-  );
-
-
-  setActionLoading(
-    false,
-    ''
-  );
-
-}
-
-
-/* ==========================================================
-   OPEN MODAL
-========================================================== */
-
-function openModal(title) {
-
-  document.getElementById(
-    'detailsModal'
-  ).style.display =
-    'block';
-
-
-  document.getElementById(
-    'modalTitle'
-  ).textContent =
-    title ||
-    'Request Details';
-
-
-  document.getElementById(
-    'modalBody'
-  ).innerHTML =
-    '<div class="loading">Loading...</div>';
-
-}
-
-
-/* ==========================================================
-   CLOSE MODAL
-========================================================== */
-
-function closeModal() {
-
-  document.getElementById(
-    'detailsModal'
-  ).style.display =
-    'none';
-
-
-  currentRequest =
-    null;
-
-}
-
-
-/* ==========================================================
-   EMPTY STATE
-========================================================== */
-
-function renderEmpty(icon, message) {
-
-  document.getElementById(
-    'requestList'
-  ).innerHTML = `
-
-    <div class="empty">
-
-      <div class="empty-icon">
-        ${escapeHtml(icon)}
-      </div>
-
-      <div>
-        ${escapeHtml(message)}
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* ==========================================================
-   FORMAT DATE
-========================================================== */
-
-function formatDate(value) {
-
-  if (!value) {
-    return '-';
+  if (!confirmed) {
+    return;
   }
+
+
+  hideMessage(
+    'dashboardMessage'
+  );
+
+
+  startProcessing(
+    'Approving Request',
+    'Please wait while the registry update is being approved. Do not close or refresh this page.'
+  );
 
 
   try {
 
-    var date =
-      new Date(value);
+    const result =
+      await apiRequest(
+        'approve_request',
+        {
+
+          sessionToken:
+            sessionToken,
+
+          requestId:
+            requestId,
+
+          /*
+           IMPORTANT:
+           Send all possible backend-compatible
+           source field names.
+          */
+
+          requestSource:
+            requestSource,
+
+          source:
+            requestSource,
+
+          sheetName:
+            requestSource
+
+        }
+      );
+
+
+    console.log(
+      'APPROVAL RESULT:',
+      result
+    );
+
+
+    await loadPendingRequests(true);
+
+
+    const successText =
+      result.message ||
+      'Request approved successfully.';
+
+
+    showMessage(
+      'dashboardMessage',
+      '✅ ' + successText,
+      'success'
+    );
+
+
+    setTimeout(
+      function() {
+
+        document.getElementById(
+          'dashboardMessage'
+        ).scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest'
+        });
+
+      },
+      200
+    );
+
+  }
+  catch (error) {
+
+    console.error(
+      'APPROVAL ERROR:',
+      error
+    );
+
+
+    const message =
+      error.message ||
+      'Unable to approve request.';
 
 
     if (
-      isNaN(date.getTime())
+      message.toLowerCase()
+        .includes('session')
     ) {
-      return String(value);
+
+      sessionExpired();
+
+      return;
+
     }
 
 
-    return date.toLocaleDateString(
-      'en-PH',
-      {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      }
+    showMessage(
+      'dashboardMessage',
+      '❌ ' + message,
+      'error'
     );
 
-  } catch (error) {
+  }
+  finally {
 
-    return String(value);
+    stopProcessing();
 
   }
 
 }
 
-/* ==========================================================
-   NORMALIZE PHOTO URL
-========================================================== */
 
-function normalizePhotoUrl(url) {
+/* ============================================================
+   OPEN REJECT MODAL
+============================================================ */
 
-  if (!url) {
-    return '';
+function openRejectModal(requestId) {
+
+  if (
+    !requestId ||
+    isProcessing
+  ) {
+    return;
   }
 
 
-  url =
-    String(url).trim();
+  const request =
+    findRequest(requestId);
+
+
+  if (!request) {
+
+    showMessage(
+      'dashboardMessage',
+      'Unable to locate the selected request.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  selectedRequest =
+    request;
+
+
+  document.getElementById(
+    'rejectionReason'
+  ).value = '';
+
+
+  document.getElementById(
+    'rejectModal'
+  ).classList.add('show');
+
+
+  setTimeout(
+    function() {
+
+      document.getElementById(
+        'rejectionReason'
+      ).focus();
+
+    },
+    100
+  );
+
+}
+
+
+/* ============================================================
+   CLOSE REJECT MODAL
+============================================================ */
+
+function closeRejectModal() {
+
+  if (isProcessing) {
+    return;
+  }
+
+
+  selectedRequest = null;
+
+
+  document.getElementById(
+    'rejectModal'
+  ).classList.remove('show');
+
+}
+
+
+/* ============================================================
+   CONFIRM REJECT
+============================================================ */
+
+async function confirmReject() {
+
+  if (isProcessing) {
+    return;
+  }
+
+
+  const reason =
+    String(
+      document.getElementById(
+        'rejectionReason'
+      ).value || ''
+    ).trim();
+
+
+  if (!reason) {
+
+    alert(
+      'Please provide the reason for rejection.'
+    );
+
+    return;
+
+  }
+
+
+  if (!selectedRequest) {
+
+    alert(
+      'No request selected.'
+    );
+
+    return;
+
+  }
+
+
+  const requestId =
+    selectedRequest.requestId;
+
+
+  const requestSource =
+    getRequestSource(
+      selectedRequest
+    );
+
+
+  if (!requestSource) {
+
+    alert(
+      'Request source could not be determined.'
+    );
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    'rejectModal'
+  ).classList.remove('show');
+
+
+  hideMessage(
+    'dashboardMessage'
+  );
+
+
+  startProcessing(
+    'Rejecting Request',
+    'Please wait while the rejection is being processed. Do not close or refresh this page.'
+  );
+
+
+  try {
+
+    const result =
+      await apiRequest(
+        'reject_request',
+        {
+
+          sessionToken:
+            sessionToken,
+
+          requestId:
+            requestId,
+
+          rejectionReason:
+            reason,
+
+          /*
+           IMPORTANT FIX
+          */
+
+          requestSource:
+            requestSource,
+
+          source:
+            requestSource,
+
+          sheetName:
+            requestSource
+
+        }
+      );
+
+
+    console.log(
+      'REJECTION RESULT:',
+      result
+    );
+
+
+    selectedRequest = null;
+
+
+    await loadPendingRequests(true);
+
+
+    const successText =
+      result.message ||
+      'Request rejected successfully.';
+
+
+    showMessage(
+      'dashboardMessage',
+      '✅ ' + successText,
+      'success'
+    );
+
+
+    setTimeout(
+      function() {
+
+        document.getElementById(
+          'dashboardMessage'
+        ).scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest'
+        });
+
+      },
+      200
+    );
+
+  }
+  catch (error) {
+
+    console.error(
+      'REJECTION ERROR:',
+      error
+    );
+
+
+    const message =
+      error.message ||
+      'Unable to reject request.';
+
+
+    if (
+      message.toLowerCase()
+        .includes('session')
+    ) {
+
+      sessionExpired();
+
+      return;
+
+    }
+
+
+    showMessage(
+      'dashboardMessage',
+      '❌ ' + message,
+      'error'
+    );
+
+  }
+  finally {
+
+    stopProcessing();
+
+  }
+
+}
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+async function logout() {
+
+  if (isProcessing) {
+    return;
+  }
 
 
   if (
-    url.startsWith('data:')
+    !confirm(
+      'Logout from the Approval Center?'
+    )
   ) {
-    return url;
+    return;
   }
 
 
-  var fileId =
-    extractGoogleDriveFileId_(url);
+  startProcessing(
+    'Logging Out',
+    'Please wait while your secure session is being closed.'
+  );
 
 
-  if (fileId) {
+  try {
 
-    return (
-      'https://drive.google.com/thumbnail?id=' +
-      encodeURIComponent(fileId) +
-      '&sz=w1000'
+    if (sessionToken) {
+
+      await apiRequest(
+        'logout',
+        {
+          sessionToken:
+            sessionToken
+        }
+      );
+
+    }
+
+  }
+  catch (error) {
+
+    console.warn(
+      'LOGOUT API ERROR:',
+      error
     );
 
   }
+  finally {
+
+    sessionToken = '';
+
+    selectedRequest = null;
+
+    pendingRequests = [];
 
 
-  return url;
+    sessionStorage.removeItem(
+      'BRCC_MOBILE_APPROVAL_SESSION'
+    );
+
+
+    document.getElementById(
+      'requestList'
+    ).innerHTML = '';
+
+
+    document.getElementById(
+      'pendingCount'
+    ).textContent = '0';
+
+
+    hideMessage(
+      'dashboardMessage'
+    );
+
+
+    stopProcessing();
+
+
+    showLogin();
+
+  }
 
 }
 
-/* ==========================================================
-   ESCAPE HTML
-========================================================== */
 
-function escapeHtml(value) {
+/* ============================================================
+   SESSION EXPIRED
+============================================================ */
+
+function sessionExpired() {
+
+  sessionToken = '';
+
+  selectedRequest = null;
+
+  pendingRequests = [];
+
+
+  sessionStorage.removeItem(
+    'BRCC_MOBILE_APPROVAL_SESSION'
+  );
+
+
+  stopProcessing();
+
+
+  alert(
+    'Your admin session has expired. Please login again.'
+  );
+
+
+  showLogin();
+
+}
+
+
+/* ============================================================
+   MESSAGE
+============================================================ */
+
+function showMessage(
+  elementId,
+  message,
+  type
+) {
+
+  const element =
+    document.getElementById(
+      elementId
+    );
+
+
+  element.textContent =
+    message;
+
+
+  element.className =
+    'message show ' +
+    type;
+
+}
+
+
+/* ============================================================
+   HIDE MESSAGE
+============================================================ */
+
+function hideMessage(elementId) {
+
+  const element =
+    document.getElementById(
+      elementId
+    );
+
+
+  element.textContent = '';
+
+
+  element.className =
+    'message';
+
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+function showLoading(show) {
+
+  const loading =
+    document.getElementById(
+      'loading'
+    );
+
+
+  loading.style.display =
+    show
+      ? 'block'
+      : 'none';
+
+}
+
+
+/* ============================================================
+   FORMAT VALUE
+============================================================ */
+
+function formatValue(value) {
 
   if (
     value === null ||
-    value === undefined
+    value === undefined ||
+    value === ''
   ) {
-    return '';
+    return '—';
   }
 
 
-  return String(value)
-
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+  return String(value);
 
 }
 
+
+/* ============================================================
+   HTML ESCAPE
+============================================================ */
+
+function escapeHtml(value) {
+
+  return String(
+    value === null ||
+    value === undefined
+      ? ''
+      : value
+  )
+
+  .replace(
+    /&/g,
+    '&amp;'
+  )
+
+  .replace(
+    /</g,
+    '&lt;'
+  )
+
+  .replace(
+    />/g,
+    '&gt;'
+  )
+
+  .replace(
+    /"/g,
+    '&quot;'
+  )
+
+  .replace(
+    /'/g,
+    '&#039;'
+  );
+
+}
+
+
+/* ============================================================
+   ATTRIBUTE ESCAPE
+============================================================ */
 
 function escapeAttribute(value) {
 
   return escapeHtml(value);
 
 }
-
-/* ==========================================================
-   BACK TO DASHBOARD
-========================================================== */
-
-function backToDashboard() {
-
-  google.script.run
-
-    .withSuccessHandler(function() {
-
-      google.script.host.close();
-
-    })
-
-    .withFailureHandler(function(error) {
-
-      console.error(
-        'Unable to open dashboard:',
-        error
-      );
-
-      alert(
-        'Unable to open dashboard.'
-      );
-
-    })
-
-    .showDashboard();
-
-}
-
-/* ==========================================================
-   CLOSE MODAL OUTSIDE CLICK
-========================================================== */
-
-document
-  .getElementById(
-    'detailsModal'
-  )
-  .addEventListener(
-    'click',
-    function(event) {
-
-      if (event.target === this) {
-        closeModal();
-      }
-
-    }
-  );
 
 </script>
 
