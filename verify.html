@@ -992,22 +992,64 @@
 
   async function loadVerification() {
 
-    const token =
-      getVerificationToken();
+  const token =
+    getVerificationToken();
 
 
-    if (!token) {
+  if (!token) {
 
-      showInvalid(
-        'No verification token was provided.'
-      );
+    showInvalid(
+      'No verification token was provided.'
+    );
 
-      return;
+    return;
 
-    }
+  }
 
+
+  const maxAttempts = 3;
+
+  let lastError = null;
+
+
+  for (
+    let attempt = 1;
+    attempt <= maxAttempts;
+    attempt++
+  ) {
 
     try {
+
+      const loading =
+        document.getElementById('loading');
+
+
+      /*
+       * Show a friendly loading message
+       * while connecting/retrying.
+       */
+
+      if (attempt === 1) {
+
+        loading.innerHTML =
+          '<div class="spinner"></div>' +
+          '<div>Verifying dog registration...</div>';
+
+      } else {
+
+        loading.innerHTML =
+          '<div class="spinner"></div>' +
+          '<div>Connecting to verification server...</div>' +
+          '<div style="font-size:11px;margin-top:6px;color:#888;">' +
+          'Please wait...' +
+          '</div>';
+
+      }
+
+
+      loading.style.display =
+        'block';
+
 
       const response =
         await brccRequest(
@@ -1018,32 +1060,129 @@
         );
 
 
+      /*
+       * API wrapper:
+       *
+       * {
+       *   success: true,
+       *   service: "verify_dog_qr",
+       *   result: {...}
+       * }
+       */
+
       const result =
         response.result ||
         response;
 
+
+      /*
+       * SUCCESSFUL SERVER RESPONSE
+       */
 
       showVerification(
         result
       );
 
 
+      return;
+
+
     } catch (error) {
 
-      console.error(
-        'QR Verification Error:',
+      lastError = error;
+
+
+      console.warn(
+        'QR verification attempt ' +
+        attempt +
+        ' failed:',
         error
       );
 
 
-      showInvalid(
-        error.message ||
-        'Unable to verify this dog record.'
-      );
+      /*
+       * Retry automatically.
+       */
+
+      if (
+        attempt < maxAttempts
+      ) {
+
+        await new Promise(
+          function(resolve) {
+
+            setTimeout(
+              resolve,
+              1000
+            );
+
+          }
+        );
+
+      }
 
     }
 
   }
+
+
+  /*
+   * All attempts failed.
+   *
+   * IMPORTANT:
+   * Do NOT call this UNVERIFIED.
+   * The dog may still be valid.
+   */
+
+  console.error(
+    'QR verification failed after ' +
+    maxAttempts +
+    ' attempts:',
+    lastError
+  );
+
+
+  document
+    .getElementById('loading')
+    .style.display =
+    'none';
+
+
+  const content =
+    document.getElementById(
+      'content'
+    );
+
+
+  content.style.display =
+    'block';
+
+
+  content.innerHTML =
+
+    '<div class="invalid-box">' +
+
+      '<div ' +
+        'class="status-icon" ' +
+        'style="background:#e59b27;">' +
+        '!' +
+      '</div>' +
+
+      '<h2 style="color:#b47712;">' +
+        'VERIFICATION DELAYED' +
+      '</h2>' +
+
+      '<p>' +
+        'The verification server could not be reached right now.' +
+      '</p>' +
+
+      '<p style="font-size:12px;color:#777;">' +
+        'Please try again in a few seconds.' +
+      '</p>' +
+
+    '</div>';
+
+}
 
 
   /* ==========================================================
