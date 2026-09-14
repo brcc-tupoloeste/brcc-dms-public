@@ -574,6 +574,64 @@
     }
 
     /* =========================================
+   VACCINATION HISTORY
+========================================= */
+
+.vaccination-history-box {
+  display: none;
+  margin-top: 16px;
+  overflow-x: auto;
+  border: 1px solid #dce1e7;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.vaccination-history-box.show {
+  display: block;
+}
+
+.vaccination-history-title {
+  padding: 13px 14px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #303846;
+  background: #f8fafc;
+  border-bottom: 1px solid #dce1e7;
+}
+
+.vaccination-history-table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.vaccination-history-table th,
+.vaccination-history-table td {
+  padding: 10px 9px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  vertical-align: top;
+}
+
+.vaccination-history-table th {
+  font-weight: 800;
+  background: #f8fafc;
+  color: #4b5563;
+}
+
+.vaccination-history-table tr:last-child td {
+  border-bottom: none;
+}
+
+.vaccination-history-empty {
+  padding: 16px;
+  color: #9ca3af;
+  font-size: 13px;
+  font-style: italic;
+}
+    
+    /* =========================================
        MOBILE
     ========================================= */
 
@@ -977,7 +1035,20 @@
           </div>
 
         </div>
+<!-- VACCINATION HISTORY -->
 
+<div
+  id="vaccinationHistoryBox"
+  class="vaccination-history-box"
+>
+
+  <div class="vaccination-history-title">
+    Vaccination History
+  </div>
+
+  <div id="vaccinationHistoryContent"></div>
+
+</div>
 
         <!-- NEW INFORMATION -->
 
@@ -1191,6 +1262,15 @@
       const nextVaccinationDateInput =
         document.getElementById('nextVaccinationDate');
 
+      const vaccinationHistoryBox =
+  document.getElementById(
+    'vaccinationHistoryBox'
+  );
+
+const vaccinationHistoryContent =
+  document.getElementById(
+    'vaccinationHistoryContent'
+  );
 
       /* =========================================
          VERIFY BUTTON
@@ -1864,54 +1944,298 @@
       }
 
 
+/* =========================================
+   DISPLAY CURRENT VACCINATION
+========================================= */
+
+function displayCurrentVaccinationInformation() {
+
+  if (!verifiedRecord) {
+    return;
+  }
+
+
+  /*
+   * =====================================================
+   * CURRENT / LATEST VACCINATION SUMMARY
+   * =====================================================
+   */
+
+  const history =
+    Array.isArray(
+      verifiedRecord.vaccinationHistory
+    )
+      ? verifiedRecord.vaccinationHistory
+      : [];
+
+
+  if (history.length > 0) {
+
+    const latest =
+      history[0];
+
+
+    const summaryLines =
+      [];
+
+
+    if (latest.vaccinationDate) {
+      summaryLines.push(
+        'Last Vaccination Date: ' +
+        latest.vaccinationDate
+      );
+    }
+
+
+    if (latest.vaccineName) {
+      summaryLines.push(
+        'Vaccine Name: ' +
+        latest.vaccineName
+      );
+    }
+
+
+    if (latest.batchNumber) {
+      summaryLines.push(
+        'Batch Number: ' +
+        latest.batchNumber
+      );
+    }
+
+
+    if (latest.vaccinatedBy) {
+      summaryLines.push(
+        'Vaccinated By: ' +
+        latest.vaccinatedBy
+      );
+    }
+
+
+    if (latest.nextVaccinationDate) {
+      summaryLines.push(
+        'Next Vaccination Date: ' +
+        latest.nextVaccinationDate
+      );
+    }
+
+
+    currentInformationBox.textContent =
+      summaryLines.join('\n');
+
+
+    currentInformationBox.classList.remove(
+      'empty'
+    );
+
+  }
+  else {
+
+    currentInformationBox.textContent =
+      'No vaccination history is available for this dog.';
+
+
+    currentInformationBox.classList.add(
+      'empty'
+    );
+
+  }
+
+
+  /*
+   * =====================================================
+   * COMPLETE VACCINATION HISTORY TABLE
+   * =====================================================
+   */
+
+  displayVaccinationHistory(
+    history
+  );
+
+}
+
       /* =========================================
-         DISPLAY CURRENT VACCINATION
-      ========================================= */
+   DISPLAY VACCINATION HISTORY TABLE
+========================================= */
 
-      function displayCurrentVaccinationInformation() {
+function displayVaccinationHistory(history) {
 
-        if (!verifiedRecord) return;
+  if (
+    !vaccinationHistoryBox ||
+    !vaccinationHistoryContent
+  ) {
 
-        const status = getRecordValue(
-          ['vaccinationStatus', 'Vaccination Status'], ''
+    return;
+
+  }
+
+
+  vaccinationHistoryBox.classList.add(
+    'show'
+  );
+
+
+  vaccinationHistoryContent.innerHTML =
+    '';
+
+
+  if (
+    !Array.isArray(history) ||
+    history.length === 0
+  ) {
+
+    const emptyBox =
+      document.createElement(
+        'div'
+      );
+
+
+    emptyBox.className =
+      'vaccination-history-empty';
+
+
+    emptyBox.textContent =
+      'No vaccination history found.';
+
+
+    vaccinationHistoryContent.appendChild(
+      emptyBox
+    );
+
+
+    return;
+
+  }
+
+
+  const table =
+    document.createElement(
+      'table'
+    );
+
+
+  table.className =
+    'vaccination-history-table';
+
+
+  const thead =
+    document.createElement(
+      'thead'
+    );
+
+
+  const headerRow =
+    document.createElement(
+      'tr'
+    );
+
+
+  [
+    'Date Vaccinated',
+    'Vaccine Used',
+    'Batch No.',
+    'Vaccinator',
+    'Next Due Date'
+  ].forEach(
+    function (title) {
+
+      const th =
+        document.createElement(
+          'th'
         );
 
-        const lastDate = getRecordValue(
-          ['lastVaccinationDate', 'Last Vaccination Date',
-           'vaccinationDate', 'Vaccination Date'], ''
+
+      th.textContent =
+        title;
+
+
+      headerRow.appendChild(
+        th
+      );
+
+    }
+  );
+
+
+  thead.appendChild(
+    headerRow
+  );
+
+
+  table.appendChild(
+    thead
+  );
+
+
+  const tbody =
+    document.createElement(
+      'tbody'
+    );
+
+
+  history.forEach(
+    function (item) {
+
+      const row =
+        document.createElement(
+          'tr'
         );
 
-        const nextDate = getRecordValue(
-          ['nextVaccinationDate', 'Next Vaccination Date'], ''
-        );
 
-        const vaccineName = getRecordValue(
-          ['vaccineName', 'Vaccine Name'], ''
-        );
+      const values = [
 
-        const vaccinatedBy = getRecordValue(
-          ['vaccinatedBy', 'Vaccinated By'], ''
-        );
+        item.vaccinationDate || '',
 
-        const lines = [];
+        item.vaccineName || '',
 
-        if (status) lines.push('Status: ' + status);
-        if (lastDate) lines.push('Last Vaccination Date: ' + lastDate);
-        if (nextDate) lines.push('Next Vaccination Date: ' + nextDate);
-        if (vaccineName) lines.push('Vaccine Name: ' + vaccineName);
-        if (vaccinatedBy) lines.push('Vaccinated By: ' + vaccinatedBy);
+        item.batchNumber || '',
 
-        if (!lines.length) {
-          currentInformationBox.textContent =
-            'No current vaccination information is available in the registry.';
-          currentInformationBox.classList.add('empty');
-          return;
+        item.vaccinatedBy || '',
+
+        item.nextVaccinationDate || ''
+
+      ];
+
+
+      values.forEach(
+        function (value) {
+
+          const td =
+            document.createElement(
+              'td'
+            );
+
+
+          td.textContent =
+            value || '—';
+
+
+          row.appendChild(
+            td
+          );
+
         }
+      );
 
-        currentInformationBox.textContent = lines.join('\n');
-        currentInformationBox.classList.remove('empty');
-      }
 
+      tbody.appendChild(
+        row
+      );
+
+    }
+  );
+
+
+  table.appendChild(
+    tbody
+  );
+
+
+  vaccinationHistoryContent.appendChild(
+    table
+  );
+
+}
+      
 
       /* =========================================
          DISPLAY CURRENT DOG PHOTO
@@ -2678,6 +3002,13 @@
         );
 
         vaccinationGroup.classList.add('hidden');
+
+        vaccinationHistoryBox.classList.remove(
+  'show'
+);
+
+vaccinationHistoryContent.innerHTML =
+  '';
 
         vaccinationStatusInput.value = '';
         vaccinationDateInput.value = '';
