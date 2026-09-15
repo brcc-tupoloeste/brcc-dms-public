@@ -1344,7 +1344,46 @@ function getDogPhotoDisplayUrl(dog) {
     return '';
   }
 
+  const photoUrl =
+    String(
+      dog.photoUrl || ''
+    ).trim();
 
+
+  /*
+   * PRIORITY 1:
+   * Server-provided Base64 image.
+   *
+   * This avoids direct Google Drive access
+   * and works consistently on mobile.
+   */
+  if (
+    photoUrl.indexOf('data:image/') === 0
+  ) {
+
+    return photoUrl;
+
+  }
+
+
+  /*
+   * PRIORITY 2:
+   * Normal non-Drive image URL.
+   */
+  if (
+    photoUrl &&
+    photoUrl.indexOf('drive.google.com') === -1
+  ) {
+
+    return photoUrl;
+
+  }
+
+
+  /*
+   * FALLBACK:
+   * Legacy Google Drive photo.
+   */
   const fileId =
     String(
       dog.photoFileId ||
@@ -1364,28 +1403,11 @@ function getDogPhotoDisplayUrl(dog) {
   }
 
 
-  const photoUrl =
-    String(
-      dog.photoUrl ||
-      ''
-    ).trim();
-
-
-  if (!photoUrl) {
-    return '';
-  }
-
-
   /*
-   * If photoUrl is a Google Drive URL,
-   * extract its File ID and use the image endpoint.
+   * LAST FALLBACK:
+   * Extract Drive File ID from old URL.
    */
-
-  if (
-    photoUrl.indexOf(
-      'drive.google.com'
-    ) !== -1
-  ) {
+  if (photoUrl) {
 
     const idMatch =
       photoUrl.match(
@@ -1408,15 +1430,9 @@ function getDogPhotoDisplayUrl(dog) {
   }
 
 
-  /*
-   * Non-Drive image URL:
-   * use it unchanged.
-   */
-
-  return photoUrl;
+  return '';
 
 }
-
   /* ==========================================================
      DETAIL ROW
   ========================================================== */
