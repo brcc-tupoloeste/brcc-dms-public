@@ -1211,30 +1211,34 @@
       result.owner || {};
 
 
-    let photoHtml = '';
+let photoHtml = '';
 
+const dogPhotoUrl =
+  getDogPhotoDisplayUrl(
+    dog
+  );
 
-    if (dog.photoUrl) {
+if (dogPhotoUrl) {
 
-      photoHtml =
+  photoHtml =
 
-        '<img ' +
+    '<img ' +
 
-          'class="dog-photo" ' +
+      'class="dog-photo" ' +
 
-          'src="' +
+      'src="' +
 
-          escapeHtml(
-            dog.photoUrl
-          ) +
+      escapeHtml(
+        dogPhotoUrl
+      ) +
 
-          '" ' +
+      '" ' +
 
-          'alt="Dog Photo"' +
+      'alt="Dog Photo"' +
 
-        '>';
+    '>';
 
-    }
+}
 
 
     content.innerHTML =
@@ -1330,7 +1334,88 @@
       '</div>';
 
   }
+/* ==========================================================
+   DOG PHOTO DISPLAY URL
+========================================================== */
 
+function getDogPhotoDisplayUrl(dog) {
+
+  if (!dog) {
+    return '';
+  }
+
+
+  const fileId =
+    String(
+      dog.photoFileId ||
+      dog.dogPhotoFileId ||
+      ''
+    ).trim();
+
+
+  if (fileId) {
+
+    return (
+      'https://drive.google.com/thumbnail?id=' +
+      encodeURIComponent(fileId) +
+      '&sz=w1000'
+    );
+
+  }
+
+
+  const photoUrl =
+    String(
+      dog.photoUrl ||
+      ''
+    ).trim();
+
+
+  if (!photoUrl) {
+    return '';
+  }
+
+
+  /*
+   * If photoUrl is a Google Drive URL,
+   * extract its File ID and use the image endpoint.
+   */
+
+  if (
+    photoUrl.indexOf(
+      'drive.google.com'
+    ) !== -1
+  ) {
+
+    const idMatch =
+      photoUrl.match(
+        /[-\w]{25,}/
+      );
+
+
+    if (idMatch) {
+
+      return (
+        'https://drive.google.com/thumbnail?id=' +
+        encodeURIComponent(
+          idMatch[0]
+        ) +
+        '&sz=w1000'
+      );
+
+    }
+
+  }
+
+
+  /*
+   * Non-Drive image URL:
+   * use it unchanged.
+   */
+
+  return photoUrl;
+
+}
 
   /* ==========================================================
      DETAIL ROW
