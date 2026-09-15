@@ -1718,6 +1718,15 @@
 
         }
 
+        /* RESET HIDDEN VACCINATION REQUIRED FIELDS */
+
+vaccinationStatusInput.required = false;
+vaccinationDateInput.required = false;
+vaccineNameInput.required = false;
+vaccinatedByInput.required = false;
+nextVaccinationDateInput.required = false;
+
+vaccinationGroup.classList.add('hidden');
 
         currentInformationGroup.classList.add(
           'hidden'
