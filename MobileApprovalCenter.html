@@ -5741,12 +5741,20 @@ function closePetIdPreview() {
     'about:blank';
 
 
-  currentPetIdPdfDataUrl =
-    '';
+  if (currentPetIdBlobUrl) {
+
+    URL.revokeObjectURL(
+      currentPetIdBlobUrl
+    );
+
+  }
+
+
+  currentPetIdBlobUrl = '';
+
+  currentPetIdPdfDataUrl = '';
 
 }
-
-
 /* ============================================================
    PRINT EXISTING PET ID PDF
 ============================================================ */
