@@ -2494,14 +2494,14 @@ async function loadApprovalCurrentDogPhoto(
     );
 
 
-    const result =
-      await window.brccSubmit(
-        'registry_photo',
-        {
-          registryNumber:
-            registryNumber
-        }
-      );
+   const result =
+  await apiRequest(
+    'registry_photo',
+    {
+      registryNumber:
+        registryNumber
+    }
+  );
 
 
     const response =
