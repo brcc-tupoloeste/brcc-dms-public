@@ -1659,7 +1659,39 @@ textarea:focus {
 
       <div class="dashboard-content">
 
+<!-- =========================================================
+     ADMIN CENTER READ-ONLY TOOLS
+     Additive only.
+     Existing Pending Requests remains untouched.
+========================================================= -->
 
+<div
+  id="adminTools"
+  style="
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    margin-bottom:16px;
+  "
+>
+
+  <button
+    type="button"
+    class="btn btn-outline"
+    onclick="openSearchDog()"
+  >
+    🔍 Search Dog
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-outline"
+    onclick="openDogMasterlist()"
+  >
+    🖨️ Dog Masterlist
+  </button>
+
+</div>
         <div class="toolbar">
 
           <button
@@ -1719,7 +1751,101 @@ textarea:focus {
 
 </div>
 
+<!-- =========================================================
+     SEARCH DOG — READ ONLY
+========================================================= -->
 
+<div
+  id="searchDogModal"
+  class="modal"
+>
+
+  <div
+    class="modal-box"
+    style="
+      max-height:92vh;
+      overflow-y:auto;
+    "
+  >
+
+    <h2 class="modal-title">
+      🔍 Search Dog
+    </h2>
+
+    <p class="modal-text">
+      Search by Registry Number, Dog Name, or Owner Name.
+    </p>
+
+
+    <div class="form-group">
+
+      <label for="dogSearchText">
+        SEARCH
+      </label>
+
+      <input
+        type="text"
+        id="dogSearchText"
+        placeholder="Registry No. / Dog Name / Owner Name"
+        autocomplete="off"
+      >
+
+    </div>
+
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      onclick="searchDogs()"
+    >
+      🔍 Search
+    </button>
+
+
+    <div
+      id="searchDogMessage"
+      class="message"
+      style="margin-left:0;margin-right:0;"
+    ></div>
+
+
+    <div
+      id="searchDogLoading"
+      class="loading"
+    >
+
+      <div class="spinner"></div>
+
+      Searching Dog Registry...
+
+    </div>
+
+
+    <div
+      id="searchDogResults"
+      style="margin-top:16px;"
+    ></div>
+
+
+    <div
+      class="modal-actions"
+      style="margin-top:18px;"
+    >
+
+      <button
+        type="button"
+        class="btn btn-outline"
+        onclick="closeSearchDog()"
+      >
+        ✕ Close
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+  
 <!-- PROCESSING -->
 
 <div
@@ -3668,7 +3794,813 @@ function escapeAttribute(value) {
   return escapeHtml(value);
 
 }
+/* ============================================================
+   SEARCH DOG — READ ONLY
+============================================================ */
 
+function openSearchDog() {
+
+  if (
+    !sessionToken ||
+    isProcessing
+  ) {
+    return;
+  }
+
+  const modal =
+    document.getElementById(
+      'searchDogModal'
+    );
+
+  const searchInput =
+    document.getElementById(
+      'dogSearchText'
+    );
+
+  const results =
+    document.getElementById(
+      'searchDogResults'
+    );
+
+  searchInput.value = '';
+
+  results.innerHTML = '';
+
+  hideMessage(
+    'searchDogMessage'
+  );
+
+  modal.classList.add('show');
+
+  setTimeout(
+    function() {
+      searchInput.focus();
+    },
+    100
+  );
+
+}
+
+
+/* ============================================================
+   CLOSE SEARCH DOG
+============================================================ */
+
+function closeSearchDog() {
+
+  if (isProcessing) {
+    return;
+  }
+
+  document.getElementById(
+    'searchDogModal'
+  ).classList.remove('show');
+
+}
+
+
+/* ============================================================
+   SEARCH DOGS
+============================================================ */
+
+async function searchDogs() {
+
+  if (
+    !sessionToken ||
+    isProcessing
+  ) {
+    return;
+  }
+
+
+  const searchInput =
+    document.getElementById(
+      'dogSearchText'
+    );
+
+
+  const searchText =
+    String(
+      searchInput.value || ''
+    ).trim();
+
+
+  if (!searchText) {
+
+    showMessage(
+      'searchDogMessage',
+      'Please enter a Registry Number, Dog Name, or Owner Name.',
+      'error'
+    );
+
+    searchInput.focus();
+
+    return;
+
+  }
+
+
+  hideMessage(
+    'searchDogMessage'
+  );
+
+
+  const loading =
+    document.getElementById(
+      'searchDogLoading'
+    );
+
+  const resultsContainer =
+    document.getElementById(
+      'searchDogResults'
+    );
+
+
+  loading.style.display =
+    'block';
+
+  resultsContainer.innerHTML =
+    '';
+
+
+  try {
+
+    const result =
+      await apiRequest(
+        'search_dogs',
+        {
+
+          sessionToken:
+            sessionToken,
+
+          searchText:
+            searchText
+
+        }
+      );
+
+
+    const matches =
+      Array.isArray(
+        result.matches
+      )
+        ? result.matches
+        : (
+            Array.isArray(
+              result.results
+            )
+              ? result.results
+              : []
+          );
+
+
+    renderDogSearchResults(
+      matches
+    );
+
+  }
+  catch (error) {
+
+    console.error(
+      'SEARCH DOG ERROR:',
+      error
+    );
+
+
+    const message =
+      error.message ||
+      'Unable to search Dog Registry.';
+
+
+    if (
+      message
+        .toLowerCase()
+        .includes('session')
+    ) {
+
+      closeSearchDog();
+
+      sessionExpired();
+
+      return;
+
+    }
+
+
+    showMessage(
+      'searchDogMessage',
+      '❌ ' + message,
+      'error'
+    );
+
+  }
+  finally {
+
+    loading.style.display =
+      'none';
+
+  }
+
+}
+
+
+/* ============================================================
+   RENDER SEARCH RESULTS
+============================================================ */
+
+function renderDogSearchResults(matches) {
+
+  const container =
+    document.getElementById(
+      'searchDogResults'
+    );
+
+
+  container.innerHTML = '';
+
+
+  if (
+    !matches ||
+    matches.length === 0
+  ) {
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          🔍
+        </div>
+
+        <h3>
+          No Dog Found
+        </h3>
+
+        <p>
+          No matching registered dog was found.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  matches.forEach(
+    function(dog) {
+
+      const card =
+        document.createElement(
+          'div'
+        );
+
+
+      card.className =
+        'request-card';
+
+
+      const photoSource =
+        dog.dogPhotoDataUrl ||
+        dog.dogPhotoUrl ||
+        (
+          dog.dogPhotoFileId
+            ?
+            (
+              'https://drive.google.com/thumbnail?id=' +
+              encodeURIComponent(
+                dog.dogPhotoFileId
+              ) +
+              '&sz=w500'
+            )
+            :
+            ''
+        );
+
+
+      card.innerHTML = `
+
+        <div
+          style="
+            display:flex;
+            gap:14px;
+            align-items:center;
+          "
+        >
+
+          <div
+            class="dog-photo-preview"
+            style="
+              margin-top:0;
+              flex:0 0 90px;
+              width:90px;
+              height:90px;
+            "
+          >
+
+            ${
+              photoSource
+                ?
+                `
+                  <img
+                    src="${escapeAttribute(
+                      photoSource
+                    )}"
+                    alt="Dog Photo"
+                    loading="lazy"
+                  >
+                `
+                :
+                `
+                  <div class="dog-photo-missing">
+                    🐶
+                  </div>
+                `
+            }
+
+          </div>
+
+
+          <div style="min-width:0;flex:1;">
+
+            <div class="dog-name">
+
+              ${escapeHtml(
+                dog.dogName ||
+                'Unnamed Dog'
+              )}
+
+            </div>
+
+
+            <div class="owner-name">
+
+              Registry:
+              ${escapeHtml(
+                formatValue(
+                  dog.registryNumber
+                )
+              )}
+
+            </div>
+
+
+            <div
+              class="owner-name"
+              style="margin-top:4px;"
+            >
+
+              Owner:
+              ${escapeHtml(
+                formatValue(
+                  dog.ownerName
+                )
+              )}
+
+            </div>
+
+
+            <div
+              class="owner-name"
+              style="margin-top:4px;"
+            >
+
+              Sitio:
+              ${escapeHtml(
+                formatValue(
+                  dog.sitio
+                )
+              )}
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="btn btn-outline"
+          style="margin-top:14px;"
+          onclick="viewDogSearchRecord(
+            '${escapeAttribute(
+              dog.registryNumber || ''
+            )}'
+          )"
+        >
+          👁 View Record
+        </button>
+
+      `;
+
+
+      /*
+       Store complete read-only result locally.
+       No Registry write.
+      */
+
+      card.dataset.registryNumber =
+        String(
+          dog.registryNumber || ''
+        );
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
+
+
+  /*
+   Keep current search results
+   only in browser memory.
+  */
+
+  window.brccDogSearchResults =
+    matches;
+
+}
+
+
+/* ============================================================
+   VIEW FULL DOG RECORD
+============================================================ */
+
+function viewDogSearchRecord(
+  registryNumber
+) {
+
+  const matches =
+    Array.isArray(
+      window.brccDogSearchResults
+    )
+      ? window.brccDogSearchResults
+      : [];
+
+
+  const dog =
+    matches.find(
+      function(item) {
+
+        return String(
+          item.registryNumber || ''
+        ) === String(
+          registryNumber || ''
+        );
+
+      }
+    );
+
+
+  if (!dog) {
+
+    showMessage(
+      'searchDogMessage',
+      'Unable to load the selected dog record.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  const photoSource =
+    dog.dogPhotoDataUrl ||
+    dog.dogPhotoUrl ||
+    (
+      dog.dogPhotoFileId
+        ?
+        (
+          'https://drive.google.com/thumbnail?id=' +
+          encodeURIComponent(
+            dog.dogPhotoFileId
+          ) +
+          '&sz=w700'
+        )
+        :
+        ''
+    );
+
+
+  const petIdPdf =
+    dog.petIdCardPdfUrl ||
+    (
+      dog.petIdCardPdfId
+        ?
+        (
+          'https://drive.google.com/file/d/' +
+          encodeURIComponent(
+            dog.petIdCardPdfId
+          ) +
+          '/view'
+        )
+        :
+        ''
+    );
+
+
+  document.getElementById(
+    'searchDogResults'
+  ).innerHTML = `
+
+    <div class="request-card">
+
+
+      <div
+        class="dog-photo-preview"
+        style="
+          width:150px;
+          height:150px;
+          margin:0 auto 18px;
+        "
+      >
+
+        ${
+          photoSource
+            ?
+            `
+              <img
+                src="${escapeAttribute(
+                  photoSource
+                )}"
+                alt="Dog Photo"
+              >
+            `
+            :
+            `
+              <div class="dog-photo-missing">
+                🐶
+              </div>
+            `
+        }
+
+      </div>
+
+
+      <div class="dog-name"
+           style="text-align:center;">
+
+        🐕 ${escapeHtml(
+          dog.dogName ||
+          'Unnamed Dog'
+        )}
+
+      </div>
+
+
+      <div
+        class="info-grid"
+        style="margin-top:18px;"
+      >
+
+
+        <div class="info-row">
+
+          <div class="info-label">
+            DOG INFORMATION
+          </div>
+
+        </div>
+
+
+        ${dogInfoRow(
+          'Registry Number',
+          dog.registryNumber
+        )}
+
+        ${dogInfoRow(
+          'Dog Name',
+          dog.dogName
+        )}
+
+        ${dogInfoRow(
+          'Breed',
+          dog.breed
+        )}
+
+        ${dogInfoRow(
+          'Color / Markings',
+          dog.color
+        )}
+
+        ${dogInfoRow(
+          'Sex',
+          dog.sex
+        )}
+
+        ${dogInfoRow(
+          'Birthdate',
+          dog.birthdate
+        )}
+
+        ${dogInfoRow(
+          'Age',
+          dog.age
+        )}
+
+        ${dogInfoRow(
+          'Date Registered',
+          dog.dateRegistered
+        )}
+
+        ${dogInfoRow(
+          'Registration Status',
+          dog.registrationStatus
+        )}
+
+
+        <div
+          class="info-row"
+          style="
+            margin-top:22px;
+            padding-top:16px;
+            border-top:1px solid #edf0ee;
+          "
+        >
+
+          <div class="info-label">
+            OWNER INFORMATION
+          </div>
+
+        </div>
+
+
+        ${dogInfoRow(
+          'Owner Name',
+          dog.ownerName
+        )}
+
+        ${dogInfoRow(
+          'Sitio',
+          dog.sitio
+        )}
+
+        ${dogInfoRow(
+          'Address',
+          dog.address
+        )}
+
+        ${dogInfoRow(
+          'Contact Number',
+          dog.contactNumber
+        )}
+
+        ${dogInfoRow(
+          'Email Address',
+          dog.emailAddress
+        )}
+
+
+        <div
+          class="info-row"
+          style="
+            margin-top:22px;
+            padding-top:16px;
+            border-top:1px solid #edf0ee;
+          "
+        >
+
+          <div class="info-label">
+            VACCINATION INFORMATION
+          </div>
+
+        </div>
+
+
+        ${dogInfoRow(
+          'Vaccination Status',
+          dog.vaccinationStatus
+        )}
+
+        ${dogInfoRow(
+          'Last Vaccination Date',
+          dog.lastVaccinationDate
+        )}
+
+        ${dogInfoRow(
+          'Next Vaccination Date',
+          dog.nextVaccinationDate
+        )}
+
+      </div>
+
+
+      ${
+        petIdPdf
+          ?
+          `
+            <button
+              type="button"
+              class="btn btn-primary"
+              style="margin-top:8px;"
+              onclick="openPetIdCard(
+                '${escapeAttribute(
+                  petIdPdf
+                )}'
+              )"
+            >
+              🪪 View Pet ID Card
+            </button>
+          `
+          :
+          `
+            <button
+              type="button"
+              class="btn btn-outline"
+              style="margin-top:8px;"
+              disabled
+            >
+              🪪 Pet ID Card Not Available
+            </button>
+          `
+      }
+
+
+      <button
+        type="button"
+        class="btn btn-outline"
+        style="margin-top:10px;"
+        onclick="renderDogSearchResults(
+          window.brccDogSearchResults || []
+        )"
+      >
+        ← Back to Search Results
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ============================================================
+   DOG INFO ROW
+============================================================ */
+
+function dogInfoRow(
+  label,
+  value
+) {
+
+  return `
+
+    <div class="info-row">
+
+      <div class="info-label">
+        ${escapeHtml(label)}
+      </div>
+
+      <div class="info-value">
+        ${escapeHtml(
+          formatValue(value)
+        )}
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ============================================================
+   OPEN EXISTING PET ID PDF
+   READ ONLY — NO REGENERATION
+============================================================ */
+
+function openPetIdCard(pdfUrl) {
+
+  const url =
+    String(
+      pdfUrl || ''
+    ).trim();
+
+
+  if (!url) {
+
+    alert(
+      'Pet ID Card PDF is not available.'
+    );
+
+    return;
+
+  }
+
+
+  window.open(
+    url,
+    '_blank',
+    'noopener,noreferrer'
+  );
+
+}
 </script>
 
 </body>
