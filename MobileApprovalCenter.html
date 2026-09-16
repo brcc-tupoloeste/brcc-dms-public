@@ -5601,18 +5601,18 @@ function printDogMasterlist() {
    PET ID CARD PREVIEW
 ============================================================ */
 
-let currentPetIdPdfDataUrl = '';
+let currentPetIdBlobUrl = '';
 
 
 function showPetIdPreview(result) {
 
-  currentPetIdPdfDataUrl =
+  const pdfDataUrl =
     String(
       result.pdfDataUrl || ''
     );
 
 
-  if (!currentPetIdPdfDataUrl) {
+  if (!pdfDataUrl) {
 
     alert(
       'Pet ID Card PDF is not available.'
@@ -5623,29 +5623,106 @@ function showPetIdPreview(result) {
   }
 
 
-  document.getElementById(
-    'petIdPreviewDog'
-  ).textContent =
-    [
-      result.dogName || '',
-      result.registryNumber || ''
-    ]
-      .filter(Boolean)
-      .join(' • ');
+  try {
+
+    /* Remove data:application/pdf;base64, prefix */
+
+    const base64 =
+      pdfDataUrl.includes(',')
+        ? pdfDataUrl.split(',')[1]
+        : pdfDataUrl;
 
 
-  document.getElementById(
-    'petIdPreviewFrame'
-  ).src =
-    currentPetIdPdfDataUrl;
+    const binary =
+      atob(base64);
 
 
-  document.getElementById(
-    'petIdPreviewModal'
-  ).classList.add('show');
+    const bytes =
+      new Uint8Array(
+        binary.length
+      );
+
+
+    for (
+      let i = 0;
+      i < binary.length;
+      i++
+    ) {
+
+      bytes[i] =
+        binary.charCodeAt(i);
+
+    }
+
+
+    const blob =
+      new Blob(
+        [bytes],
+        {
+          type:
+            'application/pdf'
+        }
+      );
+
+
+    /* Remove previous temporary browser URL */
+
+    if (currentPetIdBlobUrl) {
+
+      URL.revokeObjectURL(
+        currentPetIdBlobUrl
+      );
+
+    }
+
+
+    currentPetIdBlobUrl =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    currentPetIdPdfDataUrl =
+      currentPetIdBlobUrl;
+
+
+    document.getElementById(
+      'petIdPreviewDog'
+    ).textContent =
+      [
+        result.dogName || '',
+        result.registryNumber || ''
+      ]
+        .filter(Boolean)
+        .join(' • ');
+
+
+    document.getElementById(
+      'petIdPreviewFrame'
+    ).src =
+      currentPetIdBlobUrl;
+
+
+    document.getElementById(
+      'petIdPreviewModal'
+    ).classList.add('show');
+
+  }
+  catch (error) {
+
+    console.error(
+      'PET ID PDF CONVERSION ERROR:',
+      error
+    );
+
+
+    alert(
+      'Unable to display the Pet ID Card.'
+    );
+
+  }
 
 }
-
 
 /* ============================================================
    CLOSE PET ID PREVIEW
