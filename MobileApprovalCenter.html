@@ -2249,25 +2249,19 @@ async function loadPendingRequests(silent = false) {
     : [];
 
 
+pendingRequests =
+  Array.isArray(result.requests)
+    ? result.requests
+    : [];
+
+
 /* ============================================================
-   LOAD CURRENT REGISTERED PHOTO
-   FOR DOG PHOTO UPDATE REQUESTS ONLY
+   RENDER REQUESTS
 ============================================================ */
 
-pendingRequests =
-  await Promise.all(
-
-    pendingRequests.map(
-      function(request) {
-
-        return loadApprovalCurrentDogPhoto(
-          request
-        );
-
-      }
-    )
-
-  );
+renderRequests(
+  pendingRequests
+);
 
 
 /* ============================================================
