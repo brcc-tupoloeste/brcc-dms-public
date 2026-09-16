@@ -1783,9 +1783,11 @@ textarea:focus {
     </h2>
 
     <p class="modal-text">
-      Select All Sitios or a specific Sitio, then view and print the masterlist.
+      Filter by Sitio and arrange the masterlist before printing.
     </p>
 
+
+    <!-- SITIO FILTER -->
 
     <div class="form-group">
 
@@ -1807,10 +1809,98 @@ textarea:focus {
           outline:none;
         "
       >
+
         <option value="ALL SITIOS">
           All Sitios
         </option>
+
       </select>
+
+    </div>
+
+
+    <!-- SORT BY -->
+
+    <div
+      style="
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+      "
+    >
+
+      <div class="form-group">
+
+        <label for="masterlistSortBy">
+          SORT BY
+        </label>
+
+        <select
+          id="masterlistSortBy"
+          style="
+            width:100%;
+            height:48px;
+            padding:0 12px;
+            border-radius:12px;
+            border:1px solid #9ab9a7;
+            background:#fbfcfb;
+            color:#253238;
+            font-size:13px;
+            outline:none;
+          "
+        >
+
+          <option value="registryNumber">
+            Registry Number
+          </option>
+
+          <option value="ownerName">
+            Owner Name
+          </option>
+
+          <option value="dogName">
+            Dog Name
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- SORT ORDER -->
+
+      <div class="form-group">
+
+        <label for="masterlistSortOrder">
+          ORDER
+        </label>
+
+        <select
+          id="masterlistSortOrder"
+          style="
+            width:100%;
+            height:48px;
+            padding:0 12px;
+            border-radius:12px;
+            border:1px solid #9ab9a7;
+            background:#fbfcfb;
+            color:#253238;
+            font-size:13px;
+            outline:none;
+          "
+        >
+
+          <option value="asc">
+            A–Z / Ascending
+          </option>
+
+          <option value="desc">
+            Z–A / Descending
+          </option>
+
+        </select>
+
+      </div>
 
     </div>
 
@@ -1827,7 +1917,10 @@ textarea:focus {
     <div
       id="masterlistMessage"
       class="message"
-      style="margin-left:0;margin-right:0;"
+      style="
+        margin-left:0;
+        margin-right:0;
+      "
     ></div>
 
 
@@ -1864,7 +1957,8 @@ textarea:focus {
   </div>
 
 </div>
-<!-- =========================================================
+ 
+  <!-- =========================================================
      SEARCH DOG — READ ONLY
 ========================================================= -->
 
@@ -5376,6 +5470,7 @@ function updateMasterlistSitios(
 
 /* ============================================================
    RENDER MASTERLIST PREVIEW
+   SITIO FILTER + CUSTOM SORTING
 ============================================================ */
 
 function renderDogMasterlist(
@@ -5419,6 +5514,91 @@ function renderDogMasterlist(
   }
 
 
+  /*
+    GET CURRENT SORT SETTINGS
+  */
+
+  const sortByElement =
+    document.getElementById(
+      'masterlistSortBy'
+    );
+
+
+  const sortOrderElement =
+    document.getElementById(
+      'masterlistSortOrder'
+    );
+
+
+  const sortBy =
+    sortByElement
+      ? sortByElement.value
+      : 'registryNumber';
+
+
+  const sortOrder =
+    sortOrderElement
+      ? sortOrderElement.value
+      : 'asc';
+
+
+  /*
+    COPY RECORDS.
+
+    Do not modify the original backend array.
+  */
+
+  const sortedRecords =
+    records.slice();
+
+
+  /*
+    SORT
+  */
+
+  sortedRecords.sort(
+    function(a, b) {
+
+      let valueA =
+        String(
+          a[sortBy] || ''
+        ).trim();
+
+
+      let valueB =
+        String(
+          b[sortBy] || ''
+        ).trim();
+
+
+      /*
+        Registry numbers use numeric-aware sorting.
+
+        Example:
+        BTO-2026-00002
+        comes before
+        BTO-2026-00010
+      */
+
+      const comparison =
+        valueA.localeCompare(
+          valueB,
+          undefined,
+          {
+            numeric: true,
+            sensitivity: 'base'
+          }
+        );
+
+
+      return sortOrder === 'desc'
+        ? comparison * -1
+        : comparison;
+
+    }
+  );
+
+
   const dateGenerated =
     new Date().toLocaleDateString(
       'en-US',
@@ -5430,10 +5610,41 @@ function renderDogMasterlist(
     );
 
 
+  /*
+    HUMAN-READABLE SORT DESCRIPTION
+  */
+
+  const sortLabels = {
+
+    registryNumber:
+      'Registry Number',
+
+    ownerName:
+      'Owner Name',
+
+    dogName:
+      'Dog Name'
+
+  };
+
+
+  const sortDescription =
+    (
+      sortLabels[sortBy] ||
+      'Registry Number'
+    ) +
+    ' — ' +
+    (
+      sortOrder === 'desc'
+        ? 'Descending'
+        : 'Ascending'
+    );
+
+
   let rows = '';
 
 
-  records.forEach(
+  sortedRecords.forEach(
     function(record) {
 
       rows += `
@@ -5507,6 +5718,8 @@ function renderDogMasterlist(
       "
     >
 
+      <!-- HEADER -->
+
       <div
         style="
           text-align:center;
@@ -5545,6 +5758,8 @@ function renderDogMasterlist(
       </div>
 
 
+      <!-- MASTERLIST INFORMATION -->
+
       <div
         style="
           font-size:11px;
@@ -5554,6 +5769,7 @@ function renderDogMasterlist(
       >
 
         <strong>Sitio:</strong>
+
         ${escapeHtml(
           sitio ||
           'ALL SITIOS'
@@ -5561,13 +5777,26 @@ function renderDogMasterlist(
 
         <br>
 
+
+        <strong>Sorted By:</strong>
+
+        ${escapeHtml(
+          sortDescription
+        )}
+
+        <br>
+
+
         <strong>Date Generated:</strong>
+
         ${escapeHtml(
           dateGenerated
         )}
 
       </div>
 
+
+      <!-- TABLE -->
 
       <table
         style="
@@ -5642,7 +5871,7 @@ function renderDogMasterlist(
 
 
   /*
-    Apply preview borders.
+    APPLY PREVIEW TABLE BORDERS
   */
 
   container
@@ -5655,8 +5884,10 @@ function renderDogMasterlist(
         cell.style.border =
           '1px solid #333';
 
+
         cell.style.padding =
           '6px 4px';
+
 
         cell.style.verticalAlign =
           'middle';
@@ -5664,6 +5895,10 @@ function renderDogMasterlist(
       }
     );
 
+
+  /*
+    HEADER ALIGNMENT
+  */
 
   container
     .querySelectorAll(
@@ -5675,12 +5910,17 @@ function renderDogMasterlist(
         cell.style.fontWeight =
           '700';
 
+
         cell.style.textAlign =
           'center';
 
       }
     );
 
+
+  /*
+    REMARKS WRITING SPACE
+  */
 
   container
     .querySelectorAll(
@@ -5692,6 +5932,7 @@ function renderDogMasterlist(
         cell.style.height =
           '30px';
 
+
         cell.style.minWidth =
           '60px';
 
@@ -5699,11 +5940,9 @@ function renderDogMasterlist(
     );
 
 }
-
-
 /* ============================================================
    PRINT DOG MASTERLIST
-   A4 PORTRAIT
+   A4 PORTRAIT — FIT AT 100%
 ============================================================ */
 
 function printDogMasterlist() {
@@ -5762,90 +6001,286 @@ function printDogMasterlist() {
 
       <style>
 
+        /* ==========================================
+           A4 PORTRAIT
+        ========================================== */
+
         @page {
           size: A4 portrait;
-          margin: 12mm;
+          margin: 7mm;
         }
+
 
         * {
           box-sizing: border-box;
         }
 
+
+        html,
         body {
+          width: 100%;
           margin: 0;
           padding: 0;
+        }
+
+
+        body {
           font-family:
             Arial,
             Helvetica,
             sans-serif;
+
           color: #000;
           background: #fff;
         }
 
+
+        /* ==========================================
+           PRINT AREA
+        ========================================== */
+
         #dogMasterlistPrintArea {
-          width: 100%;
+
+          width: 100% !important;
+          max-width: none !important;
+
+          margin: 0 !important;
           padding: 0 !important;
+
           border: none !important;
           border-radius: 0 !important;
+
           overflow: visible !important;
+
         }
 
+
+        /* ==========================================
+           TABLE
+        ========================================== */
+
         table {
+
           width: 100% !important;
-          border-collapse: collapse !important;
-          table-layout: fixed;
-          font-size: 8.5pt !important;
+
+          max-width: 100% !important;
+
+          border-collapse:
+            collapse !important;
+
+          table-layout:
+            fixed !important;
+
+          font-size:
+            7.5pt !important;
+
+          margin: 0 !important;
+
         }
+
 
         th,
         td {
-          border: 1px solid #000 !important;
-          padding: 5px 3px !important;
-          vertical-align: middle;
-          word-wrap: break-word;
+
+          border:
+            1px solid #000 !important;
+
+          padding:
+            4px 2px !important;
+
+          vertical-align:
+            middle !important;
+
+          line-height:
+            1.15 !important;
+
+          white-space:
+            normal !important;
+
+          overflow-wrap:
+            anywhere !important;
+
+          word-break:
+            normal !important;
+
         }
+
 
         th {
-          text-align: center;
-          font-weight: bold;
+
+          text-align:
+            center !important;
+
+          font-weight:
+            700 !important;
+
+          font-size:
+            7.2pt !important;
+
         }
 
-        td {
-          min-height: 26px;
+
+        /* ==========================================
+           COLUMN WIDTHS
+
+           1 Registry No.
+           2 Dog Name
+           3 Sex
+           4 Age
+           5 Color
+           6 Owner Name
+           7 Sitio
+           8 Remarks
+        ========================================== */
+
+        th:nth-child(1),
+        td:nth-child(1) {
+          width: 15%;
         }
+
+
+        th:nth-child(2),
+        td:nth-child(2) {
+          width: 12%;
+        }
+
+
+        th:nth-child(3),
+        td:nth-child(3) {
+          width: 7%;
+        }
+
+
+        th:nth-child(4),
+        td:nth-child(4) {
+          width: 8%;
+        }
+
+
+        th:nth-child(5),
+        td:nth-child(5) {
+          width: 15%;
+        }
+
+
+        th:nth-child(6),
+        td:nth-child(6) {
+          width: 20%;
+        }
+
+
+        th:nth-child(7),
+        td:nth-child(7) {
+          width: 10%;
+        }
+
+
+        th:nth-child(8),
+        td:nth-child(8) {
+          width: 13%;
+        }
+
+
+        /* ==========================================
+           REMARKS — WRITING SPACE
+        ========================================== */
 
         .remarks-cell {
-          height: 30px !important;
+
+          height:
+            28px !important;
+
+          min-width:
+            0 !important;
+
         }
+
+
+        /* ==========================================
+           MULTI-PAGE SUPPORT
+        ========================================== */
 
         thead {
-          display: table-header-group;
+          display:
+            table-header-group;
         }
 
+
+        tfoot {
+          display:
+            table-footer-group;
+        }
+
+
         tr {
-          page-break-inside: avoid;
+
+          page-break-inside:
+            avoid !important;
+
+          break-inside:
+            avoid !important;
+
+        }
+
+
+        /* ==========================================
+           PRINT
+        ========================================== */
+
+        @media print {
+
+          html,
+          body {
+            width: 100%;
+          }
+
+
+          #dogMasterlistPrintArea {
+            width: 100% !important;
+          }
+
+
+          table {
+            width: 100% !important;
+          }
+
         }
 
       </style>
 
     </head>
 
+
     <body>
 
       ${printArea.outerHTML}
 
+
       <script>
 
-        window.onload = function() {
+        window.onload =
+          function() {
 
-          setTimeout(
-            function() {
-              window.print();
-            },
-            250
-          );
+            setTimeout(
+              function() {
 
-        };
+                window.focus();
+
+                window.print();
+
+              },
+              250
+            );
+
+          };
+
+
+        window.onafterprint =
+          function() {
+
+            window.close();
+
+          };
 
       <\/script>
 
