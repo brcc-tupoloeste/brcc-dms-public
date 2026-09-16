@@ -5099,7 +5099,28 @@ async function openPetIdCard(
   }
 
 }
+/* ============================================================
+   OPEN DOG MASTERLIST
+============================================================ */
 
+function openDogMasterlist() {
+
+  if (
+    !sessionToken ||
+    isProcessing
+  ) {
+    return;
+  }
+
+  document
+    .getElementById(
+      'dogMasterlistModal'
+    )
+    .classList.add(
+      'show'
+    );
+
+}
 /* ============================================================
    CLOSE MASTERLIST
 ============================================================ */
