@@ -4645,13 +4645,41 @@ function dogInfoRow(
 
   return `
 
-    <div class="info-row">
+    <div
+      class="info-row"
+      style="
+        display:grid;
+        grid-template-columns:140px 1fr;
+        gap:10px;
+        align-items:start;
+        padding:7px 0;
+        margin:0;
+      "
+    >
 
-      <div class="info-label">
+      <div
+        class="info-label"
+        style="
+          margin:0;
+          padding:0;
+          font-size:11px;
+          line-height:1.35;
+        "
+      >
         ${escapeHtml(label)}
       </div>
 
-      <div class="info-value">
+      <div
+        class="info-value"
+        style="
+          margin:0;
+          padding:0;
+          font-size:13px;
+          line-height:1.35;
+          min-width:0;
+          overflow-wrap:anywhere;
+        "
+      >
         ${escapeHtml(
           formatValue(value)
         )}
