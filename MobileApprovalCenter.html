@@ -4481,6 +4481,15 @@ function viewDogSearchRecord(
 
     return;
 
+    /*
+  Start loading Pet ID silently while
+  admin is viewing the dog information.
+*/
+
+preloadPetIdCard(
+  dog.registryNumber || ''
+);
+
   }
 
 
@@ -4828,7 +4837,156 @@ function dogInfoRow(label, value) {
   `;
 
 }
+/* ============================================================
+   PRELOAD PET ID CARD
+   Loads securely in background after dog record is displayed.
+============================================================ */
 
+async function preloadPetIdCard(
+  registryNumber
+) {
+
+  registryNumber =
+    String(
+      registryNumber || ''
+    ).trim();
+
+
+  if (
+    !registryNumber ||
+    !sessionToken ||
+    petIdPreviewCache[registryNumber]
+  ) {
+    return;
+  }
+/*
+  If background preload is already running,
+  wait for that same request instead of
+  downloading the PDF again.
+*/
+
+if (
+  window.petIdPreloadPromises &&
+  window.petIdPreloadPromises[
+    registryNumber
+  ]
+) {
+
+  try {
+
+    const preloadedResult =
+      await window
+        .petIdPreloadPromises[
+          registryNumber
+        ];
+
+
+    if (
+      preloadedResult &&
+      preloadedResult.pdfDataUrl
+    ) {
+
+      petIdPreviewCache[
+        registryNumber
+      ] =
+        preloadedResult;
+
+
+      await showPetIdPreview(
+        preloadedResult
+      );
+
+      return;
+
+    }
+
+  }
+  catch (error) {
+
+    console.warn(
+      'PET ID PRELOAD WAIT FAILED:',
+      error
+    );
+
+  }
+
+}
+
+  /*
+    Prevent duplicate requests while the same
+    Pet ID is already loading.
+  */
+
+  if (!window.petIdPreloadPromises) {
+    window.petIdPreloadPromises = {};
+  }
+
+
+  if (
+    window.petIdPreloadPromises[
+      registryNumber
+    ]
+  ) {
+    return;
+  }
+
+
+  window.petIdPreloadPromises[
+    registryNumber
+  ] =
+    apiRequest(
+      'get_pet_id_pdf',
+      {
+        sessionToken:
+          sessionToken,
+
+        registryNumber:
+          registryNumber
+      }
+    )
+      .then(function(result) {
+
+        if (
+          result &&
+          result.pdfDataUrl
+        ) {
+
+          petIdPreviewCache[
+            registryNumber
+          ] = result;
+
+        }
+
+        return result;
+
+      })
+      .catch(function(error) {
+
+        /*
+          Silent only.
+          Search Dog must continue working even
+          if preload fails.
+        */
+
+        console.warn(
+          'PET ID PRELOAD FAILED:',
+          error
+        );
+
+        return null;
+
+      })
+      .finally(function() {
+
+        delete window
+          .petIdPreloadPromises[
+            registryNumber
+          ];
+
+      });
+
+}
+  
 /* ============================================================
    OPEN PET ID CARD — SECURE ADMIN PREVIEW
 ============================================================ */
