@@ -5113,6 +5113,7 @@ if (
   
 /* ============================================================
    OPEN PET ID CARD — SECURE ADMIN PREVIEW
+   SHOW SPINNER IMMEDIATELY
 ============================================================ */
 
 async function openPetIdCard(
@@ -5127,7 +5128,133 @@ async function openPetIdCard(
   }
 
 
+  /*
+    SHOW PET ID MODAL + SPINNER IMMEDIATELY
+    BEFORE REQUESTING THE PDF
+  */
+
+  const modal =
+    document.getElementById(
+      'petIdPreviewModal'
+    );
+
+
+  const loading =
+    document.getElementById(
+      'petIdPreviewLoading'
+    );
+
+
+  const pages =
+    document.getElementById(
+      'petIdPreviewPages'
+    );
+
+
+  const printButton =
+    document.getElementById(
+      'petIdPrintButton'
+    );
+
+
+  /*
+    Reset previous preview
+  */
+
+  currentPetIdPdfDataUrl = '';
+
+
+  if (pages) {
+    pages.innerHTML = '';
+  }
+
+
+  /*
+    Lock Print while loading
+  */
+
+  if (printButton) {
+    printButton.disabled = true;
+  }
+
+
+  /*
+    Show loading spinner immediately
+  */
+
+  if (loading) {
+
+    loading.style.display = 'block';
+
+    loading.innerHTML = `
+
+      <div
+        style="
+          width:42px;
+          height:42px;
+          border:4px solid #dce8df;
+          border-top-color:#2f6f45;
+          border-radius:50%;
+          animation:spin .8s linear infinite;
+          margin:4px auto 14px auto;
+        "
+      ></div>
+
+      <div
+        style="
+          font-size:15px;
+          font-weight:700;
+          color:#2f4f3c;
+        "
+      >
+        Loading Pet ID Card...
+      </div>
+
+      <div
+        style="
+          margin-top:6px;
+          font-size:12px;
+          color:#68766d;
+        "
+      >
+        Please wait while the file is being prepared.
+      </div>
+
+    `;
+
+  }
+
+
+  /*
+    OPEN MODAL NOW
+  */
+
+  if (modal) {
+    modal.classList.add('show');
+  }
+
+
+  /*
+    Allow browser to paint the modal/spinner
+    before starting the API request.
+  */
+
+  await new Promise(
+    function(resolve) {
+      requestAnimationFrame(
+        function() {
+          requestAnimationFrame(resolve);
+        }
+      );
+    }
+  );
+
+
   try {
+
+    /*
+      NOW REQUEST THE PET ID PDF
+    */
 
     const result =
       await apiRequest(
@@ -5154,7 +5281,17 @@ async function openPetIdCard(
     }
 
 
-    showPetIdPreview(
+    /*
+      Existing working renderer.
+
+      It will:
+      - render Front
+      - render Back
+      - hide spinner when complete
+      - enable Print when complete
+    */
+
+    await showPetIdPreview(
       result
     );
 
@@ -5167,6 +5304,24 @@ async function openPetIdCard(
     );
 
 
+    /*
+      Stop spinner on error
+    */
+
+    if (loading) {
+      loading.style.display = 'none';
+    }
+
+
+    /*
+      Keep Print locked
+    */
+
+    if (printButton) {
+      printButton.disabled = true;
+    }
+
+
     const message =
       error.message ||
       'Unable to open Pet ID Card.';
@@ -5177,6 +5332,8 @@ async function openPetIdCard(
         .toLowerCase()
         .includes('session')
     ) {
+
+      closePetIdPreview();
 
       sessionExpired();
 
@@ -5193,7 +5350,8 @@ async function openPetIdCard(
   }
 
 }
-/* ============================================================
+  
+  /* ============================================================
    OPEN DOG MASTERLIST
 ============================================================ */
 
