@@ -1958,8 +1958,7 @@ textarea:focus {
   </div>
 
 </div>
-
-  <!-- =========================================================
+<!-- =========================================================
      PET ID CARD PREVIEW — SECURE / READ ONLY
 ========================================================= -->
 
@@ -1982,11 +1981,13 @@ textarea:focus {
     <h2
       class="modal-title"
       style="
-        margin-bottom:4px;
+        margin:0 0 4px;
+        text-align:center;
       "
     >
       Pet ID Card
     </h2>
+
 
     <div
       id="petIdPreviewDog"
@@ -1999,60 +2000,91 @@ textarea:focus {
     ></div>
 
 
-<div
-  id="petIdPreviewContainer"
-  style="
-    width:100%;
-    max-height:70vh;
-    overflow-y:auto;
-    box-sizing:border-box;
-    padding:4px 0;
-    background:transparent;
-  "
->
+    <!-- LOADING -->
 
-  <div
-    id="petIdPreviewLoading"
-    style="
-      padding:40px 15px;
-      text-align:center;
-      color:#607078;
-      font-size:14px;
-    "
-  >
-    Loading Pet ID Card...
-  </div>
+    <div
+      id="petIdPreviewLoading"
+      style="
+        min-height:260px;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        padding:30px 15px;
+      "
+    >
 
-  <div
-    id="petIdPreviewPages"
-    style="
-      width:100%;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:14px;
-    "
-  ></div>
+      <div
+        style="
+          width:44px;
+          height:44px;
+          border:4px solid #dce9e0;
+          border-top-color:#155b35;
+          border-radius:50%;
+          animation:spin .8s linear infinite;
+        "
+      ></div>
 
-</div>
+      <div
+        style="
+          margin-top:15px;
+          font-size:15px;
+          font-weight:700;
+          color:#29473a;
+        "
+      >
+        Loading Pet ID Card...
+      </div>
 
+      <div
+        style="
+          margin-top:6px;
+          font-size:12px;
+          color:#718078;
+        "
+      >
+        Please wait while the file is being prepared.
+      </div>
+
+    </div>
+
+
+    <!-- FRONT + BACK -->
+
+    <div
+      id="petIdPreviewPages"
+      style="
+        width:100%;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:14px;
+      "
+    ></div>
+
+
+    <!-- ACTIONS -->
 
     <div
       style="
         display:grid;
         grid-template-columns:1fr 1fr;
         gap:10px;
-        margin-top:12px;
+        margin-top:14px;
       "
     >
 
       <button
+        id="petIdPrintButton"
         type="button"
         class="btn btn-primary"
         onclick="printPetIdCard()"
+        disabled
       >
         🖨️ Print Pet ID Card
       </button>
+
 
       <button
         type="button"
@@ -5775,12 +5807,13 @@ function printDogMasterlist() {
   printWindow.document.close();
 
 }
-
-  /* ============================================================
+/* ============================================================
    PET ID CARD PREVIEW
+   VIEW ONLY + LOCKED PRINT WHILE LOADING
 ============================================================ */
 
-let currentPetIdBlobUrl = '';
+let currentPetIdPdfDataUrl = '';
+
 
 async function showPetIdPreview(result) {
 
@@ -5788,17 +5821,6 @@ async function showPetIdPreview(result) {
     String(
       result.pdfDataUrl || ''
     );
-
-
-  if (!pdfDataUrl) {
-
-    alert(
-      'Pet ID Card PDF is not available.'
-    );
-
-    return;
-
-  }
 
 
   const modal =
@@ -5816,6 +5838,42 @@ async function showPetIdPreview(result) {
       'petIdPreviewLoading'
     );
 
+  const printButton =
+    document.getElementById(
+      'petIdPrintButton'
+    );
+
+
+  /*
+    LOCK PRINT FIRST
+  */
+
+  printButton.disabled =
+    true;
+
+
+  pagesContainer.innerHTML =
+    '';
+
+
+  loading.style.display =
+    'flex';
+
+
+  modal.classList.add(
+    'show'
+  );
+
+
+  if (!pdfDataUrl) {
+
+    loading.innerHTML =
+      'Pet ID Card PDF is not available.';
+
+    return;
+
+  }
+
 
   document.getElementById(
     'petIdPreviewDog'
@@ -5826,16 +5884,6 @@ async function showPetIdPreview(result) {
     ]
       .filter(Boolean)
       .join(' • ');
-
-
-  pagesContainer.innerHTML = '';
-
-  loading.style.display =
-    'block';
-
-  modal.classList.add(
-    'show'
-  );
 
 
   try {
@@ -5849,7 +5897,9 @@ async function showPetIdPreview(result) {
 
 
     const binary =
-      atob(base64);
+      atob(
+        base64
+      );
 
 
     const pdfBytes =
@@ -5873,16 +5923,11 @@ async function showPetIdPreview(result) {
     const pdf =
       await pdfjsLib
         .getDocument({
-          data: pdfBytes
+          data:
+            pdfBytes
         })
         .promise;
 
-
-    /*
-      Pet ID should contain:
-      Page 1 = Front
-      Page 2 = Back
-    */
 
     for (
       let pageNumber = 1;
@@ -5898,34 +5943,35 @@ async function showPetIdPreview(result) {
 
       const baseViewport =
         page.getViewport({
-          scale: 1
+          scale:1
         });
 
 
       /*
-        Render sharply, but keep display responsive.
+        Lower render scale for faster mobile display
+        while retaining good Pet ID preview quality.
       */
 
-      const targetWidth =
-        Math.min(
-          520,
-          Math.max(
-            260,
-            pagesContainer.clientWidth - 10
+      const availableWidth =
+        Math.max(
+          260,
+          Math.min(
+            350,
+            window.innerWidth - 55
           )
         );
 
 
       const scale =
         (
-          targetWidth /
+          availableWidth /
           baseViewport.width
-        ) * 1.5;
+        ) * 1.25;
 
 
       const viewport =
         page.getViewport({
-          scale: scale
+          scale:scale
         });
 
 
@@ -5983,27 +6029,30 @@ async function showPetIdPreview(result) {
           viewport.width
         );
 
+
       canvas.height =
         Math.floor(
           viewport.height
         );
 
 
-    canvas.style.cssText = `
-  display:block;
-  width:min(100%, 350px);
-  height:auto;
-  background:#ffffff;
-`;
+      canvas.style.cssText = `
+        display:block;
+        width:min(100%,350px);
+        height:auto;
+        background:#ffffff;
+      `;
 
 
       wrapper.appendChild(
         label
       );
 
+
       wrapper.appendChild(
         canvas
       );
+
 
       pagesContainer.appendChild(
         wrapper
@@ -6021,12 +6070,21 @@ async function showPetIdPreview(result) {
     }
 
 
+    /*
+      BOTH PAGES FINISHED.
+      NOW UNLOCK PRINT.
+    */
+
     currentPetIdPdfDataUrl =
       pdfDataUrl;
 
 
     loading.style.display =
       'none';
+
+
+    printButton.disabled =
+      false;
 
   }
   catch (error) {
@@ -6037,17 +6095,34 @@ async function showPetIdPreview(result) {
     );
 
 
-    loading.textContent =
-      'Unable to display Pet ID Card.';
+    currentPetIdPdfDataUrl =
+      '';
 
 
-    alert(
-      'Unable to display the Pet ID Card.'
-    );
+    printButton.disabled =
+      true;
+
+
+    loading.style.display =
+      'flex';
+
+
+    loading.innerHTML = `
+      <div
+        style="
+          color:#c62828;
+          font-size:14px;
+          font-weight:700;
+        "
+      >
+        Unable to display Pet ID Card.
+      </div>
+    `;
 
   }
 
 }
+
 
 /* ============================================================
    CLOSE PET ID PREVIEW
@@ -6064,31 +6139,94 @@ function closePetIdPreview() {
 
   document.getElementById(
     'petIdPreviewPages'
-  ).innerHTML = '';
+  ).innerHTML =
+    '';
 
 
   document.getElementById(
-    'petIdPreviewLoading'
-  ).style.display =
-    'block';
+    'petIdPrintButton'
+  ).disabled =
+    true;
 
 
-  document.getElementById(
-    'petIdPreviewLoading'
-  ).textContent =
-    'Loading Pet ID Card...';
+  const loading =
+    document.getElementById(
+      'petIdPreviewLoading'
+    );
 
 
-  currentPetIdPdfDataUrl = '';
+  loading.style.display =
+    'flex';
+
+
+  loading.innerHTML = `
+
+    <div
+      style="
+        width:44px;
+        height:44px;
+        border:4px solid #dce9e0;
+        border-top-color:#155b35;
+        border-radius:50%;
+        animation:spin .8s linear infinite;
+      "
+    ></div>
+
+    <div
+      style="
+        margin-top:15px;
+        font-size:15px;
+        font-weight:700;
+        color:#29473a;
+      "
+    >
+      Loading Pet ID Card...
+    </div>
+
+    <div
+      style="
+        margin-top:6px;
+        font-size:12px;
+        color:#718078;
+      "
+    >
+      Please wait while the file is being prepared.
+    </div>
+
+  `;
+
+
+  currentPetIdPdfDataUrl =
+    '';
 
 }
-   /* ============================================================
+
+
+/* ============================================================
    PRINT PET ID CARD
-   Print rendered FRONT + BACK directly.
-   No PDF download / no Drive window.
+   FRONT + BACK ONLY
 ============================================================ */
 
 function printPetIdCard() {
+
+  const printButton =
+    document.getElementById(
+      'petIdPrintButton'
+    );
+
+
+  /*
+    HARD LOCK:
+    Printing cannot start until preview is complete.
+  */
+
+  if (
+    !printButton ||
+    printButton.disabled
+  ) {
+    return;
+  }
+
 
   const pages =
     document.querySelectorAll(
@@ -6096,7 +6234,10 @@ function printPetIdCard() {
     );
 
 
-  if (!pages.length) {
+  if (
+    !pages ||
+    pages.length < 2
+  ) {
 
     alert(
       'Pet ID Card preview is not ready yet.'
@@ -6127,7 +6268,8 @@ function printPetIdCard() {
     }
 
 
-    let pagesHtml = '';
+    let pagesHtml =
+      '';
 
 
     pages.forEach(
@@ -6140,16 +6282,20 @@ function printPetIdCard() {
 
 
         pagesHtml += `
+
           <div class="pet-id-page">
+
             <img
               src="${imageData}"
-              alt="Pet ID ${
+              alt="${
                 index === 0
-                  ? 'Front'
-                  : 'Back'
+                  ? 'Pet ID Front'
+                  : 'Pet ID Back'
               }"
             >
+
           </div>
+
         `;
 
       }
@@ -6175,69 +6321,46 @@ function printPetIdCard() {
         <style>
 
           @page {
-            size: 3.5in 5in;
-            margin: 0;
+            size:3.5in 5in;
+            margin:0;
           }
-
 
           * {
-            box-sizing: border-box;
+            box-sizing:border-box;
           }
-
 
           html,
           body {
-            margin: 0;
-            padding: 0;
-            background: white;
+            margin:0;
+            padding:0;
+            background:white;
           }
-
 
           .pet-id-page {
-
-            width: 3.5in;
-            height: 5in;
-
-            margin: 0;
-
-            padding: 0;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            overflow: hidden;
-
-            page-break-after: always;
-
-            break-after: page;
-
+            width:3.5in;
+            height:5in;
+            margin:0;
+            padding:0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            overflow:hidden;
+            page-break-after:always;
+            break-after:page;
           }
-
 
           .pet-id-page:last-child {
-
-            page-break-after: auto;
-
-            break-after: auto;
-
+            page-break-after:auto;
+            break-after:auto;
           }
 
-
           .pet-id-page img {
-
-            display: block;
-
-            width: 3.5in;
-            height: 5in;
-
-            margin: 0;
-
-            padding: 0;
-
-            object-fit: fill;
-
+            display:block;
+            width:3.5in;
+            height:5in;
+            margin:0;
+            padding:0;
+            object-fit:fill;
           }
 
         </style>
@@ -6251,26 +6374,29 @@ function printPetIdCard() {
 
         <script>
 
-          window.onload = function() {
+          window.onload =
+            function() {
 
-            setTimeout(
-              function() {
+              setTimeout(
+                function() {
 
-                window.focus();
+                  window.focus();
 
-                window.print();
+                  window.print();
 
-              },
-              300
-            );
+                },
+                300
+              );
 
-          };
+            };
 
-          window.onafterprint = function() {
 
-            window.close();
+          window.onafterprint =
+            function() {
 
-          };
+              window.close();
+
+            };
 
         <\/script>
 
@@ -6297,8 +6423,8 @@ function printPetIdCard() {
 
   }
 
-} 
-</script>
+}
+ </script>
 
 </body>
 </html>
