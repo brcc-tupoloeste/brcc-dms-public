@@ -1751,6 +1751,109 @@ textarea:focus {
 
 </div>
 
+  <!-- =========================================================
+     DOG MASTERLIST — READ ONLY / PRINT
+========================================================= -->
+
+<div
+  id="dogMasterlistModal"
+  class="modal"
+>
+
+  <div
+    class="modal-box"
+    style="
+      max-height:94vh;
+      overflow-y:auto;
+    "
+  >
+
+    <h2 class="modal-title">
+      🖨️ Dog Masterlist
+    </h2>
+
+    <p class="modal-text">
+      Select All Sitios or a specific Sitio, then view and print the masterlist.
+    </p>
+
+
+    <div class="form-group">
+
+      <label for="masterlistSitio">
+        SITIO
+      </label>
+
+      <select
+        id="masterlistSitio"
+        style="
+          width:100%;
+          height:48px;
+          padding:0 14px;
+          border-radius:12px;
+          border:1px solid #9ab9a7;
+          background:#fbfcfb;
+          color:#253238;
+          font-size:14px;
+          outline:none;
+        "
+      >
+        <option value="ALL SITIOS">
+          All Sitios
+        </option>
+      </select>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      onclick="loadDogMasterlist()"
+    >
+      📋 View Masterlist
+    </button>
+
+
+    <div
+      id="masterlistMessage"
+      class="message"
+      style="margin-left:0;margin-right:0;"
+    ></div>
+
+
+    <div
+      id="masterlistLoading"
+      class="loading"
+    >
+
+      <div class="spinner"></div>
+
+      Loading Dog Masterlist...
+
+    </div>
+
+
+    <div
+      id="masterlistPreview"
+      style="margin-top:16px;"
+    ></div>
+
+
+    <div class="modal-actions">
+
+      <button
+        type="button"
+        class="btn btn-outline"
+        onclick="closeDogMasterlist()"
+      >
+        ✕ Close
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 <!-- =========================================================
      SEARCH DOG — READ ONLY
 ========================================================= -->
@@ -4601,6 +4704,755 @@ function openPetIdCard(pdfUrl) {
   );
 
 }
+/* ============================================================
+   DOG MASTERLIST — READ ONLY
+============================================================ */
+
+let currentMasterlistRecords = [];
+let currentMasterlistSitio = 'ALL SITIOS';
+
+
+function openDogMasterlist() {
+
+  if (
+    !sessionToken ||
+    isProcessing
+  ) {
+    return;
+  }
+
+  document
+    .getElementById(
+      'dogMasterlistModal'
+    )
+    .classList.add('show');
+
+  hideMessage(
+    'masterlistMessage'
+  );
+
+  document.getElementById(
+    'masterlistPreview'
+  ).innerHTML = '';
+
+  /*
+   Initial call also retrieves
+   the current Sitio list.
+  */
+
+  loadDogMasterlist();
+
+}
+
+
+/* ============================================================
+   CLOSE MASTERLIST
+============================================================ */
+
+function closeDogMasterlist() {
+
+  if (isProcessing) {
+    return;
+  }
+
+  document
+    .getElementById(
+      'dogMasterlistModal'
+    )
+    .classList.remove('show');
+
+}
+
+
+/* ============================================================
+   LOAD MASTERLIST
+============================================================ */
+
+async function loadDogMasterlist() {
+
+  if (
+    !sessionToken ||
+    isProcessing
+  ) {
+    return;
+  }
+
+
+  const select =
+    document.getElementById(
+      'masterlistSitio'
+    );
+
+
+  const selectedSitio =
+    String(
+      select.value ||
+      'ALL SITIOS'
+    ).trim();
+
+
+  const loading =
+    document.getElementById(
+      'masterlistLoading'
+    );
+
+
+  loading.style.display =
+    'block';
+
+
+  hideMessage(
+    'masterlistMessage'
+  );
+
+
+  try {
+
+    const result =
+      await apiRequest(
+        'dog_masterlist',
+        {
+
+          sessionToken:
+            sessionToken,
+
+          sitio:
+            selectedSitio
+
+        }
+      );
+
+
+    currentMasterlistRecords =
+      Array.isArray(result.records)
+        ? result.records
+        : [];
+
+
+    currentMasterlistSitio =
+      result.selectedSitio ||
+      selectedSitio ||
+      'ALL SITIOS';
+
+
+    updateMasterlistSitios(
+      result.sitios || [],
+      currentMasterlistSitio
+    );
+
+
+    renderDogMasterlist(
+      currentMasterlistRecords,
+      currentMasterlistSitio
+    );
+
+  }
+  catch (error) {
+
+    console.error(
+      'DOG MASTERLIST ERROR:',
+      error
+    );
+
+
+    const message =
+      error.message ||
+      'Unable to load Dog Masterlist.';
+
+
+    if (
+      message
+        .toLowerCase()
+        .includes('session')
+    ) {
+
+      closeDogMasterlist();
+
+      sessionExpired();
+
+      return;
+
+    }
+
+
+    showMessage(
+      'masterlistMessage',
+      '❌ ' + message,
+      'error'
+    );
+
+  }
+  finally {
+
+    loading.style.display =
+      'none';
+
+  }
+
+}
+
+
+/* ============================================================
+   UPDATE SITIO DROPDOWN
+============================================================ */
+
+function updateMasterlistSitios(
+  sitios,
+  selectedSitio
+) {
+
+  const select =
+    document.getElementById(
+      'masterlistSitio'
+    );
+
+
+  const currentValue =
+    selectedSitio ||
+    select.value ||
+    'ALL SITIOS';
+
+
+  select.innerHTML = '';
+
+
+  const allOption =
+    document.createElement(
+      'option'
+    );
+
+  allOption.value =
+    'ALL SITIOS';
+
+  allOption.textContent =
+    'All Sitios';
+
+  select.appendChild(
+    allOption
+  );
+
+
+  (Array.isArray(sitios)
+    ? sitios
+    : []
+  ).forEach(
+    function(sitio) {
+
+      const option =
+        document.createElement(
+          'option'
+        );
+
+      option.value =
+        String(sitio);
+
+      option.textContent =
+        String(sitio);
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  /*
+   Preserve selected Sitio.
+  */
+
+  const exists =
+    Array.from(
+      select.options
+    ).some(
+      function(option) {
+
+        return String(
+          option.value
+        ).toLowerCase() ===
+          String(
+            currentValue
+          ).toLowerCase();
+
+      }
+    );
+
+
+  select.value =
+    exists
+      ? Array.from(
+          select.options
+        ).find(
+          function(option) {
+
+            return String(
+              option.value
+            ).toLowerCase() ===
+              String(
+                currentValue
+              ).toLowerCase();
+
+          }
+        ).value
+      : 'ALL SITIOS';
+
+}
+
+
+/* ============================================================
+   RENDER MASTERLIST PREVIEW
+============================================================ */
+
+function renderDogMasterlist(
+  records,
+  sitio
+) {
+
+  const container =
+    document.getElementById(
+      'masterlistPreview'
+    );
+
+
+  if (
+    !records ||
+    records.length === 0
+  ) {
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          📋
+        </div>
+
+        <h3>
+          No Records
+        </h3>
+
+        <p>
+          No registered dogs were found for this selection.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  const dateGenerated =
+    new Date().toLocaleDateString(
+      'en-US',
+      {
+        year: 'numeric',
+        month: 'long',
+        day: '2-digit'
+      }
+    );
+
+
+  let rows = '';
+
+
+  records.forEach(
+    function(record) {
+
+      rows += `
+
+        <tr>
+
+          <td>
+            ${escapeHtml(
+              record.dogName || ''
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              record.sex || ''
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              record.age || ''
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              record.color || ''
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              record.ownerName || ''
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              record.sitio || ''
+            )}
+          </td>
+
+          <td class="remarks-cell">
+            &nbsp;
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+  );
+
+
+  container.innerHTML = `
+
+    <div
+      id="dogMasterlistPrintArea"
+      style="
+        background:white;
+        padding:14px;
+        border:1px solid #d8e0dc;
+        border-radius:12px;
+        overflow-x:auto;
+      "
+    >
+
+      <div
+        style="
+          text-align:center;
+          margin-bottom:14px;
+        "
+      >
+
+        <div
+          style="
+            font-size:17px;
+            font-weight:700;
+          "
+        >
+          BARANGAY TUPOL OESTE
+        </div>
+
+        <div
+          style="
+            font-size:11px;
+            margin-top:3px;
+          "
+        >
+          Cabatuan, Iloilo
+        </div>
+
+        <div
+          style="
+            font-size:18px;
+            font-weight:700;
+            margin-top:10px;
+          "
+        >
+          DOG MASTERLIST
+        </div>
+
+      </div>
+
+
+      <div
+        style="
+          font-size:11px;
+          margin-bottom:10px;
+          line-height:1.6;
+        "
+      >
+
+        <strong>Sitio:</strong>
+        ${escapeHtml(
+          sitio ||
+          'ALL SITIOS'
+        )}
+
+        <br>
+
+        <strong>Date Generated:</strong>
+        ${escapeHtml(
+          dateGenerated
+        )}
+
+      </div>
+
+
+      <table
+        style="
+          width:100%;
+          border-collapse:collapse;
+          font-size:9px;
+        "
+      >
+
+        <thead>
+
+          <tr>
+
+            <th>Dog Name</th>
+            <th>Sex</th>
+            <th>Age</th>
+            <th>Color</th>
+            <th>Owner Name</th>
+            <th>Sitio</th>
+            <th>Remarks</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          ${rows}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      style="margin-top:14px;"
+      onclick="printDogMasterlist()"
+    >
+      🖨️ Print Masterlist
+    </button>
+
+  `;
+
+
+  /*
+   Apply preview borders.
+  */
+
+  container
+    .querySelectorAll(
+      'th, td'
+    )
+    .forEach(
+      function(cell) {
+
+        cell.style.border =
+          '1px solid #333';
+
+        cell.style.padding =
+          '6px 4px';
+
+        cell.style.verticalAlign =
+          'middle';
+
+      }
+    );
+
+
+  container
+    .querySelectorAll('th')
+    .forEach(
+      function(cell) {
+
+        cell.style.fontWeight =
+          '700';
+
+        cell.style.textAlign =
+          'center';
+
+      }
+    );
+
+
+  container
+    .querySelectorAll(
+      '.remarks-cell'
+    )
+    .forEach(
+      function(cell) {
+
+        cell.style.height =
+          '30px';
+
+        cell.style.minWidth =
+          '60px';
+
+      }
+    );
+
+}
+
+
+/* ============================================================
+   PRINT DOG MASTERLIST
+   A4 PORTRAIT
+============================================================ */
+
+function printDogMasterlist() {
+
+  const printArea =
+    document.getElementById(
+      'dogMasterlistPrintArea'
+    );
+
+
+  if (!printArea) {
+
+    alert(
+      'Please generate the masterlist first.'
+    );
+
+    return;
+
+  }
+
+
+  const printWindow =
+    window.open(
+      '',
+      '_blank'
+    );
+
+
+  if (!printWindow) {
+
+    alert(
+      'Please allow pop-ups to print the masterlist.'
+    );
+
+    return;
+
+  }
+
+
+  printWindow.document.open();
+
+
+  printWindow.document.write(`
+
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+
+      <meta charset="UTF-8">
+
+      <title>
+        BRCC-DMS Dog Masterlist
+      </title>
+
+      <style>
+
+        @page {
+          size: A4 portrait;
+          margin: 12mm;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        body {
+          margin: 0;
+          padding: 0;
+          font-family:
+            Arial,
+            Helvetica,
+            sans-serif;
+          color: #000;
+          background: #fff;
+        }
+
+        #dogMasterlistPrintArea {
+          width: 100%;
+          padding: 0 !important;
+          border: none !important;
+          border-radius: 0 !important;
+          overflow: visible !important;
+        }
+
+        table {
+          width: 100% !important;
+          border-collapse: collapse !important;
+          table-layout: fixed;
+          font-size: 8.5pt !important;
+        }
+
+        th,
+        td {
+          border: 1px solid #000 !important;
+          padding: 5px 3px !important;
+          vertical-align: middle;
+          word-wrap: break-word;
+        }
+
+        th {
+          text-align: center;
+          font-weight: bold;
+        }
+
+        td {
+          min-height: 26px;
+        }
+
+        .remarks-cell {
+          height: 30px !important;
+        }
+
+        thead {
+          display: table-header-group;
+        }
+
+        tr {
+          page-break-inside: avoid;
+        }
+
+      </style>
+
+    </head>
+
+    <body>
+
+      ${printArea.outerHTML}
+
+      <script>
+
+        window.onload = function() {
+
+          setTimeout(
+            function() {
+              window.print();
+            },
+            250
+          );
+
+        };
+
+      <\/script>
+
+    </body>
+
+    </html>
+
+  `);
+
+
+  printWindow.document.close();
+
+}
+  
 </script>
 
 </body>
