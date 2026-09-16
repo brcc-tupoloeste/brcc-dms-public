@@ -5929,18 +5929,24 @@ function closePetIdPreview() {
   currentPetIdPdfDataUrl = '';
 
 }
-/* ============================================================
+   /* ============================================================
    PRINT PET ID CARD
-   Prints the original existing PDF.
-   Preview canvas is NOT used for print quality.
+   Print rendered FRONT + BACK directly.
+   No PDF download / no Drive window.
 ============================================================ */
 
 function printPetIdCard() {
 
-  if (!currentPetIdPdfDataUrl) {
+  const pages =
+    document.querySelectorAll(
+      '#petIdPreviewPages canvas'
+    );
+
+
+  if (!pages.length) {
 
     alert(
-      'Pet ID Card PDF is not available.'
+      'Pet ID Card preview is not ready yet.'
     );
 
     return;
@@ -5950,72 +5956,14 @@ function printPetIdCard() {
 
   try {
 
-    const base64 =
-      currentPetIdPdfDataUrl.includes(',')
-        ? currentPetIdPdfDataUrl.substring(
-            currentPetIdPdfDataUrl.indexOf(',') + 1
-          )
-        : currentPetIdPdfDataUrl;
-
-
-    const binary =
-      atob(base64);
-
-
-    const bytes =
-      new Uint8Array(
-        binary.length
-      );
-
-
-    for (
-      let i = 0;
-      i < binary.length;
-      i++
-    ) {
-
-      bytes[i] =
-        binary.charCodeAt(i);
-
-    }
-
-
-    const blob =
-      new Blob(
-        [bytes],
-        {
-          type:
-            'application/pdf'
-        }
-      );
-
-
-    const printUrl =
-      URL.createObjectURL(
-        blob
-      );
-
-
-    /*
-      Open original 2-page PDF only when user
-      intentionally presses PRINT.
-
-      Preview remains toolbar-free inside
-      Approval Center.
-    */
-
     const printWindow =
       window.open(
-        printUrl,
+        '',
         '_blank'
       );
 
 
     if (!printWindow) {
-
-      URL.revokeObjectURL(
-        printUrl
-      );
 
       alert(
         'Please allow pop-ups to print the Pet ID Card.'
@@ -6026,21 +5974,160 @@ function printPetIdCard() {
     }
 
 
-    /*
-      Do not revoke immediately.
-      Mobile browsers may still be loading the PDF.
-    */
+    let pagesHtml = '';
 
-    setTimeout(
-      function() {
 
-        URL.revokeObjectURL(
-          printUrl
-        );
+    pages.forEach(
+      function(canvas, index) {
 
-      },
-      120000
+        const imageData =
+          canvas.toDataURL(
+            'image/png'
+          );
+
+
+        pagesHtml += `
+          <div class="pet-id-page">
+            <img
+              src="${imageData}"
+              alt="Pet ID ${
+                index === 0
+                  ? 'Front'
+                  : 'Back'
+              }"
+            >
+          </div>
+        `;
+
+      }
     );
+
+
+    printWindow.document.open();
+
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+
+      <html>
+
+      <head>
+
+        <meta charset="UTF-8">
+
+        <title>
+          Pet ID Card
+        </title>
+
+        <style>
+
+          @page {
+            size: 3.5in 5in;
+            margin: 0;
+          }
+
+
+          * {
+            box-sizing: border-box;
+          }
+
+
+          html,
+          body {
+            margin: 0;
+            padding: 0;
+            background: white;
+          }
+
+
+          .pet-id-page {
+
+            width: 3.5in;
+            height: 5in;
+
+            margin: 0;
+
+            padding: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            page-break-after: always;
+
+            break-after: page;
+
+          }
+
+
+          .pet-id-page:last-child {
+
+            page-break-after: auto;
+
+            break-after: auto;
+
+          }
+
+
+          .pet-id-page img {
+
+            display: block;
+
+            width: 3.5in;
+            height: 5in;
+
+            margin: 0;
+
+            padding: 0;
+
+            object-fit: fill;
+
+          }
+
+        </style>
+
+      </head>
+
+
+      <body>
+
+        ${pagesHtml}
+
+        <script>
+
+          window.onload = function() {
+
+            setTimeout(
+              function() {
+
+                window.focus();
+
+                window.print();
+
+              },
+              300
+            );
+
+          };
+
+          window.onafterprint = function() {
+
+            window.close();
+
+          };
+
+        <\/script>
+
+      </body>
+
+      </html>
+    `);
+
+
+    printWindow.document.close();
 
   }
   catch (error) {
@@ -6057,8 +6144,7 @@ function printPetIdCard() {
 
   }
 
-}  
-    
+} 
 </script>
 
 </body>
