@@ -4709,45 +4709,12 @@ function dogInfoRow(label, value) {
 }
 
 /* ============================================================
-   OPEN EXISTING PET ID PDF
-   READ ONLY — NO REGENERATION
+   OPEN PET ID CARD — SECURE ADMIN PREVIEW
 ============================================================ */
 
-function openPetIdCard(pdfUrl) {
-
-  const url =
-    String(
-      pdfUrl || ''
-    ).trim();
-
-
-  if (!url) {
-
-    alert(
-      'Pet ID Card PDF is not available.'
-    );
-
-    return;
-
-  }
-
-
-  window.open(
-    url,
-    '_blank',
-    'noopener,noreferrer'
-  );
-
-}
-/* ============================================================
-   DOG MASTERLIST — READ ONLY
-============================================================ */
-
-let currentMasterlistRecords = [];
-let currentMasterlistSitio = 'ALL SITIOS';
-
-
-function openDogMasterlist() {
+async function openPetIdCard(
+  registryNumber
+) {
 
   if (
     !sessionToken ||
@@ -4756,29 +4723,73 @@ function openDogMasterlist() {
     return;
   }
 
-  document
-    .getElementById(
-      'dogMasterlistModal'
-    )
-    .classList.add('show');
 
-  hideMessage(
-    'masterlistMessage'
-  );
+  try {
 
-  document.getElementById(
-    'masterlistPreview'
-  ).innerHTML = '';
+    const result =
+      await apiRequest(
+        'get_pet_id_pdf',
+        {
+          sessionToken:
+            sessionToken,
 
-  /*
-   Initial call also retrieves
-   the current Sitio list.
-  */
+          registryNumber:
+            registryNumber
+        }
+      );
 
-  loadDogMasterlist();
+
+    if (
+      !result ||
+      !result.pdfDataUrl
+    ) {
+
+      throw new Error(
+        'Pet ID Card PDF is not available.'
+      );
+
+    }
+
+
+    showPetIdPreview(
+      result
+    );
+
+  }
+  catch (error) {
+
+    console.error(
+      'PET ID PREVIEW ERROR:',
+      error
+    );
+
+
+    const message =
+      error.message ||
+      'Unable to open Pet ID Card.';
+
+
+    if (
+      message
+        .toLowerCase()
+        .includes('session')
+    ) {
+
+      sessionExpired();
+
+      return;
+
+    }
+
+
+    alert(
+      'Unable to open Pet ID Card.\n\n' +
+      message
+    );
+
+  }
 
 }
-
 
 /* ============================================================
    CLOSE MASTERLIST
