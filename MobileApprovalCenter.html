@@ -5929,9 +5929,10 @@ function closePetIdPreview() {
   currentPetIdPdfDataUrl = '';
 
 }
-  
-  /* ============================================================
-   PRINT EXISTING PET ID PDF
+/* ============================================================
+   PRINT PET ID CARD
+   Prints the original existing PDF.
+   Preview canvas is NOT used for print quality.
 ============================================================ */
 
 function printPetIdCard() {
@@ -5947,17 +5948,99 @@ function printPetIdCard() {
   }
 
 
-  const frame =
-    document.getElementById(
-      'petIdPreviewFrame'
-    );
-
-
   try {
 
-    frame.contentWindow.focus();
+    const base64 =
+      currentPetIdPdfDataUrl.includes(',')
+        ? currentPetIdPdfDataUrl.substring(
+            currentPetIdPdfDataUrl.indexOf(',') + 1
+          )
+        : currentPetIdPdfDataUrl;
 
-    frame.contentWindow.print();
+
+    const binary =
+      atob(base64);
+
+
+    const bytes =
+      new Uint8Array(
+        binary.length
+      );
+
+
+    for (
+      let i = 0;
+      i < binary.length;
+      i++
+    ) {
+
+      bytes[i] =
+        binary.charCodeAt(i);
+
+    }
+
+
+    const blob =
+      new Blob(
+        [bytes],
+        {
+          type:
+            'application/pdf'
+        }
+      );
+
+
+    const printUrl =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    /*
+      Open original 2-page PDF only when user
+      intentionally presses PRINT.
+
+      Preview remains toolbar-free inside
+      Approval Center.
+    */
+
+    const printWindow =
+      window.open(
+        printUrl,
+        '_blank'
+      );
+
+
+    if (!printWindow) {
+
+      URL.revokeObjectURL(
+        printUrl
+      );
+
+      alert(
+        'Please allow pop-ups to print the Pet ID Card.'
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Do not revoke immediately.
+      Mobile browsers may still be loading the PDF.
+    */
+
+    setTimeout(
+      function() {
+
+        URL.revokeObjectURL(
+          printUrl
+        );
+
+      },
+      120000
+    );
 
   }
   catch (error) {
@@ -5967,14 +6050,15 @@ function printPetIdCard() {
       error
     );
 
+
     alert(
-      'Unable to start printing. Please use the print control in the PDF viewer.'
+      'Unable to prepare the Pet ID Card for printing.'
     );
 
   }
 
-}
-  
+}  
+    
 </script>
 
 </body>
