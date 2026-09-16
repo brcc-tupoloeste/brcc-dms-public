@@ -4043,19 +4043,10 @@ async function searchDogs() {
       );
 
 
-    const matches =
-      Array.isArray(
-        result.matches
-      )
-        ? result.matches
-        : (
-            Array.isArray(
-              result.results
-            )
-              ? result.results
-              : []
-          );
-
+const matches =
+  Array.isArray(result.dogs)
+    ? result.dogs
+    : [];
 
     renderDogSearchResults(
       matches
