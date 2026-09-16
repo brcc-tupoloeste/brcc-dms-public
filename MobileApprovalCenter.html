@@ -1999,17 +1999,15 @@ textarea:focus {
     ></div>
 
 
- <div
+<div
   id="petIdPreviewContainer"
   style="
     width:100%;
-    max-height:68vh;
+    max-height:70vh;
     overflow-y:auto;
     box-sizing:border-box;
-    padding:12px;
-    border:1px solid #d8e0dc;
-    border-radius:10px;
-    background:#f2f4f3;
+    padding:4px 0;
+    background:transparent;
   "
 >
 
@@ -5991,15 +5989,12 @@ async function showPetIdPreview(result) {
         );
 
 
-      canvas.style.cssText = `
-        display:block;
-        width:min(100%, 350px);
-        height:auto;
-        background:#ffffff;
-        border:1px solid #d7dfdb;
-        border-radius:8px;
-        box-shadow:0 2px 8px rgba(0,0,0,.08);
-      `;
+    canvas.style.cssText = `
+  display:block;
+  width:min(100%, 350px);
+  height:auto;
+  background:#ffffff;
+`;
 
 
       wrapper.appendChild(
