@@ -4599,13 +4599,13 @@ function viewDogSearchRecord(
             <button
               type="button"
               class="btn btn-primary"
-              onclick="openPetIdCard(
-                '${escapeAttribute(
-                  petIdPdf
-                )}'
-              )"
+             onclick="openPetIdCard(
+  '${escapeAttribute(
+    dog.registryNumber || ''
+  )}'
+)"
             >
-              🪪 View Pet ID Card
+            View Pet ID Card
             </button>
           `
           :
