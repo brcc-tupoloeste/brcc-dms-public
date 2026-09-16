@@ -1479,7 +1479,17 @@ textarea:focus {
 }
 
 </style>
+<!-- PDF.js — View-only Pet ID preview -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js">
+</script>
 
+<script>
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+</script>
 </head>
 
 <body>
@@ -1989,31 +1999,44 @@ textarea:focus {
     ></div>
 
 
-    <div
-      style="
-        width:100%;
-        height:68vh;
-        min-height:480px;
-        border:1px solid #d8e0dc;
-        border-radius:10px;
-        overflow:hidden;
-        background:#f2f4f3;
-      "
-    >
+ <div
+  id="petIdPreviewContainer"
+  style="
+    width:100%;
+    max-height:68vh;
+    overflow-y:auto;
+    box-sizing:border-box;
+    padding:12px;
+    border:1px solid #d8e0dc;
+    border-radius:10px;
+    background:#f2f4f3;
+  "
+>
 
-      <iframe
-        id="petIdPreviewFrame"
-        title="Pet ID Card Preview"
-        style="
-          width:100%;
-          height:100%;
-          border:0;
-          display:block;
-          background:white;
-        "
-      ></iframe>
+  <div
+    id="petIdPreviewLoading"
+    style="
+      padding:40px 15px;
+      text-align:center;
+      color:#607078;
+      font-size:14px;
+    "
+  >
+    Loading Pet ID Card...
+  </div>
 
-    </div>
+  <div
+    id="petIdPreviewPages"
+    style="
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+    "
+  ></div>
+
+</div>
 
 
     <div
@@ -5603,8 +5626,7 @@ function printDogMasterlist() {
 
 let currentPetIdBlobUrl = '';
 
-
-function showPetIdPreview(result) {
+async function showPetIdPreview(result) {
 
   const pdfDataUrl =
     String(
@@ -5623,13 +5645,50 @@ function showPetIdPreview(result) {
   }
 
 
-  try {
+  const modal =
+    document.getElementById(
+      'petIdPreviewModal'
+    );
 
-    /* Remove data:application/pdf;base64, prefix */
+  const pagesContainer =
+    document.getElementById(
+      'petIdPreviewPages'
+    );
+
+  const loading =
+    document.getElementById(
+      'petIdPreviewLoading'
+    );
+
+
+  document.getElementById(
+    'petIdPreviewDog'
+  ).textContent =
+    [
+      result.dogName || '',
+      result.registryNumber || ''
+    ]
+      .filter(Boolean)
+      .join(' • ');
+
+
+  pagesContainer.innerHTML = '';
+
+  loading.style.display =
+    'block';
+
+  modal.classList.add(
+    'show'
+  );
+
+
+  try {
 
     const base64 =
       pdfDataUrl.includes(',')
-        ? pdfDataUrl.split(',')[1]
+        ? pdfDataUrl.substring(
+            pdfDataUrl.indexOf(',') + 1
+          )
         : pdfDataUrl;
 
 
@@ -5637,7 +5696,7 @@ function showPetIdPreview(result) {
       atob(base64);
 
 
-    const bytes =
+    const pdfBytes =
       new Uint8Array(
         binary.length
       );
@@ -5649,71 +5708,184 @@ function showPetIdPreview(result) {
       i++
     ) {
 
-      bytes[i] =
+      pdfBytes[i] =
         binary.charCodeAt(i);
 
     }
 
 
-    const blob =
-      new Blob(
-        [bytes],
-        {
-          type:
-            'application/pdf'
-        }
+    const pdf =
+      await pdfjsLib
+        .getDocument({
+          data: pdfBytes
+        })
+        .promise;
+
+
+    /*
+      Pet ID should contain:
+      Page 1 = Front
+      Page 2 = Back
+    */
+
+    for (
+      let pageNumber = 1;
+      pageNumber <= pdf.numPages;
+      pageNumber++
+    ) {
+
+      const page =
+        await pdf.getPage(
+          pageNumber
+        );
+
+
+      const baseViewport =
+        page.getViewport({
+          scale: 1
+        });
+
+
+      /*
+        Render sharply, but keep display responsive.
+      */
+
+      const targetWidth =
+        Math.min(
+          520,
+          Math.max(
+            260,
+            pagesContainer.clientWidth - 10
+          )
+        );
+
+
+      const scale =
+        (
+          targetWidth /
+          baseViewport.width
+        ) * 1.5;
+
+
+      const viewport =
+        page.getViewport({
+          scale: scale
+        });
+
+
+      const wrapper =
+        document.createElement(
+          'div'
+        );
+
+
+      wrapper.style.cssText = `
+        width:100%;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+      `;
+
+
+      const label =
+        document.createElement(
+          'div'
+        );
+
+
+      label.textContent =
+        pageNumber === 1
+          ? 'FRONT'
+          : pageNumber === 2
+            ? 'BACK'
+            : 'PAGE ' + pageNumber;
+
+
+      label.style.cssText = `
+        margin:0 0 6px;
+        font-size:12px;
+        font-weight:700;
+        color:#607078;
+        letter-spacing:.5px;
+      `;
+
+
+      const canvas =
+        document.createElement(
+          'canvas'
+        );
+
+
+      const context =
+        canvas.getContext(
+          '2d'
+        );
+
+
+      canvas.width =
+        Math.floor(
+          viewport.width
+        );
+
+      canvas.height =
+        Math.floor(
+          viewport.height
+        );
+
+
+      canvas.style.cssText = `
+        display:block;
+        width:min(100%, 350px);
+        height:auto;
+        background:#ffffff;
+        border:1px solid #d7dfdb;
+        border-radius:8px;
+        box-shadow:0 2px 8px rgba(0,0,0,.08);
+      `;
+
+
+      wrapper.appendChild(
+        label
+      );
+
+      wrapper.appendChild(
+        canvas
+      );
+
+      pagesContainer.appendChild(
+        wrapper
       );
 
 
-    /* Remove previous temporary browser URL */
+      await page.render({
+        canvasContext:
+          context,
 
-    if (currentPetIdBlobUrl) {
-
-      URL.revokeObjectURL(
-        currentPetIdBlobUrl
-      );
+        viewport:
+          viewport
+      }).promise;
 
     }
 
 
-    currentPetIdBlobUrl =
-      URL.createObjectURL(
-        blob
-      );
-
-
     currentPetIdPdfDataUrl =
-      currentPetIdBlobUrl;
+      pdfDataUrl;
 
 
-    document.getElementById(
-      'petIdPreviewDog'
-    ).textContent =
-      [
-        result.dogName || '',
-        result.registryNumber || ''
-      ]
-        .filter(Boolean)
-        .join(' • ');
-
-
-    document.getElementById(
-      'petIdPreviewFrame'
-    ).src =
-      currentPetIdBlobUrl;
-
-
-    document.getElementById(
-      'petIdPreviewModal'
-    ).classList.add('show');
+    loading.style.display =
+      'none';
 
   }
   catch (error) {
 
     console.error(
-      'PET ID PDF CONVERSION ERROR:',
+      'PET ID PREVIEW ERROR:',
       error
     );
+
+
+    loading.textContent =
+      'Unable to display Pet ID Card.';
 
 
     alert(
@@ -5732,30 +5904,33 @@ function closePetIdPreview() {
 
   document.getElementById(
     'petIdPreviewModal'
-  ).classList.remove('show');
+  ).classList.remove(
+    'show'
+  );
 
 
   document.getElementById(
-    'petIdPreviewFrame'
-  ).src =
-    'about:blank';
+    'petIdPreviewPages'
+  ).innerHTML = '';
 
 
-  if (currentPetIdBlobUrl) {
-
-    URL.revokeObjectURL(
-      currentPetIdBlobUrl
-    );
-
-  }
+  document.getElementById(
+    'petIdPreviewLoading'
+  ).style.display =
+    'block';
 
 
-  currentPetIdBlobUrl = '';
+  document.getElementById(
+    'petIdPreviewLoading'
+  ).textContent =
+    'Loading Pet ID Card...';
+
 
   currentPetIdPdfDataUrl = '';
 
 }
-/* ============================================================
+  
+  /* ============================================================
    PRINT EXISTING PET ID PDF
 ============================================================ */
 
