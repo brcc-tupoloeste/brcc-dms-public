@@ -2243,15 +2243,40 @@ async function loadPendingRequests(silent = false) {
     );
 
 
-    pendingRequests =
-      Array.isArray(result.requests)
-        ? result.requests
-        : [];
+ pendingRequests =
+  Array.isArray(result.requests)
+    ? result.requests
+    : [];
 
 
-    renderRequests(
-      pendingRequests
-    );
+/* ============================================================
+   LOAD CURRENT REGISTERED PHOTO
+   FOR DOG PHOTO UPDATE REQUESTS ONLY
+============================================================ */
+
+pendingRequests =
+  await Promise.all(
+
+    pendingRequests.map(
+      function(request) {
+
+        return loadApprovalCurrentDogPhoto(
+          request
+        );
+
+      }
+    )
+
+  );
+
+
+/* ============================================================
+   RENDER REQUESTS
+============================================================ */
+
+renderRequests(
+  pendingRequests
+);
 
 
     document.getElementById(
@@ -2412,12 +2437,131 @@ function findRequest(requestId) {
 
 }
 
+/* ============================================================
+   LOAD CURRENT REGISTERED DOG PHOTO
 
+   Used only by Mobile Approval Center photo comparison.
+   Does not modify registry or QR verification.
+============================================================ */
+
+async function loadApprovalCurrentDogPhoto(
+  request
+) {
+
+  try {
+
+    if (!request) {
+      return request;
+    }
+
+
+    const registryNumber =
+      String(
+        request.registryNumber || ''
+      )
+        .trim()
+        .toUpperCase();
+
+
+    if (!registryNumber) {
+      return request;
+    }
+
+
+    /*
+     * Only needed for Dog Photo
+     * Registry Update requests.
+     */
+    const isPhotoUpdate =
+      getRequestSource(request) ===
+        'REGISTRY_UPDATE' &&
+      String(
+        request.updateType || ''
+      )
+        .trim()
+        .toLowerCase()
+        .includes('photo');
+
+
+    if (!isPhotoUpdate) {
+      return request;
+    }
+
+
+    console.log(
+      'LOADING APPROVAL CURRENT PHOTO:',
+      registryNumber
+    );
+
+
+    const result =
+      await window.brccSubmit(
+        'registry_photo',
+        {
+          registryNumber:
+            registryNumber
+        }
+      );
+
+
+    const response =
+      result && result.result
+        ? result.result
+        : result;
+
+
+    if (
+      response &&
+      response.found === true &&
+      response.photoDataUrl
+    ) {
+
+      request.currentDogPhotoDataUrl =
+        response.photoDataUrl;
+
+
+      console.log(
+        'APPROVAL CURRENT PHOTO DATA RECEIVED:',
+        response.photoDataUrl.length
+      );
+
+    }
+    else {
+
+      console.warn(
+        'APPROVAL CURRENT PHOTO DATA NOT AVAILABLE:',
+        registryNumber
+      );
+
+    }
+
+
+    return request;
+
+  }
+  catch (error) {
+
+    console.error(
+      'APPROVAL CURRENT PHOTO LOAD ERROR:',
+      error
+    );
+
+
+    /*
+     * Do not break Approval Center
+     * if photo loading fails.
+     */
+    return request;
+
+  }
+
+}
+  
 /* ============================================================
    RENDER REQUESTS
 ============================================================ */
 
-function renderRequests(requests) {
+function renderRequests( {
 
   const container =
     document.getElementById(
@@ -2736,22 +2880,24 @@ function renderRequests(requests) {
                     <div class="photo-comparison-image">
 
                       ${
-                        request.currentDogPhotoUrl ||
-                        request.currentDogPhotoFileId
+ request.currentDogPhotoDataUrl ||
+request.currentDogPhotoUrl ||
+request.currentDogPhotoFileId
                         ?
                         `
 
                           <img
-                            src="${escapeAttribute(
-                              request.currentDogPhotoUrl ||
-                              (
-                                'https://drive.google.com/thumbnail?id=' +
-                                encodeURIComponent(
-                                  request.currentDogPhotoFileId
-                                ) +
-                                '&sz=w600'
-                              )
-                            )}"
+                    src="${escapeAttribute(
+  request.currentDogPhotoDataUrl ||
+  request.currentDogPhotoUrl ||
+  (
+    'https://drive.google.com/thumbnail?id=' +
+    encodeURIComponent(
+      request.currentDogPhotoFileId
+    ) +
+    '&sz=w600'
+  )
+)}"
 
                             alt="Current Registered Dog Photo"
 
