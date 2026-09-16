@@ -2420,20 +2420,39 @@ vaccinationGroup.classList.add('hidden');
         }
 
 
-        const photoFileId =
-          String(
-            record.dogPhotoFileId ||
-            record.photoFileId ||
-            ''
-          ).trim();
+      const photoDataUrl =
+  String(
+    record.dogPhotoDataUrl ||
+    record.photoDataUrl ||
+    ''
+  ).trim();
 
 
-        const photoUrl =
-          String(
-            record.dogPhotoUrl ||
-            record.photoUrl ||
-            ''
-          ).trim();
+const photoFileId =
+  String(
+    record.dogPhotoFileId ||
+    record.photoFileId ||
+    ''
+  ).trim();
+
+
+const photoUrl =
+  String(
+    record.dogPhotoUrl ||
+    record.photoUrl ||
+    ''
+  ).trim();
+
+
+console.log(
+  'DISPLAY DOG PHOTO DATA URL EXISTS:',
+  !!photoDataUrl
+);
+
+console.log(
+  'DISPLAY DOG PHOTO DATA URL LENGTH:',
+  photoDataUrl.length
+);
 
 
         console.log(
@@ -2496,7 +2515,20 @@ vaccinationGroup.classList.add('hidden');
             );
 
           };
+/* PRIORITY 1: REGISTRY PHOTO DATA URL */
 
+if (photoDataUrl) {
+
+  console.log(
+    'LOADING DOG PHOTO FROM REGISTRY PHOTO SERVICE'
+  );
+
+  currentDogPhoto.src =
+    photoDataUrl;
+
+  return;
+
+}
 
         /* PRIORITY 1: FILE ID */
 
