@@ -1415,7 +1415,24 @@
             'VERIFIED COMPLETE RECORD:',
             verifiedRecord
           );
+/* LOAD CURRENT PHOTO THROUGH
+   ISOLATED REGISTRY PHOTO SERVICE */
 
+await loadCurrentRegisteredDogPhoto(
+  getRecordValue(
+    [
+      'registryNumber',
+      'Registry Number'
+    ],
+    registryNumber
+  )
+);
+
+
+console.log(
+  'VERIFIED RECORD WITH PHOTO DATA:',
+  verifiedRecord
+);
 
           /* RESET UPDATE FIELDS */
 
@@ -1592,7 +1609,134 @@
 
       }
 
+/* =========================================
+   LOAD CURRENT REGISTERED DOG PHOTO
 
+   Separate from QR Verification.
+   Uses registry_photo service only.
+========================================= */
+
+async function loadCurrentRegisteredDogPhoto(
+  registryNumber
+) {
+
+  try {
+
+    const cleanRegistryNumber =
+      String(
+        registryNumber || ''
+      )
+        .trim()
+        .toUpperCase();
+
+
+    if (!cleanRegistryNumber) {
+      return false;
+    }
+
+
+    console.log(
+      'LOADING CURRENT REGISTRY PHOTO:',
+      cleanRegistryNumber
+    );
+
+
+    const result =
+      await window.brccSubmit(
+        'registry_photo',
+        {
+          registryNumber:
+            cleanRegistryNumber
+        }
+      );
+
+
+    console.log(
+      'REGISTRY PHOTO API RESPONSE:',
+      result
+    );
+
+
+    if (
+      !result ||
+      result.success === false
+    ) {
+
+      console.warn(
+        'REGISTRY PHOTO API FAILED:',
+        result
+      );
+
+      return false;
+
+    }
+
+
+    const response =
+      result.result
+        ? result.result
+        : result;
+
+
+    if (
+      !response ||
+      response.found !== true ||
+      !response.photoDataUrl
+    ) {
+
+      console.warn(
+        'NO REGISTRY PHOTO DATA RETURNED'
+      );
+
+      return false;
+
+    }
+
+
+    console.log(
+      'REGISTRY PHOTO DATA RECEIVED'
+    );
+
+
+    console.log(
+      'PHOTO DATA LENGTH:',
+      response.photoDataUrl.length
+    );
+
+
+    /*
+     * Replace only the photo values
+     * in the already verified record.
+     *
+     * No Registry data is modified.
+     */
+    if (verifiedRecord) {
+
+      verifiedRecord.dogPhotoDataUrl =
+        response.photoDataUrl;
+
+      verifiedRecord.photoDataUrl =
+        response.photoDataUrl;
+
+    }
+
+
+    return true;
+
+  }
+  catch (error) {
+
+    console.error(
+      'REGISTRY PHOTO LOAD ERROR:',
+      error
+    );
+
+    return false;
+
+  }
+
+}
+      
       /* =========================================
          HANDLE UPDATE TYPE CHANGE
       ========================================= */
