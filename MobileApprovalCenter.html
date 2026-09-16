@@ -5438,7 +5438,53 @@ function renderDogMasterlist(
     function(record) {
 
       rows += `
+<tr>
 
+  <td>
+    ${escapeHtml(
+      record.registryNumber || ''
+    )}
+  </td>
+
+  <td>
+    ${escapeHtml(
+      record.dogName || ''
+    )}
+  </td>
+
+  <td>
+    ${escapeHtml(
+      record.sex || ''
+    )}
+  </td>
+
+  <td>
+    ${escapeHtml(
+      record.age || ''
+    )}
+  </td>
+
+  <td>
+    ${escapeHtml(
+      record.color || ''
+    )}
+  </td>
+
+  <td>
+    ${escapeHtml(
+      record.ownerName || ''
+    )}
+  </td>
+
+  <td>
+    ${escapeHtml(
+      record.sitio || ''
+    )}
+  </td>
+
+  <td></td>
+
+</tr>
         <tr>
 
           <td>
@@ -5574,17 +5620,16 @@ function renderDogMasterlist(
 
         <thead>
 
-          <tr>
-
-            <th>Dog Name</th>
-            <th>Sex</th>
-            <th>Age</th>
-            <th>Color</th>
-            <th>Owner Name</th>
-            <th>Sitio</th>
-            <th>Remarks</th>
-
-          </tr>
+        <tr>
+  <th>Registry No.</th>
+  <th>Dog Name</th>
+  <th>Sex</th>
+  <th>Age</th>
+  <th>Color</th>
+  <th>Owner Name</th>
+  <th>Sitio</th>
+  <th>Remarks</th>
+</tr>
 
         </thead>
 
