@@ -1689,29 +1689,89 @@ function cropDogPhotoToSquare(
           new FileReader();
 
 
-        reader.onload =
-          function(e) {
+reader.onload =
+  async function(e) {
 
-            selectedPhotoData =
-              e.target.result;
+    try {
+
+      /*
+       Convert uploaded photo to an actual
+       1:1 square image using center-crop.
+      */
+
+      selectedPhotoData =
+        await cropDogPhotoToSquare(
+          e.target.result,
+          1000
+        );
 
 
-            selectedPhotoName =
-              file.name;
+      /*
+       Cropped output is JPEG.
+      */
+
+      const originalName =
+        String(
+          file.name || 'Dog Photo'
+        )
+          .replace(
+            /\.[^/.]+$/,
+            ''
+          );
 
 
-            document
-              .getElementById('previewImage')
-              .src =
-              selectedPhotoData;
+      selectedPhotoName =
+        originalName +
+        '.jpg';
 
 
-            document
-              .getElementById('photoPreview')
-              .style.display =
-              'block';
+      /*
+       Preview the ACTUAL cropped photo
+       that will be uploaded.
+      */
 
-          };
+      document
+        .getElementById('previewImage')
+        .src =
+        selectedPhotoData;
+
+
+      document
+        .getElementById('photoPreview')
+        .style.display =
+        'block';
+
+    }
+    catch (error) {
+
+      console.error(
+        'Dog photo crop error:',
+        error
+      );
+
+
+      selectedPhotoData = '';
+
+      selectedPhotoName = '';
+
+
+      event.target.value = '';
+
+
+      document
+        .getElementById('photoPreview')
+        .style.display =
+        'none';
+
+
+      showMessage(
+        'Unable to process the dog photo. Please select another JPG or PNG image.',
+        'error'
+      );
+
+    }
+
+  };
 
 
         reader.readAsDataURL(file);
