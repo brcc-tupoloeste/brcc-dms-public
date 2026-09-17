@@ -2912,26 +2912,115 @@ if (photoDataUrl) {
             new FileReader();
 
 
-          reader.onload =
-            function (loadEvent) {
+         reader.onload =
+  async function (loadEvent) {
 
-              selectedFileData =
-                loadEvent.target.result;
+    try {
 
-              selectedFileName =
-                file.name;
-
-
-              photoPreview.src =
-                selectedFileData;
+      const originalData =
+        loadEvent.target.result;
 
 
-              photoPreviewBox.classList.add(
-                'show'
-              );
+      /*
+       DOG PHOTO UPDATE ONLY:
+       Convert to actual 1:1 center-cropped JPEG.
 
-            };
+       Vaccination Card and other supporting
+       photos remain unchanged.
+      */
 
+      if (
+        updateTypeInput.value ===
+        'Dog Photo'
+      ) {
+
+        selectedFileData =
+          await cropDogPhotoToSquare(
+            originalData,
+            1000
+          );
+
+
+        const originalName =
+          String(
+            file.name ||
+            'Dog Photo'
+          )
+            .replace(
+              /\.[^/.]+$/,
+              ''
+            );
+
+
+        selectedFileName =
+          originalName +
+          '.jpg';
+
+      } else {
+
+        /*
+         DO NOT crop Vaccination Card
+         or other supporting photos.
+        */
+
+        selectedFileData =
+          originalData;
+
+        selectedFileName =
+          file.name;
+
+      }
+
+
+      /*
+       Show the ACTUAL image that
+       will be submitted.
+      */
+
+      photoPreview.src =
+        selectedFileData;
+
+
+      photoPreviewBox.classList.add(
+        'show'
+      );
+
+    }
+    catch (error) {
+
+      console.error(
+        'PHOTO PROCESSING ERROR:',
+        error
+      );
+
+
+      selectedFileData = '';
+
+      selectedFileName = '';
+
+
+      supportingFileInput.value =
+        '';
+
+
+      photoPreview.removeAttribute(
+        'src'
+      );
+
+
+      photoPreviewBox.classList.remove(
+        'show'
+      );
+
+
+      showMessage(
+        'Unable to process the selected photo. Please select another JPG or PNG image.',
+        'error'
+      );
+
+    }
+
+  };
 
           reader.onerror =
             function () {
