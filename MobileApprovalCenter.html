@@ -4330,7 +4330,6 @@ function escapeAttribute(value) {
 /* ============================================================
    SEARCH DOG — READ ONLY
 ============================================================ */
-
 function openSearchDog() {
 
   if (
@@ -4341,39 +4340,39 @@ function openSearchDog() {
   }
 
   const modal =
-    document.getElementById(
-      'searchDogModal'
-    );
+    document.getElementById('searchDogModal');
 
   const searchInput =
-    document.getElementById(
-      'dogSearchText'
-    );
+    document.getElementById('dogSearchText');
 
   const results =
-    document.getElementById(
-      'searchDogResults'
-    );
+    document.getElementById('searchDogResults');
 
-  searchInput.value = '';
+  if (!modal) {
+    console.error('searchDogModal not found');
+    return;
+  }
 
-  results.innerHTML = '';
+  if (searchInput) {
+    searchInput.value = '';
+    searchInput.blur();
+  }
 
-  hideMessage(
-    'searchDogMessage'
-  );
+  if (results) {
+    results.innerHTML = '';
+  }
+
+  hideMessage('searchDogMessage');
+
+  modal.style.display = 'flex';
+  modal.style.alignItems = 'flex-start';
+  modal.style.justifyContent = 'center';
+  modal.style.overflowY = 'auto';
 
   modal.classList.add('show');
 
-  setTimeout(
-    function() {
-      searchInput.focus();
-    },
-    100
-  );
-
+  document.body.style.overflow = 'hidden';
 }
-
 
 /* ============================================================
    CLOSE SEARCH DOG
@@ -4385,12 +4384,23 @@ function closeSearchDog() {
     return;
   }
 
-  document.getElementById(
-    'searchDogModal'
-  ).classList.remove('show');
+  const modal =
+    document.getElementById('searchDogModal');
 
+  const searchInput =
+    document.getElementById('dogSearchText');
+
+  if (searchInput) {
+    searchInput.blur();
+  }
+
+  if (modal) {
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+  }
+
+  document.body.style.overflow = '';
 }
-
 
 /* ============================================================
    SEARCH DOGS
