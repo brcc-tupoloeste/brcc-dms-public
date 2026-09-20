@@ -1286,13 +1286,17 @@ input:focus {
 }
 
 
+
 /* ============================================================
    MODAL
+   ANDROID / MOBILE WEBVIEW SAFE
 ============================================================ */
+
 .modal {
   display: none;
 
   position: fixed;
+
   top: 0;
   left: 0;
   right: 0;
@@ -1300,17 +1304,20 @@ input:focus {
 
   width: 100%;
   height: 100%;
+  height: 100dvh;
 
   z-index: 999;
 
-  background: rgba(0,0,0,.45);
+  background: rgba(0, 0, 0, .45);
 
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 
   padding: 16px;
 
+  overflow-x: hidden;
   overflow-y: auto;
+
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1320,14 +1327,19 @@ input:focus {
 }
 
 
+/* ============================================================
+   MODAL BOX
+============================================================ */
+
 .modal-box {
   position: relative;
 
   width: 100%;
   max-width: 720px;
-  max-height: calc(100vh - 32px);
 
-  margin: auto;
+  margin:
+    16px
+    auto;
 
   background: white;
 
@@ -1335,48 +1347,64 @@ input:focus {
 
   padding: 22px;
 
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-
   box-shadow:
     0 12px 40px
-    rgba(0,0,0,.25);
+    rgba(0, 0, 0, .25);
+
+  overflow: visible;
+
+  flex-shrink: 0;
 
   animation:
     slideUp .25s ease;
 }
 
 
+/* ============================================================
+   MODAL ANIMATION
+============================================================ */
+
 @keyframes slideUp {
 
   from {
     transform:
-      translateY(40px);
+      translateY(30px);
+
     opacity: 0;
   }
 
   to {
     transform:
       translateY(0);
+
     opacity: 1;
   }
 
 }
 
 
-.modal-title {
+/* ============================================================
+   MODAL TITLE
+============================================================ */
 
+.modal-title {
   margin:
     0
     0
     10px;
 
   font-size: 19px;
+
+  color:
+    #253238;
 }
 
 
-.modal-text {
+/* ============================================================
+   MODAL TEXT
+============================================================ */
 
+.modal-text {
   margin:
     0
     0
@@ -1391,8 +1419,11 @@ input:focus {
 }
 
 
-textarea {
+/* ============================================================
+   MODAL TEXTAREA
+============================================================ */
 
+textarea {
   width: 100%;
 
   min-height: 100px;
@@ -1416,14 +1447,16 @@ textarea {
 
 
 textarea:focus {
-
   border-color:
     var(--primary);
 }
 
 
-.modal-actions {
+/* ============================================================
+   MODAL ACTIONS
+============================================================ */
 
+.modal-actions {
   display: flex;
 
   gap: 10px;
@@ -1433,10 +1466,157 @@ textarea:focus {
 
 
 .modal-actions .btn {
-
   flex: 1;
 }
 
+
+/* ============================================================
+   SEARCH DOG + DOG MASTERLIST
+   WEBVIEW FIX
+============================================================ */
+
+#searchDogModal,
+#dogMasterlistModal {
+  align-items: flex-start;
+}
+
+
+#searchDogModal .modal-box,
+#dogMasterlistModal .modal-box {
+  position: relative;
+
+  width: 100%;
+
+  max-width: 720px;
+
+  max-height: none !important;
+
+  margin:
+    16px
+    auto;
+
+  overflow: visible !important;
+
+  flex-shrink: 0;
+}
+
+
+/* ============================================================
+   MOBILE / ANDROID WEBVIEW
+============================================================ */
+
+@media (max-width: 720px) {
+
+  .modal {
+    align-items: flex-start;
+
+    justify-content: center;
+
+    padding:
+      10px;
+
+    overflow-x: hidden;
+
+    overflow-y: auto;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+
+  .modal-box {
+    width: 100%;
+
+    max-width: 100%;
+
+    max-height: none !important;
+
+    margin:
+      8px
+      auto
+      24px;
+
+    padding:
+      18px;
+
+    border-radius: 18px;
+
+    overflow: visible !important;
+
+    flex-shrink: 0;
+  }
+
+
+  #searchDogModal .modal-box,
+  #dogMasterlistModal .modal-box {
+    max-height: none !important;
+
+    overflow: visible !important;
+
+    margin:
+      8px
+      auto
+      24px;
+  }
+
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+
+  .modal-actions {
+    display: grid;
+
+    grid-template-columns:
+      1fr;
+
+    gap: 9px;
+  }
+
+
+  .modal input,
+  .modal select,
+  .modal textarea {
+    font-size: 16px;
+  }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 480px) {
+
+  .modal {
+    padding:
+      8px;
+  }
+
+
+  .modal-box {
+    margin:
+      6px
+      auto
+      20px;
+
+    padding:
+      16px;
+
+    border-radius: 16px;
+  }
+
+
+  #searchDogModal .modal-box,
+  #dogMasterlistModal .modal-box {
+    margin:
+      6px
+      auto
+      20px;
+  }
+
+}
 
 /* ============================================================
    MOBILE
