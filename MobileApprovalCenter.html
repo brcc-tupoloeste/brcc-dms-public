@@ -1286,125 +1286,91 @@ input:focus {
 }
 
 
-
 /* ============================================================
    MODAL
-   ANDROID / MOBILE WEBVIEW SAFE
 ============================================================ */
 
 .modal {
+
   display: none;
 
   position: fixed;
 
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  width: 100%;
-  height: 100%;
-  height: 100dvh;
+  inset: 0;
 
   z-index: 999;
 
-  background: rgba(0, 0, 0, .45);
+  background:
+    rgba(0,0,0,.45);
 
-  align-items: flex-start;
+  align-items: flex-end;
+
   justify-content: center;
-
-  padding: 16px;
-
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  -webkit-overflow-scrolling: touch;
 }
 
 
 .modal.show {
+
   display: flex;
 }
 
 
-/* ============================================================
-   MODAL BOX
-============================================================ */
-
 .modal-box {
-  position: relative;
 
   width: 100%;
-  max-width: 720px;
 
-  margin:
-    16px
-    auto;
+  max-width: 720px;
 
   background: white;
 
-  border-radius: 20px;
+  border-radius:
+    22px
+    22px
+    0
+    0;
 
-  padding: 22px;
+  padding:
+    22px;
 
   box-shadow:
-    0 12px 40px
-    rgba(0, 0, 0, .25);
-
-  overflow: visible;
-
-  flex-shrink: 0;
+    0 -10px 40px
+    rgba(0,0,0,.20);
 
   animation:
     slideUp .25s ease;
 }
 
 
-/* ============================================================
-   MODAL ANIMATION
-============================================================ */
-
 @keyframes slideUp {
 
   from {
     transform:
-      translateY(30px);
-
+      translateY(40px);
     opacity: 0;
   }
 
   to {
     transform:
       translateY(0);
-
     opacity: 1;
   }
 
 }
 
 
-/* ============================================================
-   MODAL TITLE
-============================================================ */
-
 .modal-title {
+
   margin:
     0
     0
     10px;
 
   font-size: 19px;
-
-  color:
-    #253238;
 }
 
 
-/* ============================================================
-   MODAL TEXT
-============================================================ */
-
 .modal-text {
+
   margin:
     0
     0
@@ -1419,11 +1385,8 @@ input:focus {
 }
 
 
-/* ============================================================
-   MODAL TEXTAREA
-============================================================ */
-
 textarea {
+
   width: 100%;
 
   min-height: 100px;
@@ -1447,16 +1410,14 @@ textarea {
 
 
 textarea:focus {
+
   border-color:
     var(--primary);
 }
 
 
-/* ============================================================
-   MODAL ACTIONS
-============================================================ */
-
 .modal-actions {
+
   display: flex;
 
   gap: 10px;
@@ -1466,157 +1427,10 @@ textarea:focus {
 
 
 .modal-actions .btn {
+
   flex: 1;
 }
 
-
-/* ============================================================
-   SEARCH DOG + DOG MASTERLIST
-   WEBVIEW FIX
-============================================================ */
-
-#searchDogModal,
-#dogMasterlistModal {
-  align-items: flex-start;
-}
-
-
-#searchDogModal .modal-box,
-#dogMasterlistModal .modal-box {
-  position: relative;
-
-  width: 100%;
-
-  max-width: 720px;
-
-  max-height: none !important;
-
-  margin:
-    16px
-    auto;
-
-  overflow: visible !important;
-
-  flex-shrink: 0;
-}
-
-
-/* ============================================================
-   MOBILE / ANDROID WEBVIEW
-============================================================ */
-
-@media (max-width: 720px) {
-
-  .modal {
-    align-items: flex-start;
-
-    justify-content: center;
-
-    padding:
-      10px;
-
-    overflow-x: hidden;
-
-    overflow-y: auto;
-
-    -webkit-overflow-scrolling: touch;
-  }
-
-
-  .modal-box {
-    width: 100%;
-
-    max-width: 100%;
-
-    max-height: none !important;
-
-    margin:
-      8px
-      auto
-      24px;
-
-    padding:
-      18px;
-
-    border-radius: 18px;
-
-    overflow: visible !important;
-
-    flex-shrink: 0;
-  }
-
-
-  #searchDogModal .modal-box,
-  #dogMasterlistModal .modal-box {
-    max-height: none !important;
-
-    overflow: visible !important;
-
-    margin:
-      8px
-      auto
-      24px;
-  }
-
-
-  .modal-title {
-    font-size: 18px;
-  }
-
-
-  .modal-actions {
-    display: grid;
-
-    grid-template-columns:
-      1fr;
-
-    gap: 9px;
-  }
-
-
-  .modal input,
-  .modal select,
-  .modal textarea {
-    font-size: 16px;
-  }
-
-}
-
-
-/* ============================================================
-   SMALL MOBILE
-============================================================ */
-
-@media (max-width: 480px) {
-
-  .modal {
-    padding:
-      8px;
-  }
-
-
-  .modal-box {
-    margin:
-      6px
-      auto
-      20px;
-
-    padding:
-      16px;
-
-    border-radius: 16px;
-  }
-
-
-  #searchDogModal .modal-box,
-  #dogMasterlistModal .modal-box {
-    margin:
-      6px
-      auto
-      20px;
-  }
-
-}
 
 /* ============================================================
    MOBILE
@@ -1662,6 +1476,107 @@ textarea:focus {
     border-radius: 12px;
   }
 
+}
+
+
+
+/* ============================================================
+   REGISTRY CENTER FULL-SCREEN PANELS
+   Android WebView safe: Search Dog + Dog Masterlist only
+============================================================ */
+.registry-full-panel {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 900;
+  background: #f4f7f5;
+  overflow: hidden;
+}
+
+.registry-full-panel.show {
+  display: flex;
+  flex-direction: column;
+}
+
+.registry-panel-header {
+  flex: 0 0 auto;
+  background: #0b4a2f;
+  color: #fff;
+  padding: calc(12px + env(safe-area-inset-top)) 16px 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+.registry-panel-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  margin: 0 0 12px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255,255,255,.55);
+  border-radius: 10px;
+  background: rgba(255,255,255,.10);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.registry-panel-title {
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.registry-panel-subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(255,255,255,.82);
+}
+
+.registry-panel-body {
+  flex: 1 1 auto;
+  width: 100%;
+  padding: 18px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.registry-panel-body input,
+.registry-panel-body select,
+.registry-panel-body textarea {
+  font-size: 16px;
+}
+
+.registry-panel-body .btn-panel-primary {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.registry-panel-two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 520px) {
+  .registry-panel-body { padding: 14px; }
+  .registry-panel-two-columns { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 721px) {
+  .registry-full-panel {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    max-width: 720px;
+    box-shadow: 0 0 40px rgba(0,0,0,.20);
+  }
 }
 
 </style>
@@ -1947,295 +1862,70 @@ textarea:focus {
 </div>
 
   <!-- =========================================================
-     DOG MASTERLIST — READ ONLY / PRINT
+     DOG MASTERLIST — FULL SCREEN / READ ONLY / PRINT
 ========================================================= -->
+<div id="dogMasterlistModal" class="registry-full-panel">
+  <div class="registry-panel-header">
+    <button type="button" class="registry-panel-back" onclick="closeDogMasterlist()">← Back</button>
+    <div class="registry-panel-title">🖨️ Dog Masterlist</div>
+    <div class="registry-panel-subtitle">Filter by Sitio and arrange the masterlist before printing.</div>
+  </div>
 
-<div
-  id="dogMasterlistModal"
-  class="modal"
->
-
-  <div
-    class="modal-box"
-    style="
-      max-height:94vh;
-      overflow-y:auto;
-    "
-  >
-
-    <h2 class="modal-title">
-      🖨️ Dog Masterlist
-    </h2>
-
-    <p class="modal-text">
-      Filter by Sitio and arrange the masterlist before printing.
-    </p>
-
-
-    <!-- SITIO FILTER -->
-
+  <div class="registry-panel-body">
     <div class="form-group">
-
-      <label for="masterlistSitio">
-        SITIO
-      </label>
-
-      <select
-        id="masterlistSitio"
-        style="
-          width:100%;
-          height:48px;
-          padding:0 14px;
-          border-radius:12px;
-          border:1px solid #9ab9a7;
-          background:#fbfcfb;
-          color:#253238;
-          font-size:14px;
-          outline:none;
-        "
-      >
-
-        <option value="ALL SITIOS">
-          All Sitios
-        </option>
-
+      <label for="masterlistSitio">SITIO</label>
+      <select id="masterlistSitio" style="width:100%;height:48px;padding:0 14px;border-radius:12px;border:1px solid #9ab9a7;background:#fbfcfb;color:#253238;outline:none;">
+        <option value="ALL SITIOS">All Sitios</option>
       </select>
-
     </div>
 
-
-    <!-- SORT BY -->
-
-    <div
-      style="
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-      "
-    >
-
+    <div class="registry-panel-two-columns">
       <div class="form-group">
-
-        <label for="masterlistSortBy">
-          SORT BY
-        </label>
-
-        <select
-          id="masterlistSortBy"
-          style="
-            width:100%;
-            height:48px;
-            padding:0 12px;
-            border-radius:12px;
-            border:1px solid #9ab9a7;
-            background:#fbfcfb;
-            color:#253238;
-            font-size:13px;
-            outline:none;
-          "
-        >
-
-          <option value="registryNumber">
-            Registry Number
-          </option>
-
-          <option value="ownerName">
-            Owner Name
-          </option>
-
-          <option value="dogName">
-            Dog Name
-          </option>
-
+        <label for="masterlistSortBy">SORT BY</label>
+        <select id="masterlistSortBy" style="width:100%;height:48px;padding:0 12px;border-radius:12px;border:1px solid #9ab9a7;background:#fbfcfb;color:#253238;outline:none;">
+          <option value="registryNumber">Registry Number</option>
+          <option value="ownerName">Owner Name</option>
+          <option value="dogName">Dog Name</option>
         </select>
-
       </div>
 
-
-      <!-- SORT ORDER -->
-
       <div class="form-group">
-
-        <label for="masterlistSortOrder">
-          ORDER
-        </label>
-
-        <select
-          id="masterlistSortOrder"
-          style="
-            width:100%;
-            height:48px;
-            padding:0 12px;
-            border-radius:12px;
-            border:1px solid #9ab9a7;
-            background:#fbfcfb;
-            color:#253238;
-            font-size:13px;
-            outline:none;
-          "
-        >
-
-          <option value="asc">
-            A–Z / Ascending
-          </option>
-
-          <option value="desc">
-            Z–A / Descending
-          </option>
-
+        <label for="masterlistSortOrder">ORDER</label>
+        <select id="masterlistSortOrder" style="width:100%;height:48px;padding:0 12px;border-radius:12px;border:1px solid #9ab9a7;background:#fbfcfb;color:#253238;outline:none;">
+          <option value="asc">A–Z / Ascending</option>
+          <option value="desc">Z–A / Descending</option>
         </select>
-
       </div>
-
     </div>
 
-
-    <button
-      type="button"
-      class="btn btn-primary"
-      onclick="loadDogMasterlist()"
-    >
-      📋 View Masterlist
-    </button>
-
-
-    <div
-      id="masterlistMessage"
-      class="message"
-      style="
-        margin-left:0;
-        margin-right:0;
-      "
-    ></div>
-
-
-    <div
-      id="masterlistLoading"
-      class="loading"
-    >
-
-      <div class="spinner"></div>
-
-      Loading Dog Masterlist...
-
-    </div>
-
-
-    <div
-      id="masterlistPreview"
-      style="margin-top:16px;"
-    ></div>
-
-
-    <div class="modal-actions">
-
-      <button
-        type="button"
-        class="btn btn-outline"
-        onclick="closeDogMasterlist()"
-      >
-        ✕ Close
-      </button>
-
-    </div>
-
+    <button type="button" class="btn btn-primary btn-panel-primary" onclick="loadDogMasterlist()">📋 View Masterlist</button>
+    <div id="masterlistMessage" class="message" style="margin-left:0;margin-right:0;"></div>
+    <div id="masterlistLoading" class="loading"><div class="spinner"></div>Loading Dog Masterlist...</div>
+    <div id="masterlistPreview" style="margin-top:16px;padding-bottom:30px;"></div>
   </div>
-
 </div>
- 
+
   <!-- =========================================================
-     SEARCH DOG — READ ONLY
+     SEARCH DOG — FULL SCREEN / READ ONLY
 ========================================================= -->
-
-<div
-  id="searchDogModal"
-  class="modal"
->
-
-  <div
-    class="modal-box"
-    style="
-      max-height:92vh;
-      overflow-y:auto;
-    "
-  >
-
-    <h2 class="modal-title">
-      🔍 Search Dog
-    </h2>
-
-    <p class="modal-text">
-      Search by Registry Number, Dog Name, or Owner Name.
-    </p>
-
-
-    <div class="form-group">
-
-      <label for="dogSearchText">
-        SEARCH
-      </label>
-
-      <input
-        type="text"
-        id="dogSearchText"
-        placeholder="Registry No. / Dog Name / Owner Name"
-        autocomplete="off"
-      >
-
-    </div>
-
-
-    <button
-      type="button"
-      class="btn btn-primary"
-      onclick="searchDogs()"
-    >
-      🔍 Search
-    </button>
-
-
-    <div
-      id="searchDogMessage"
-      class="message"
-      style="margin-left:0;margin-right:0;"
-    ></div>
-
-
-    <div
-      id="searchDogLoading"
-      class="loading"
-    >
-
-      <div class="spinner"></div>
-
-      Searching Dog Registry...
-
-    </div>
-
-
-    <div
-      id="searchDogResults"
-      style="margin-top:16px;"
-    ></div>
-
-
-    <div
-      class="modal-actions"
-      style="margin-top:18px;"
-    >
-
-      <button
-        type="button"
-        class="btn btn-outline"
-        onclick="closeSearchDog()"
-      >
-        ✕ Close
-      </button>
-
-    </div>
-
+<div id="searchDogModal" class="registry-full-panel">
+  <div class="registry-panel-header">
+    <button type="button" class="registry-panel-back" onclick="closeSearchDog()">← Back</button>
+    <div class="registry-panel-title">🔍 Search Dog</div>
+    <div class="registry-panel-subtitle">Search by Registry Number, Dog Name, or Owner Name.</div>
   </div>
 
+  <div class="registry-panel-body">
+    <div class="form-group">
+      <label for="dogSearchText">SEARCH</label>
+      <input type="text" id="dogSearchText" placeholder="Registry No. / Dog Name / Owner Name" autocomplete="off">
+    </div>
+
+    <button type="button" class="btn btn-primary btn-panel-primary" onclick="searchDogs()">🔍 Search</button>
+    <div id="searchDogMessage" class="message" style="margin-left:0;margin-right:0;"></div>
+    <div id="searchDogLoading" class="loading"><div class="spinner"></div>Searching Dog Registry...</div>
+    <div id="searchDogResults" style="margin-top:16px;padding-bottom:30px;"></div>
+  </div>
 </div>
 <!-- =========================================================
      PET ID CARD PREVIEW — SECURE / READ ONLY
@@ -4330,25 +4020,16 @@ function escapeAttribute(value) {
 /* ============================================================
    SEARCH DOG — READ ONLY
 ============================================================ */
+
 function openSearchDog() {
+  if (!sessionToken || isProcessing) return;
 
-  if (
-    !sessionToken ||
-    isProcessing
-  ) {
-    return;
-  }
+  const panel = document.getElementById('searchDogModal');
+  const searchInput = document.getElementById('dogSearchText');
+  const results = document.getElementById('searchDogResults');
+  const loading = document.getElementById('searchDogLoading');
 
-  const modal =
-    document.getElementById('searchDogModal');
-
-  const searchInput =
-    document.getElementById('dogSearchText');
-
-  const results =
-    document.getElementById('searchDogResults');
-
-  if (!modal) {
+  if (!panel) {
     console.error('searchDogModal not found');
     return;
   }
@@ -4357,50 +4038,31 @@ function openSearchDog() {
     searchInput.value = '';
     searchInput.blur();
   }
-
-  if (results) {
-    results.innerHTML = '';
-  }
+  if (results) results.innerHTML = '';
+  if (loading) loading.style.display = 'none';
 
   hideMessage('searchDogMessage');
-
-  modal.style.display = 'flex';
-  modal.style.alignItems = 'flex-start';
-  modal.style.justifyContent = 'center';
-  modal.style.overflowY = 'auto';
-
-  modal.classList.add('show');
-
+  panel.classList.add('show');
   document.body.style.overflow = 'hidden';
 }
+
 
 /* ============================================================
    CLOSE SEARCH DOG
 ============================================================ */
 
 function closeSearchDog() {
+  if (isProcessing) return;
 
-  if (isProcessing) {
-    return;
-  }
+  const panel = document.getElementById('searchDogModal');
+  const searchInput = document.getElementById('dogSearchText');
 
-  const modal =
-    document.getElementById('searchDogModal');
-
-  const searchInput =
-    document.getElementById('dogSearchText');
-
-  if (searchInput) {
-    searchInput.blur();
-  }
-
-  if (modal) {
-    modal.classList.remove('show');
-    modal.style.display = 'none';
-  }
+  if (searchInput) searchInput.blur();
+  if (panel) panel.classList.remove('show');
 
   document.body.style.overflow = '';
 }
+
 
 /* ============================================================
    SEARCH DOGS
@@ -5551,39 +5213,35 @@ async function openPetIdCard(
 ============================================================ */
 
 function openDogMasterlist() {
+  if (!sessionToken || isProcessing) return;
 
-  if (
-    !sessionToken ||
-    isProcessing
-  ) {
+  const panel = document.getElementById('dogMasterlistModal');
+  const preview = document.getElementById('masterlistPreview');
+  const loading = document.getElementById('masterlistLoading');
+
+  if (!panel) {
+    console.error('dogMasterlistModal not found');
     return;
   }
 
-  document
-    .getElementById(
-      'dogMasterlistModal'
-    )
-    .classList.add(
-      'show'
-    );
+  if (preview) preview.innerHTML = '';
+  if (loading) loading.style.display = 'none';
+  hideMessage('masterlistMessage');
 
+  panel.classList.add('show');
+  document.body.style.overflow = 'hidden';
 }
 /* ============================================================
    CLOSE MASTERLIST
 ============================================================ */
 
 function closeDogMasterlist() {
+  if (isProcessing) return;
 
-  if (isProcessing) {
-    return;
-  }
+  const panel = document.getElementById('dogMasterlistModal');
+  if (panel) panel.classList.remove('show');
 
-  document
-    .getElementById(
-      'dogMasterlistModal'
-    )
-    .classList.remove('show');
-
+  document.body.style.overflow = '';
 }
 
 
