@@ -1628,7 +1628,7 @@ textarea:focus {
     <div>
 
       <div class="system-name">
-       🐕 BRCC-DMS Registry Center — FIX 1
+        🐕 BRCC-DMS Registry Center
       </div>
 
       <div class="system-subtitle">
@@ -4022,13 +4022,30 @@ function escapeAttribute(value) {
 ============================================================ */
 
 function openSearchDog() {
+  if (!sessionToken || isProcessing) return;
 
-  alert(
-    'sessionToken = [' + String(sessionToken) + ']\n' +
-    'isProcessing = [' + String(isProcessing) + ']'
-  );
+  const panel = document.getElementById('searchDogModal');
+  const searchInput = document.getElementById('dogSearchText');
+  const results = document.getElementById('searchDogResults');
+  const loading = document.getElementById('searchDogLoading');
 
+  if (!panel) {
+    console.error('searchDogModal not found');
+    return;
+  }
+
+  if (searchInput) {
+    searchInput.value = '';
+    searchInput.blur();
+  }
+  if (results) results.innerHTML = '';
+  if (loading) loading.style.display = 'none';
+
+  hideMessage('searchDogMessage');
+  panel.classList.add('show');
+  document.body.style.overflow = 'hidden';
 }
+
 
 /* ============================================================
    CLOSE SEARCH DOG
