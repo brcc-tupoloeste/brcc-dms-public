@@ -719,13 +719,13 @@
         Your Registry Update Request has been received and is pending review.
       </div>
 
-      <button
-        type="button"
-        id="successCloseButton"
-        class="success-close"
-      >
-        Done
-      </button>
+ <button
+  type="button"
+  id="successCloseButton"
+  class="success-close"
+>
+  ← Back to Services
+</button>
 
     </div>
 
@@ -3581,18 +3581,29 @@ if (photoDataUrl) {
       }
 
 
-      function closeSuccessModal() {
+function closeSuccessModal() {
 
-        document.getElementById(
-          'successOverlay'
-        ).classList.remove(
-          'show'
-        );
+  const successOverlay =
+    document.getElementById(
+      'successOverlay'
+    );
 
+  const loadingOverlay =
+    document.getElementById(
+      'loadingOverlay'
+    );
 
-        window.location.reload();
+  if (successOverlay) {
+    successOverlay.classList.remove('show');
+  }
 
-      }
+  if (loadingOverlay) {
+    loadingOverlay.classList.remove('show');
+  }
+
+  window.location.href = './';
+
+}
 
 
       document.getElementById(
