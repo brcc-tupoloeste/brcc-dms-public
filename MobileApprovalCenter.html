@@ -6113,9 +6113,11 @@ function renderDogMasterlist(
     );
 
 }
-/* ============================================================
+
+  /* ============================================================
    PRINT DOG MASTERLIST
-   A4 PORTRAIT — FIT AT 100%
+   ANDROID NATIVE PRINT + DESKTOP FALLBACK
+   A4 PORTRAIT
 ============================================================ */
 
 function printDogMasterlist() {
@@ -6125,7 +6127,6 @@ function printDogMasterlist() {
       'dogMasterlistPrintArea'
     );
 
-
   if (!printArea) {
 
     alert(
@@ -6133,32 +6134,16 @@ function printDogMasterlist() {
     );
 
     return;
-
   }
 
 
-  const printWindow =
-    window.open(
-      '',
-      '_blank'
-    );
+  /*
+    =========================================================
+    BUILD CLEAN PRINT DOCUMENT
+    =========================================================
+  */
 
-
-  if (!printWindow) {
-
-    alert(
-      'Please allow pop-ups to print the masterlist.'
-    );
-
-    return;
-
-  }
-
-
-  printWindow.document.open();
-
-
-  printWindow.document.write(`
+  const printHtml = `
 
     <!DOCTYPE html>
 
@@ -6168,34 +6153,33 @@ function printDogMasterlist() {
 
       <meta charset="UTF-8">
 
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+      >
+
       <title>
         BRCC-DMS Dog Masterlist
       </title>
 
       <style>
 
-        /* ==========================================
-           A4 PORTRAIT
-        ========================================== */
-
         @page {
           size: A4 portrait;
           margin: 7mm;
         }
 
-
         * {
           box-sizing: border-box;
         }
-
 
         html,
         body {
           width: 100%;
           margin: 0;
           padding: 0;
+          background: #ffffff;
         }
-
 
         body {
           font-family:
@@ -6203,17 +6187,10 @@ function printDogMasterlist() {
             Helvetica,
             sans-serif;
 
-          color: #000;
-          background: #fff;
+          color: #000000;
         }
 
-
-        /* ==========================================
-           PRINT AREA
-        ========================================== */
-
         #dogMasterlistPrintArea {
-
           width: 100% !important;
           max-width: none !important;
 
@@ -6223,19 +6200,13 @@ function printDogMasterlist() {
           border: none !important;
           border-radius: 0 !important;
 
-          overflow: visible !important;
+          box-shadow: none !important;
 
+          overflow: visible !important;
         }
 
-
-        /* ==========================================
-           TABLE
-        ========================================== */
-
         table {
-
           width: 100% !important;
-
           max-width: 100% !important;
 
           border-collapse:
@@ -6248,15 +6219,12 @@ function printDogMasterlist() {
             7.5pt !important;
 
           margin: 0 !important;
-
         }
-
 
         th,
         td {
-
           border:
-            1px solid #000 !important;
+            1px solid #000000 !important;
 
           padding:
             4px 2px !important;
@@ -6275,12 +6243,9 @@ function printDogMasterlist() {
 
           word-break:
             normal !important;
-
         }
 
-
         th {
-
           text-align:
             center !important;
 
@@ -6289,116 +6254,81 @@ function printDogMasterlist() {
 
           font-size:
             7.2pt !important;
-
         }
 
+        /*
+          COLUMN WIDTHS
 
-        /* ==========================================
-           COLUMN WIDTHS
-
-           1 Registry No.
-           2 Dog Name
-           3 Sex
-           4 Age
-           5 Color
-           6 Owner Name
-           7 Sitio
-           8 Remarks
-        ========================================== */
+          1 Registry No.
+          2 Dog Name
+          3 Sex
+          4 Age
+          5 Color
+          6 Owner Name
+          7 Sitio
+          8 Remarks
+        */
 
         th:nth-child(1),
         td:nth-child(1) {
           width: 15%;
         }
 
-
         th:nth-child(2),
         td:nth-child(2) {
           width: 12%;
         }
-
 
         th:nth-child(3),
         td:nth-child(3) {
           width: 7%;
         }
 
-
         th:nth-child(4),
         td:nth-child(4) {
           width: 8%;
         }
-
 
         th:nth-child(5),
         td:nth-child(5) {
           width: 15%;
         }
 
-
         th:nth-child(6),
         td:nth-child(6) {
           width: 20%;
         }
-
 
         th:nth-child(7),
         td:nth-child(7) {
           width: 10%;
         }
 
-
         th:nth-child(8),
         td:nth-child(8) {
           width: 13%;
         }
 
-
-        /* ==========================================
-           REMARKS — WRITING SPACE
-        ========================================== */
-
         .remarks-cell {
-
-          height:
-            28px !important;
-
-          min-width:
-            0 !important;
-
+          height: 28px !important;
+          min-width: 0 !important;
         }
-
-
-        /* ==========================================
-           MULTI-PAGE SUPPORT
-        ========================================== */
 
         thead {
-          display:
-            table-header-group;
+          display: table-header-group;
         }
-
 
         tfoot {
-          display:
-            table-footer-group;
+          display: table-footer-group;
         }
 
-
         tr {
-
           page-break-inside:
             avoid !important;
 
           break-inside:
             avoid !important;
-
         }
-
-
-        /* ==========================================
-           PRINT
-        ========================================== */
 
         @media print {
 
@@ -6407,27 +6337,94 @@ function printDogMasterlist() {
             width: 100%;
           }
 
-
           #dogMasterlistPrintArea {
             width: 100% !important;
           }
 
-
           table {
             width: 100% !important;
           }
-
         }
 
       </style>
 
     </head>
 
-
     <body>
 
       ${printArea.outerHTML}
 
+    </body>
+
+    </html>
+
+  `;
+
+
+  /*
+    =========================================================
+    ANDROID REGISTRY CENTER APP
+    =========================================================
+
+    AndroidRegistry.printMasterlist(...)
+    will open Android native Print Preview.
+  */
+
+  try {
+
+    if (
+      window.AndroidRegistry &&
+      typeof window.AndroidRegistry.printMasterlist ===
+        'function'
+    ) {
+
+      window.AndroidRegistry.printMasterlist(
+        printHtml
+      );
+
+      return;
+    }
+
+  } catch (error) {
+
+    console.error(
+      'ANDROID MASTERLIST PRINT ERROR:',
+      error
+    );
+  }
+
+
+  /*
+    =========================================================
+    DESKTOP / NORMAL BROWSER FALLBACK
+    =========================================================
+  */
+
+  try {
+
+    const printWindow =
+      window.open(
+        '',
+        '_blank'
+      );
+
+    if (!printWindow) {
+
+      alert(
+        'Please allow pop-ups to print the masterlist.'
+      );
+
+      return;
+    }
+
+
+    printWindow.document.open();
+
+    printWindow.document.write(
+      printHtml
+    );
+
+    printWindow.document.write(`
 
       <script>
 
@@ -6457,17 +6454,24 @@ function printDogMasterlist() {
 
       <\/script>
 
-    </body>
+    `);
 
-    </html>
+    printWindow.document.close();
 
-  `);
+  } catch (error) {
 
+    console.error(
+      'DOG MASTERLIST PRINT ERROR:',
+      error
+    );
 
-  printWindow.document.close();
-
+    alert(
+      'Unable to prepare the Dog Masterlist for printing.'
+    );
+  }
 }
-/* ============================================================
+  
+  /* ============================================================
    PET ID CARD PREVIEW
    VIEW ONLY + LOCKED PRINT WHILE LOADING
 ============================================================ */
