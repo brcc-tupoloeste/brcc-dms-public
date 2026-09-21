@@ -1393,7 +1393,20 @@
 
 
   </div>
+<script>
+  if (
+    navigator.userAgent.includes(
+      "DogServicesAndroidApp"
+    )
+  ) {
+    const appDownload =
+      document.querySelector(".app-download");
 
+    if (appDownload) {
+      appDownload.style.display = "none";
+    }
+  }
+</script>
 
 </body>
 
