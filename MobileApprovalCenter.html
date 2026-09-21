@@ -1788,7 +1788,7 @@ textarea:focus {
 <button
   type="button"
   class="btn btn-outline"
-  onclick="alert('STEP 1'); openSearchDog(); alert('STEP 2');"
+  onclick="openSearchDog()"
 >
   🔍 Search Dog
 </button>
@@ -1864,7 +1864,21 @@ textarea:focus {
   <!-- =========================================================
      DOG MASTERLIST — FULL SCREEN / READ ONLY / PRINT
 ========================================================= -->
-<div id="dogMasterlistModal" class="registry-full-panel">
+<div
+  id="searchDogModal"
+  style="
+    display:none;
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    min-height:100vh;
+    z-index:999999;
+    background:#f4f7f5;
+    overflow-y:auto;
+    overflow-x:hidden;
+  "
+>
   <div class="registry-panel-header">
     <button type="button" class="registry-panel-back" onclick="closeDogMasterlist()">← Back</button>
     <div class="registry-panel-title">🖨️ Dog Masterlist</div>
@@ -4040,13 +4054,12 @@ function openSearchDog() {
     document.getElementById('searchDogLoading');
 
   if (!panel) {
-    console.error('searchDogModal not found');
+    alert('Search Dog screen not found.');
     return;
   }
 
   if (searchInput) {
     searchInput.value = '';
-    searchInput.blur();
   }
 
   if (results) {
@@ -4059,25 +4072,31 @@ function openSearchDog() {
 
   hideMessage('searchDogMessage');
 
-  // Android WebView-safe screen
-  panel.style.display = 'block';
-  panel.style.position = 'absolute';
-  panel.style.top = '0';
-  panel.style.left = '0';
-  panel.style.right = '0';
-  panel.style.width = '100%';
-  panel.style.minHeight = '100vh';
-  panel.style.height = 'auto';
-  panel.style.zIndex = '100';
-  panel.style.background = '#f4f7f5';
+  panel.style.setProperty(
+    'display',
+    'block',
+    'important'
+  );
 
-  panel.classList.add('show');
+  panel.style.setProperty(
+    'visibility',
+    'visible',
+    'important'
+  );
 
-  // IMPORTANT:
-  // Do NOT lock body scrolling in Android WebView.
-  document.body.style.overflow = '';
+  panel.style.setProperty(
+    'opacity',
+    '1',
+    'important'
+  );
 
-  window.scrollTo(0, 0);
+  panel.style.setProperty(
+    'z-index',
+    '999999',
+    'important'
+  );
+
+  panel.scrollTop = 0;
 }
 
 
@@ -4086,39 +4105,16 @@ function closeSearchDog() {
   const panel =
     document.getElementById('searchDogModal');
 
-  const searchInput =
-    document.getElementById('dogSearchText');
-
-  if (searchInput) {
-    searchInput.blur();
+  if (!panel) {
+    return;
   }
 
-  if (panel) {
-    panel.classList.remove('show');
-    panel.style.display = 'none';
-  }
-
-  document.body.style.overflow = '';
-
-  window.scrollTo(0, 0);
+  panel.style.setProperty(
+    'display',
+    'none',
+    'important'
+  );
 }
-
-/* ============================================================
-   CLOSE SEARCH DOG
-============================================================ */
-
-function closeSearchDog() {
-  if (isProcessing) return;
-
-  const panel = document.getElementById('searchDogModal');
-  const searchInput = document.getElementById('dogSearchText');
-
-  if (searchInput) searchInput.blur();
-  if (panel) panel.classList.remove('show');
-
-  document.body.style.overflow = '';
-}
-
 
 /* ============================================================
    SEARCH DOGS
