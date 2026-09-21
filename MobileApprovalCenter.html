@@ -6924,10 +6924,10 @@ function printPetIdCard() {
       'petIdPrintButton'
     );
 
-
   /*
     HARD LOCK:
-    Printing cannot start until preview is complete.
+    Do not print until Pet ID preview
+    has completely rendered.
   */
 
   if (
@@ -6954,9 +6954,42 @@ function printPetIdCard() {
     );
 
     return;
-
   }
 
+
+  /*
+    =========================================================
+    ANDROID REGISTRY CENTER APP
+    =========================================================
+  */
+
+  if (
+    typeof AndroidRegistry !== 'undefined' &&
+    AndroidRegistry &&
+    typeof AndroidRegistry.printPetId === 'function'
+  ) {
+
+    try {
+
+      AndroidRegistry.printPetId();
+
+      return;
+
+    } catch (error) {
+
+      console.error(
+        'ANDROID PET ID PRINT ERROR:',
+        error
+      );
+    }
+  }
+
+
+  /*
+    =========================================================
+    DESKTOP / NORMAL BROWSER FALLBACK
+    =========================================================
+  */
 
   try {
 
@@ -6974,12 +7007,10 @@ function printPetIdCard() {
       );
 
       return;
-
     }
 
 
-    let pagesHtml =
-      '';
+    let pagesHtml = '';
 
 
     pages.forEach(
@@ -7043,7 +7074,7 @@ function printPetIdCard() {
           body {
             margin:0;
             padding:0;
-            background:white;
+            background:#ffffff;
           }
 
           .pet-id-page {
@@ -7073,6 +7104,49 @@ function printPetIdCard() {
             object-fit:fill;
           }
 
+        </style>
+
+      </head>
+
+      <body>
+
+        ${pagesHtml}
+
+        <script>
+
+          window.onload = function() {
+
+            setTimeout(
+              function() {
+                window.print();
+              },
+              250
+            );
+
+          };
+
+        <\/script>
+
+      </body>
+
+      </html>
+    `);
+
+
+    printWindow.document.close();
+
+  } catch (error) {
+
+    console.error(
+      'PET ID PRINT ERROR:',
+      error
+    );
+
+    alert(
+      'Unable to print the Pet ID Card.'
+    );
+  }
+}
           /* ============================================================
    ANDROID WEBVIEW SCREEN FIX
    Search Dog + Dog Masterlist
