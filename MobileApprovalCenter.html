@@ -4119,15 +4119,32 @@ function closeSearchDog() {
   const panel =
     document.getElementById('searchDogModal');
 
+  const searchInput =
+    document.getElementById('dogSearchText');
+
+  if (searchInput) {
+    searchInput.blur();
+  }
+
   if (!panel) {
     return;
   }
+
+  panel.classList.remove('show');
 
   panel.style.setProperty(
     'display',
     'none',
     'important'
   );
+
+  panel.style.removeProperty('visibility');
+  panel.style.removeProperty('opacity');
+  panel.style.removeProperty('z-index');
+
+  document.body.style.overflow = '';
+
+  window.scrollTo(0, 0);
 }
 
 /* ============================================================
