@@ -4022,12 +4022,22 @@ function escapeAttribute(value) {
 ============================================================ */
 
 function openSearchDog() {
-  if (!sessionToken || isProcessing) return;
 
-  const panel = document.getElementById('searchDogModal');
-  const searchInput = document.getElementById('dogSearchText');
-  const results = document.getElementById('searchDogResults');
-  const loading = document.getElementById('searchDogLoading');
+  if (!sessionToken || isProcessing) {
+    return;
+  }
+
+  const panel =
+    document.getElementById('searchDogModal');
+
+  const searchInput =
+    document.getElementById('dogSearchText');
+
+  const results =
+    document.getElementById('searchDogResults');
+
+  const loading =
+    document.getElementById('searchDogLoading');
 
   if (!panel) {
     console.error('searchDogModal not found');
@@ -4038,14 +4048,60 @@ function openSearchDog() {
     searchInput.value = '';
     searchInput.blur();
   }
-  if (results) results.innerHTML = '';
-  if (loading) loading.style.display = 'none';
+
+  if (results) {
+    results.innerHTML = '';
+  }
+
+  if (loading) {
+    loading.style.display = 'none';
+  }
 
   hideMessage('searchDogMessage');
+
+  // Android WebView-safe screen
+  panel.style.display = 'block';
+  panel.style.position = 'absolute';
+  panel.style.top = '0';
+  panel.style.left = '0';
+  panel.style.right = '0';
+  panel.style.width = '100%';
+  panel.style.minHeight = '100vh';
+  panel.style.height = 'auto';
+  panel.style.zIndex = '100';
+  panel.style.background = '#f4f7f5';
+
   panel.classList.add('show');
-  document.body.style.overflow = 'hidden';
+
+  // IMPORTANT:
+  // Do NOT lock body scrolling in Android WebView.
+  document.body.style.overflow = '';
+
+  window.scrollTo(0, 0);
 }
 
+
+function closeSearchDog() {
+
+  const panel =
+    document.getElementById('searchDogModal');
+
+  const searchInput =
+    document.getElementById('dogSearchText');
+
+  if (searchInput) {
+    searchInput.blur();
+  }
+
+  if (panel) {
+    panel.classList.remove('show');
+    panel.style.display = 'none';
+  }
+
+  document.body.style.overflow = '';
+
+  window.scrollTo(0, 0);
+}
 
 /* ============================================================
    CLOSE SEARCH DOG
@@ -5213,37 +5269,70 @@ async function openPetIdCard(
 ============================================================ */
 
 function openDogMasterlist() {
-  if (!sessionToken || isProcessing) return;
 
-  const panel = document.getElementById('dogMasterlistModal');
-  const preview = document.getElementById('masterlistPreview');
-  const loading = document.getElementById('masterlistLoading');
+  if (!sessionToken || isProcessing) {
+    return;
+  }
+
+  const panel =
+    document.getElementById('dogMasterlistModal');
+
+  const preview =
+    document.getElementById('masterlistPreview');
+
+  const loading =
+    document.getElementById('masterlistLoading');
 
   if (!panel) {
     console.error('dogMasterlistModal not found');
     return;
   }
 
-  if (preview) preview.innerHTML = '';
-  if (loading) loading.style.display = 'none';
+  if (preview) {
+    preview.innerHTML = '';
+  }
+
+  if (loading) {
+    loading.style.display = 'none';
+  }
+
   hideMessage('masterlistMessage');
 
+  // Android WebView-safe screen
+  panel.style.display = 'block';
+  panel.style.position = 'absolute';
+  panel.style.top = '0';
+  panel.style.left = '0';
+  panel.style.right = '0';
+  panel.style.width = '100%';
+  panel.style.minHeight = '100vh';
+  panel.style.height = 'auto';
+  panel.style.zIndex = '100';
+  panel.style.background = '#f4f7f5';
+
   panel.classList.add('show');
-  document.body.style.overflow = 'hidden';
+
+  // Do NOT freeze the WebView body
+  document.body.style.overflow = '';
+
+  window.scrollTo(0, 0);
 }
-/* ============================================================
-   CLOSE MASTERLIST
-============================================================ */
+
 
 function closeDogMasterlist() {
-  if (isProcessing) return;
 
-  const panel = document.getElementById('dogMasterlistModal');
-  if (panel) panel.classList.remove('show');
+  const panel =
+    document.getElementById('dogMasterlistModal');
+
+  if (panel) {
+    panel.classList.remove('show');
+    panel.style.display = 'none';
+  }
 
   document.body.style.overflow = '';
-}
 
+  window.scrollTo(0, 0);
+}
 
 /* ============================================================
    LOAD MASTERLIST
@@ -6860,6 +6949,50 @@ function printPetIdCard() {
             padding:0;
             object-fit:fill;
           }
+
+          /* ============================================================
+   ANDROID WEBVIEW SCREEN FIX
+   Search Dog + Dog Masterlist
+============================================================ */
+
+#searchDogModal.registry-full-panel,
+#dogMasterlistModal.registry-full-panel {
+  position: absolute;
+  inset: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+
+  overflow: visible;
+
+  background: #f4f7f5;
+}
+
+#searchDogModal.registry-full-panel.show,
+#dogMasterlistModal.registry-full-panel.show {
+  display: block;
+}
+
+#searchDogModal .registry-panel-body,
+#dogMasterlistModal .registry-panel-body {
+  width: 100%;
+  height: auto;
+
+  overflow: visible;
+
+  padding: 14px;
+}
+
+#searchDogModal .registry-panel-header,
+#dogMasterlistModal .registry-panel-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 
         </style>
 
