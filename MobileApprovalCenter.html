@@ -3979,23 +3979,14 @@ async function confirmReject() {
 
 }
 
-
 /* ============================================================
    LOGOUT
+   DIRECT LOGOUT — NO CONFIRMATION ALERT
 ============================================================ */
 
 async function logout() {
 
   if (isProcessing) {
-    return;
-  }
-
-
-  if (
-    !confirm(
-      'Logout from the Approval Center?'
-    )
-  ) {
     return;
   }
 
