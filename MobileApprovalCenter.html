@@ -6971,7 +6971,23 @@ function printPetIdCard() {
 
     try {
 
-      AndroidRegistry.printPetId();
+     const frontCanvas = pages[0];
+const backCanvas = pages[1];
+
+const frontImage =
+  frontCanvas.toDataURL(
+    'image/png'
+  );
+
+const backImage =
+  backCanvas.toDataURL(
+    'image/png'
+  );
+
+AndroidRegistry.printPetId(
+  frontImage,
+  backImage
+);
 
       return;
 
