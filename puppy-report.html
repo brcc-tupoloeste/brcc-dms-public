@@ -912,6 +912,945 @@
 
   </style>
 
+<style>
+/* ============================================================
+   BRCC-DMS PUPPY REPORT
+   MOBILE UI ENHANCEMENT
+   ORANGE THEME — VISUAL OVERRIDE ONLY
+============================================================ */
+
+:root {
+  --service: #f59e0b;
+  --service-dark: #9a3f08;
+  --service-soft: #fff5df;
+  --service-border: #f4d6a0;
+
+  --text: #3d342c;
+  --muted: #786d63;
+  --border: #e5dcd2;
+  --page-bg: #fbf8f3;
+}
+
+
+/* ============================================================
+   PAGE
+============================================================ */
+
+html,
+body {
+  background:
+    linear-gradient(
+      180deg,
+      #fff1d5 0px,
+      #fbf8f3 190px,
+      #fbf8f3 100%
+    ) !important;
+
+  color: var(--text) !important;
+}
+
+.page {
+  max-width: 720px !important;
+
+  padding:
+    10px 12px 48px !important;
+}
+
+
+/* ============================================================
+   BACK TO SERVICES
+============================================================ */
+
+.back-button {
+  min-height: 46px !important;
+
+  margin-bottom: 16px !important;
+
+  padding: 10px 14px !important;
+
+  border:
+    1px solid #ead8bc !important;
+
+  border-radius: 13px !important;
+
+  background:
+    rgba(255,255,255,.96) !important;
+
+  color: #805024 !important;
+
+  font-size: 14px !important;
+  font-weight: 700 !important;
+
+  box-shadow:
+    0 3px 12px
+    rgba(119,72,24,.07) !important;
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.header {
+  position: relative;
+
+  margin-bottom: 22px !important;
+
+  padding:
+    10px 10px 24px !important;
+
+  text-align: center;
+}
+
+.barangay-logo {
+  width: 92px !important;
+  height: 92px !important;
+
+  margin:
+    0 auto 10px !important;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 4px 7px
+      rgba(139,76,13,.15)
+    );
+}
+
+.barangay {
+  color: #3d352e !important;
+
+  font-size: 20px !important;
+  font-weight: 900 !important;
+
+  letter-spacing: .45px !important;
+}
+
+.location {
+  margin-top: 3px !important;
+
+  color: #766b61 !important;
+
+  font-size: 13px !important;
+}
+
+
+/* ============================================================
+   PUPPY REPORT TITLE
+============================================================ */
+
+.header h1 {
+  margin:
+    18px 0 7px !important;
+
+  color: var(--service-dark) !important;
+
+  font-size: 29px !important;
+  line-height: 1.15 !important;
+
+  font-weight: 900 !important;
+}
+
+.header h1::before {
+  content: "🐶";
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  margin-right: 8px;
+
+  border-radius: 13px;
+
+  background: #ffedc7;
+
+  font-size: 24px;
+
+  vertical-align: middle;
+}
+
+.subtitle {
+  max-width: 500px;
+
+  margin:
+    0 auto !important;
+
+  color: #746a61 !important;
+
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+
+/* ============================================================
+   CARDS
+============================================================ */
+
+.card {
+  position: relative;
+
+  overflow: hidden;
+
+  margin-bottom: 18px !important;
+
+  padding:
+    22px 18px !important;
+
+  background:
+    #ffffff !important;
+
+  border:
+    1px solid
+    var(--service-border) !important;
+
+  border-radius:
+    18px !important;
+
+  box-shadow:
+    0 6px 18px
+    rgba(123,72,21,.07) !important;
+}
+
+.card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 5px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f08a08,
+      #ffb52e
+    );
+}
+
+
+/* ============================================================
+   SECTION TITLES / STEPS
+============================================================ */
+
+.section-title {
+  position: relative;
+
+  margin:
+    2px 0 6px !important;
+
+  padding-left: 13px;
+
+  color:
+    var(--service-dark) !important;
+
+  font-size:
+    20px !important;
+
+  line-height:
+    1.25 !important;
+
+  font-weight:
+    900 !important;
+}
+
+.section-title::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 3px;
+  bottom: 3px;
+
+  width: 4px;
+
+  border-radius: 4px;
+
+  background:
+    var(--service);
+}
+
+.section-description {
+  margin:
+    0 0 21px !important;
+
+  color:
+    var(--muted) !important;
+
+  font-size:
+    13px !important;
+
+  line-height:
+    1.5 !important;
+}
+
+
+/* ============================================================
+   STEP LABELS / BADGES
+============================================================ */
+
+.step-title,
+.step-heading {
+  color:
+    var(--service-dark) !important;
+
+  font-weight:
+    900 !important;
+}
+
+.step-badge,
+.badge {
+  background:
+    var(--service-soft) !important;
+
+  color:
+    var(--service-dark) !important;
+
+  border:
+    1px solid
+    #f3d49c !important;
+
+  border-radius:
+    999px !important;
+
+  font-weight:
+    800 !important;
+}
+
+
+/* ============================================================
+   FORM GROUPS
+============================================================ */
+
+.form-group {
+  margin-bottom:
+    19px !important;
+}
+
+label {
+  display: block;
+
+  margin-bottom:
+    7px !important;
+
+  color:
+    #4d433a !important;
+
+  font-size:
+    14px !important;
+
+  line-height:
+    1.35 !important;
+
+  font-weight:
+    800 !important;
+}
+
+.required {
+  color:
+    #d92d20 !important;
+}
+
+
+/* ============================================================
+   INPUTS
+============================================================ */
+
+input,
+select,
+textarea {
+  width:
+    100% !important;
+
+  min-height:
+    54px !important;
+
+  padding:
+    13px 14px !important;
+
+  border:
+    1.5px solid
+    #ded1c2 !important;
+
+  border-radius:
+    12px !important;
+
+  background:
+    #fffdf9 !important;
+
+  color:
+    #40372f !important;
+
+  font-size:
+    16px !important;
+
+  transition:
+    border-color .15s ease,
+    box-shadow .15s ease,
+    background .15s ease !important;
+}
+
+textarea {
+  min-height:
+    105px !important;
+
+  line-height:
+    1.5 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color:
+    #aaa097 !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color:
+    var(--service) !important;
+
+  background:
+    #ffffff !important;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(245,158,11,.14) !important;
+
+  outline:
+    none !important;
+}
+
+
+/* ============================================================
+   VERIFY / SUBMIT BUTTONS
+============================================================ */
+
+button,
+.button,
+.verify-button,
+.submit-button {
+  min-height:
+    54px !important;
+
+  border:
+    none !important;
+
+  border-radius:
+    12px !important;
+
+  font-size:
+    15px !important;
+
+  font-weight:
+    900 !important;
+}
+
+.verify-button,
+.submit-button {
+  background:
+    linear-gradient(
+      135deg,
+      #ffae1a,
+      #ed8106
+    ) !important;
+
+  color:
+    #ffffff !important;
+
+  box-shadow:
+    0 6px 15px
+    rgba(226,120,4,.20) !important;
+}
+
+.verify-button:hover,
+.submit-button:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #f59d0b,
+      #d97004
+    ) !important;
+}
+
+.verify-button:active,
+.submit-button:active {
+  transform:
+    scale(.985) !important;
+}
+
+
+/* ============================================================
+   VERIFIED MOTHER DOG
+============================================================ */
+
+.verified-box,
+.mother-dog-info,
+.dog-info,
+.info-box,
+.verified-dog {
+  border:
+    1px solid
+    #f0d49f !important;
+
+  border-radius:
+    14px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fffaf0,
+      #fff4df
+    ) !important;
+
+  box-shadow:
+    none !important;
+}
+
+.verified-box strong,
+.mother-dog-info strong,
+.dog-info strong,
+.info-box strong,
+.verified-dog strong {
+  color:
+    var(--service-dark) !important;
+}
+
+
+/* ============================================================
+   LOCKED / DISABLED STEP
+============================================================ */
+
+.locked,
+.disabled-section,
+.locked-section {
+  border:
+    1px dashed
+    #dfcdb5 !important;
+
+  border-radius:
+    14px !important;
+
+  background:
+    #faf7f2 !important;
+
+  color:
+    #8a8178 !important;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled,
+button:disabled {
+  opacity:
+    .66 !important;
+
+  cursor:
+    not-allowed !important;
+}
+
+
+/* ============================================================
+   PUPPY COUNTS
+============================================================ */
+
+.puppy-counts,
+.count-grid,
+.puppy-grid {
+  gap:
+    12px !important;
+}
+
+.puppy-counts input,
+.count-grid input,
+.puppy-grid input {
+  text-align:
+    center;
+
+  font-weight:
+    800;
+}
+
+
+/* ============================================================
+   FILE INPUT / SUPPORTING DOCUMENT
+============================================================ */
+
+input[type="file"] {
+  padding:
+    10px !important;
+
+  background:
+    #fffaf2 !important;
+}
+
+input[type="file"]::file-selector-button {
+  min-height:
+    38px;
+
+  margin-right:
+    10px;
+
+  padding:
+    8px 13px;
+
+  border:
+    none;
+
+  border-radius:
+    9px;
+
+  background:
+    #ffedc7;
+
+  color:
+    #944006;
+
+  font-weight:
+    800;
+}
+
+.photo-note,
+.help-text,
+.field-note {
+  margin-top:
+    8px !important;
+
+  color:
+    #786f67 !important;
+
+  font-size:
+    12px !important;
+
+  line-height:
+    1.45 !important;
+}
+
+
+/* ============================================================
+   PHOTO PREVIEW
+============================================================ */
+
+.photo-preview,
+.current-photo {
+  margin-top:
+    13px !important;
+
+  padding:
+    12px;
+
+  border:
+    1px solid
+    #ecd9bb;
+
+  border-radius:
+    14px;
+
+  background:
+    #fffaf3;
+}
+
+.photo-preview img,
+.current-photo img {
+  max-width:
+    220px !important;
+
+  width:
+    100% !important;
+
+  aspect-ratio:
+    1 / 1;
+
+  object-fit:
+    cover !important;
+
+  border-radius:
+    14px !important;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0,0,0,.08);
+}
+
+
+/* ============================================================
+   CHECKBOXES
+============================================================ */
+
+input[type="checkbox"] {
+  width:
+    21px !important;
+
+  min-width:
+    21px !important;
+
+  height:
+    21px !important;
+
+  min-height:
+    21px !important;
+
+  padding:
+    0 !important;
+
+  accent-color:
+    var(--service);
+}
+
+
+/* ============================================================
+   MESSAGES
+============================================================ */
+
+.message {
+  margin-bottom:
+    18px !important;
+
+  padding:
+    15px 16px !important;
+
+  border-radius:
+    13px !important;
+
+  font-size:
+    14px !important;
+
+  line-height:
+    1.5 !important;
+}
+
+
+/* ============================================================
+   LOADING / SUCCESS
+============================================================ */
+
+.loading-box,
+.modal-content,
+.success-modal {
+  border:
+    1px solid
+    #ebd8bc !important;
+
+  border-radius:
+    18px !important;
+
+  box-shadow:
+    0 16px 44px
+    rgba(105,62,19,.18) !important;
+}
+
+.big-spinner,
+.spinner {
+  border-top-color:
+    var(--service) !important;
+}
+
+.loading-title,
+.success-title {
+  color:
+    var(--service-dark) !important;
+}
+
+.success-icon {
+  background:
+    #fff0d2 !important;
+
+  color:
+    #dc7605 !important;
+}
+
+.success-close {
+  min-height:
+    52px !important;
+
+  border-radius:
+    11px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffae1a,
+      #ed8106
+    ) !important;
+
+  color:
+    #ffffff !important;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 480px) {
+
+  .page {
+    padding:
+      8px 10px 38px !important;
+  }
+
+  .back-button {
+    min-height:
+      44px !important;
+
+    margin-bottom:
+      13px !important;
+
+    font-size:
+      13px !important;
+  }
+
+  .header {
+    padding:
+      5px 6px 19px !important;
+
+    margin-bottom:
+      12px !important;
+  }
+
+  .barangay-logo {
+    width:
+      82px !important;
+
+    height:
+      82px !important;
+
+    margin-bottom:
+      7px !important;
+  }
+
+  .barangay {
+    font-size:
+      18px !important;
+  }
+
+  .location {
+    font-size:
+      12px !important;
+  }
+
+  .header h1 {
+    margin-top:
+      15px !important;
+
+    font-size:
+      25px !important;
+  }
+
+  .header h1::before {
+    width:
+      36px;
+
+    height:
+      36px;
+
+    border-radius:
+      11px;
+
+    font-size:
+      21px;
+  }
+
+  .subtitle {
+    padding:
+      0 8px;
+
+    font-size:
+      13px !important;
+  }
+
+  .card {
+    padding:
+      20px 15px !important;
+
+    border-radius:
+      16px !important;
+  }
+
+  .section-title {
+    font-size:
+      18px !important;
+  }
+
+  .section-description {
+    margin-bottom:
+      18px !important;
+  }
+
+  label {
+    font-size:
+      13px !important;
+  }
+
+  input,
+  select,
+  textarea {
+    min-height:
+      52px !important;
+
+    font-size:
+      16px !important;
+  }
+
+  .verify-button,
+  .submit-button {
+    min-height:
+      56px !important;
+  }
+}
+
+
+/* ============================================================
+   VERY SMALL DEVICES
+============================================================ */
+
+@media (max-width: 360px) {
+
+  .page {
+    padding-left:
+      8px !important;
+
+    padding-right:
+      8px !important;
+  }
+
+  .barangay-logo {
+    width:
+      74px !important;
+
+    height:
+      74px !important;
+  }
+
+  .barangay {
+    font-size:
+      17px !important;
+  }
+
+  .header h1 {
+    font-size:
+      23px !important;
+  }
+
+  .card {
+    padding:
+      18px 13px !important;
+  }
+}
+
+</style>
+  
 </head>
 
 
