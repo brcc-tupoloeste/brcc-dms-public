@@ -874,6 +874,792 @@
 
   </style>
 
+<style>
+/* ============================================================
+   BRCC-DMS DOG REGISTRATION
+   MOBILE UI ENHANCEMENT
+   VISUAL OVERRIDE ONLY
+============================================================ */
+
+:root {
+  --service: #159447;
+  --service-dark: #075d36;
+  --service-soft: #eaf8ef;
+  --service-border: #b9e4c8;
+
+  --text: #24352e;
+  --muted: #68766f;
+  --border: #d7e2dc;
+  --page-bg: #f3f8f5;
+}
+
+/* PAGE */
+
+html,
+body {
+  background:
+    linear-gradient(
+      180deg,
+      #e5f6ea 0px,
+      #f3f8f5 190px,
+      #f3f8f5 100%
+    ) !important;
+
+  color: var(--text) !important;
+}
+
+.page {
+  max-width: 720px !important;
+
+  padding:
+    10px 12px 48px !important;
+}
+
+
+/* BACK BUTTON */
+
+.back-button {
+  min-height: 46px !important;
+
+  margin-bottom: 16px !important;
+
+  padding: 10px 14px !important;
+
+  border:
+    1px solid #cfe2d6 !important;
+
+  border-radius: 13px !important;
+
+  background:
+    rgba(255,255,255,.96) !important;
+
+  color: #315b48 !important;
+
+  font-size: 14px !important;
+  font-weight: 700 !important;
+
+  box-shadow:
+    0 3px 12px
+    rgba(24,90,57,.07) !important;
+}
+
+
+/* HEADER */
+
+.header {
+  position: relative;
+
+  margin-bottom: 22px !important;
+
+  padding:
+    10px 10px 24px !important;
+
+  text-align: center;
+}
+
+.barangay-logo {
+  width: 92px !important;
+  height: 92px !important;
+
+  margin:
+    0 auto 10px !important;
+
+  filter:
+    drop-shadow(
+      0 4px 7px
+      rgba(20,100,55,.15)
+    );
+}
+
+.barangay {
+  color: #263a31 !important;
+
+  font-size: 20px !important;
+  font-weight: 900 !important;
+
+  letter-spacing: .45px !important;
+}
+
+.location {
+  margin-top: 3px !important;
+
+  color: #64736c !important;
+
+  font-size: 13px !important;
+}
+
+
+/* SERVICE TITLE */
+
+.header h1 {
+  margin:
+    18px 0 7px !important;
+
+  color: var(--service-dark) !important;
+
+  font-size: 29px !important;
+  line-height: 1.15 !important;
+  font-weight: 900 !important;
+}
+
+.header h1::before {
+  content: "🐕";
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  margin-right: 8px;
+
+  border-radius: 13px;
+
+  background: #dff5e6;
+
+  font-size: 24px;
+
+  vertical-align: middle;
+}
+
+.subtitle {
+  max-width: 500px;
+
+  margin:
+    0 auto !important;
+
+  color: #607269 !important;
+
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+
+/* CARDS */
+
+.card {
+  position: relative;
+
+  overflow: hidden;
+
+  margin-bottom: 18px !important;
+
+  padding:
+    22px 18px !important;
+
+  background:
+    #ffffff !important;
+
+  border:
+    1px solid
+    var(--service-border) !important;
+
+  border-radius:
+    18px !important;
+
+  box-shadow:
+    0 6px 18px
+    rgba(24,85,53,.07) !important;
+}
+
+.card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 5px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #0b7f3d,
+      #28b65f
+    );
+}
+
+
+/* SECTION HEADING */
+
+.section-title {
+  position: relative;
+
+  margin:
+    2px 0 6px !important;
+
+  padding-left: 13px;
+
+  color:
+    var(--service-dark) !important;
+
+  font-size:
+    20px !important;
+
+  line-height:
+    1.25 !important;
+
+  font-weight:
+    900 !important;
+}
+
+.section-title::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 3px;
+  bottom: 3px;
+
+  width: 4px;
+
+  border-radius: 4px;
+
+  background:
+    var(--service);
+}
+
+.section-description {
+  margin:
+    0 0 21px !important;
+
+  color:
+    var(--muted) !important;
+
+  font-size:
+    13px !important;
+
+  line-height:
+    1.5 !important;
+}
+
+
+/* FORM GROUP */
+
+.form-group {
+  margin-bottom:
+    19px !important;
+}
+
+label {
+  margin-bottom:
+    7px !important;
+
+  color:
+    #344a40 !important;
+
+  font-size:
+    14px !important;
+
+  line-height:
+    1.35 !important;
+
+  font-weight:
+    800 !important;
+}
+
+.required {
+  color:
+    #d92d20 !important;
+}
+
+
+/* INPUTS */
+
+input,
+select,
+textarea {
+  width:
+    100% !important;
+
+  min-height:
+    54px !important;
+
+  padding:
+    13px 14px !important;
+
+  border:
+    1.5px solid
+    #cbdad2 !important;
+
+  border-radius:
+    12px !important;
+
+  background:
+    #fbfdfc !important;
+
+  color:
+    #25372f !important;
+
+  font-size:
+    16px !important;
+
+  transition:
+    border-color .15s ease,
+    box-shadow .15s ease,
+    background .15s ease !important;
+}
+
+textarea {
+  min-height:
+    105px !important;
+
+  line-height:
+    1.5 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color:
+    #9ba8a1 !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color:
+    var(--service) !important;
+
+  background:
+    #ffffff !important;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(21,148,71,.12) !important;
+
+  outline:
+    none !important;
+}
+
+
+/* FILE INPUT */
+
+input[type="file"] {
+  padding:
+    10px !important;
+
+  background:
+    #f8fcf9 !important;
+}
+
+input[type="file"]::file-selector-button {
+  min-height:
+    38px;
+
+  margin-right:
+    10px;
+
+  padding:
+    8px 13px;
+
+  border:
+    none;
+
+  border-radius:
+    9px;
+
+  background:
+    #e1f4e7;
+
+  color:
+    #096038;
+
+  font-weight:
+    800;
+}
+
+
+/* PHOTO NOTE */
+
+.photo-note {
+  margin-top:
+    8px !important;
+
+  padding:
+    9px 11px;
+
+  border-radius:
+    9px;
+
+  background:
+    #f1f9f4;
+
+  color:
+    #617168 !important;
+
+  font-size:
+    12px !important;
+
+  line-height:
+    1.45 !important;
+}
+
+
+/* PHOTO PREVIEW */
+
+.photo-preview {
+  margin-top:
+    14px !important;
+
+  padding:
+    12px;
+
+  border:
+    1px solid
+    #d6e6dc;
+
+  border-radius:
+    14px;
+
+  background:
+    #f7fbf8;
+}
+
+.photo-preview img {
+  width:
+    min(220px, 100%) !important;
+
+  height:
+    auto !important;
+
+  aspect-ratio:
+    1 / 1;
+
+  object-fit:
+    cover !important;
+
+  border:
+    2px solid
+    #ffffff !important;
+
+  border-radius:
+    14px !important;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0,0,0,.09);
+}
+
+
+/* CHECKBOXES */
+
+input[type="checkbox"] {
+  width:
+    21px !important;
+
+  min-width:
+    21px !important;
+
+  height:
+    21px !important;
+
+  min-height:
+    21px !important;
+
+  padding:
+    0 !important;
+
+  accent-color:
+    var(--service);
+}
+
+
+/* SUBMIT */
+
+.submit-button {
+  min-height:
+    58px !important;
+
+  border-radius:
+    13px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1baa55,
+      #08783e
+    ) !important;
+
+  color:
+    #ffffff !important;
+
+  font-size:
+    16px !important;
+
+  font-weight:
+    900 !important;
+
+  letter-spacing:
+    .1px;
+
+  box-shadow:
+    0 6px 15px
+    rgba(8,120,62,.20) !important;
+}
+
+.submit-button:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #17994c,
+      #066b36
+    ) !important;
+}
+
+.submit-button:active {
+  transform:
+    scale(.985) !important;
+}
+
+
+/* MESSAGE */
+
+.message {
+  margin-bottom:
+    18px !important;
+
+  padding:
+    15px 16px !important;
+
+  border-radius:
+    13px !important;
+
+  font-size:
+    14px !important;
+
+  line-height:
+    1.5 !important;
+}
+
+
+/* LOADING */
+
+.loading-box {
+  border:
+    1px solid
+    #d7e6dc;
+
+  box-shadow:
+    0 14px 38px
+    rgba(20,75,48,.16) !important;
+}
+
+.big-spinner {
+  border-top-color:
+    var(--service) !important;
+}
+
+.loading-title {
+  color:
+    var(--service-dark) !important;
+}
+
+
+/* SUCCESS */
+
+.success-modal {
+  border:
+    1px solid
+    #d4e7da;
+
+  box-shadow:
+    0 18px 50px
+    rgba(17,70,44,.22) !important;
+}
+
+.success-icon {
+  background:
+    #e5f7eb !important;
+
+  color:
+    #08783e !important;
+}
+
+.success-title {
+  color:
+    var(--service-dark) !important;
+}
+
+.success-close {
+  min-height:
+    52px !important;
+
+  border-radius:
+    11px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1baa55,
+      #08783e
+    ) !important;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 480px) {
+
+  .page {
+    padding:
+      8px 10px 38px !important;
+  }
+
+  .back-button {
+    min-height:
+      44px !important;
+
+    margin-bottom:
+      13px !important;
+
+    font-size:
+      13px !important;
+  }
+
+  .header {
+    padding:
+      5px 6px 19px !important;
+
+    margin-bottom:
+      12px !important;
+  }
+
+  .barangay-logo {
+    width:
+      82px !important;
+
+    height:
+      82px !important;
+
+    margin-bottom:
+      7px !important;
+  }
+
+  .barangay {
+    font-size:
+      18px !important;
+  }
+
+  .location {
+    font-size:
+      12px !important;
+  }
+
+  .header h1 {
+    margin-top:
+      15px !important;
+
+    font-size:
+      25px !important;
+  }
+
+  .header h1::before {
+    width:
+      36px;
+
+    height:
+      36px;
+
+    border-radius:
+      11px;
+
+    font-size:
+      21px;
+  }
+
+  .subtitle {
+    padding:
+      0 8px;
+
+    font-size:
+      13px !important;
+  }
+
+  .card {
+    padding:
+      20px 15px !important;
+
+    border-radius:
+      16px !important;
+  }
+
+  .section-title {
+    font-size:
+      18px !important;
+  }
+
+  .section-description {
+    margin-bottom:
+      18px !important;
+  }
+
+  label {
+    font-size:
+      13px !important;
+  }
+
+  input,
+  select,
+  textarea {
+    min-height:
+      52px !important;
+
+    font-size:
+      16px !important;
+  }
+
+  .submit-button {
+    min-height:
+      56px !important;
+  }
+}
+
+
+/* VERY SMALL DEVICES */
+
+@media (max-width: 360px) {
+
+  .page {
+    padding-left:
+      8px !important;
+
+    padding-right:
+      8px !important;
+  }
+
+  .barangay-logo {
+    width:
+      74px !important;
+
+    height:
+      74px !important;
+  }
+
+  .barangay {
+    font-size:
+      17px !important;
+  }
+
+  .header h1 {
+    font-size:
+      23px !important;
+  }
+
+  .card {
+    padding:
+      18px 13px !important;
+  }
+}
+
+</style>
+  
 </head>
 
 
