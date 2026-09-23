@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -10,8 +9,12 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>BRCC-DMS | Public Services</title>
+  <meta
+    name="theme-color"
+    content="#0b6b42"
+  >
 
+  <title>BRCC-DMS | Dog Services</title>
 
   <style>
 
@@ -19,7 +22,6 @@
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
-
 
     html,
     body {
@@ -29,23 +31,21 @@
       min-height: 100%;
     }
 
-
     body {
-
       font-family:
         Arial,
         Helvetica,
         sans-serif;
 
-      color: #164e3b;
+      color: #123d30;
 
       background:
         linear-gradient(
           180deg,
-          #b8f0bd 0%,
-          #e8f9e5 32%,
-          #f4fbea 70%,
-          #d7f1d7 100%
+          #dff7e5 0%,
+          #f8fcf9 25%,
+          #ffffff 58%,
+          #eef9f0 100%
         );
 
       overflow-x: hidden;
@@ -57,105 +57,40 @@
     ========================================================= */
 
     .page-wrapper {
+      position: relative;
 
       width: 100%;
       min-height: 100vh;
 
-      padding:
-        28px 16px 0;
-
-      position: relative;
-
       overflow: hidden;
+
+      padding:
+        18px 14px 0;
     }
 
-
     .container {
+      position: relative;
+      z-index: 3;
 
       width: 100%;
       max-width: 760px;
 
       margin: 0 auto;
-
-      position: relative;
-
-      z-index: 2;
     }
 
 
     /* =========================================================
-       BACKGROUND PAW DECORATIONS
+       TOP DECORATION
     ========================================================= */
 
-    .paw {
-
-      position: absolute;
-
-      font-size: 58px;
-
-      opacity: 0.12;
-
-      pointer-events: none;
-
-      z-index: 0;
-
-      transform: rotate(-15deg);
-    }
-
-
-    .paw-1 {
-      top: 80px;
-      left: 12px;
-    }
-
-
-    .paw-2 {
-
-      top: 170px;
-      right: 12px;
-
-      transform:
-        rotate(18deg);
-    }
-
-
-    .paw-3 {
-
-      top: 460px;
-      left: -10px;
-
-      font-size: 48px;
-
-      transform:
-        rotate(12deg);
-    }
-
-
-    .paw-4 {
-
-      top: 720px;
-      right: -5px;
-
-      font-size: 52px;
-
-      transform:
-        rotate(-18deg);
-    }
-
-
-    /* =========================================================
-       DECORATIVE WAVES
-    ========================================================= */
-
-    .wave-top {
-
+    .top-decoration {
       position: absolute;
 
       top: 0;
       left: 0;
 
       width: 100%;
-      height: 250px;
+      height: 215px;
 
       overflow: hidden;
 
@@ -164,54 +99,81 @@
       z-index: 0;
     }
 
-
-    .wave-top::before {
-
-      content: "";
-
-      position: absolute;
-
-      width: 120%;
-      height: 170px;
-
-      left: -10%;
-      top: -70px;
-
-      background:
-        #6dcc79;
-
-      border-radius:
-        0 0 50% 50%;
-
-      opacity: 0.28;
-
-      transform:
-        rotate(-3deg);
-    }
-
-
-    .wave-top::after {
-
+    .top-decoration::before {
       content: "";
 
       position: absolute;
 
       width: 125%;
-      height: 120px;
+      height: 150px;
 
       left: -12%;
-      top: 40px;
-
-      background:
-        #32a852;
+      top: -75px;
 
       border-radius:
-        50%;
+        0 0 50% 50%;
 
-      opacity: 0.15;
+      background:
+        linear-gradient(
+          120deg,
+          #43c76b,
+          #0d8b4e
+        );
+
+      opacity: 0.50;
 
       transform:
-        rotate(-5deg);
+        rotate(-4deg);
+    }
+
+    .top-decoration::after {
+      content: "";
+
+      position: absolute;
+
+      width: 130%;
+      height: 110px;
+
+      left: -15%;
+      top: 24px;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          90deg,
+          #9be6a7,
+          #39b966
+        );
+
+      opacity: 0.24;
+
+      transform:
+        rotate(4deg);
+    }
+
+    .top-paw {
+      position: absolute;
+
+      z-index: 1;
+
+      font-size: 46px;
+
+      opacity: 0.11;
+
+      pointer-events: none;
+    }
+
+    .top-paw.left {
+      top: 35px;
+      left: 6%;
+      transform: rotate(-18deg);
+    }
+
+    .top-paw.right {
+      top: 78px;
+      right: 7%;
+      transform: rotate(17deg);
     }
 
 
@@ -220,149 +182,144 @@
     ========================================================= */
 
     .header {
+      position: relative;
+
+      z-index: 3;
 
       text-align: center;
 
-      margin-bottom: 30px;
+      padding-top: 4px;
 
-      position: relative;
-
-      z-index: 2;
+      margin-bottom: 24px;
     }
 
-
     .barangay-logo {
+      display: block;
 
-      width: 105px;
-      height: 105px;
+      width: 104px;
+      height: 104px;
 
       object-fit: contain;
 
-      display: block;
-
       margin:
-        10px auto 12px;
+        0 auto 10px;
 
       filter:
         drop-shadow(
           0 5px 8px
-          rgba(0, 80, 45, 0.16)
+          rgba(0, 71, 40, 0.18)
         );
     }
 
-
     .barangay-name {
-
       margin: 0;
 
       font-size: 27px;
+      line-height: 1.12;
 
       font-weight: 900;
 
-      letter-spacing: 1px;
+      letter-spacing: 0.4px;
 
-      color: #064e3b;
-
-      text-shadow:
-        0 1px 0 #ffffff;
+      color: #064d38;
     }
 
-
     .barangay-location {
-
-      margin-top: 5px;
+      margin-top: 4px;
 
       font-size: 16px;
-
-      color: #28734e;
-
       font-weight: 500;
+
+      color: #376d57;
     }
 
 
     /* =========================================================
-       TITLE
+       TITLE DIVIDER
     ========================================================= */
 
     .title-divider {
-
       display: flex;
 
       align-items: center;
-
       justify-content: center;
 
-      gap: 14px;
+      gap: 10px;
+
+      width: 88%;
+      max-width: 500px;
 
       margin:
-        22px auto 4px;
-
-      max-width: 540px;
+        17px auto 8px;
     }
 
-
     .title-divider-line {
+      flex: 1;
 
       height: 2px;
-
-      flex: 1;
 
       background:
         linear-gradient(
           90deg,
           transparent,
-          #279653
+          #26a85b
         );
     }
 
-
     .title-divider-line.right {
-
       background:
         linear-gradient(
           90deg,
-          #279653,
+          #26a85b,
           transparent
         );
     }
 
-
     .title-leaf {
-
-      font-size: 25px;
-
+      font-size: 22px;
       line-height: 1;
-
-      color: #16834a;
     }
 
 
+    /* =========================================================
+       DOG SERVICES TITLE
+    ========================================================= */
+
     .page-title {
-
       margin:
-        14px 0 8px;
+        8px 0 2px;
 
-      font-size: 36px;
+      font-size: 34px;
+      line-height: 1.1;
 
       font-weight: 900;
 
-      color: #064e3b;
+      letter-spacing: -0.6px;
 
-      letter-spacing: -0.5px;
+      color: #073f31;
     }
 
+    .committee-title {
+      margin: 0;
+
+      font-size: 15px;
+      line-height: 1.4;
+
+      font-weight: 700;
+
+      color: #426b5a;
+    }
 
     .page-subtitle {
+      margin:
+        6px auto 0;
 
-      margin: 0 auto;
+      max-width: 560px;
 
-      max-width: 600px;
+      font-size: 14px;
+      line-height: 1.45;
 
-      font-size: 16px;
-
-      line-height: 1.5;
-
-      color: #365f50;
+      color: #537166;
     }
 
 
@@ -371,18 +328,17 @@
     ========================================================= */
 
     .services {
+      position: relative;
+
+      z-index: 3;
 
       display: flex;
 
       flex-direction: column;
 
-      gap: 16px;
+      gap: 14px;
 
-      margin-top: 30px;
-
-      position: relative;
-
-      z-index: 3;
+      margin-top: 24px;
     }
 
 
@@ -391,133 +347,194 @@
     ========================================================= */
 
     .service-card {
+      position: relative;
 
       display: flex;
 
-      align-items: center;
+      align-items: stretch;
 
       width: 100%;
+      min-height: 142px;
 
-      min-height: 132px;
-
-      padding: 18px 20px;
+      overflow: hidden;
 
       text-decoration: none;
 
       color: inherit;
 
-      background:
-        rgba(255, 255, 255, 0.96);
-
       border:
         1px solid
-        rgba(255, 255, 255, 0.85);
+        rgba(255, 255, 255, 0.95);
 
-      border-left:
-        8px solid #21a052;
-
-      border-radius: 20px;
+      border-radius: 25px;
 
       box-shadow:
-        0 8px 22px
-        rgba(20, 83, 45, 0.12);
+        0 8px 20px
+        rgba(18, 77, 48, 0.12);
 
       transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
+        transform 0.16s ease,
+        box-shadow 0.16s ease;
     }
-
 
     .service-card:hover {
-
       transform:
-        translateY(-3px);
+        translateY(-2px);
 
       box-shadow:
-        0 12px 28px
-        rgba(20, 83, 45, 0.18);
+        0 11px 25px
+        rgba(18, 77, 48, 0.17);
     }
 
-
     .service-card:active {
-
       transform:
         scale(0.985);
     }
 
 
     /* =========================================================
-       CARD COLORS
+       CARD BACKGROUNDS
     ========================================================= */
 
     .service-card.registration {
-
-      border-left-color:
-        #159447;
+      background:
+        linear-gradient(
+          115deg,
+          #d9f8df 0%,
+          #effbf1 58%,
+          #d8f5dd 100%
+        );
     }
-
 
     .service-card.update {
-
-      border-left-color:
-        #168bea;
+      background:
+        linear-gradient(
+          115deg,
+          #dcefff 0%,
+          #f1f8ff 58%,
+          #d8efff 100%
+        );
     }
 
-
     .service-card.puppy {
-
-      border-left-color:
-        #f59a0b;
+      background:
+        linear-gradient(
+          115deg,
+          #ffedc8 0%,
+          #fff8e9 58%,
+          #ffedc7 100%
+        );
     }
 
 
     /* =========================================================
-       SERVICE ICON
+       CARD PAW DECORATION
     ========================================================= */
 
-    .service-icon {
+    .service-card::after {
+      content: "🐾";
 
-      width: 78px;
-      height: 78px;
+      position: absolute;
 
-      min-width: 78px;
+      right: 64px;
+      top: 13px;
+
+      font-size: 49px;
+
+      opacity: 0.10;
+
+      pointer-events: none;
+
+      transform:
+        rotate(-12deg);
+    }
+
+    .service-card::before {
+      content: "🐾";
+
+      position: absolute;
+
+      right: 12px;
+      bottom: -10px;
+
+      font-size: 38px;
+
+      opacity: 0.07;
+
+      pointer-events: none;
+
+      transform:
+        rotate(18deg);
+    }
+
+
+    /* =========================================================
+       ICON PANEL
+    ========================================================= */
+
+    .service-icon-panel {
+      position: relative;
+
+      z-index: 2;
 
       display: flex;
 
       align-items: center;
-
       justify-content: center;
 
-      margin-right: 18px;
+      width: 132px;
+      min-width: 132px;
 
-      border-radius: 50%;
+      padding: 13px;
+    }
 
-      font-size: 40px;
+    .registration .service-icon-panel {
+      background:
+        linear-gradient(
+          145deg,
+          #37ce68,
+          #1cad51
+        );
+    }
+
+    .update .service-icon-panel {
+      background:
+        linear-gradient(
+          145deg,
+          #58bfff,
+          #2299ec
+        );
+    }
+
+    .puppy .service-icon-panel {
+      background:
+        linear-gradient(
+          145deg,
+          #ffc544,
+          #ffa611
+        );
+    }
+
+    .service-icon-box {
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      width: 96px;
+      height: 96px;
+
+      border-radius: 22px;
+
+      background:
+        rgba(255, 255, 255, 0.20);
 
       box-shadow:
         inset 0 0 0 1px
-        rgba(0, 0, 0, 0.025);
-    }
+        rgba(255, 255, 255, 0.16);
 
-
-    .registration .service-icon {
-
-      background:
-        #d8f5d3;
-    }
-
-
-    .update .service-icon {
-
-      background:
-        #d8edff;
-    }
-
-
-    .puppy .service-icon {
-
-      background:
-        #ffebcf;
+      font-size: 56px;
+      line-height: 1;
     }
 
 
@@ -526,368 +543,425 @@
     ========================================================= */
 
     .service-content {
+      position: relative;
+
+      z-index: 2;
 
       flex: 1;
 
       min-width: 0;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      padding:
+        18px 72px 18px 20px;
+    }
+
+    .service-title {
+      margin:
+        0 0 7px;
+
+      font-size: 24px;
+      line-height: 1.15;
+
+      font-weight: 900;
+    }
+
+    .registration .service-title {
+      color: #075535;
+    }
+
+    .update .service-title {
+      color: #0752a2;
+    }
+
+    .puppy .service-title {
+      color: #8a2b0b;
+    }
+
+    .service-description {
+      margin: 0;
+
+      max-width: 410px;
+
+      font-size: 15px;
+      line-height: 1.42;
+
+      color: #4e625a;
     }
 
 
-    .service-title {
+    /* =========================================================
+       ROUND ARROW
+    ========================================================= */
 
+    .service-arrow {
+      position: absolute;
+
+      z-index: 4;
+
+      top: 50%;
+      right: 17px;
+
+      width: 52px;
+      height: 52px;
+
+      margin-top: -26px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      color: #ffffff;
+
+      font-size: 42px;
+      font-weight: 300;
+      line-height: 1;
+
+      box-shadow:
+        0 5px 12px
+        rgba(0, 0, 0, 0.12);
+    }
+
+    .registration .service-arrow {
+      background:
+        linear-gradient(
+          145deg,
+          #18b75a,
+          #05843c
+        );
+    }
+
+    .update .service-arrow {
+      background:
+        linear-gradient(
+          145deg,
+          #1da6ff,
+          #0872d8
+        );
+    }
+
+    .puppy .service-arrow {
+      background:
+        linear-gradient(
+          145deg,
+          #ff9f13,
+          #ff7100
+        );
+    }
+
+
+    /* =========================================================
+       DOGSERVICES APP DOWNLOAD
+       Visible in browser.
+       Hidden automatically inside DogServices Android app.
+    ========================================================= */
+
+    .app-download {
+      margin-top: 5px;
+
+      padding:
+        20px 17px;
+
+      text-align: center;
+
+      background:
+        rgba(255, 255, 255, 0.95);
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.95);
+
+      border-radius: 22px;
+
+      box-shadow:
+        0 8px 20px
+        rgba(18, 77, 48, 0.10);
+    }
+
+    .app-download-icon {
+      margin-bottom: 7px;
+
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .app-download-title {
       margin:
         0 0 6px;
 
-      font-size: 22px;
-
-      line-height: 1.2;
+      font-size: 20px;
 
       font-weight: 900;
 
       color: #064e3b;
     }
 
+    .app-download-description {
+      max-width: 480px;
 
-    .service-description {
+      margin:
+        0 auto 14px;
 
-      margin: 0;
-
-      font-size: 15px;
-
+      font-size: 14px;
       line-height: 1.45;
 
       color: #52675e;
     }
 
+    .app-download-button {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      width: 100%;
+      max-width: 330px;
+      min-height: 50px;
+
+      padding:
+        12px 18px;
+
+      border-radius: 14px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #179451,
+          #08753e
+        );
+
+      color: #ffffff;
+
+      text-decoration: none;
+
+      font-size: 15px;
+      font-weight: 800;
+
+      box-shadow:
+        0 6px 14px
+        rgba(22, 131, 74, 0.22);
+    }
+
+    .app-download-button:active {
+      transform:
+        scale(0.98);
+    }
+
+    .app-download-note {
+      margin:
+        11px 0 0;
+
+      font-size: 12px;
+
+      color: #718078;
+    }
+
 
     /* =========================================================
-       ARROW
+       RABIES-FREE MESSAGE
     ========================================================= */
 
-    .service-arrow {
+    .rabies-message {
+      position: relative;
 
-      margin-left: 12px;
+      z-index: 4;
 
-      font-size: 42px;
+      width: 100%;
 
-      line-height: 1;
+      margin-top: 28px;
 
-      font-weight: 300;
+      padding:
+        13px 12px 4px;
+
+      text-align: center;
+    }
+
+    .rabies-title {
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 23px;
+      line-height: 1.15;
+
+      font-weight: 700;
+      font-style: italic;
+
+      color: #07613d;
+    }
+
+    .rabies-subtitle {
+      margin:
+        5px 0 0;
+
+      font-size: 13px;
+      line-height: 1.3;
+
+      font-weight: 700;
+
+      color: #21744c;
     }
 
 
-    .registration .service-arrow {
-
-      color:
-        #159447;
-    }
-
-
-    .update .service-arrow {
-
-      color:
-        #168bea;
-    }
-
-
-    .puppy .service-arrow {
-
-      color:
-        #f59a0b;
-    }
-
-/* =========================================================
-   DOGSERVICES APP DOWNLOAD
-========================================================= */
-
-.app-download {
-
-  margin-top: 10px;
-
-  padding: 22px 18px;
-
-  text-align: center;
-
-  background:
-    rgba(255, 255, 255, 0.94);
-
-  border:
-    1px solid rgba(255,255,255,0.9);
-
-  border-radius: 20px;
-
-  box-shadow:
-    0 8px 22px
-    rgba(20, 83, 45, 0.10);
-}
-
-
-.app-download-icon {
-
-  font-size: 38px;
-
-  line-height: 1;
-
-  margin-bottom: 10px;
-}
-
-
-.app-download-title {
-
-  margin: 0 0 6px;
-
-  font-size: 20px;
-
-  font-weight: 900;
-
-  color: #064e3b;
-}
-
-
-.app-download-description {
-
-  margin:
-    0 auto 16px;
-
-  max-width: 480px;
-
-  font-size: 14px;
-
-  line-height: 1.5;
-
-  color: #52675e;
-}
-
-
-.app-download-button {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 8px;
-
-  width: 100%;
-
-  max-width: 330px;
-
-  min-height: 52px;
-
-  padding:
-    12px 20px;
-
-  border-radius: 14px;
-
-  background:
-    #16834a;
-
-  color: #ffffff;
-
-  text-decoration: none;
-
-  font-size: 15px;
-
-  font-weight: 800;
-
-  box-shadow:
-    0 6px 15px
-    rgba(22, 131, 74, 0.22);
-
-  transition:
-    transform 0.15s ease,
-    background 0.15s ease;
-}
-
-
-.app-download-button:hover {
-
-  background:
-    #116b3c;
-
-  transform:
-    translateY(-2px);
-}
-
-
-.app-download-button:active {
-
-  transform:
-    scale(0.98);
-}
-
-
-.app-download-note {
-
-  margin:
-    12px 0 0;
-
-  font-size: 12px;
-
-  color: #718078;
-}
     /* =========================================================
-       BOTTOM LANDSCAPE
+       LANDSCAPE
     ========================================================= */
 
     .landscape {
-
-      width: 100vw;
-
       position: relative;
 
       left: 50%;
 
+      width: 100vw;
+      height: 125px;
+
       margin-left: -50vw;
-
-      margin-top: 40px;
-
-      height: 155px;
+      margin-top: 0;
 
       overflow: hidden;
 
       background:
         linear-gradient(
           180deg,
-          transparent 0%,
-          rgba(137, 211, 126, 0.25) 40%,
-          #8bd579 100%
+          rgba(230, 250, 232, 0) 0%,
+          #d7f3d5 48%,
+          #a7e4a2 100%
         );
     }
 
-
-    .hill {
-
-      position: absolute;
-
-      bottom: 0;
-
-      width: 120%;
-
-      height: 105px;
-
-      left: -10%;
-
-      background:
-        #a8e78f;
-
-      border-radius:
-        50% 50% 0 0;
-
-      transform:
-        rotate(-2deg);
-    }
-
-
     .hill-back {
-
       position: absolute;
 
-      bottom: 5px;
+      bottom: 4px;
+      left: -15%;
 
-      width: 120%;
-
+      width: 130%;
       height: 80px;
 
-      left: -10%;
-
-      background:
-        #c8efad;
-
       border-radius:
         50% 50% 0 0;
+
+      background: #b9eaa9;
 
       transform:
         rotate(3deg);
     }
 
-
-    .grass {
-
+    .hill {
       position: absolute;
 
-      bottom: 0;
+      bottom: -14px;
+      left: -10%;
 
-      left: 0;
+      width: 125%;
+      height: 77px;
 
-      width: 100%;
+      border-radius:
+        50% 50% 0 0;
 
-      height: 35px;
+      background: #69c879;
 
-      background:
-        #18864a;
+      transform:
+        rotate(-2deg);
     }
 
-
-    .dog-silhouette {
-
+    .grass {
       position: absolute;
 
-      bottom: 18px;
+      left: 0;
+      bottom: 0;
 
-      left: 11%;
+      width: 100%;
+      height: 25px;
 
-      font-size: 72px;
+      background:
+        linear-gradient(
+          180deg,
+          #198e4e,
+          #08743e
+        );
+    }
 
+    .landscape-dog {
+      position: absolute;
+
+      z-index: 3;
+
+      left: 10%;
+      bottom: 15px;
+
+      font-size: 62px;
       line-height: 1;
 
       filter:
         grayscale(1);
 
-      opacity: 0.9;
+      opacity: 0.82;
     }
 
-
-    .dog-silhouette-small {
-
+    .landscape-tree {
       position: absolute;
 
-      bottom: 17px;
+      z-index: 3;
 
-      left: 27%;
+      bottom: 16px;
 
       font-size: 45px;
 
-      line-height: 1;
+      opacity: 0.78;
+    }
 
-      opacity: 0.8;
+    .landscape-tree.one {
+      left: 25%;
+    }
+
+    .landscape-tree.two {
+      right: 14%;
     }
 
 
     /* =========================================================
-       FOOTER
+       SIMPLE BOTTOM FOOTER
+       NO DEVELOPER CREDIT HERE
     ========================================================= */
 
     .footer {
-
       position: relative;
 
       z-index: 4;
 
       margin:
-        0 -16px;
+        0 -14px;
 
       padding:
-        15px 20px 22px;
+        11px 16px 17px;
 
-      background:
-        #087a3e;
+      background: #08743e;
 
       text-align: center;
 
-      font-size: 13px;
-
-      line-height: 1.6;
-
       color:
-        rgba(255,255,255,0.92);
+        rgba(255, 255, 255, 0.93);
+
+      font-size: 12px;
+      line-height: 1.45;
     }
 
-
     .footer strong {
-
-      font-weight: 700;
+      font-weight: 800;
     }
 
 
@@ -897,162 +971,154 @@
 
     @media (max-width: 600px) {
 
-
       .page-wrapper {
-
         padding:
-          22px 14px 0;
+          14px 10px 0;
       }
 
+      .header {
+        margin-bottom: 18px;
+      }
 
       .barangay-logo {
+        width: 86px;
+        height: 86px;
 
-        width: 92px;
-        height: 92px;
-
-        margin-top: 8px;
+        margin-bottom: 7px;
       }
-
 
       .barangay-name {
-
         font-size: 22px;
-
-        letter-spacing:
-          0.5px;
       }
 
-
       .barangay-location {
+        margin-top: 3px;
 
         font-size: 14px;
       }
 
-
       .title-divider {
-
-        margin-top: 18px;
-
-        gap: 10px;
+        margin-top: 13px;
+        margin-bottom: 5px;
       }
-
-
-      .title-leaf {
-
-        font-size: 21px;
-      }
-
 
       .page-title {
-
-        margin-top: 12px;
+        margin-top: 5px;
 
         font-size: 30px;
       }
 
+      .committee-title {
+        font-size: 13px;
+      }
 
       .page-subtitle {
-
-        font-size: 14px;
+        margin-top: 4px;
 
         padding:
           0 8px;
-      }
 
+        font-size: 12.5px;
+      }
 
       .services {
+        gap: 11px;
 
-        gap: 14px;
-
-        margin-top: 25px;
+        margin-top: 18px;
       }
 
-
       .service-card {
+        min-height: 118px;
 
-        min-height: 112px;
+        border-radius: 21px;
+      }
 
-        padding:
-          14px 14px;
+      .service-icon-panel {
+        width: 103px;
+        min-width: 103px;
+
+        padding: 10px;
+      }
+
+      .service-icon-box {
+        width: 78px;
+        height: 78px;
 
         border-radius: 18px;
 
-        border-left-width: 7px;
+        font-size: 44px;
       }
 
-
-      .service-icon {
-
-        width: 62px;
-        height: 62px;
-
-        min-width: 62px;
-
-        margin-right: 13px;
-
-        font-size: 31px;
+      .service-content {
+        padding:
+          14px 54px 14px 14px;
       }
-
 
       .service-title {
-
-        font-size: 18px;
-
         margin-bottom: 5px;
-      }
 
+        font-size: 19px;
+      }
 
       .service-description {
-
-        font-size: 13px;
-
-        line-height: 1.4;
+        font-size: 12.5px;
+        line-height: 1.35;
       }
-
 
       .service-arrow {
+        right: 10px;
 
-        margin-left: 7px;
+        width: 42px;
+        height: 42px;
 
-        font-size: 32px;
+        margin-top: -21px;
+
+        font-size: 34px;
       }
 
+      .service-card::after {
+        right: 45px;
+        top: 8px;
+
+        font-size: 39px;
+      }
+
+      .rabies-message {
+        margin-top: 20px;
+
+        padding-top: 9px;
+      }
+
+      .rabies-title {
+        font-size: 20px;
+      }
+
+      .rabies-subtitle {
+        font-size: 11.5px;
+      }
 
       .landscape {
-
-        height: 125px;
-
-        margin-top: 32px;
+        height: 105px;
       }
 
-
-      .dog-silhouette {
-
-        font-size: 57px;
-
+      .landscape-dog {
         left: 7%;
+
+        font-size: 51px;
       }
 
-
-      .dog-silhouette-small {
-
-        font-size: 36px;
-
-        left: 25%;
+      .landscape-tree {
+        font-size: 37px;
       }
-
 
       .footer {
-
         margin:
-          0 -14px;
+          0 -10px;
 
-        padding:
-          13px 15px 20px;
+        padding-bottom: 15px;
 
-        font-size: 12px;
+        font-size: 11px;
       }
-
     }
 
 
@@ -1062,76 +1128,81 @@
 
     @media (max-width: 380px) {
 
+      .barangay-logo {
+        width: 78px;
+        height: 78px;
+      }
 
       .barangay-name {
-
         font-size: 20px;
       }
 
-
       .page-title {
-
         font-size: 27px;
       }
-
 
       .service-card {
+        min-height: 108px;
+      }
 
+      .service-icon-panel {
+        width: 88px;
+        min-width: 88px;
+
+        padding: 8px;
+      }
+
+      .service-icon-box {
+        width: 68px;
+        height: 68px;
+
+        font-size: 38px;
+      }
+
+      .service-content {
         padding:
-          12px;
+          12px 48px 12px 11px;
       }
-
-
-      .service-icon {
-
-        width: 55px;
-        height: 55px;
-
-        min-width: 55px;
-
-        margin-right: 11px;
-
-        font-size: 27px;
-      }
-
 
       .service-title {
-
         font-size: 17px;
       }
 
-
       .service-description {
-
-        font-size: 12px;
+        font-size: 11.5px;
       }
-
 
       .service-arrow {
+        right: 8px;
 
-        font-size: 28px;
+        width: 38px;
+        height: 38px;
+
+        margin-top: -19px;
+
+        font-size: 30px;
       }
-
     }
 
   </style>
-
 </head>
 
 
 <body>
 
-
   <!-- =======================================================
-       BACKGROUND DECORATION
+       TOP BACKGROUND
   ======================================================== -->
 
-  <div class="wave-top"></div>
+  <div class="top-decoration"></div>
 
-  <div class="paw paw-1">🐾</div>
-  <div class="paw paw-2">🐾</div>
-  <div class="paw paw-3">🐾</div>
-  <div class="paw paw-4">🐾</div>
+  <div class="top-paw left">
+    🐾
+  </div>
+
+  <div class="top-paw right">
+    🐾
+  </div>
 
 
   <div class="page-wrapper">
@@ -1144,7 +1215,6 @@
       ==================================================== -->
 
       <header class="header">
-
 
         <img
           src="barangay-logo.png"
@@ -1179,22 +1249,25 @@
 
 
         <h2 class="page-title">
-          Public Services
+          DOG SERVICES
         </h2>
 
 
-        <p class="page-subtitle">
-          Access the Barangay Rabies Control Committee
-          online services.
+        <p class="committee-title">
+          Barangay Rabies Control Committee
         </p>
 
+
+        <p class="page-subtitle">
+          Access our online services for a safer
+          and healthier community.
+        </p>
 
       </header>
 
 
-
       <!-- ===================================================
-           PUBLIC SERVICES
+           DOG SERVICES
       ==================================================== -->
 
       <main class="services">
@@ -1209,8 +1282,12 @@
           class="service-card registration"
         >
 
-          <div class="service-icon">
-            🐕
+          <div class="service-icon-panel">
+
+            <div class="service-icon-box">
+              🐕
+            </div>
+
           </div>
 
 
@@ -1219,7 +1296,6 @@
             <h3 class="service-title">
               Dog Registration
             </h3>
-
 
             <p class="service-description">
               Register your dog with the
@@ -1236,7 +1312,6 @@
         </a>
 
 
-
         <!-- ===============================================
              REGISTRY UPDATE
         ================================================ -->
@@ -1246,8 +1321,12 @@
           class="service-card update"
         >
 
-          <div class="service-icon">
-            ✏️
+          <div class="service-icon-panel">
+
+            <div class="service-icon-box">
+              📝
+            </div>
+
           </div>
 
 
@@ -1256,7 +1335,6 @@
             <h3 class="service-title">
               Registry Update
             </h3>
-
 
             <p class="service-description">
               Request updates to an existing
@@ -1273,7 +1351,6 @@
         </a>
 
 
-
         <!-- ===============================================
              PUPPY REPORT
         ================================================ -->
@@ -1283,8 +1360,12 @@
           class="service-card puppy"
         >
 
-          <div class="service-icon">
-            🐶
+          <div class="service-icon-panel">
+
+            <div class="service-icon-box">
+              🐶
+            </div>
+
           </div>
 
 
@@ -1293,7 +1374,6 @@
             <h3 class="service-title">
               Puppy Report
             </h3>
-
 
             <p class="service-description">
               Report newborn puppies from a
@@ -1307,11 +1387,12 @@
             ›
           </div>
 
-              </a>
+        </a>
 
 
         <!-- ===============================================
              DOGSERVICES ANDROID APP
+             Browser only
         ================================================ -->
 
         <section class="app-download">
@@ -1320,22 +1401,25 @@
             📱
           </div>
 
+
           <h3 class="app-download-title">
             DogServices Mobile App
           </h3>
 
+
           <p class="app-download-description">
-            Install the official
-            Dog Services app for easier access
-            to Barangay dog services.
+            Install the official Dog Services app
+            for easier access to Barangay dog services.
           </p>
 
-      <a
-  href="https://github.com/brcc-tupoloeste/brcc-dms-public/releases/latest/download/TupolOeste-DogServices.apk"
-  class="app-download-button"
->
-  ⬇ Download Android App
-</a>
+
+          <a
+            href="https://github.com/brcc-tupoloeste/brcc-dms-public/releases/latest/download/TupolOeste-DogServices.apk"
+            class="app-download-button"
+          >
+            ⬇ Download Android App
+          </a>
+
 
           <p class="app-download-note">
             For Android devices • Barangay Tupol Oeste,
@@ -1344,14 +1428,32 @@
 
         </section>
 
-
       </main>
 
     </div>
 
 
     <!-- =====================================================
-         LANDSCAPE FOOTER
+         RABIES-FREE MESSAGE
+    ====================================================== -->
+
+    <section class="rabies-message">
+
+      <p class="rabies-title">
+        “Rabies-Free Tupol Oeste”
+      </p>
+
+      <p class="rabies-subtitle">
+        Responsible Pet Ownership
+        <br>
+        for a Healthier Community
+      </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         LANDSCAPE
     ====================================================== -->
 
     <div class="landscape">
@@ -1360,12 +1462,16 @@
 
       <div class="hill"></div>
 
-      <div class="dog-silhouette">
+      <div class="landscape-dog">
         🐕
       </div>
 
-      <div class="dog-silhouette-small">
-        🐕
+      <div class="landscape-tree one">
+        🌳
+      </div>
+
+      <div class="landscape-tree two">
+        🌳
       </div>
 
       <div class="grass"></div>
@@ -1375,6 +1481,7 @@
 
     <!-- =====================================================
          FOOTER
+         No developer credit here.
     ====================================================== -->
 
     <footer class="footer">
@@ -1385,26 +1492,42 @@
 
       <br>
 
-      BRCC-DMS Public Services
+      BRCC-DMS Dog Services
 
     </footer>
 
-
   </div>
-<script>
-  if (
-    navigator.userAgent.includes(
-      "DogServicesAndroidApp"
-    )
-  ) {
-    const appDownload =
-      document.querySelector(".app-download");
 
-    if (appDownload) {
-      appDownload.style.display = "none";
+
+  <!-- =======================================================
+       DOGSERVICES ANDROID APP DETECTION
+
+       Keep download section visible in browser.
+       Hide it inside the installed DogServices app.
+  ======================================================== -->
+
+  <script>
+
+    if (
+      navigator.userAgent.includes(
+        "DogServicesAndroidApp"
+      )
+    ) {
+
+      const appDownload =
+        document.querySelector(
+          ".app-download"
+        );
+
+      if (appDownload) {
+
+        appDownload.style.display =
+          "none";
+
+      }
     }
-  }
-</script>
+
+  </script>
 
 </body>
 
