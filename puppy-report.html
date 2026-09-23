@@ -3232,12 +3232,14 @@ function hideMessage() {
 </body>
 
 <style>
-/* FINAL ORANGE VERIFY MOTHER DOG BUTTON */
+<style>
+/* ============================================================
+   FINAL ORANGE VERIFY MOTHER DOG BUTTON
+   Actual button: #searchButton.search-btn
+============================================================ */
 
-#verifyMotherButton,
-#verifyMotherDogButton,
-.verify-mother-button,
-button[onclick*="verifyMother"] {
+#searchButton,
+.search-btn {
   width: 100% !important;
   min-height: 56px !important;
 
@@ -3259,25 +3261,35 @@ button[onclick*="verifyMother"] {
   box-shadow:
     0 6px 15px
     rgba(226, 120, 4, 0.22) !important;
+
+  cursor: pointer !important;
 }
 
-#verifyMotherButton:hover,
-#verifyMotherDogButton:hover,
-.verify-mother-button:hover,
-button[onclick*="verifyMother"]:hover {
+#searchButton:hover,
+.search-btn:hover {
   background: linear-gradient(
     135deg,
-    #f9a20e,
-    #dc7000
+    #f9a20e 0%,
+    #e77a04 55%,
+    #cc6500 100%
   ) !important;
 }
 
-#verifyMotherButton:active,
-#verifyMotherDogButton:active,
-.verify-mother-button:active,
-button[onclick*="verifyMother"]:active {
+#searchButton:active,
+.search-btn:active {
   transform: scale(0.985) !important;
 }
-</style>
 
-</html>
+#searchButton:disabled,
+.search-btn:disabled {
+  background: linear-gradient(
+    135deg,
+    #ffc866,
+    #eda94c
+  ) !important;
+
+  color: #ffffff !important;
+  opacity: 0.75 !important;
+  cursor: not-allowed !important;
+}
+</style>
