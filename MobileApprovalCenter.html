@@ -6534,28 +6534,69 @@ function printDogMasterlist() {
     will open Android native Print Preview.
   */
 
-  try {
+try {
 
-    if (
-      window.AndroidRegistry &&
-      typeof window.AndroidRegistry.printMasterlist ===
-        'function'
-    ) {
+  const hasAndroidRegistry =
+    typeof window.AndroidRegistry !==
+      'undefined';
 
-      window.AndroidRegistry.printMasterlist(
-        printHtml
-      );
+  const hasMasterlistPrint =
+    hasAndroidRegistry &&
+    typeof window.AndroidRegistry.printMasterlist ===
+      'function';
 
-      return;
-    }
 
-  } catch (error) {
+  if (hasMasterlistPrint) {
 
-    console.error(
-      'ANDROID MASTERLIST PRINT ERROR:',
-      error
+    window.AndroidRegistry.printMasterlist(
+      printHtml
     );
+
+    return;
   }
+
+
+  /*
+    IMPORTANT:
+    If this page is running inside the Registry Center Android app,
+    do NOT silently fall back to window.open().
+    Show the actual bridge problem instead.
+  */
+
+  if (
+    navigator.userAgent
+      .toLowerCase()
+      .includes('android')
+  ) {
+
+    alert(
+      'Android print service is not connected.\n\n' +
+      'AndroidRegistry: ' +
+      (hasAndroidRegistry ? 'FOUND' : 'NOT FOUND') +
+      '\n' +
+      'printMasterlist: ' +
+      (hasMasterlistPrint ? 'FOUND' : 'NOT FOUND')
+    );
+
+    return;
+  }
+
+} catch (error) {
+
+  console.error(
+    'ANDROID MASTERLIST PRINT ERROR:',
+    error
+  );
+
+  alert(
+    'Android print error:\n' +
+    (error && error.message
+      ? error.message
+      : String(error))
+  );
+
+  return;
+}
 
 
   /*
