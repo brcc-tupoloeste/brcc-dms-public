@@ -1,18 +1,132 @@
+
 /* ============================================================
    BRCC-DMS V3
-   PUBLIC PORTAL API CONNECTOR
-============================================================ */
-
-
-/* ============================================================
-   GOOGLE APPS SCRIPT WEB APP URL
-
-   IMPORTANT:
-   This must be the deployed /exec URL.
+   PUBLIC PORTAL API CONNECTOR — STEP 8S
 ============================================================ */
 
 const BRCC_API_URL =
   'https://script.google.com/macros/s/AKfycbzCGq7RqItFizrjt6EosUzTnGO9-FhxDgWrrwG-qfXu1YcPwGy8SydZvrGhkow64r3C7Q/exec';
+
+
+/* ============================================================
+   ANDROID ONE-TIME SUBMISSION PROOF
+============================================================ */
+
+const BRCC_NOTIFICATION_SERVICES = new Set([
+  'registration',
+  'registry_update',
+  'puppy_report'
+]);
+
+const BRCC_NATIVE_PROOF_TIMEOUT_MS = 15000;
+
+let brccNativeProofCounter = 0;
+
+const brccNativeProofPending = new Map();
+
+let brccNativeProofListenerInstalled = false;
+
+
+function brccInstallNativeProofListener() {
+
+  if (brccNativeProofListenerInstalled) return;
+
+  if (!window.BRCCNative ||
+      typeof window.BRCCNative.postMessage !== 'function') {
+    return;
+  }
+
+  window.BRCCNative.onmessage = function(event) {
+
+    let message;
+
+    try {
+      message = JSON.parse(event.data);
+    } catch (_) {
+      return;
+    }
+
+    if (!message ||
+        message.action !== 'submissionProof') {
+      return;
+    }
+
+    const requestId = String(message.requestId || '');
+    const pending = brccNativeProofPending.get(requestId);
+
+    if (!pending) return;
+
+    clearTimeout(pending.timer);
+    brccNativeProofPending.delete(requestId);
+
+    if (message.ok === true &&
+        typeof message.proofId === 'string' &&
+        typeof message.proof === 'string') {
+
+      pending.resolve({
+        proofId: message.proofId,
+        proof: message.proof,
+        expiresAt: message.expiresAt
+      });
+
+    } else {
+
+      pending.reject(
+        new Error('Android notification proof unavailable.')
+      );
+
+    }
+  };
+
+  brccNativeProofListenerInstalled = true;
+}
+
+
+async function brccGetAndroidSubmissionProof() {
+
+  if (!window.BRCCNative ||
+      typeof window.BRCCNative.postMessage !== 'function') {
+    return null;
+  }
+
+  brccInstallNativeProofListener();
+
+  const requestId =
+    'brcc-' + Date.now() + '-' + (++brccNativeProofCounter);
+
+  return new Promise((resolve, reject) => {
+
+    const timer = setTimeout(() => {
+      brccNativeProofPending.delete(requestId);
+      reject(new Error('Android proof request timed out.'));
+    }, BRCC_NATIVE_PROOF_TIMEOUT_MS);
+
+    brccNativeProofPending.set(requestId, {
+      resolve,
+      reject,
+      timer
+    });
+
+    try {
+
+      window.BRCCNative.postMessage(
+        JSON.stringify({
+          action: 'issueSubmissionProof',
+          requestId
+        })
+      );
+
+    } catch (_) {
+
+      clearTimeout(timer);
+      brccNativeProofPending.delete(requestId);
+
+      reject(
+        new Error('Unable to request Android proof.')
+      );
+    }
+  });
+}
 
 
 /* ============================================================
@@ -25,118 +139,101 @@ async function brccRequest(service, data = {}) {
     throw new Error('BRCC API URL is not configured.');
   }
 
+  const serviceName =
+    String(service || '').trim().toLowerCase();
+
+  const requestData = Object.assign({}, data || {});
+
+  /*
+   * For Android submissions, request a one-time proof.
+   * Browser submissions continue without a proof.
+   *
+   * Server-side verification and device binding
+   * are NOT active yet.
+   */
+
+  if (BRCC_NOTIFICATION_SERVICES.has(serviceName)) {
+
+    try {
+
+      const proof = await brccGetAndroidSubmissionProof();
+
+      if (proof) {
+
+        requestData.notificationProofId = proof.proofId;
+        requestData.notificationProof = proof.proof;
+
+      }
+
+    } catch (_) {
+
+      // Notification proof failure must not prevent
+      // a normal registration/update/report submission.
+      console.warn(
+        'Android notification proof unavailable; continuing submission.'
+      );
+
+    }
+  }
 
   const payload = {
-    service: String(service || '').trim(),
-    data: data || {}
+    service: serviceName,
+    data: requestData
   };
 
-
-  console.log('========================================');
-  console.log('BRCC API REQUEST');
-  console.log('URL:', BRCC_API_URL);
-  console.log('PAYLOAD:', payload);
-  console.log('========================================');
-
+  // Never log the full payload, owner details, photos,
+  // device credentials, or notification proofs.
+  console.info('BRCC API request:', serviceName);
 
   let response;
 
-
   try {
 
-    response = await fetch(
-      BRCC_API_URL,
-      {
-        method: 'POST',
+    response = await fetch(BRCC_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    });
 
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
-        },
-
-        body: JSON.stringify(payload),
-
-        redirect: 'follow'
-      }
-    );
-
-  }
-  catch (error) {
-
-    console.error('BRCC NETWORK ERROR:', error);
+  } catch (_) {
 
     throw new Error(
       'Unable to connect to the BRCC-DMS server.'
     );
-
   }
 
+  console.info('BRCC API HTTP status:', response.status);
 
-  console.log(
-    'BRCC API HTTP STATUS:',
-    response.status
-  );
-
-
-  const responseText =
-    await response.text();
-
-
-  console.log(
-    'BRCC API RAW RESPONSE:',
-    responseText
-  );
-
+  const responseText = await response.text();
 
   let result;
 
-
   try {
 
-    result =
-      JSON.parse(responseText);
+    result = JSON.parse(responseText);
 
+  } catch (_) {
+
+    throw new Error('Invalid server response.');
   }
-  catch (error) {
-
-    console.error(
-      'BRCC INVALID JSON RESPONSE:',
-      responseText
-    );
-
-    throw new Error(
-      'Invalid server response.'
-    );
-
-  }
-
 
   if (!result) {
-
-    throw new Error(
-      'Empty response from server.'
-    );
-
+    throw new Error('Empty response from server.');
   }
-
 
   if (result.success !== true) {
 
     throw new Error(
-      result.message ||
-      'Request failed.'
+      result.message || 'Request failed.'
     );
-
   }
 
-
-  console.log(
-    'BRCC API SUCCESS:',
-    result
-  );
-
+  console.info('BRCC API success:', serviceName);
 
   return result;
-
 }
 
 
@@ -145,12 +242,7 @@ async function brccRequest(service, data = {}) {
 ============================================================ */
 
 async function brccSubmit(service, data) {
-
-  return brccRequest(
-    service,
-    data
-  );
-
+  return brccRequest(service, data);
 }
 
 
@@ -160,26 +252,17 @@ async function brccSubmit(service, data) {
 
 async function brccVerifyMotherDog(registryNumber) {
 
-  if (
-    !registryNumber ||
-    !String(registryNumber).trim()
-  ) {
+  if (!registryNumber ||
+      !String(registryNumber).trim()) {
 
     throw new Error(
       'Mother Dog Registry Number is required.'
     );
-
   }
 
-
-  return brccRequest(
-    'verify_mother_dog',
-    {
-      registryNumber:
-        String(registryNumber).trim()
-    }
-  );
-
+  return brccRequest('verify_mother_dog', {
+    registryNumber: String(registryNumber).trim()
+  });
 }
 
 
@@ -189,26 +272,17 @@ async function brccVerifyMotherDog(registryNumber) {
 
 async function brccVerifyDogQR(token) {
 
-  if (
-    !token ||
-    !String(token).trim()
-  ) {
+  if (!token ||
+      !String(token).trim()) {
 
     throw new Error(
       'Verification token is required.'
     );
-
   }
 
-
-  return brccRequest(
-    'verify_dog_qr',
-    {
-      token:
-        String(token).trim()
-    }
-  );
-
+  return brccRequest('verify_dog_qr', {
+    token: String(token).trim()
+  });
 }
 
 
@@ -220,16 +294,8 @@ async function brccMobileApproval(action, data = {}) {
 
   return brccRequest(
     'mobile_approval',
-    Object.assign(
-      {},
-      data,
-      {
-        action:
-          String(action || '')
-            .trim()
-            .toLowerCase()
-      }
-    )
+    Object.assign({}, data, {
+      action: String(action || '').trim().toLowerCase()
+    })
   );
-
 }
