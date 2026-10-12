@@ -1,8 +1,7 @@
 
 /* ============================================================
-   BRCC-DMS V3
-   PUBLIC PORTAL API CONNECTOR
-   STEP 8S — ANDROID SUBMISSION PROOF
+   BRCC-DMS V3 — PUBLIC PORTAL API CONNECTOR
+   STEP 8S: ANDROID SUBMISSION PROOF
 ============================================================ */
 
 const BRCC_API_URL =
@@ -14,325 +13,240 @@ const BRCC_NOTIFICATION_SERVICES = new Set([
   'puppy_report'
 ]);
 
-let brccNativeProofPending = false;
+const BRCC_PROOF_TIMEOUT_MS = 15000;
+const BRCC_PROOF_PENDING = new Map();
 
+let brccProofSequence = 0;
+let brccProofListenerInstalled = false;
 
 /* ============================================================
-   REQUEST ONE-TIME PROOF FROM ANDROID
+   ANDROID BRIDGE
 ============================================================ */
 
-async function brccGetAndroidSubmissionProof() {
-
-  if (
-    !window.BRCCNative ||
-    typeof window.BRCCNative.postMessage !== 'function'
-  ) {
-    return null;
-  }
-
-  if (brccNativeProofPending) {
-    return null;
-  }
-
-  brccNativeProofPending = true;
-
-  const requestId =
-    'brcc-' +
-    Date.now() +
-    '-' +
-    Math.random().toString(36).slice(2);
-
-  try {
-
-    return await new Promise((resolve) => {
-
-      let completed = false;
-
-      const finish = (value) => {
-
-        if (completed) return;
-
-        completed = true;
-
-        clearTimeout(timer);
-
-        window.BRCCNative.removeEventListener(
-          'message',
-          onMessage
-        );
-
-        resolve(value);
-      };
-
-      const onMessage = (event) => {
-
-        let message;
-
-        try {
-          message = JSON.parse(event.data);
-        } catch {
-          return;
-        }
-
-        if (
-          !message ||
-          message.requestId !== requestId ||
-          message.action !== 'submissionProof'
-        ) {
-          return;
-        }
-
-        if (
-          message.ok === true &&
-          typeof message.proofId === 'string' &&
-          typeof message.proof === 'string'
-        ) {
-
-          finish({
-            proofId: message.proofId,
-            proof: message.proof
-          });
-
-        } else {
-
-          finish(null);
-
-        }
-      };
-
-      const timer = setTimeout(
-        () => finish(null),
-        15000
-      );
-
-      window.BRCCNative.addEventListener(
-        'message',
-        onMessage
-      );
-
-      try {
-
-        window.BRCCNative.postMessage(
-          JSON.stringify({
-            action: 'issueSubmissionProof',
-            requestId
-          })
-        );
-
-      } catch {
-
-        finish(null);
-
-      }
-    });
-
-  } finally {
-
-    brccNativeProofPending = false;
-
-  }
+function brccHasAndroidBridge() {
+  return !!(
+    window.BRCCNative &&
+    typeof window.BRCCNative.postMessage === 'function'
+  );
 }
 
+function brccInstallProofListener() {
+  if (brccProofListenerInstalled || !brccHasAndroidBridge()) {
+    return;
+  }
+
+  window.BRCCNative.addEventListener(
+    'message',
+    function (event) {
+      let message;
+
+      try {
+        message = JSON.parse(event.data);
+      } catch (_) {
+        return;
+      }
+
+      if (
+        !message ||
+        message.action !== 'submissionProof' ||
+        typeof message.requestId !== 'string'
+      ) {
+        return;
+      }
+
+      const pending = BRCC_PROOF_PENDING.get(message.requestId);
+      if (!pending) return;
+
+      clearTimeout(pending.timer);
+      BRCC_PROOF_PENDING.delete(message.requestId);
+
+      if (
+        message.ok === true &&
+        typeof message.proofId === 'string' &&
+        typeof message.proof === 'string' &&
+        Number(message.expiresAt) > Math.floor(Date.now() / 1000)
+      ) {
+        pending.resolve({
+          proofId: message.proofId,
+          proof: message.proof,
+          expiresAt: Number(message.expiresAt)
+        });
+      } else {
+        pending.reject(new Error('Android notification proof unavailable.'));
+      }
+    }
+  );
+
+  brccProofListenerInstalled = true;
+}
+
+function brccGetSubmissionProof() {
+  if (!brccHasAndroidBridge()) {
+    return Promise.resolve(null);
+  }
+
+  brccInstallProofListener();
+
+  return new Promise(function (resolve, reject) {
+    const requestId =
+      'brcc-' + Date.now() + '-' + (++brccProofSequence);
+
+    const timer = setTimeout(function () {
+      BRCC_PROOF_PENDING.delete(requestId);
+      reject(new Error('Android notification proof timed out.'));
+    }, BRCC_PROOF_TIMEOUT_MS);
+
+    BRCC_PROOF_PENDING.set(requestId, {
+      resolve: resolve,
+      reject: reject,
+      timer: timer
+    });
+
+    try {
+      window.BRCCNative.postMessage(JSON.stringify({
+        action: 'issueSubmissionProof',
+        requestId: requestId
+      }));
+    } catch (_) {
+      clearTimeout(timer);
+      BRCC_PROOF_PENDING.delete(requestId);
+      reject(new Error('Unable to request Android notification proof.'));
+    }
+  });
+}
 
 /* ============================================================
    GENERIC BRCC API REQUEST
 ============================================================ */
 
 async function brccRequest(service, data = {}) {
-
   if (!BRCC_API_URL) {
-    throw new Error(
-      'BRCC API URL is not configured.'
-    );
+    throw new Error('BRCC API URL is not configured.');
   }
 
-  const normalizedService =
-    String(service || '').trim();
-
-  const requestData =
-    Object.assign({}, data || {});
-
-  /*
-   * Only the three public submission services
-   * may request a one-time Android proof.
-   *
-   * Browser users continue without a proof.
-   */
-  if (
-    BRCC_NOTIFICATION_SERVICES.has(
-      normalizedService.toLowerCase()
-    )
-  ) {
-
-    const nativeProof =
-      await brccGetAndroidSubmissionProof();
-
-    if (nativeProof) {
-
-      requestData.notificationProofId =
-        nativeProof.proofId;
-
-      requestData.notificationProof =
-        nativeProof.proof;
-
-    }
-  }
+  const serviceName = String(service || '').trim();
 
   const payload = {
-    service: normalizedService,
-    data: requestData
+    service: serviceName,
+    data: data || {}
   };
 
-  // Do not log submitted personal data,
-  // photos, credentials or notification proofs.
+  // Only submission services need a one-time proof.
+  // Browser users continue without a proof.
+  if (
+    BRCC_NOTIFICATION_SERVICES.has(serviceName.toLowerCase()) &&
+    brccHasAndroidBridge()
+  ) {
+    try {
+      const submissionProof = await brccGetSubmissionProof();
+
+      if (submissionProof) {
+        payload.data = Object.assign({}, payload.data, {
+          notificationProofId: submissionProof.proofId,
+          notificationProof: submissionProof.proof
+        });
+      }
+    } catch (_) {
+      // Notification is optional; do not block the request.
+      console.warn(
+        'Android notification proof unavailable; continuing submission.'
+      );
+    }
+  }
 
   let response;
 
   try {
-
-    response = await fetch(
-      BRCC_API_URL,
-      {
-        method: 'POST',
-
-        headers: {
-          'Content-Type':
-            'text/plain;charset=utf-8'
-        },
-
-        body: JSON.stringify(payload),
-
-        redirect: 'follow'
-      }
-    );
-
-  } catch {
-
+    response = await fetch(BRCC_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    });
+  } catch (_) {
     throw new Error(
       'Unable to connect to the BRCC-DMS server.'
     );
-
   }
 
-  const responseText =
-    await response.text();
+  if (!response.ok) {
+    throw new Error(
+      'BRCC-DMS server returned HTTP ' + response.status + '.'
+    );
+  }
 
   let result;
 
   try {
-
-    result = JSON.parse(responseText);
-
-  } catch {
-
-    throw new Error(
-      'Invalid server response.'
-    );
-
+    result = await response.json();
+  } catch (_) {
+    throw new Error('Invalid server response.');
   }
 
   if (!result) {
-
-    throw new Error(
-      'Empty response from server.'
-    );
-
+    throw new Error('Empty response from server.');
   }
 
   if (result.success !== true) {
-
     throw new Error(
-      result.message ||
-      'Request failed.'
+      result.message || 'Request failed.'
     );
-
   }
 
+  // Do not log owner information, photo data,
+  // submission proofs or full server responses.
   return result;
 }
-
 
 /* ============================================================
    GENERIC SUBMIT
 ============================================================ */
 
 async function brccSubmit(service, data) {
-
   return brccRequest(service, data);
-
 }
-
 
 /* ============================================================
    VERIFY MOTHER DOG
 ============================================================ */
 
 async function brccVerifyMotherDog(registryNumber) {
-
-  if (
-    !registryNumber ||
-    !String(registryNumber).trim()
-  ) {
-
+  if (!registryNumber || !String(registryNumber).trim()) {
     throw new Error(
       'Mother Dog Registry Number is required.'
     );
-
   }
 
-  return brccRequest(
-    'verify_mother_dog',
-    {
-      registryNumber:
-        String(registryNumber).trim()
-    }
-  );
+  return brccRequest('verify_mother_dog', {
+    registryNumber: String(registryNumber).trim()
+  });
 }
-
 
 /* ============================================================
    VERIFY DOG QR CODE
 ============================================================ */
 
 async function brccVerifyDogQR(token) {
-
-  if (
-    !token ||
-    !String(token).trim()
-  ) {
-
-    throw new Error(
-      'Verification token is required.'
-    );
-
+  if (!token || !String(token).trim()) {
+    throw new Error('Verification token is required.');
   }
 
-  return brccRequest(
-    'verify_dog_qr',
-    {
-      token: String(token).trim()
-    }
-  );
+  return brccRequest('verify_dog_qr', {
+    token: String(token).trim()
+  });
 }
-
 
 /* ============================================================
    MOBILE APPROVAL API
 ============================================================ */
 
 async function brccMobileApproval(action, data = {}) {
-
   return brccRequest(
     'mobile_approval',
-    Object.assign(
-      {},
-      data,
-      {
-        action:
-          String(action || '')
-            .trim()
-            .toLowerCase()
-      }
-    )
+    Object.assign({}, data, {
+      action: String(action || '').trim().toLowerCase()
+    })
   );
 }
