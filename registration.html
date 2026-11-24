@@ -2549,6 +2549,95 @@ reader.onload =
     );
 
 
+/* ============================================================
+   REGULAR DOG REGISTRATION — MINIMUM AGE VALIDATION
+   Minimum age: 3 calendar months
+============================================================ */
+
+function validateRegularDogAge(birthdateValue) {
+  if (!birthdateValue) {
+    return {
+      valid: false,
+      message: 'Please enter the dog’s Birthdate.'
+    };
+  }
+
+  const parts = birthdateValue.split('-').map(Number);
+  if (parts.length !== 3 || parts.some(Number.isNaN)) {
+    return {
+      valid: false,
+      message: 'Invalid Birthdate. Please select a valid date.'
+    };
+  }
+
+  const [year, month, day] = parts;
+  const birthDate = new Date(year, month - 1, day);
+  birthDate.setHours(0, 0, 0, 0);
+
+  // Reject invalid calendar dates.
+  if (
+    birthDate.getFullYear() !== year ||
+    birthDate.getMonth() !== month - 1 ||
+    birthDate.getDate() !== day
+  ) {
+    return {
+      valid: false,
+      message: 'Invalid Birthdate. Please select a valid date.'
+    };
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (birthDate > today) {
+    return {
+      valid: false,
+      message: 'Future Birthdates are not allowed.'
+    };
+  }
+
+  // Calculate the exact date three calendar months ago.
+  const cutoff = new Date(
+    today.getFullYear(),
+    today.getMonth() - 3,
+    1
+  );
+
+  const lastDayOfCutoffMonth = new Date(
+    cutoff.getFullYear(),
+    cutoff.getMonth() + 1,
+    0
+  ).getDate();
+
+  cutoff.setDate(Math.min(today.getDate(), lastDayOfCutoffMonth));
+  cutoff.setHours(0, 0, 0, 0);
+
+  if (birthDate > cutoff) {
+    return {
+      valid: false,
+      message:
+        'This dog is still below 3 months old. Please use the Puppy Report service instead of regular Dog Registration.'
+    };
+  }
+
+  return {
+    valid: true,
+    message: ''
+  };
+}
+
+/* LIVE BIRTHDATE VALIDATION */
+
+document.getElementById('birthdate').addEventListener('change', function() {
+  const result = validateRegularDogAge(this.value);
+
+  if (!result.valid) {
+    showMessage(result.message, 'error');
+  } else {
+    hideMessage();
+  }
+});
+
 
   /* =========================================
      FORM SUBMISSION
@@ -2588,6 +2677,17 @@ reader.onload =
           return;
 
         }
+
+/* CHECK MINIMUM DOG AGE */
+
+const birthdateValue = document.getElementById('birthdate').value;
+const ageValidation = validateRegularDogAge(birthdateValue);
+
+if (!ageValidation.valid) {
+  showMessage(ageValidation.message, 'error');
+  document.getElementById('birthdate').focus();
+  return;
+}
 
 
         /* CHECK PHOTO */
