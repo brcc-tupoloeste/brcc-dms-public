@@ -1,7 +1,7 @@
-
 /* ============================================================
    BRCC-DMS V3 — PUBLIC PORTAL API CONNECTOR
-   ROLLBACK VERSION — NO ANDROID SUBMISSION PROOF
+   OWNER VERIFICATION ENABLED
+   ROLLBACK: NO ANDROID SUBMISSION PROOF
 
    Preserves existing public portal API services.
 ============================================================ */
@@ -60,7 +60,7 @@ async function brccRequest(service, data = {}) {
 
   if (result.success !== true) {
     throw new Error(
-      'BRCC-DMS request failed. Please review your details and try again.'
+      result.message || 'BRCC-DMS request failed. Please review your details and try again.'
     );
   }
 
@@ -73,6 +73,14 @@ async function brccRequest(service, data = {}) {
 
 async function brccSubmit(service, data) {
   return brccRequest(service, data);
+}
+
+/* ============================================================
+   OWNER LOOKUP / VERIFICATION
+============================================================ */
+
+async function brccLookupOwner(data) {
+  return brccRequest('owner_lookup', data || {});
 }
 
 /* ============================================================
