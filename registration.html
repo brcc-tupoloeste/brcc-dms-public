@@ -1775,8 +1775,7 @@ input[type="checkbox"] {
 
 
     <p class="subtitle">
-      Complete the form below to register your dog.
-      Please provide accurate information.
+      Verify the dog owner first, then complete the dog information form.
     </p>
 
   </div>
@@ -1802,168 +1801,59 @@ input[type="checkbox"] {
 
 
 
-  <!-- FORM -->
+  <!-- OWNER VERIFICATION -->
 
-  <form id="registrationForm">
-
-
-    <!-- =====================================
-         OWNER INFORMATION
-    ====================================== -->
-
-    <div class="card">
-
-      <div class="section-title">
-        Owner Information
-      </div>
-
-
-      <div class="section-description">
-        Information about the dog owner.
-      </div>
-
-
-      <!-- FULL NAME -->
-
+  <div class="card" id="ownerVerificationCard">
+    <div class="section-title">Owner Verification</div>
+    <div class="section-description">Verify your owner information first to view your previous dog records and continue with registration.</div>
+    <form id="ownerVerificationForm" novalidate>
       <div class="form-group">
-
-        <label for="ownerName">
-
-          Full Name
-          <span class="required">*</span>
-
-        </label>
-
-        <input
-          type="text"
-          id="ownerName"
-          name="ownerName"
-          placeholder="Enter full name"
-          required
-        >
-
+        <label for="verifyFirstName">First Name <span class="required">*</span></label>
+        <input type="text" id="verifyFirstName" autocomplete="given-name" required placeholder="Enter first name">
       </div>
-
-
-      <!-- ADDRESS -->
-
       <div class="form-group">
-
-        <label for="ownerAddress">
-
-          Complete Address
-          <span class="required">*</span>
-
-        </label>
-
-        <textarea
-          id="ownerAddress"
-          name="ownerAddress"
-          placeholder="House No., Street, Barangay"
-          required
-        ></textarea>
-
+        <label for="verifyLastName">Last Name <span class="required">*</span></label>
+        <input type="text" id="verifyLastName" autocomplete="family-name" required placeholder="Enter last name">
       </div>
-
-
-      <!-- SITIO -->
-
       <div class="form-group">
-
-        <label for="sitio">
-
-          Sitio
-          <span class="required">*</span>
-
-        </label>
-
-        <select
-          id="sitio"
-          name="sitio"
-          required
-        >
-
+        <label for="verifySitio">Sitio <span class="required">*</span></label>
+        <select id="verifySitio" required>
           <option value="">Select Sitio</option>
-
-          <option value="Bacolod">
-            Bacolod
-          </option>
-
-          <option value="Badiang">
-            Badiang
-          </option>
-
-          <option value="Bungalog">
-            Bungalog
-          </option>
-
-          <option value="Burac">
-            Burac
-          </option>
-
-          <option value="Linintian">
-            Linintian
-          </option>
-
-          <option value="Puro">
-            Puro
-          </option>
-
-          <option value="Sementeryo">
-            Sementeryo
-          </option>
-
+          <option>Bacolod</option><option>Badiang</option><option>Bungalog</option>
+          <option>Burac</option><option>Linintian</option><option>Puro</option><option>Sementeryo</option>
         </select>
-
       </div>
-
-
-      <!-- CONTACT -->
-
       <div class="form-group">
-
-        <label for="contactNumber">
-
-          Contact Number
-          <span class="required">*</span>
-
-        </label>
-
-        <input
-          type="tel"
-          id="contactNumber"
-          name="contactNumber"
-          placeholder="09XXXXXXXXX"
-          inputmode="numeric"
-          required
-        >
-
+        <label for="verifyContactNumber">Contact Number <span class="required">*</span></label>
+        <input type="tel" id="verifyContactNumber" inputmode="numeric" maxlength="11" placeholder="09XXXXXXXXX" required>
       </div>
+      <button type="submit" class="submit-button" id="verifyOwnerButton">Verify Owner Information</button>
+    </form>
+    <div id="ownerLookupResults" style="display:none;margin-top:18px"></div>
+  </div>
+
+  <!-- REGISTRATION FORM: unlocked only after owner verification -->
+  <form id="registrationForm" style="display:none">
 
 
-      <!-- EMAIL -->
-
-      <div class="form-group">
-
-        <label for="emailAddress">
-          Email Address
-          <span class="required">*</span>
-        </label>
-
-        <input
-          type="email"
-          id="emailAddress"
-          name="emailAddress"
-          placeholder="example@email.com"
-          autocomplete="email"
-          required
-        >
-
+    <!-- VERIFIED OWNER INFORMATION -->
+    <div class="card">
+      <div class="section-title">Verified Owner Information</div>
+      <div class="section-description">These details were verified and are fixed for this submission.</div>
+      <div id="verifiedOwnerSummary" style="padding:14px;background:#f1f9f4;border:1px solid #b9e4c8;border-radius:12px;line-height:1.7"></div>
+      <input type="hidden" id="ownerFirstName" name="firstName">
+      <input type="hidden" id="ownerLastName" name="lastName">
+      <input type="hidden" id="ownerName" name="ownerName">
+      <input type="hidden" id="ownerAddress" name="ownerAddress" value="Barangay Tupol Oeste, Cabatuan, Iloilo">
+      <input type="hidden" id="sitio" name="sitio">
+      <input type="hidden" id="contactNumber" name="contactNumber">
+      <input type="hidden" id="ownerVerificationToken" name="ownerVerificationToken">
+      <div class="form-group" style="margin-top:16px">
+        <label for="emailAddress">Email Address <span class="required">*</span></label>
+        <input type="email" id="emailAddress" name="emailAddress" placeholder="example@email.com" autocomplete="email" required>
       </div>
-
+      <button type="button" class="back-button" id="changeOwnerButton">Change Owner Details</button>
     </div>
-
-
 
     <!-- =====================================
          DOG INFORMATION
@@ -2139,12 +2029,14 @@ input[type="checkbox"] {
 
         <label for="birthdate">
           Birthdate
+          <span class="required">*</span>
         </label>
 
         <input
           type="date"
           id="birthdate"
           name="birthdate"
+          required
         >
 
       </div>
@@ -2415,6 +2307,90 @@ function cropDogPhotoToSquare(
 
 }
   
+
+  let ownerVerificationToken = '';
+  let verifiedOwner = null;
+
+  document.getElementById('ownerVerificationForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const firstName = document.getElementById('verifyFirstName').value.trim();
+    const lastName = document.getElementById('verifyLastName').value.trim();
+    const sitio = document.getElementById('verifySitio').value;
+    const contactNumber = document.getElementById('verifyContactNumber').value.replace(/\D/g,'');
+    if (!firstName || !lastName || !sitio || !/^09\d{9}$/.test(contactNumber)) {
+      showMessage('Please complete First Name, Last Name, Sitio, and a valid 11-digit Contact Number.', 'error');
+      return;
+    }
+    const button = document.getElementById('verifyOwnerButton');
+    button.disabled = true;
+    button.textContent = 'Verifying...';
+    showLoading();
+    try {
+      const response = await brccLookupOwner({firstName,lastName,sitio,contactNumber});
+      const result = response.result || {};
+      if (!result.verified || !result.verificationToken) {
+        throw new Error(result.message || 'Owner verification failed.');
+      }
+      ownerVerificationToken = result.verificationToken;
+      verifiedOwner = {firstName,lastName,sitio,contactNumber,ownerName:result.ownerName};
+      document.getElementById('ownerFirstName').value = firstName;
+      document.getElementById('ownerLastName').value = lastName;
+      document.getElementById('ownerName').value = result.ownerName || (firstName + ' ' + lastName);
+      document.getElementById('sitio').value = sitio;
+      document.getElementById('contactNumber').value = contactNumber;
+      document.getElementById('ownerVerificationToken').value = ownerVerificationToken;
+      document.getElementById('verifiedOwnerSummary').innerHTML =
+        '<strong>' + escapeOwnerText(verifiedOwner.ownerName) + '</strong><br>' +
+        'Sitio: ' + escapeOwnerText(sitio) + '<br>' +
+        'Contact Number: ' + escapeOwnerText(contactNumber) + '<br>' +
+        'Address: Barangay Tupol Oeste, Cabatuan, Iloilo';
+      const records = Array.isArray(result.records) ? result.records : [];
+      const resultsBox = document.getElementById('ownerLookupResults');
+      if (records.length) {
+        resultsBox.innerHTML = '<div style="font-weight:800;margin-bottom:8px">Previous Dog Records</div>' +
+          records.map(function(item) {
+            const label = item.dogName ? escapeOwnerText(item.dogName) : 'Dog record';
+            const ref = item.registryNumber || item.requestNumber || '';
+            return '<div style="padding:10px 12px;margin:7px 0;border:1px solid #d7e2dc;border-radius:10px;background:#f8fcf9">' +
+              '<strong>' + label + '</strong><br><small>' +
+              escapeOwnerText(item.source === 'registry' ? 'Registered Dog' : 'Registration Request') +
+              (ref ? ' • ' + escapeOwnerText(ref) : '') +
+              (item.status ? ' • ' + escapeOwnerText(item.status) : '') +
+              '</small></div>';
+          }).join('');
+        resultsBox.style.display = 'block';
+      } else {
+        resultsBox.innerHTML = '<div style="padding:12px;border:1px solid #b9e4c8;background:#f1f9f4;border-radius:10px">No previous dog records found. You may continue as a new owner.</div>';
+        resultsBox.style.display = 'block';
+      }
+      document.getElementById('ownerVerificationCard').style.display = 'none';
+      document.getElementById('registrationForm').style.display = 'block';
+      hideMessage();
+      window.scrollTo({top:0,behavior:'smooth'});
+    } catch (error) {
+      showMessage(error.message || 'Unable to verify owner information.', 'error');
+    } finally {
+      hideLoading();
+      button.disabled = false;
+      button.textContent = 'Verify Owner Information';
+    }
+  });
+
+  document.getElementById('changeOwnerButton').addEventListener('click', function() {
+    ownerVerificationToken = '';
+    verifiedOwner = null;
+    document.getElementById('ownerVerificationToken').value = '';
+    document.getElementById('registrationForm').style.display = 'none';
+    document.getElementById('ownerVerificationCard').style.display = 'block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  function escapeOwnerText(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+    });
+  }
+
   /* =========================================
      PHOTO PREVIEW
   ========================================= */
@@ -2630,6 +2606,10 @@ reader.onload =
 
         const data = {
 
+          firstName: document.getElementById('ownerFirstName').value,
+          lastName: document.getElementById('ownerLastName').value,
+          ownerVerificationToken: document.getElementById('ownerVerificationToken').value,
+
           ownerName:
             document
               .getElementById('ownerName')
@@ -2778,6 +2758,11 @@ reader.onload =
           ================================= */
 
           form.reset();
+          ownerVerificationToken = '';
+          verifiedOwner = null;
+          document.getElementById('registrationForm').style.display = 'none';
+          document.getElementById('ownerVerificationCard').style.display = 'block';
+          document.getElementById('ownerLookupResults').style.display = 'none';
 
 
           selectedPhotoData = '';
